@@ -1,3 +1,4 @@
 django>=4.1,<4.2
 wheel==0.38.4
 psycopg2>=2.9,<2.10
+django-tailwind>=3.4,<3.5
