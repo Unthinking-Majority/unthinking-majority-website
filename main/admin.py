@@ -1,3 +1,15 @@
 from django.contrib import admin
 
-# Register your models here.
+from main import models
+
+
+class BoardAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+
+
+class SubmissionAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['user', 'board']
+
+
+admin.site.register(models.Board, BoardAdmin)
+admin.site.register(models.Submission, SubmissionAdmin)
