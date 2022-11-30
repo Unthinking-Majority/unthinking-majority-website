@@ -1,2 +1,17 @@
 {% extends "base.html" %}
-hello world!
+{% block content %}
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>User</th>
+            <th>Date</th>
+        </tr>
+        {% for submission in recent_submissions %}
+            <tr>
+                <td>{{ submission.value }}</td>
+                <td>{{ submission.user }}</td>
+                <td>{{ submission.date }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
