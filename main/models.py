@@ -15,6 +15,7 @@ class Board(models.Model):
     name = models.CharField(max_length=256)
     type = models.IntegerField(choices=BOARD_CHOICES, default=BOSS)
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
+    category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
