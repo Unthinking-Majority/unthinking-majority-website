@@ -20,6 +20,17 @@ class Board(models.Model):
         return self.name
 
 
+class BoardCategory(models.Model):
+    name = models.CharField(max_length=256)
+
+    class Meta:
+        verbose_name = 'Board Category'
+        verbose_name_plural = 'Board Categories'
+
+    def __str__(self):
+        return self.name
+
+
 class Submission(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     board = models.ForeignKey('main.Board', on_delete=models.CASCADE)
