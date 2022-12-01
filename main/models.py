@@ -16,6 +16,7 @@ class Board(models.Model):
     type = models.IntegerField(choices=BOARD_CHOICES, default=BOSS)
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE)
+    slug = models.SlugField()
 
     def __str__(self):
         return self.name
@@ -23,6 +24,7 @@ class Board(models.Model):
 
 class BoardCategory(models.Model):
     name = models.CharField(max_length=256)
+    slug = models.SlugField()
 
     class Meta:
         verbose_name = 'Board Category'

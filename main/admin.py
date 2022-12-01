@@ -5,10 +5,11 @@ from main import models
 
 class BoardAdmin(admin.ModelAdmin):
     search_fields = ['name']
+    prepopulated_fields = {'slug': ('name', )}
 
 
 class BoardCategoryAdmin(admin.ModelAdmin):
-    pass
+    prepopulated_fields = {'slug': ('name', )}
 
 
 class SubmissionAdmin(admin.ModelAdmin):
