@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+{% block title %}
+{#    <link rel="icon" href="{% static 'um_logos/favicon.ico' %}">#}
+{#    <link href="/main/static/um_logos/favicon.ico">#}
+    Unthinking Majority
+{% endblock %}
+
+{% block extra_head %}
+    <link rel="icon" href="{% static 'um_logos/favicon.ico' %}">
+    <script src="{% static 'js/base.js' %}"></script>
+{% endblock %}
+
 {% block content %}
     {% block navbar %}
         {% include 'navbar.html' %}
