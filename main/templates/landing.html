@@ -1,18 +1,31 @@
 {% extends "base.html" %}
+
+{% load static %}
+
 {% block content %}
-    {% include 'navbar.html' %}
-    <table>
-        <tr>
-            <th>Time</th>
-            <th>User</th>
-            <th>Date</th>
-        </tr>
-        {% for submission in recent_submissions %}
-            <tr>
-                <td>{{ submission.value }}</td>
-                <td>{{ submission.user }}</td>
-                <td>{{ submission.date }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+
+    <div class="flex flex-col justify-center items-center my-12">
+        <div class="bg-gray-900 rounded-lg w-40 h-40 overflow-hidden">
+            <img class="h-auto w-auto" src="{% static 'um_logos/gifs/logo_animated_christmas.gif' %}"
+                 alt="Unthinking Majority Logo">
+        </div>
+        <h1 class="text-7xl font-bold tracking-wide text-gray-800 py-2">
+            Unthinking Majority
+        </h1>
+        <h2 class="text-5xl font-bold tracking-wide text-gray-400 py-2">
+            Leaderboards
+        </h2>
+    </div>
+
+    <div class="flex gap-6 justify-center bg-gray-50 rounded-lg">
+        <div class="py-4">
+            {% include 'dashboard/recent_achievements.html' %}
+        </div>
+        <div class="py-4">
+            {% include 'dashboard/1st_places_held.html' %}
+        </div>
+        <div class="py-4">
+            {% include 'dashboard/pets_leaderboard.html' %}
+        </div>
+    </div>
 {% endblock %}
