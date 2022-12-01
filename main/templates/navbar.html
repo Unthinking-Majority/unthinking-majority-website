@@ -13,10 +13,13 @@
                 {# navbar items #}
                 <div class="ml-6">
                     <div class="flex space-x-4 items-center">
-                        <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</a>
+                        <a href="/"
+                           class="{% if request.path == '/' %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            Home
+                        </a>
                         {% for bc in board_categories %}
-                            <a href=""
-                               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            <a href="/{{ bc.slug }}"
+                               class="{% if request.path == bc.slug %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 {{ bc.name }}
                             </a>
                             <!-- need to add hover menu here -->
