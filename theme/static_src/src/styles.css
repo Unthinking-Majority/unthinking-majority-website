@@ -13,4 +13,8 @@
     .text-border {
         text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
+    .text-yellow-runescape {
+        --tw-text-opacity: 1;
+        color: #ffff00;
+    }
 }
