@@ -15,7 +15,7 @@ class Board(models.Model):
     name = models.CharField(max_length=256)
     type = models.IntegerField(choices=BOARD_CHOICES, default=BOSS)
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
-    category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE)
+    category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='boards')
     slug = models.SlugField()
 
     def __str__(self):
@@ -35,7 +35,7 @@ class BoardCategory(models.Model):
 
 class Submission(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    board = models.ForeignKey('main.Board', on_delete=models.CASCADE)
+    board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions')
     value = models.DecimalField(max_digits=6, decimal_places=2)
     date = models.DateField(auto_now_add=True)
 
