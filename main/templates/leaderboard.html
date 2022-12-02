@@ -2,6 +2,9 @@
     <thead class="bg-blue-900 rounded-lg">
     <tr class="text-white">
         <th class="text-md px-6 py-4 text-left">
+            Rank
+        </th>
+        <th class="text-md px-6 py-4 text-left">
             Username
         </th>
         <th class="text-md px-6 py-4 text-left">
@@ -16,6 +19,9 @@
     <tbody>
     {% for submission in board.submissions.all %}
         <tr class="even:bg-gray-100">
+            <td class="px-6 py-4 whitespace-nowrap">
+                {{ forloop.counter }}
+            </td>
             <td class="px-6 py-4 whitespace-nowrap">
                 {{ submission.user.username }}
             </td>
