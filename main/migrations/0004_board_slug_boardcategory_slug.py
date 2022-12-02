@@ -16,10 +16,4 @@ class Migration(migrations.Migration):
             field=models.SlugField(default='temp'),
             preserve_default=False,
         ),
-        migrations.AddField(
-            model_name='boardcategory',
-            name='slug',
-            field=models.SlugField(default='temp'),
-            preserve_default=False,
-        ),
     ]

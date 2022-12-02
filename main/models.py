@@ -24,7 +24,6 @@ class Board(models.Model):
 
 class BoardCategory(models.Model):
     name = models.CharField(max_length=256)
-    slug = models.SlugField()
 
     class Meta:
         verbose_name = 'Board Category'

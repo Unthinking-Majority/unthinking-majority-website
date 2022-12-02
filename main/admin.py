@@ -9,7 +9,7 @@ class BoardAdmin(admin.ModelAdmin):
 
 
 class BoardCategoryAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name', )}
+    pass
 
 
 class SubmissionAdmin(admin.ModelAdmin):
