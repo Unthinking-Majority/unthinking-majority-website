@@ -42,7 +42,11 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                'runescape': ['runescape', 'monospace'],
+            }
+        },
     },
     plugins: [
         /**
