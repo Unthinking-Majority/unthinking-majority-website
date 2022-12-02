@@ -1,0 +1,34 @@
+<table class="min-w-full bg-gray-200 rounded-lg overflow-hidden">
+    <thead class="bg-blue-900 rounded-lg">
+    <tr class="text-white">
+        <th class="text-md px-6 py-4 text-left">
+            Username
+        </th>
+        <th class="text-md px-6 py-4 text-left">
+            Date
+        </th>
+        <th class="text-md px-6 py-4 text-left">
+            Proof
+        </th>
+        <th class="text-md px-6 py-4 text-left"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for submission in board.submissions.all %}
+        <tr class="even:bg-gray-100">
+            <td class="px-6 py-4 whitespace-nowrap">
+                {{ submission.user.username }}
+            </td>
+            <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                {{ submission.date }}
+            </td>
+            <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                <a href="">Image</a>
+            </td>
+            <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                {{ submission.value }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

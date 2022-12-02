@@ -2,9 +2,10 @@ from collections import Counter
 
 from django.contrib.auth.models import User
 from django.db.models import Max
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views.generic.base import TemplateView
 
-from main.models import BoardCategory, Submission
+from main.models import Board, Submission
 
 
 def landing(request):
@@ -18,8 +19,19 @@ def landing(request):
         request,
         'landing.html',
         {
-            'board_categories': BoardCategory.objects.all(),
             'recent_submissions': Submission.objects.order_by('date')[:5],
             'first_places': first_places,
         }
     )
+
+
+class BoardView(TemplateView):
+    template_name = 'board.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(BoardView, self).get_context_data(**kwargs)
+        context['board'] = get_object_or_404(
+            Board.objects.prefetch_related('submissions'),
+            slug=kwargs.get('board_name')
+        )
+        return context
