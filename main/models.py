@@ -13,6 +13,7 @@ class Board(models.Model):
         (OTHER, 'Other'),
     )
     name = models.CharField(max_length=256)
+    icon = models.ImageField(upload_to='board/icons/', null=True, blank=True)
     type = models.IntegerField(choices=BOARD_CHOICES, default=BOSS)
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='boards')
@@ -45,6 +46,7 @@ class Submission(models.Model):
     board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions')
     value = models.DecimalField(max_digits=6, decimal_places=2)
     date = models.DateField(auto_now_add=True)
+    proof = models.ImageField(upload_to='submission/proof/', null=True, blank=True)
 
     def __str__(self):
         return f'{self.user.username} - {self.board} - {self.date} - {self.value}'
