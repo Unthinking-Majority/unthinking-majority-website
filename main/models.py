@@ -33,6 +33,13 @@ class BoardCategory(models.Model):
         return self.name
 
 
+class Pet(models.Model):
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
+
 class Submission(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions')
