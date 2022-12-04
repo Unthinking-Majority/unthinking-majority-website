@@ -53,4 +53,4 @@ bin/
 .idea/
 media/
 **/dist/styles.css
-
+staticfiles/
