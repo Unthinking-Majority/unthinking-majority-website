@@ -3,3 +3,4 @@ wheel==0.38.4
 psycopg2>=2.9,<2.10
 django-tailwind>=3.4,<3.5
 pillow>=9.3,<9.4
+django-extensions>=3.2,<3.3
