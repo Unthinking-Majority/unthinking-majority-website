@@ -16,6 +16,11 @@ class SubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user', 'board']
 
 
+class PetAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(models.Board, BoardAdmin)
 admin.site.register(models.BoardCategory, BoardCategoryAdmin)
 admin.site.register(models.Submission, SubmissionAdmin)
+admin.site.register(models.Pet, PetAdmin)
