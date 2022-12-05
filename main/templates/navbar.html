@@ -1,4 +1,4 @@
-{% load static %}
+{% load static main_extras %}
 
 <nav class="bg-gray-800 rounded-lg mt-2 mb-6">
     <div class="mx-auto max-w-7xl px-2">
@@ -7,24 +7,24 @@
             {#    logo + discord icon + navbar items    #}
             <div class="flex items-center justify-start">
                 {# Logo #}
-                <div class="flex flex-shrink-0 items-center">
+                <a href="/" class="flex flex-shrink-0 items-center">
                     <img class="hidden h-12 w-auto lg:block" src="{% static 'um_logos/logo_gradient.png' %}" alt="Unthinking Majority Logo">
-                </div>
+                </a>
                 {# navbar items #}
                 <div class="ml-6">
                     <div class="flex space-x-4 items-center">
-                        <a tabindex="0" href="/" class="{% if request.path == '/' %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        <a tabindex="0" href="/" class="{% if request.path == '/' %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md font-medium">
                             Home
                         </a>
                         {% for bc in board_categories %}
                             <div class="relative group">
-                                <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md font-medium">
+                                <button class="{% if board.category == bc %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md font-medium">
                                     {{ bc.name }}
                                 </button>
                                 <ul class="hidden group-focus-within:block absolute z-10 mt-2 w-60 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden" tabindex="-1">
-                                    {% for board in bc.boards.all %}
+                                    {% for b in bc.boards.all %}
                                         <li>
-                                            <a href="/board/{{ board.slug }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300" tabindex="-1">{{ board.name }}</a>
+                                            <a href="{{ b|board_url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300" tabindex="-1">{{ b.name }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
