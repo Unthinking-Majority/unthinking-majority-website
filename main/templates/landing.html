@@ -1,6 +1,6 @@
 {% extends "site_base.html" %}
 
-{% load static %}
+{% load static main_extras %}
 
 {% block content %}
     {{ block.super }}
@@ -25,7 +25,7 @@
                 {% include 'dashboard/1st_places_held.html' %}
             </div>
             <div class="py-4">
-                {% include 'dashboard/pets_leaderboard.html' %}
+                {% pets_leaderboard %}
             </div>
         </div>
     </div>
