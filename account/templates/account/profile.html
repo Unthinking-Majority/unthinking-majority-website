@@ -2,5 +2,18 @@
 
 {% block content %}
     {{ block.super }}
-    Hello this is my profile!
+    <div class="bg-gray-50 h-auto p-4 rounded-lg">
+        <div class="flex justify-center">
+            <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
+                <h1 class="tracking-wide py-2 font-runescape text-7xl text-yellow-runescape text-border">
+                    {{ user.account.name }}
+                </h1>
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <div class="flex justify-center items-center py-6 bg-gray-200 rounded-lg basis-9/12">
+                <a href="{% url 'accounts:password_change' %}" class="font-medium text-gray-700">Change Password</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
