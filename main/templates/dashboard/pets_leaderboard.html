@@ -29,15 +29,18 @@
                 </div>
             </td>
             <td class="px-6 py-4">
-                <div class="flex gap-2 flex-wrap">
-                    {% for pet in account.pets.all|slice:"9" %}
-                        <img src="{{ pet.pet.icon.url }}" class="h-6 w-6">
-                        {% if forloop.counter == 9 %}
-                            <div class="font-bold text-lg tracking-widest">
-                                ...
-                            </div>
-                        {% endif %}
+                <div class="grid grid-cols-12 w-96">
+                    {% for pet in account.pets.all %}
+                        <img src="{{ pet.pet.icon.url }}" class="h-6 w-6 col-span-1">
                     {% endfor %}
+{#                    {% for pet in account.pets.alice|slice:"20:" %}#}
+{#                        <img src="{{ pet.pet.icon.url }}" class="h-6 w-6 col-span-1 hidden hidden-pet-icon">#}
+{#                    {% endfor %}#}
+{#                    {% if account.pets.count > 20 %}#}
+{#                        <button class="col-span-3 text-sm text-gray-400">#}
+{#                            show more#}
+{#                        </button>#}
+{#                    {% endif %}#}
                 </div>
             </td>
         </tr>

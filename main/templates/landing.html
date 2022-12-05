@@ -4,7 +4,7 @@
 
 {% block content %}
     {{ block.super }}
-    <div class="bg-gray-50 h-auto p-2 rounded-lg">
+    <div class="bg-gray-50 h-auto p-4 rounded-lg">
         <div class="flex flex-col justify-center items-center my-6">
             <div class="bg-gray-900 rounded-lg w-40 h-40 overflow-hidden">
                 <img class="h-auto w-auto" src="{% static 'um_logos/gifs/logo_animated_blue.gif' %}" alt="Unthinking Majority Logo">
@@ -17,14 +17,16 @@
             </h2>
         </div>
 
-        <div class="flex gap-6 justify-center bg-gray-50 rounded-lg">
-            <div class="py-4">
+        <div class="flex gap-4 justify-center bg-gray-50 rounded-lg">
+            <div class="py-2">
                 {% include 'dashboard/recent_achievements.html' %}
             </div>
-            <div class="py-4">
+            <div class="py-2">
                 {% include 'dashboard/1st_places_held.html' %}
             </div>
-            <div class="py-4">
+        </div>
+        <div class="flex gap-4 justify-center bg-gray-50 rounded-lg">
+            <div class="py-2">
                 {% pets_leaderboard %}
             </div>
         </div>
