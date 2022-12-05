@@ -60,10 +60,10 @@
                     </div>
                     <ul class="hidden group-focus-within:block absolute z-10 mt-2 w-60 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
                         <li>
-                            <a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300">
+                            <a href="{% url 'accounts:profile' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300">
                                 Profile
                             </a>
-                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300">
+                            <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300">
                                 Log out
                             </a>
                         </li>
@@ -71,7 +71,7 @@
                 </div>
             {% else %}
                 <div class="flex space-x-4 items-center">
-                    <a href="{% url 'login' %}" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    <a href="{% url 'accounts:login' %}" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                         Log in
                     </a>
 {#                    <a href="{% url 'sign-up' %}" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">#}
