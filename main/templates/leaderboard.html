@@ -1,3 +1,5 @@
+{% load main_extras %}
+
 <table class="min-w-full bg-gray-200 rounded-lg overflow-hidden">
     <thead class="bg-blue-900 rounded-lg">
     <tr class="text-white">
@@ -31,8 +33,8 @@
             <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
                 <a href="">Image</a>
             </td>
-            <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
-                {{ submission.value }}
+            <td class="font-runescape text-2xl px-6 py-4 whitespace-nowrap ">
+                {{ submission.value|value_display:submission.board.metric }}
             </td>
         </tr>
     {% endfor %}

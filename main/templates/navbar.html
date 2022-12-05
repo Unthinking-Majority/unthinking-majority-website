@@ -46,18 +46,28 @@
             </div>
 
             {#    User Profile Pic    #}
-            <div class="flex items-center pr-2 ml-6">
-                <div class="ml-3">
-                    <button
-                            data-dropdown-toggle="profileDropdown"
-                            type="button"
-                            class="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                        <span class="sr-only">Open user menu</span>
-                        <img class="h-10 w-10 rounded-full"
-                             src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80">
-                    </button>
+            {% if request.user.is_authenticated %}
+                <div class="flex items-center pr-2 ml-6">
+                    <div class="mx-3">
+                        <button class="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                            <img class="h-10 w-10 rounded-full" src="{{ request.user.account.icon.url }}">
+                        </button>
+                    </div>
+                    <div class="text-gray-300 font-bold">
+                        {{ request.user.account.name }}
+                    </div>
                 </div>
-            </div>
+            {% else %}
+                <div class="flex space-x-4 items-center">
+                    <a href="{% url 'login' %}" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        Log in
+                    </a>
+{#                    <a href="{% url 'sign-up' %}" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">#}
+                    <a href="/" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        Sign up
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </nav>
