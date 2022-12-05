@@ -13,7 +13,7 @@ class BoardCategoryAdmin(admin.ModelAdmin):
 
 
 class SubmissionAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['user', 'board']
+    autocomplete_fields = ['account', 'board']
 
 
 class PetAdmin(admin.ModelAdmin):

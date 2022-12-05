@@ -4,7 +4,7 @@ from account import models
 
 
 class AccountAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['name']
 
 
 class PetOwnershipAdmin(admin.ModelAdmin):

@@ -1,17 +1,17 @@
 from collections import Counter
 
-from django.contrib.auth.models import User
 from django.db.models import Max
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
 
 from main.models import Board, Submission
+from account.models import Account
 
 
 def landing(request):
-    temp = Submission.objects.values('board').annotate(Max('value')).values_list('user', flat=True)
+    temp = Submission.objects.values('board').annotate(Max('value')).values_list('account', flat=True)
     first_places = [
-        {'user': User.objects.get(pk=pk), 'val': val}
+        {'account': Account.objects.get(pk=pk), 'val': val}
         for pk, val in Counter(temp).most_common(5)
     ]
 
