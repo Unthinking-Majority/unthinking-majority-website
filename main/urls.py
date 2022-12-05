@@ -4,5 +4,5 @@ from main import views
 
 urlpatterns = [
     path('', views.landing, name='landing'),
-    path('board/<str:board_name>/', views.BoardView.as_view(), name='board'),
+    path('board/<str:board_category>/<str:board_name>/', views.BoardView.as_view(), name='board'),
 ]
