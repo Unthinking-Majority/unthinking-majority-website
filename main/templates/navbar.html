@@ -18,7 +18,7 @@
                         </a>
                         {% for bc in board_categories %}
                             <div class="relative group">
-                                <button class="{% if board.category == bc %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md font-medium">
+                                <button class="{% if board.category == bc %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md font-medium">
                                     {{ bc.name }}
                                 </button>
                                 <ul class="hidden group-focus-within:block absolute z-10 mt-2 w-60 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden" tabindex="-1">
