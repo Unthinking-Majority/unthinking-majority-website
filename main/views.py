@@ -1,10 +1,11 @@
 from collections import Counter
 
+from django.contrib import messages
 from django.db.models import Max
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import CreateView
 
 from account.models import Account
 from main import forms
@@ -40,14 +41,19 @@ class BoardView(TemplateView):
         return context
 
 
-class SubmissionView(FormView):
-    template_name = 'submission_form.html'
+class SubmissionView(CreateView):
+    model = Submission
     form_class = forms.SubmissionForm
-    success_url = reverse_lazy('accounts:login')
+    template_name = 'forms/submission_create_form.html'
 
     def form_valid(self, form):
-        form.save()
-        return super(SubmissionView, self).form_valid(form)
+        submission = form.save(commit=False)
+        submission.account = Account.objects.get(user=self.request.user)
+        submission.save()
+
+        messages.success(self.request, 'Form submission successful')
+
+        return self.render_to_response(self.get_context_data(form=form))
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
