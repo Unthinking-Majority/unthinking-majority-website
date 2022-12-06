@@ -30,6 +30,9 @@
                                 </ul>
                             </div>
                         {% endfor %}
+                        <a href="{% url 'submit-pb' %}" class="{% if request.path == 'submit-pb' %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md font-medium">
+                            Submit PB
+                        </a>
                     </div>
                 </div>
                 {# Discord icon #}
@@ -47,17 +50,19 @@
 
             {# User Profile #}
             {% if request.user.is_authenticated %}
-                <div class="pr-2 ml-6 group relative">
-                    <div class="flex items-center">
-                        <div class="mx-3">
-                            <button class="flex rounded-full bg-gray-800 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                <img class="h-10 w-10 rounded-full" src="{{ request.user.account.icon.url }}">
-                            </button>
+                <div class="group relative">
+                    <button class="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white py-2 rounded-md font-medium">
+                        <div class="mx-2">
+                            <div class="flex">
+                                <svg fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+                                </svg>
+                            </div>
                         </div>
-                        <div class="text-gray-300 font-bold">
+                        <div class="text-gray-300 font-bold mx-2">
                             {{ request.user.account.name }}
                         </div>
-                    </div>
+                    </button>
                     <ul class="hidden group-focus-within:block absolute z-10 mt-2 w-60 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
                         <li>
                             <a href="{% url 'accounts:profile' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300">
