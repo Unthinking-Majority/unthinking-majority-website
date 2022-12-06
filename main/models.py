@@ -36,7 +36,7 @@ class BoardCategory(models.Model):
 
 
 class Pet(models.Model):
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, unique=True)
     icon = models.ImageField(upload_to='pet/icons/', null=True, blank=True)
 
     def __str__(self):

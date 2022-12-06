@@ -3,7 +3,7 @@ from django.db import models
 
 class Account(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE, blank=True, null=True)
-    name = models.CharField(max_length=256, help_text='In game name.')  # TODO might want to track name changes
+    name = models.CharField(max_length=256, help_text='In game name.', unique=True)  # TODO might want to track name changes
     icon = models.ImageField(upload_to='account/icons/', null=True, blank=True)
 
     def __str__(self):
