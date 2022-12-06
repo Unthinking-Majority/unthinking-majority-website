@@ -20,6 +20,7 @@
         <div class="flex justify-center">
             <form method="post">
                 {% csrf_token %}
+
                 {# In game name #}
                 <div class="block mx-2 my-4">
                     {% if form.name.errors %}
@@ -28,7 +29,7 @@
                         </div>
                     {% endif %}
                     <label for="{{ form.name.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">
-                        {{ form.name.label }}
+                        OSRS Username
                     </label>
                     <input type="{{ form.name.field.widget.input_type }}" id="{{ form.name.id_for_label }}" name="{{ form.name.name }}" autocomplete="{{ form.name.name }}" maxlength="{{ form.name.field.max_length }}" required
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
@@ -56,7 +57,7 @@
                         </div>
                     {% endif %}
                     <label for="{{ form.username.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">
-                        {{ form.username.label }}
+                        Username
                     </label>
                     <input type="{{ form.username.field.widget.input_type }}" id="{{ form.username.id_for_label }}" name="{{ form.username.name }}" autocomplete="{{ form.username.name }}" maxlength="{{ form.username.field.max_length }}" required
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
