@@ -1,6 +1,6 @@
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
-from django.urls import path, include, reverse_lazy
+from django.urls import path, reverse_lazy
 
 from account import views
 
@@ -11,6 +11,11 @@ urlpatterns = [
         'profile/',
         login_required(views.ProfileView.as_view()),
         name='profile',
+    ),
+    path(
+        'create-account/',
+        views.CreateAccountView.as_view(),
+        name='create-account',
     ),
 
     # Django registration views

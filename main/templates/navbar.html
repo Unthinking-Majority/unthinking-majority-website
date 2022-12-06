@@ -74,9 +74,8 @@
                     <a href="{% url 'accounts:login' %}" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                         Log in
                     </a>
-{#                    <a href="{% url 'sign-up' %}" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">#}
-                    <a href="/" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                        Sign up
+                    <a href="{% url 'accounts:create-account' %}" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        Create Account
                     </a>
                 </div>
             {% endif %}
