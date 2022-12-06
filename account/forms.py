@@ -6,15 +6,11 @@ from account import models
 
 class CreateAccountForm(UserCreationForm):
     name = forms.CharField(max_length=256, label='In game name')
-    first_name = forms.CharField(max_length=256, label='First name', required=False)
-    last_name = forms.CharField(max_length=256, label='Last name', required=False)
     email = forms.EmailField(label='Email')
 
     def save(self, commit=True):
         user = super(CreateAccountForm, self).save(commit)
         user.email = self.cleaned_data['email']
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
         user.save()
         models.Account.objects.create(
             user=user,
