@@ -12,19 +12,9 @@ from main.models import Board, Submission
 
 
 def landing(request):
-    temp = Submission.objects.accepted().values('board').annotate(Max('value')).values_list('account', flat=True)
-    first_places = [
-        {'account': Account.objects.get(pk=pk), 'val': val}
-        for pk, val in Counter(temp).most_common(5)
-    ]
-
     return render(
         request,
         'landing.html',
-        {
-            'recent_submissions': Submission.objects.accepted().order_by('date')[:5],
-            'first_places': first_places,
-        }
     )
 
 

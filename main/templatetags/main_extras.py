@@ -1,5 +1,7 @@
+from collections import Counter
+
 from django import template
-from django.db.models import Count
+from django.db.models import Count, Max
 
 from account.models import Account
 from main.models import BoardCategory, Board, Submission
@@ -24,6 +26,16 @@ def pets_leaderboard():
 @register.inclusion_tag('dashboard/recent_achievements.html')
 def recent_submission_leaderboard():
     return {'recent_submissions': Submission.objects.accepted().order_by('date')[:5]}
+
+
+@register.inclusion_tag('dashboard/top_players_leaderboard.html')
+def top_players_leaderboard():
+    temp = Submission.objects.accepted().values('board').annotate(Max('value')).values_list('account', flat=True)
+    first_places = [
+        {'account': Account.objects.get(pk=pk), 'val': val}
+        for pk, val in Counter(temp).most_common(5)
+    ]
+    return {'first_places': first_places}
 
 
 @register.filter
