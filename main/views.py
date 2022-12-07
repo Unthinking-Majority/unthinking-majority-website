@@ -50,7 +50,7 @@ class SubmissionView(CreateView):
         submission.account = Account.objects.get(user=self.request.user)
         submission.save()
 
-        messages.success(self.request, 'Form submission successful')
+        messages.success(self.request, 'Form submission successful. Your submission is now under review.')
 
         return self.render_to_response(self.get_context_data(form=form))
 
