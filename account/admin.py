@@ -5,6 +5,7 @@ from main.autocomplete_filters import AccountFilter, PetFilter
 
 
 class AccountAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['user']
     search_fields = ['name']
 
 
