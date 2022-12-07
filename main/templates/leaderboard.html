@@ -30,8 +30,10 @@
             <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
                 {{ submission.date }}
             </td>
-            <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
-                <a href="">Image</a>
+            <td class="text-sm font-light px-6 py-4 text-gray-900 whitespace-nowrap underline hover:text-gray-600">
+                <a href="{{ submission.proof.url }}" target="_blank">
+                    Proof
+                </a>
             </td>
             <td class="font-runescape text-2xl px-6 py-4 whitespace-nowrap ">
                 {{ submission.value|value_display:submission.board.metric }}

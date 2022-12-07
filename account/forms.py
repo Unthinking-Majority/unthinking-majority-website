@@ -52,7 +52,6 @@ class CreateAccountForm(forms.ModelForm):
 
         # Create new User using username, password1, password2, email fields
         user = CreateUserForm(self.cleaned_data).save()
-        # user.email = self.cleaned_data['email']
         user.save()
 
         # Create new Account, add above created User object to this newly created Account
