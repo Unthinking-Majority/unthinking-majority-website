@@ -1,5 +1,7 @@
 from django.db import models
 
+from main import managers
+
 
 class Board(models.Model):
     BOSS, MINIGAME = range(2)
@@ -50,6 +52,8 @@ class Submission(models.Model):
     proof = models.ImageField(upload_to='submission/proof/', null=True, blank=True)
     accepted = models.BooleanField(default=False)
     date = models.DateField(auto_now_add=True)
+
+    objects = managers.SubmissionManger()
 
     def __str__(self):
         return f'{self.account.name} - {self.board} - {self.date} - {self.value}'
