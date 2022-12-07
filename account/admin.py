@@ -9,6 +9,7 @@ class AccountAdmin(admin.ModelAdmin):
 
 
 class PetOwnershipAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['account', 'pet']
     list_display = ['account_name', 'pet_name', 'date']
     list_filter = [AccountFilter, PetFilter, 'date']
     readonly_fields = ['account_name', 'pet_name']
