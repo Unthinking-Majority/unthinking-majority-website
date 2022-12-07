@@ -33,7 +33,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     list_display = ['account_name', 'board', 'value', 'proof', 'date', 'accepted']
     list_editable = ['accepted']
     list_filter = [AccountFilter, 'board', 'date', 'accepted']
-    readonly_fields = ['account_name']
+    readonly_fields = ['account_name', 'date']
     search_fields = ['account__name', 'value']
 
     fieldsets = (
@@ -41,7 +41,7 @@ class SubmissionAdmin(admin.ModelAdmin):
             'fields': (
                 'account',
                 ('board', 'value'),
-                'proof',
+                ('proof', 'date'),
                 'accepted',
             )
         }),
