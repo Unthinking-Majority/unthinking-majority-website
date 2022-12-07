@@ -9,3 +9,8 @@ class AccountFilter(AutocompleteFilter):
 class BoardCategoryFilter(AutocompleteFilter):
     title = 'Category'
     field_name = 'category'
+
+
+class PetFilter(AutocompleteFilter):
+    title = 'Pet'
+    field_name = 'pet'
