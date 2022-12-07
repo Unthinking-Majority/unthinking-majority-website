@@ -1,7 +1,4 @@
-from collections import Counter
-
 from django.contrib import messages
-from django.db.models import Max
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView

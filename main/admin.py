@@ -6,6 +6,7 @@ from main.autocomplete_filters import AccountFilter, BoardCategoryFilter
 
 class BoardCategoryAdmin(admin.ModelAdmin):
     search_fields = ['name']
+    prepopulated_fields = {'slug': ('name',)}
 
 
 class BoardAdmin(admin.ModelAdmin):
