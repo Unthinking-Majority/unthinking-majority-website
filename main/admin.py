@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from main import models
-from main.autcomplete_filters import AccountFilter
+from main.autocomplete_filters import AccountFilter, BoardCategoryFilter
 
 
 class BoardCategoryAdmin(admin.ModelAdmin):
@@ -9,8 +9,23 @@ class BoardCategoryAdmin(admin.ModelAdmin):
 
 
 class BoardAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['category']
+    list_display = ['name', 'category', 'type', 'metric']
+    list_filter = [BoardCategoryFilter, 'type', 'metric']
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'name',
+                'category',
+                ('type', 'metric'),
+                'icon',
+                'slug',
+            )
+        }),
+    )
 
 
 class SubmissionAdmin(admin.ModelAdmin):
