@@ -12,7 +12,7 @@ class Account(models.Model):
 class PetOwnership(models.Model):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='pets')
     pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE, related_name='owned_by')
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
     proof = models.ImageField(upload_to='account/pet/proof/')
 
     def __str__(self):
