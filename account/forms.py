@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import UserCreationForm
+from django.forms import ValidationError
 
 from account import models
 
@@ -46,17 +47,18 @@ class CreateAccountForm(forms.ModelForm):
         fields = ['name', 'username', 'email', 'password1', 'password2']
 
     def clean(self):
-        return super(CreateAccountForm, self).clean()
+        cleaned_data = super(CreateAccountForm, self).clean()
+        user_form = CreateUserForm(cleaned_data)
+        if user_form.is_valid():
+            self._user = user_form.save(commit=True)
+        else:
+            raise ValidationError(user_form.errors)
+        return cleaned_data
 
     def save(self, commit=True):
-
-        # Create new User using username, password1, password2, email fields
-        user = CreateUserForm(self.cleaned_data).save()
-        user.save()
-
         # Create new Account, add above created User object to this newly created Account
         account = super(CreateAccountForm, self).save(commit=commit)
-        account.user = user
+        account.user = self._user
         account.save()
 
         return account
