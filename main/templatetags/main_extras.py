@@ -20,12 +20,16 @@ def navbar(context):
 
 @register.inclusion_tag('dashboard/pets_leaderboard.html')
 def pets_leaderboard():
-    return {'accounts': Account.objects.annotate(num_pets=Count('pets')).order_by('-num_pets').prefetch_related('pets')[:5]}
+    return {
+        'accounts': Account.objects.annotate(num_pets=Count('pets')).order_by('-num_pets').prefetch_related('pets')[:5]
+    }
 
 
 @register.inclusion_tag('dashboard/recent_achievements.html')
 def recent_submission_leaderboard():
-    return {'recent_submissions': Submission.objects.accepted().order_by('date')[:5]}
+    return {
+        'recent_submissions': Submission.objects.accepted().order_by('date')[:5]
+    }
 
 
 @register.inclusion_tag('dashboard/top_players_leaderboard.html')

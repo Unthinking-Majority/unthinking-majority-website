@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
+from django.core.paginator import Paginator
 
 from account.models import Account
 from main import forms
@@ -24,6 +25,7 @@ class BoardView(TemplateView):
             Board.objects.prefetch_related('submissions'),
             slug=kwargs.get('board_name')
         )
+        context['submissions'] = context['board'].submissions.filter(accepted=True).order_by('value')
         return context
 
 
