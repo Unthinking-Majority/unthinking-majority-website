@@ -1,8 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
-from django.core.paginator import Paginator
+from django.views.generic.list import ListView
 
 from account.models import Account
 from main import forms
@@ -16,16 +15,23 @@ def landing(request):
     )
 
 
-class BoardView(TemplateView):
+class BoardView(ListView):
+    model = Submission
     template_name = 'board.html'
+    paginate_by = 5
 
-    def get_context_data(self, **kwargs):
-        context = super(BoardView, self).get_context_data(**kwargs)
+    def get_queryset(self):
+        return self.model.objects.filter(
+            board__slug=self.kwargs.get('board_name'),
+            accepted=True
+        ).order_by('value')
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(BoardView, self).get_context_data()
         context['board'] = get_object_or_404(
-            Board.objects.prefetch_related('submissions'),
-            slug=kwargs.get('board_name')
+           Board.objects.prefetch_related('submissions'),
+            slug=self.kwargs.get('board_name')
         )
-        context['submissions'] = context['board'].submissions.filter(accepted=True).order_by('value')
         return context
 
 
