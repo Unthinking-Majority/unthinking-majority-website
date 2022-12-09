@@ -9,10 +9,13 @@ class Board(models.Model):
         (BOSS, 'Boss'),
         (MINIGAME, 'Minigame'),
     )
-    TIME, OTHER = range(2)
+    TIME, OTHER, TEARS, OVERALL_TIME, CHALLENGE_TIME = range(5)
     METRIC_CHOICES = (
         (TIME, 'Time'),
         (OTHER, 'Other'),
+        (TEARS, 'Tears'),
+        (OVERALL_TIME, 'Overall Time'),
+        (CHALLENGE_TIME, 'Challenge Time'),
     )
     name = models.CharField(max_length=256)
     icon = models.ImageField(upload_to='board/icons/', null=True, blank=True)
