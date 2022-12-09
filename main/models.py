@@ -18,7 +18,6 @@ class Board(models.Model):
     icon = models.ImageField(upload_to='board/icons/', null=True, blank=True)
     type = models.IntegerField(choices=BOARD_CHOICES, default=BOSS)
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
-    metric_name = models.CharField(max_length=256)
     category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='boards')
     slug = models.SlugField(unique=True)
 
