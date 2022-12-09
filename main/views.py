@@ -48,9 +48,3 @@ class SubmissionView(CreateView):
         messages.success(self.request, 'Form submission successful. Your submission is now under review.')
 
         return self.render_to_response(self.get_context_data(form=form))
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect('accounts:login')
-        else:
-            return super(SubmissionView, self).dispatch(request, *args, **kwargs)

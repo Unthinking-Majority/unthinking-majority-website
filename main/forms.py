@@ -6,4 +6,4 @@ from main import models
 class SubmissionForm(forms.ModelForm):
     class Meta:
         model = models.Submission
-        fields = ['board', 'value', 'proof']
+        fields = ['account', 'board', 'value', 'proof']
