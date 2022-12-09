@@ -48,16 +48,6 @@ def board_url(board):
 
 
 @register.filter
-def value_display(value, metric):
-    if metric == Board.TIME:
-        minutes = int(value // 60)
-        seconds = value % 60
-        return f"{minutes}:{seconds}"
-    else:
-        return value
-
-
-@register.filter
 def get_metric_display(value):
     for val, display in Board.METRIC_CHOICES:
         if val == value:

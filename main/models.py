@@ -27,6 +27,14 @@ class Board(models.Model):
     def __str__(self):
         return self.name
 
+    def value_display(self):
+        if self.metric in (self.TIME, self.OVERALL_TIME, self.CHALLENGE_TIME):
+            minutes = int(self.value // 60)
+            seconds = self.value % 60
+            return f"{minutes}:{seconds}"
+        else:
+            return self.value
+
 
 class BoardCategory(models.Model):
     name = models.CharField(max_length=256)
