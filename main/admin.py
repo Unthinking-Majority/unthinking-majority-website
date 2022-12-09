@@ -13,7 +13,7 @@ class BoardAdmin(admin.ModelAdmin):
     autocomplete_fields = ['category']
     list_display = ['name', 'category', 'type', 'metric']
     list_filter = [BoardCategoryFilter, 'type', 'metric']
-    prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {'slug': ('name',), 'metric_name': ('metric',)}
     search_fields = ['name']
 
     fieldsets = (

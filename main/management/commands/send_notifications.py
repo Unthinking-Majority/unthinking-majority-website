@@ -19,6 +19,5 @@ class Command(BaseCommand):
                 settings.DEFAULT_FROM_EMAIL,
                 user_emails,
                 html_message=f"There are unreviewed submissions for the UM PB leaderboards. "
-                             f"Go to https://www.um-osrs.com/admin to resolve review the submissions, or click here "
-                             f"https://{settings.DOMAIN}{reverse('admin:main_submission_changelist')}?accepted__isnull=True"
+                             f"Click here to resolve the issues: https://{settings.DOMAIN}{reverse('admin:main_submission_changelist')}?accepted__isnull=True"
             )
