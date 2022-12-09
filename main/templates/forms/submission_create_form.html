@@ -1,5 +1,10 @@
 {% extends 'site_base.html' %}
 
+{% block extra_head %}
+    {{ block.super }}
+    {{ form.media }}
+{% endblock %}
+
 {% block content %}
     {{ block.super }}
     <div class="bg-gray-50 h-auto p-4 rounded-lg">
@@ -30,6 +35,8 @@
         <div class="flex justify-center">
             <form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
+
+                {{ form.account }}
 
                 {# Account #}
                 <div class="block mx-2 my-4">
