@@ -1,6 +1,7 @@
 boto3>=1.26,<1.27
 dj-database-url>=1.0,<1.1
 django-admin-autocomplete-filter>=0.7,<0.8
+django-autocomplete-light>=3.9,<3.10
 django-extensions>=3.2,<3.3
 django-storages>=1.13,<1.14
 django-tailwind>=3.4,<3.5
