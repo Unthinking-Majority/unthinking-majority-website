@@ -55,3 +55,11 @@ def value_display(value, metric):
         return f"{minutes}:{seconds}"
     else:
         return value
+
+
+@register.filter
+def get_metric_display(value):
+    for val, display in Board.METRIC_CHOICES:
+        if val == value:
+            return display
+    return ''
