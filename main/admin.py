@@ -21,7 +21,7 @@ class BoardAdmin(admin.ModelAdmin):
             'fields': (
                 'name',
                 'category',
-                ('type', 'metric', 'metric_name'),
+                ('type', 'metric'),
                 'icon',
                 'slug',
             )
