@@ -4,10 +4,8 @@ from account.models import Account
 
 
 class AccountAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        if not self.request.user.is_authenticated:
-            return Account.objects.none()
 
+    def get_queryset(self):
         qs = Account.objects.all()
 
         if self.q:
