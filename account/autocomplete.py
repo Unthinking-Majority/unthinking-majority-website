@@ -1,5 +1,4 @@
 from dal import autocomplete
-from django.utils.html import format_html
 
 from account.models import Account
 

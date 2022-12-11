@@ -1,0 +1,59 @@
+<div>
+    <div>
+        <label for="autocomplete_{{ field.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">{{ field.name|capfirst }}</label>
+        <input id="autocomplete_{{ field.id_for_label }}" type="text" tabindex="1" spellcheck="false"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
+    </div>
+    <div class="selection"></div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const autoCompleteJS = new autoComplete({
+            selector: "#autocomplete_{{ field.id_for_label }}",
+            data: {
+                src: async () => {
+                    try {
+
+                        document.getElementById("autocomplete_{{ field.id_for_label }}").setAttribute("placeholder", "Loading...");
+
+                        const source = await fetch("http://192.168.50.250:8000/accounts/account-autocomplete/");
+                        const data = await source.json();
+
+                        document.getElementById("autocomplete_{{ field.id_for_label }}").setAttribute("placeholder", autoCompleteJS.placeHolder);
+
+                        return data.results;
+                    } catch (error) {
+                        return error;
+                    }
+                },
+                keys: ["text"],
+                cache: true,
+            },
+            placeHolder: "Select an account",
+            resultsList: {
+                class: "absolute origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden w-80",
+                noResults: true,
+                maxResults: 15,
+            },
+            resultItem: {
+                class:"flex bg-gray-50 text-gray-900 hover:cursor-pointer hover:bg-gray-300 text-ellipsis whitespace-nowrap overflow-hidden py-1.5 px-2",
+            },
+            events: {
+                input: {
+                    focus: () => {
+                        if (autoCompleteJS.input.value.length) autoCompleteJS.start();
+                    }
+                }
+            }
+        });
+
+        autoCompleteJS.input.addEventListener("selection", function (event) {
+            const feedback = event.detail;
+            // Prepare User's Selected Value
+            const selection = feedback.selection.value[feedback.selection.key];
+            // Replace Input value with the selected value
+            autoCompleteJS.input.value = selection;
+        });
+    });
+</script>

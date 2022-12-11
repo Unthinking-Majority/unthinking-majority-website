@@ -36,8 +36,6 @@
             <form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
 
-                {{ form.account }}
-
                 {# Account #}
                 <div class="block mx-2 my-4">
                     {% if form.account.errors %}
@@ -45,15 +43,7 @@
                             {% include 'forms/field_error_list.html' with errors=form.account.errors %}
                         </div>
                     {% endif %}
-                    <label for="{{ form.account.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">
-                        Account
-                    </label>
-                    <select  id="{{ form.account.id_for_label }}" name="{{ form.account.name }}" autocomplete="{{ form.account.name }}" maxlength="{{ form.account.field.max_length }}" required
-                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
-                        {% for choice in form.account.field.choices %}
-                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
-                        {% endfor %}
-                    </select>
+                    {% include 'widgets/autocomplete_select.html' with field=form.account %}
                 </div>
 
                 {# Board #}
