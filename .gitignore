@@ -54,3 +54,4 @@ bin/
 media/
 **/dist/styles.css
 staticfiles/
+*.dump

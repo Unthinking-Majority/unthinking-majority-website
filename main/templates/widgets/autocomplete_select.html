@@ -33,6 +33,16 @@
             },
             placeHolder: '{{ placeholder }}',
             resultsList: {
+                element: (list, data) => {
+                    const info = document.createElement("p");
+                    if (!data.results.length > 0) {
+                        info.innerHTML = `
+                    <span class="flex text-sm bg-gray-50 text-gray-900 hover:cursor-pointer hover:bg-gray-300 text-ellipsis whitespace-nowrap overflow-hidden py-1.5 px-2">
+                        No matching results
+                    </span>`;
+                    }
+                    list.prepend(info);
+                },
                 class: "absolute origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden w-80 mt-1",
                 noResults: true,
                 maxResults: 15,
