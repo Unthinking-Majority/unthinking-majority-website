@@ -1,8 +1,8 @@
 <span>
-    <select id="{{ widget.id_for_label }}" name="{{ widget.name }}" autocomplete="{{ widget.name }}" required class="hidden">
+    <select id="{{ widget.attrs.id }}" name="{{ widget.name }}" autocomplete="{{ widget.name }}" required class="hidden">
     </select>
-    <label for="autocomplete_{{ widget.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">{{ widget.name|capfirst }}</label>
-    <input id="autocomplete_{{ widget.id_for_label }}" type="text" tabindex="1" spellcheck="false"
+    <label for="autocomplete_{{ widget.attrs.id }}" class="text-sm font-medium text-gray-900 dark:text-white">{{ widget.name|capfirst }}</label>
+    <input id="autocomplete_{{ widget.attrs.id }}" type="text" tabindex="1" spellcheck="false"
            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
     <div class="selection"></div>
 </span>
@@ -10,17 +10,18 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const autoCompleteJS = new autoComplete({
-            selector: "#autocomplete_{{ widget.id_for_label }}",
+            selector: "#autocomplete_{{ widget.attrs.id }}",
             data: {
+
                 src: async () => {
                     try {
 
-                        document.getElementById("autocomplete_{{ widget.id_for_label }}").setAttribute("placeholder", "Loading...");
+                        document.getElementById("autocomplete_{{ widget.attrs.id }}").setAttribute("placeholder", "Loading...");
 
-                        const source = await fetch({{ autocomplete_url }});
+                        const source = await fetch('{{ autocomplete_url }}');
                         const data = await source.json();
 
-                        document.getElementById("autocomplete_{{ widget.id_for_label }}").setAttribute("placeholder", autoCompleteJS.placeHolder);
+                        document.getElementById("autocomplete_{{ widget.attrs.id }}").setAttribute("placeholder", autoCompleteJS.placeHolder);
 
                         return data.results;
                     } catch (error) {
@@ -30,7 +31,7 @@
                 keys: ["text"],
                 cache: true,
             },
-            placeHolder: {{ placeholder }},
+            placeHolder: '{{ placeholder }}',
             resultsList: {
                 class: "absolute origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden w-80 mt-1",
                 noResults: true,
@@ -48,9 +49,9 @@
             }
         });
 
-        document.querySelector("#autocomplete_{{ widget.id_for_label }}").addEventListener("selection", function (event) {
+        document.querySelector("#autocomplete_{{ widget.attrs.id }}").addEventListener("selection", function (event) {
             console.log(event.detail.selection.value.id);
-            let select = document.getElementById("{{ widget.id_for_label }}"),
+            let select = document.getElementById("{{ widget.attrs.id }}"),
                 option = document.createElement("option");
             option.text = event.detail.selection.value.text;
             option.value = event.detail.selection.value.id;
