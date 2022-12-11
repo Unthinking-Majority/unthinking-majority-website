@@ -40,11 +40,16 @@ class SubmissionView(CreateView):
     form_class = forms.SubmissionForm
     template_name = 'forms/submission_create_form.html'
 
+    def get_form_kwargs(self):
+        kwargs = super(SubmissionView, self).get_form_kwargs()
+        if self.request.user.is_authenticated and self.request.method == 'POST':
+            kwargs['data'] = {
+                **self.request.POST.copy(),
+                'account': self.request.user.account.id
+            }
+        return kwargs
+
     def form_valid(self, form):
-        submission = form.save(commit=False)
-        submission.account = Account.objects.get(user=self.request.user)
-        submission.save()
-
+        form.save(commit=True)
         messages.success(self.request, 'Form submission successful. Your submission is now under review.')
-
         return self.render_to_response(self.get_context_data(form=form))

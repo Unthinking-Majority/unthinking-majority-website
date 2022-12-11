@@ -37,14 +37,16 @@
                 {% csrf_token %}
 
                 {# Account #}
-                <div class="block mx-2 my-4">
-                    {% if form.account.errors %}
-                        <div class="flex justify-center">
-                            {% include 'forms/field_error_list.html' with errors=form.account.errors %}
-                        </div>
-                    {% endif %}
-                    {% include 'widgets/autocomplete_select.html' with field=form.account %}
-                </div>
+                {% if not request.user.is_authenticated %}
+                    <div class="block mx-2 my-4">
+                        {% if form.account.errors %}
+                            <div class="flex justify-center">
+                                {% include 'forms/field_error_list.html' with errors=form.account.errors %}
+                            </div>
+                        {% endif %}
+                        {% include 'widgets/autocomplete_select.html' with field=form.account %}
+                    </div>
+                {% endif %}
 
                 {# Board #}
                 <div class="block mx-2 my-4">
