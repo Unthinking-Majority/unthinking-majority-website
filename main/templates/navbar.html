@@ -2,7 +2,7 @@
 
 <nav class="bg-gray-800 rounded-lg mt-2 mb-6">
     <div class="mx-auto max-w-7xl px-2">
-        <div class="flex h-16 items-center justify-between">
+        <div class="flex h-16 items-center justify-around">
 
             {#    logo + discord icon + navbar items    #}
             <div class="flex items-center justify-start">
@@ -75,13 +75,26 @@
                     </ul>
                 </div>
             {% else %}
-                <div class="flex space-x-4 items-center">
-                    <a href="{% url 'accounts:login' %}" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                        Log in
-                    </a>
-                    <a href="{% url 'accounts:create-account' %}" class="bg-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                        Create Account
-                    </a>
+                <div class="group relative">
+                    <button class="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white py-2 rounded-md font-medium">
+                        <div class="mx-2">
+                            <div class="flex">
+                                <svg fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </button>
+                    <ul class="hidden group-focus-within:block absolute z-10 mt-2 w-60 origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none overflow-hidden">
+                        <li>
+                            <a href="{% url 'accounts:login' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300">
+                                Log in
+                            </a>
+                            <a href="{% url 'accounts:create-account' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300">
+                                Create Account
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             {% endif %}
         </div>
