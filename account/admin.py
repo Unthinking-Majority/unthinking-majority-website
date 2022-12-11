@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from account import models
-from main.autocomplete_filters import AccountFilter, PetFilter
+from main.admin.autocomplete_filters import AccountFilter, PetFilter
 
 
 class AccountAdmin(admin.ModelAdmin):
