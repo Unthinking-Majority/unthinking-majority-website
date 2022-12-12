@@ -42,11 +42,12 @@ class SubmissionView(CreateView):
 
     def get_form_kwargs(self):
         kwargs = super(SubmissionView, self).get_form_kwargs()
+
         if self.request.user.is_authenticated and self.request.method == 'POST':
-            kwargs['data'] = {
-                **self.request.POST.copy(),
-                'account': self.request.user.account.id
-            }
+            data = self.request.POST.copy()
+            data.update({'account': self.request.user.account.id})
+            kwargs.update({'data': data})
+
         return kwargs
 
     def form_valid(self, form):
