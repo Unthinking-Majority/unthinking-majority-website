@@ -27,14 +27,6 @@ class Board(models.Model):
     def __str__(self):
         return self.name
 
-    def value_display(self):
-        if self.metric in (self.TIME, self.OVERALL_TIME, self.CHALLENGE_TIME):
-            minutes = int(self.value // 60)
-            seconds = self.value % 60
-            return f"{minutes}:{seconds}"
-        else:
-            return self.value
-
 
 class BoardCategory(models.Model):
     name = models.CharField(max_length=256)
@@ -68,3 +60,11 @@ class Submission(models.Model):
 
     def __str__(self):
         return f'{self.account.name} - {self.board} - {self.date} - {self.value}'
+
+    def value_display(self):
+        if self.board.metric in (self.board.TIME, self.board.OVERALL_TIME, self.board.CHALLENGE_TIME):
+            minutes = int(self.value // 60)
+            seconds = self.value % 60
+            return f"{minutes}:{seconds}"
+        else:
+            return self.value
