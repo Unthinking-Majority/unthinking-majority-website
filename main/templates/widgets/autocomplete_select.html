@@ -33,6 +33,7 @@
             },
             searchEngine: "loose",
             placeHolder: "{{ placeholder }}",
+            threshold: 0,
             resultsList: {
                 element: (list, data) => {
                     const info = document.createElement("p");
@@ -54,7 +55,7 @@
             events: {
                 input: {
                     focus: () => {
-                        if (autoCompleteJS.input.value.length) autoCompleteJS.start();
+                        autoCompleteJS.start();
                     }
                 }
             }
