@@ -55,7 +55,7 @@
                             {% include 'forms/field_error_list.html' with errors=form.board.errors %}
                         </div>
                     {% endif %}
-                    <label for="{{ form.board.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="{{ form.board.id_for_label }}" class="text-sm font-medium text-gray-900">
                         Board
                     </label>
                     <select  id="{{ form.board.id_for_label }}" name="{{ form.board.name }}" autocomplete="{{ form.board.name }}" maxlength="{{ form.board.field.max_length }}" required
@@ -73,7 +73,7 @@
                             {% include 'forms/field_error_list.html' with errors=form.value.errors %}
                         </div>
                     {% endif %}
-                    <label for="{{ form.value.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="{{ form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
                         Value
                     </label>
                     <input type="text" id="{{ form.value.id_for_label }}" name="{{ form.value.name }}" autocomplete="{{ form.value.name }}" maxlength="{{ form.value.field.max_length }}" required

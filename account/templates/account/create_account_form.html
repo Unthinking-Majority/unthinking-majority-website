@@ -28,7 +28,7 @@
                             {% include 'forms/field_error_list.html' with errors=form.name.errors %}
                         </div>
                     {% endif %}
-                    <label for="{{ form.name.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="{{ form.name.id_for_label }}" class="text-sm font-medium text-gray-900">
                         OSRS Username
                     </label>
                     <input type="{{ form.name.field.widget.input_type }}" id="{{ form.name.id_for_label }}" name="{{ form.name.name }}" autocomplete="{{ form.name.name }}" maxlength="{{ form.name.field.max_length }}" required
@@ -42,7 +42,7 @@
                             {% include 'forms/field_error_list.html' with errors=form.email.errors %}
                         </div>
                     {% endif %}
-                    <label for="{{ form.email.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="{{ form.email.id_for_label }}" class="text-sm font-medium text-gray-900">
                         {{ form.email.label }}
                     </label>
                     <input type="{{ form.email.field.widget.input_type }}" id="{{ form.email.id_for_label }}" name="{{ form.email.name }}" autocomplete="{{ form.email.name }}" maxlength="{{ form.email.field.max_length }}" required
@@ -56,7 +56,7 @@
                             {% include 'forms/field_error_list.html' with errors=form.username.errors %}
                         </div>
                     {% endif %}
-                    <label for="{{ form.username.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="{{ form.username.id_for_label }}" class="text-sm font-medium text-gray-900">
                         Username
                     </label>
                     <input type="{{ form.username.field.widget.input_type }}" id="{{ form.username.id_for_label }}" name="{{ form.username.name }}" autocomplete="{{ form.username.name }}" maxlength="{{ form.username.field.max_length }}" required
@@ -70,7 +70,7 @@
                             {% include 'forms/field_error_list.html' with errors=form.password1.errors %}
                         </div>
                     {% endif %}
-                    <label for="{{ form.password1.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="{{ form.password1.id_for_label }}" class="text-sm font-medium text-gray-900">
                         {{ form.password1.label }}
                     </label>
                     <input type="{{ form.password1.field.widget.input_type }}" id="{{ form.password1.id_for_label }}" name="{{ form.password1.name }}" autocomplete="{{ form.password1.name }}" maxlength="{{ form.password1.field.max_length }}" required
@@ -84,7 +84,7 @@
                             {% include 'forms/field_error_list.html' with errors=form.password2.errors %}
                         </div>
                     {% endif %}
-                    <label for="{{ form.password2.id_for_label }}" class="text-sm font-medium text-gray-900 dark:text-white">
+                    <label for="{{ form.password2.id_for_label }}" class="text-sm font-medium text-gray-900">
                         {{ form.password2.label }}
                     </label>
                     <input type="{{ form.password2.field.widget.input_type }}" id="{{ form.password2.id_for_label }}" name="{{ form.password2.name }}" autocomplete="{{ form.password2.name }}" maxlength="{{ form.password2.field.max_length }}" required

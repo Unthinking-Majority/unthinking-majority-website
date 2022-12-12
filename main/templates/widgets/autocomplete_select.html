@@ -1,7 +1,7 @@
 <span>
     <select id="{{ widget.attrs.id }}" name="{{ widget.name }}" autocomplete="{{ widget.name }}" required class="hidden">
     </select>
-    <label for="autocomplete_{{ widget.attrs.id }}" class="text-sm font-medium text-gray-900 dark:text-white">{{ widget.name|capfirst }}</label>
+    <label for="autocomplete_{{ widget.attrs.id }}" class="text-sm font-medium text-gray-900">{{ widget.name|capfirst }}</label>
     <input id="autocomplete_{{ widget.attrs.id }}" type="text" tabindex="1" spellcheck="false"
            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
     <div class="selection"></div>
