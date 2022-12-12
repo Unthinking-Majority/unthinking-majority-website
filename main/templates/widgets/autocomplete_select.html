@@ -18,7 +18,7 @@
 
                         document.getElementById("autocomplete_{{ widget.attrs.id }}").setAttribute("placeholder", "Loading...");
 
-                        const source = await fetch('{{ autocomplete_url }}');
+                        const source = await fetch("{{ autocomplete_url }}");
                         const data = await source.json();
 
                         document.getElementById("autocomplete_{{ widget.attrs.id }}").setAttribute("placeholder", autoCompleteJS.placeHolder);
@@ -31,7 +31,8 @@
                 keys: ["text"],
                 cache: true,
             },
-            placeHolder: '{{ placeholder }}',
+            searchEngine: "loose",
+            placeHolder: "{{ placeholder }}",
             resultsList: {
                 element: (list, data) => {
                     const info = document.createElement("p");
