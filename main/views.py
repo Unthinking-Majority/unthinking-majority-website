@@ -54,3 +54,14 @@ class SubmissionView(CreateView):
         form.save(commit=True)
         messages.success(self.request, 'Form submission successful. Your submission is now under review.')
         return self.render_to_response(self.get_context_data(form=form))
+
+    # def post(self, request, *args, **kwargs):
+    #     """
+    #     Handle POST requests: instantiate a form instance with the passed
+    #     POST variables and then check if it's valid.
+    #     """
+    #     form = self.get_form()
+    #     if form.is_valid():
+    #         return self.form_valid(form)
+    #     else:
+    #         return self.form_invalid(form)
