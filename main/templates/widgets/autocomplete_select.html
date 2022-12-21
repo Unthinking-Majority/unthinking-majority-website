@@ -1,5 +1,5 @@
 <span>
-    <select id="{{ widget.attrs.id }}" name="{{ widget.name }}" autocomplete="{{ widget.name }}" required class="hidden">
+    <select id="{{ widget.attrs.id }}" name="{{ widget.name }}" required class="hidden">
     </select>
     <label for="autocomplete_{{ widget.attrs.id }}" class="text-sm font-medium text-gray-900">{{ widget.name|capfirst }}</label>
     <input id="autocomplete_{{ widget.attrs.id }}" type="text" tabindex="1" spellcheck="false" autocomplete="off"
@@ -56,29 +56,24 @@
                 input: {
                     focus: () => {
                         autoCompleteJS.start();
+                    },
+                    selection: (event) => {
+                        let select = document.getElementById("{{ widget.attrs.id }}"),
+                            option = document.createElement("option");
+                        option.text = event.detail.selection.value.text;
+                        option.value = event.detail.selection.value.id;
+
+                        if (![...select.options].map(o => o.value).includes(option.value)) {
+                            select.add(option);
+                        }
+
+                        select.value = event.detail.selection.value.id;
+
+                        const feedback = event.detail;
+                        autoCompleteJS.input.value = feedback.selection.value[feedback.selection.key];
                     }
                 }
             }
-        });
-
-        document.querySelector("#autocomplete_{{ widget.attrs.id }}").addEventListener("selection", function (event) {
-            console.log(event.detail.selection.value.id);
-            let select = document.getElementById("{{ widget.attrs.id }}"),
-                option = document.createElement("option");
-            option.text = event.detail.selection.value.text;
-            option.value = event.detail.selection.value.id;
-
-            if (![...select.options].map(o => o.value).includes(option.value)) {
-                select.add(option);
-            }
-
-            select.value = event.detail.selection.value.id;
-        });
-
-        autoCompleteJS.input.addEventListener("selection", function (event) {
-            const feedback = event.detail;
-            const selection = feedback.selection.value[feedback.selection.key];
-            autoCompleteJS.input.value = selection;
         });
     });
 </script>

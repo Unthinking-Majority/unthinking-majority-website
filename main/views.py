@@ -1,9 +1,8 @@
 from django.contrib import messages
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 
-from account.models import Account
 from main import forms
 from main.models import Board, Submission
 
@@ -25,11 +24,11 @@ class BoardView(ListView):
             board__slug=self.kwargs.get('board_name'),
             accepted=True
         ).order_by('value')
-    
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(BoardView, self).get_context_data()
         context['board'] = get_object_or_404(
-           Board.objects.prefetch_related('submissions'),
+            Board.objects.prefetch_related('submissions'),
             slug=self.kwargs.get('board_name')
         )
         return context
@@ -42,12 +41,10 @@ class SubmissionView(CreateView):
 
     def get_form_kwargs(self):
         kwargs = super(SubmissionView, self).get_form_kwargs()
-
-        if self.request.user.is_authenticated and self.request.method == 'POST':
-            data = self.request.POST.copy()
-            data.update({'account': self.request.user.account.id})
-            kwargs.update({'data': data})
-
+        # if self.request.user.is_authenticated and self.request.method == 'POST':
+        #     data = self.request.POST.copy()
+        #     data.update({'account': self.request.user.account.id})
+        #     kwargs.update({'data': data})
         return kwargs
 
     def form_valid(self, form):
@@ -55,13 +52,6 @@ class SubmissionView(CreateView):
         messages.success(self.request, 'Form submission successful. Your submission is now under review.')
         return self.render_to_response(self.get_context_data(form=form))
 
-    # def post(self, request, *args, **kwargs):
-    #     """
-    #     Handle POST requests: instantiate a form instance with the passed
-    #     POST variables and then check if it's valid.
-    #     """
-    #     form = self.get_form()
-    #     if form.is_valid():
-    #         return self.form_valid(form)
-    #     else:
-    #         return self.form_invalid(form)
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        return super(SubmissionView, self).post(request, *args, **kwargs)

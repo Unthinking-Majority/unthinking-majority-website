@@ -34,7 +34,7 @@ def recent_submission_leaderboard():
 
 @register.inclusion_tag('dashboard/top_players_leaderboard.html')
 def top_players_leaderboard():
-    temp = Submission.objects.accepted().values('board').annotate(Max('value')).values_list('account', flat=True)
+    temp = Submission.objects.accepted().values('board').annotate(Max('value')).values_list('accounts', flat=True)
     first_places = [
         {'account': Account.objects.get(pk=pk), 'val': val}
         for pk, val in Counter(temp).most_common(5)

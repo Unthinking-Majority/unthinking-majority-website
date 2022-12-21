@@ -30,17 +30,18 @@ class BoardAdmin(admin.ModelAdmin):
 
 
 class SubmissionAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['account', 'board']
+    autocomplete_fields = ['accounts', 'board']
     list_display = ['account_name', 'board', 'value', 'proof', 'date', 'accepted']
     list_editable = ['accepted']
-    list_filter = [AccountFilter, 'board', 'date', 'accepted']
+    list_filter = [ # put m2m account filter here TODO TODO
+        'board', 'date', 'accepted']
     readonly_fields = ['account_name', 'date']
     search_fields = ['account__name', 'value']
 
     fieldsets = (
         (None, {
             'fields': (
-                'account',
+                'accounts',
                 ('board', 'value'),
                 ('proof', 'date'),
                 'accepted',
@@ -49,7 +50,8 @@ class SubmissionAdmin(admin.ModelAdmin):
     )
 
     def account_name(self, obj):
-        return obj.account.name
+        # return obj.account.name
+        return 'put accounts here'
 
 
 class PetAdmin(admin.ModelAdmin):
