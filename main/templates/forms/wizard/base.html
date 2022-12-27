@@ -1,0 +1,65 @@
+{% extends 'site_base.html' %}
+{% load i18n %}
+
+{% block extra_head %}
+    {{ block.super }}
+    {{ wizard.form.media }}
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <div class="bg-gray-50 h-auto p-4 rounded-lg">
+        <div class="flex justify-center">
+            <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
+                <h1 class="tracking-wide py-2 font-runescape text-7xl text-yellow-runescape text-border">
+                    Submit New Achievement
+                </h1>
+            </div>
+        </div>
+
+        {% if wizard.form.errors %}
+            <div class="flex justify-center pb-4">
+                <p class="text-lg text-red-700 basis-7/12 border border-red-700 rounded-lg p-4 text-center">
+                    Please fix the errors below.
+                </p>
+            {{ wizard.form.errors }}
+            </div>
+        {% endif %}
+
+        {% if messages %}
+            <ul class="flex justify-center pb-4">
+                {% for message in messages %}
+                    <li class="text-lg text-green-600 basis-7/12 border border-green-600 rounded-lg p-4 text-center">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="flex justify-center">
+            <form enctype="multipart/form-data" method="post" action="">
+                {% csrf_token %}
+                {{ wizard.management_form }}
+
+                {% block form %}
+                {% endblock %}
+
+
+                <div class="flex justify-center">
+                    {% if wizard.steps.prev %}
+                        <button formnovalidate="formnovalidate"
+                                name="wizard_goto_step"
+                                value="{{ wizard.steps.prev }}"
+                                class="text-gray-800 bg-gray-300 px-3 py-2 rounded-md mx-2 my-4 font-medium hover:bg-gray-800 hover:text-gray-300 drop-shadow-md hover:scale-105 transition ease-in-out delay-75">
+                            {% trans "Previous" %}
+                        </button>
+                    {% endif %}
+                    <button type="submit"
+                            class="text-gray-800 bg-gray-300 px-3 py-2 rounded-md mx-2 my-4 font-medium hover:bg-gray-800 hover:text-gray-300 drop-shadow-md hover:scale-105 transition ease-in-out delay-75">
+                        {% block submit_text %}{% trans "Submit" %}{% endblock %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
