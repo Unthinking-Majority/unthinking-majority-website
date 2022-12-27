@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from main import models
-from main.admin.autocomplete_filters import AccountFilter, BoardCategoryFilter
+from main.admin.autocomplete_filters import BoardCategoryFilter
 
 
 class BoardCategoryAdmin(admin.ModelAdmin):
