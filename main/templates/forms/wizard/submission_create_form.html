@@ -2,7 +2,7 @@
 
 {% block extra_head %}
     {{ block.super }}
-    {{ form.media }}
+    {{ wizard.form.media }}
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        {% if form.errors %}
+        {% if wizard.form.errors %}
             <div class="flex justify-center pb-4">
                 <p class="text-lg text-red-700 basis-7/12 border border-red-700 rounded-lg p-4 text-center">
                     Please fix the errors below.
@@ -27,7 +27,9 @@
         {% if messages %}
             <ul class="flex justify-center pb-4">
                 {% for message in messages %}
-                    <li class="text-lg text-green-600 basis-7/12 border border-green-600 rounded-lg p-4 text-center"> {{ message }} </li>
+                    <li class="text-lg text-green-600 basis-7/12 border border-green-600 rounded-lg p-4 text-center">
+                        {{ message }}
+                    </li>
                 {% endfor %}
             </ul>
         {% endif %}
@@ -36,8 +38,10 @@
             <form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
 
+                {{ wizard.management_form }}
+
                 {# Account(s) #}
-                {% for field in form %}
+                {% for field in wizard.form %}
                     {% if 'account' in field.name %}
                         {% if field.errors %}
                             <div class="flex justify-center">
@@ -52,17 +56,17 @@
 
                 {# Board #}
                 <div class="block mx-2 my-4">
-                    {% if form.board.errors %}
+                    {% if wizard.form.board.errors %}
                         <div class="flex justify-center">
-                            {% include 'forms/field_error_list.html' with errors=form.board.errors %}
+                            {% include 'forms/field_error_list.html' with errors=wizard.form.board.errors %}
                         </div>
                     {% endif %}
-                    <label for="{{ form.board.id_for_label }}" class="text-sm font-medium text-gray-900">
+                    <label for="{{ wizard.form.board.id_for_label }}" class="text-sm font-medium text-gray-900">
                         Board
                     </label>
-                    <select  id="{{ form.board.id_for_label }}" name="{{ form.board.name }}" autocomplete="{{ form.board.name }}" maxlength="{{ form.board.field.max_length }}" required
+                    <select  id="{{ wizard.form.board.id_for_label }}" name="{{ wizard.form.board.name }}" autocomplete="{{ wizard.form.board.name }}" maxlength="{{ wizard.form.board.field.max_length }}" required
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
-                        {% for choice in form.board.field.choices %}
+                        {% for choice in wizard.form.board.field.choices %}
                             <option value="{{ choice.0 }}">{{ choice.1 }}</option>
                         {% endfor %}
                     </select>
@@ -70,27 +74,27 @@
 
                 {# Value #}
                 <div class="block mx-2 my-4">
-                    {% if form.value.errors %}
+                    {% if wizard.form.value.errors %}
                         <div class="flex justify-center">
-                            {% include 'forms/field_error_list.html' with errors=form.value.errors %}
+                            {% include 'forms/field_error_list.html' with errors=wizard.form.value.errors %}
                         </div>
                     {% endif %}
-                    <label for="{{ form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
+                    <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
                         Value
                     </label>
-                    <input type="text" id="{{ form.value.id_for_label }}" name="{{ form.value.name }}" autocomplete="{{ form.value.name }}" maxlength="{{ form.value.field.max_length }}" required
+                    <input type="text" id="{{ wizard.form.value.id_for_label }}" name="{{ wizard.form.value.name }}" autocomplete="{{ wizard.form.value.name }}" maxlength="{{ wizard.form.value.field.max_length }}" required
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
                 </div>
 
                 {# Proof #}
                 <div class="flex w-full items-center justify-center bg-grey-lighter">
-                    <label for="{{ form.proof.id_for_label }}" class="flex items-center px-4 py-4 bg-white rounded-lg tracking-wide border border-gray-800 cursor-pointer hover:bg-gray-900 hover:text-white">
+                    <label for="{{ wizard.form.proof.id_for_label }}" class="flex items-center px-4 py-4 bg-white rounded-lg tracking-wide border border-gray-800 cursor-pointer hover:bg-gray-900 hover:text-white">
                         <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"/>
                         </svg>
                         <span class="file-label">Select a file</span>
                     </label>
-                    <input id="{{ form.proof.id_for_label }}" name="{{ form.proof.name }}" type="file" class="hidden file-input" required/>
+                    <input id="{{ wizard.form.proof.id_for_label }}" name="{{ wizard.form.proof.name }}" type="file" class="hidden file-input" required/>
                 </div>
 
                 {# Submit #}
