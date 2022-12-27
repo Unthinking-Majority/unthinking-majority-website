@@ -1,27 +1,22 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from main import managers
 
 
 class Board(models.Model):
-    BOSS, MINIGAME = range(2)
-    BOARD_CHOICES = (
-        (BOSS, 'Boss'),
-        (MINIGAME, 'Minigame'),
-    )
-    TIME, OTHER, TEARS, OVERALL_TIME, CHALLENGE_TIME = range(5)
+    TIME, INTEGER, DECIMAL = range(3)
     METRIC_CHOICES = (
         (TIME, 'Time'),
-        (OTHER, 'Other'),
-        (TEARS, 'Tears'),
-        (OVERALL_TIME, 'Overall Time'),
-        (CHALLENGE_TIME, 'Challenge Time'),
+        (INTEGER, 'Integer'),
+        (DECIMAL, 'Decimal'),
     )
     name = models.CharField(max_length=256)
-    icon = models.ImageField(upload_to='board/icons/', null=True, blank=True)
-    type = models.IntegerField(choices=BOARD_CHOICES, default=BOSS)
-    metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='boards')
+    metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
+    metric_name = models.CharField(max_length=128, default='Time')
+    max_team_size = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(8)])
+    icon = models.ImageField(upload_to='board/icons/', null=True, blank=True)
     slug = models.SlugField(unique=True)
 
     def __str__(self):
@@ -62,7 +57,7 @@ class Submission(models.Model):
         return f'account here - {self.board} - {self.date} - {self.value}'
 
     def value_display(self):
-        if self.board.metric in (self.board.TIME, self.board.OVERALL_TIME, self.board.CHALLENGE_TIME):
+        if self.board.metric == self.board.TIME:
             minutes = int(self.value // 60)
             seconds = self.value % 60
             return f"{minutes}:{seconds}"
