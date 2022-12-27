@@ -11,8 +11,8 @@ class BoardCategoryAdmin(admin.ModelAdmin):
 
 class BoardAdmin(admin.ModelAdmin):
     autocomplete_fields = ['category']
-    list_display = ['name', 'category', 'type', 'metric']
-    list_filter = [BoardCategoryFilter, 'type', 'metric']
+    list_display = ['name', 'category', 'metric']
+    list_filter = [BoardCategoryFilter, 'metric']
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
 
@@ -21,7 +21,8 @@ class BoardAdmin(admin.ModelAdmin):
             'fields': (
                 'name',
                 'category',
-                ('type', 'metric'),
+                'max_team_size',
+                ('metric', 'metric_name'),
                 'icon',
                 'slug',
             )
