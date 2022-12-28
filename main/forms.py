@@ -1,4 +1,6 @@
 from django import forms
+from django.conf import settings
+from django.db.models import Max
 from django.urls import reverse_lazy
 
 from account.models import Account
@@ -72,10 +74,25 @@ class PetForm(forms.Form):
             label='Pet',
         )
 
+    def clean(self):
+        cleaned_data = super(PetForm, self).clean()
+
+        submission = models.Submission.objects.accepted().pets().filter(
+            accounts=cleaned_data['account'],
+            pet=cleaned_data['pet']
+        )
+        if submission.exists():
+            raise forms.ValidationError(
+                '%(account)s already owns the pet %(pet)s',
+                params={'account': cleaned_data['account'], 'pet': submission.first().pet}
+            )
+
+        return cleaned_data
+
 
 class CollectionLogForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
-    collections_logged = forms.IntegerField()
+    col_logs = forms.IntegerField()
     proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):
@@ -85,3 +102,22 @@ class CollectionLogForm(forms.Form):
             placeholder='Select an account',
             label='Account',
         )
+
+    def clean(self):
+        cleaned_data = super(CollectionLogForm, self).clean()
+
+        cur_col_logs = models.Submission.objects.accepted().col_logs().filter(
+            accounts=cleaned_data['account']
+        ).aggregate(col_logs=Max('value'))['col_logs']
+
+        if cur_col_logs >= cleaned_data['col_logs']:
+            raise forms.ValidationError(
+                '%(account)s already has %(cur_col_logs)s/%(max_col_logs)s collection log slots completed.',
+                params={
+                    'account': cleaned_data['account'],
+                    'cur_col_logs': int(cur_col_logs),
+                    'max_col_logs': settings.MAX_COL_LOG
+                }
+            )
+
+        return cleaned_data
