@@ -44,7 +44,7 @@ class BoardSubmissionForm(forms.ModelForm):
             self.fields[f'account_{i}'].widget = widgets.AutocompleteSelectWidget(
                 autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
                 placeholder='Select an account',
-                label=f'Account {i}',
+                label=f'Account {i + 1}',
             )
 
     def clean(self):

@@ -1,4 +1,5 @@
 {% extends 'forms/wizard/base.html' %}
+{% load i18n %}
 
 {% block form %}
     {# Board #}
@@ -31,3 +32,5 @@
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
     </div>
 {% endblock %}
+
+{% block submit_text %}{% trans "Next" %}{% endblock %}

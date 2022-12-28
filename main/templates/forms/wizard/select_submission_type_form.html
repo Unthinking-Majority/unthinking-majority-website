@@ -1,4 +1,5 @@
 {% extends 'forms/wizard/base.html' %}
+{% load i18n %}
 
 {% block form %}
     {# Type #}
@@ -22,3 +23,5 @@
         </select>
     </div>
 {% endblock %}
+
+{% block submit_text %}{% trans "Next" %}{% endblock %}

@@ -2,14 +2,14 @@ import os
 
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import redirect
+from django.shortcuts import redirect, reverse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.list import ListView
 from formtools.wizard.views import SessionWizardView
 
 from main import forms
+from main import models
 from main.forms import RECORD, PET, COL_LOG
-from main.models import Board, Submission
 
 
 def landing(request):
@@ -20,7 +20,7 @@ def landing(request):
 
 
 class BoardView(ListView):
-    model = Submission
+    model = models.Submission
     template_name = 'board.html'
     paginate_by = 5
 
@@ -33,7 +33,7 @@ class BoardView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(BoardView, self).get_context_data()
         context['board'] = get_object_or_404(
-            Board.objects.prefetch_related('submissions'),
+            models.Board.objects.prefetch_related('submissions'),
             slug=self.kwargs.get('board_name')
         )
         return context
@@ -54,7 +54,7 @@ def select_board_form_condition(wizard):
     return cleaned_data.get('type', None) == RECORD
 
 
-def submssion_form_condition(wizard):
+def record_form_condition(wizard):
     return wizard.get_cleaned_data_for_step('select_board_form') or None
 
 
@@ -64,29 +64,45 @@ class SubmissionWizard(SessionWizardView):
         ('pet_form', forms.PetForm),
         ('collection_log_form', forms.CollectionLogForm),
         ('select_board_form', forms.SelectBoardForm),
-        ('submission_form', forms.BoardSubmissionForm),
+        ('record_form', forms.BoardSubmissionForm),
     ]
     TEMPLATES = {
         'submission_type_form': 'forms/wizard/select_submission_type_form.html',
         'pet_form': 'forms/wizard/pet_form.html',
         'collection_log_form': 'forms/wizard/collection_log_form.html',
         'select_board_form': 'forms/wizard/select_board_form.html',
-        'submission_form': 'forms/wizard/submission_create_form.html',
+        'record_form': 'forms/wizard/submission_create_form.html',
     }
     condition_dict = {
         'pet_form': pet_form_condition,
         'collection_log_form': collection_log_form_condition,
         'select_board_form': select_board_form_condition,
-        'submission_form': submssion_form_condition,
+        'record_form': record_form_condition,
     }
     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'temp_files'))
 
     def done(self, form_list, **kwargs):
-        return redirect('/')
+        form_dict = kwargs.get('form_dict')
+        if 'record_form' in form_dict.keys():
+            accounts = [val for key, val in form_dict['record_form'].cleaned_data.items() if 'account' in key]
+            submission = models.Submission.objects.create(
+                value=form_dict['record_form'].cleaned_data['value'],
+                proof=form_dict['record_form'].cleaned_data['proof'],
+                board=form_dict['select_board_form'].cleaned_data['board']
+            )
+            submission.accounts.set(accounts)
+        elif 'pet_form' in form_dict.keys():
+            pass
+        elif 'collection_log_form' in form_dict.keys():
+            pass
+        else:
+            # error
+            pass
+        return redirect(reverse('form-success'))
 
     def get_form_kwargs(self, step=None):
         kwargs = {}
-        if step == 'submission_form':
+        if step == 'record_form':
             cleaned_data = self.get_cleaned_data_for_step('select_board_form')
             kwargs.update({'team_size': cleaned_data['team_size']})
         return kwargs 
