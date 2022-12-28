@@ -1,5 +1,7 @@
 from django.db import models
 
+from main.models import Submission
+
 
 class Account(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE, blank=True, null=True)
@@ -8,12 +10,5 @@ class Account(models.Model):
     def __str__(self):
         return self.name
 
-
-class PetOwnership(models.Model):
-    account = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='pets')
-    pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE, related_name='owned_by')
-    date = models.DateField(auto_now_add=True)
-    proof = models.ImageField(upload_to='account/pet/proof/')
-
-    def __str__(self):
-        return self.pet.name
+    def pets(self):
+        return Submission.objects.accepted().pets().filter(accounts=self.pk)
