@@ -22,7 +22,16 @@
                 <p class="text-lg text-red-700 basis-7/12 border border-red-700 rounded-lg p-4 text-center">
                     Please fix the errors below.
                 </p>
-            {{ wizard.form.errors }}
+            </div>
+        {% endif %}
+
+        {% if wizard.form.non_field_errors %}
+            <div class="flex justify-center pb-4">
+                <p class="text-lg text-red-700 basis-7/12 border border-red-700 rounded-lg p-4 text-center">
+                    {% for error in wizard.form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </p>
             </div>
         {% endif %}
 

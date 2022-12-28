@@ -14,16 +14,16 @@
 
     {# Collections Logged #}
     <div class="block mx-2 my-4">
-        {% if wizard.form.collections_logged.errors %}
+        {% if wizard.form.col_logs.errors %}
             <div class="flex justify-center">
-                {% include 'forms/field_error_list.html' with errors=wizard.form.collections_logged.errors %}
+                {% include 'forms/field_error_list.html' with errors=wizard.form.col_logs.errors %}
             </div>
         {% endif %}
-        <label for="{{ wizard.form.collections_logged.id_for_label }}" class="text-sm font-medium text-gray-900">
+        <label for="{{ wizard.form.col_logs.id_for_label }}" class="text-sm font-medium text-gray-900">
             Collections Logged
         </label>
-        <input type="text" id="{{ wizard.form.collections_logged.id_for_label }}" name="{{ wizard.form.prefix }}-{{ wizard.form.collections_logged.name }}"
-               autocomplete="{{ wizard.form.collections_logged.name }}" maxlength="{{ wizard.form.collections_logged.field.max_length }}" required
+        <input type="text" id="{{ wizard.form.col_logs.id_for_label }}" name="{{ wizard.form.prefix }}-{{ wizard.form.col_logs.name }}"
+               autocomplete="{{ wizard.form.col_logs.name }}" maxlength="{{ wizard.form.col_logs.field.max_length }}" required
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
     </div>
 
