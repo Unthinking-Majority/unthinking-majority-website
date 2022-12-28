@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from main import models
-from main.admin.autocomplete_filters import BoardCategoryFilter
+from main.admin.autocomplete_filters import BoardCategoryFilter, AccountsFilter, BoardFilter
 
 
 class BoardCategoryAdmin(admin.ModelAdmin):
@@ -34,8 +34,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['accounts', 'board', 'pet']
     list_display = ['account_name', 'type', 'board', 'value', 'pet', 'proof', 'date', 'accepted']
     list_editable = ['accepted']
-    list_filter = [ # put m2m account filter here TODO TODO
-        'type', 'board', 'date', 'accepted']
+    list_filter = ['type', AccountsFilter, BoardFilter, 'date', 'accepted']
     readonly_fields = ['account_name', 'date']
     search_fields = ['account__name', 'value']
 

@@ -6,9 +6,19 @@ class AccountFilter(AutocompleteFilter):
     field_name = 'account'
 
 
+class AccountsFilter(AutocompleteFilter):
+    title = 'Account'
+    field_name = 'accounts'
+
+
 class BoardCategoryFilter(AutocompleteFilter):
     title = 'Category'
     field_name = 'category'
+
+
+class BoardFilter(AutocompleteFilter):
+    title = 'Board'
+    field_name = 'board'
 
 
 class PetFilter(AutocompleteFilter):
