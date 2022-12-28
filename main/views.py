@@ -1,9 +1,14 @@
-from django.contrib import messages
+import os
+
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
-from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
+from formtools.wizard.views import SessionWizardView
 
 from main import forms
+from main.forms import RECORD, PET, COL_LOG
 from main.models import Board, Submission
 
 
@@ -34,24 +39,58 @@ class BoardView(ListView):
         return context
 
 
-class SubmissionView(CreateView):
-    model = Submission
-    form_class = forms.SubmissionForm
-    template_name = 'forms/submission_create_form.html'
+def pet_form_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('submission_type_form') or {}
+    return cleaned_data.get('type', None) == PET
 
-    def get_form_kwargs(self):
-        kwargs = super(SubmissionView, self).get_form_kwargs()
-        # if self.request.user.is_authenticated and self.request.method == 'POST':
-        #     data = self.request.POST.copy()
-        #     data.update({'account': self.request.user.account.id})
-        #     kwargs.update({'data': data})
-        return kwargs
 
-    def form_valid(self, form):
-        form.save(commit=True)
-        messages.success(self.request, 'Form submission successful. Your submission is now under review.')
-        return self.render_to_response(self.get_context_data(form=form))
+def collection_log_form_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('submission_type_form') or {}
+    return cleaned_data.get('type', None) == COL_LOG
 
-    def post(self, request, *args, **kwargs):
-        print(request.POST)
-        return super(SubmissionView, self).post(request, *args, **kwargs)
+
+def select_board_form_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('submission_type_form') or {}
+    return cleaned_data.get('type', None) == RECORD
+
+
+def submssion_form_condition(wizard):
+    return wizard.get_cleaned_data_for_step('select_board_form') or None
+
+
+class SubmissionWizard(SessionWizardView):
+    form_list = [
+        ('submission_type_form', forms.SelectSubmissionTypeForm),
+        ('pet_form', forms.PetForm),
+        ('collection_log_form', forms.CollectionLogForm),
+        ('select_board_form', forms.SelectBoardForm),
+        ('submission_form', forms.BoardSubmissionForm),
+    ]
+    TEMPLATES = {
+        'submission_type_form': 'forms/wizard/select_submission_type_form.html',
+        'pet_form': 'forms/wizard/pet_form.html',
+        'collection_log_form': 'forms/wizard/collection_log_form.html',
+        'select_board_form': 'forms/wizard/select_board_form.html',
+        'submission_form': 'forms/wizard/submission_create_form.html',
+    }
+    condition_dict = {
+        'pet_form': pet_form_condition,
+        'collection_log_form': collection_log_form_condition,
+        'select_board_form': select_board_form_condition,
+        'submission_form': submssion_form_condition,
+    }
+    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'temp_files'))
+
+    def done(self, form_list, **kwargs):
+        return redirect('/')
+
+    def get_form_kwargs(self, step=None):
+        kwargs = {}
+        if step == 'submission_form':
+            cleaned_data = self.get_cleaned_data_for_step('select_board_form')
+            kwargs.update({'team_size': cleaned_data['team_size']})
+        return kwargs 
+
+    def get_template_names(self):
+        return [self.TEMPLATES[self.steps.current]]
+

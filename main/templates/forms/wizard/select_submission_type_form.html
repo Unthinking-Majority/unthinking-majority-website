@@ -1,0 +1,24 @@
+{% extends 'forms/wizard/base.html' %}
+
+{% block form %}
+    {# Type #}
+    <div class="block mx-2 my-4">
+        {% if wizard.form.type.errors %}
+            <div class="flex justify-center">
+                {% include 'forms/field_error_list.html' with errors=wizard.form.type.errors %}
+            </div>
+        {% endif %}
+        <label for="{{ wizard.form.type.id_for_label }}" class="text-sm font-medium text-gray-900">
+            Type
+        </label>
+        <select id="{{ wizard.form.type.id_for_label }}"
+                name="{{ wizard.form.prefix }}-{{ wizard.form.type.name }}"
+                autocomplete="{{ wizard.form.type.name }}"
+                required
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
+            {% for choice in wizard.form.type.field.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+{% endblock %}

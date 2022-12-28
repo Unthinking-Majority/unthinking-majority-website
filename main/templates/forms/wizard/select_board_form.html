@@ -1,0 +1,33 @@
+{% extends 'forms/wizard/base.html' %}
+
+{% block form %}
+    {# Board #}
+    <div class="block mx-2 my-4">
+        {% if wizard.form.board.errors %}
+            <div class="flex justify-center">
+                {% include 'forms/field_error_list.html' with errors=wizard.form.board.errors %}
+            </div>
+        {% endif %}
+        {{ wizard.form.board }}
+    </div>
+
+    {# Team Size #}
+    <div class="block mx-2 my-4">
+        {% if wizard.form.team_size.errors %}
+            <div class="flex justify-center">
+                {% include 'forms/field_error_list.html' with errors=wizard.form.team_size.errors %}
+            </div>
+        {% endif %}
+        <label for="{{ wizard.form.team_size.id_for_label }}" class="text-sm font-medium text-gray-900">
+            Team Size
+        </label>
+        <input id="{{ wizard.form.team_size.id_for_label }}"
+               type="number"
+               name="{{ wizard.form.prefix }}-{{ wizard.form.team_size.name }}"
+               min="{{ wizard.form.team_size.field.min_value }}"
+               max="{{ wizard.form.team_size.field.max_value }}"
+               value="{{ wizard.form.team_size.field.initial }}"
+               required
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
+    </div>
+{% endblock %}
