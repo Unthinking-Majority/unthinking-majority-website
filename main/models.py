@@ -44,14 +44,25 @@ class Pet(models.Model):
 
 
 class Submission(models.Model):
+    RECORD, PET, COL_LOG = range(3)
+    SUBMISSION_TYPES = (
+        (RECORD, 'Record'),
+        (PET, 'Pet'),
+        (COL_LOG, 'Collection Log'),
+    )
     accounts = models.ManyToManyField('account.Account')
-    board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions')
+    type = models.IntegerField(choices=SUBMISSION_TYPES, default=RECORD)
+    board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions', blank=True)
     value = models.DecimalField(max_digits=6, decimal_places=2)
+    pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
     proof = models.ImageField(upload_to='submission/proof/', null=True, blank=True)
     accepted = models.BooleanField(null=True)
     date = models.DateField(auto_now_add=True)
 
     objects = managers.SubmissionManger()
+
+    class Meta:
+        ordering = ['-date']
 
     def __str__(self):
         return f'account here - {self.board} - {self.date} - {self.value}'
