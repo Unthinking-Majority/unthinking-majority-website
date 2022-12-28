@@ -22,6 +22,15 @@ class SelectBoardForm(forms.Form):
             label='Board',
         )
 
+    def clean(self):
+        cleaned_data = super(SelectBoardForm, self).clean()
+        if cleaned_data['team_size'] > cleaned_data['board'].max_team_size:
+            raise forms.ValidationError(
+                'Invalid team size of %(team_size)s selected',
+                params={'team_size': cleaned_data['team_size']}
+            )
+        return cleaned_data
+
 
 class BoardSubmissionForm(forms.ModelForm):
     class Meta:
