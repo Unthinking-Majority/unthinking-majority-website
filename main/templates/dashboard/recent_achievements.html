@@ -13,25 +13,33 @@
             Date
         </th>
         <th class="text-md px-6 py-4 text-left">
-            Board
+            Type
         </th>
         <th class="text-md px-6 py-4 text-left">
             Proof
         </th>
-        <th class="text-md px-6 py-4 text-left"></th>
+        <th class="text-md px-6 py-4 text-left">
+            Achievement
+        </th>
     </tr>
     </thead>
     <tbody>
     {% for submission in recent_submissions %}
         <tr class="even:bg-gray-100">
             <td class="px-6 py-4 whitespace-nowrap">
-                {{ submission.accounts.all }}
+                {% for account in submission.accounts.all %}
+                    {% if forloop.counter0 > 0 %}
+                        , {{ account.name }}
+                    {% else %}
+                        {{ account.name }}
+                    {% endif %}
+                {% endfor %}
             </td>
             <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
                 {{ submission.date }}
             </td>
             <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
-                {{ submission.board.name }}
+                {{ submission.type_display }}
             </td>
             <td class="text-sm font-light px-6 py-4 text-gray-900 whitespace-nowrap underline hover:text-gray-600">
                 <a href="{{ submission.proof.url }}" target="_blank">

@@ -1,4 +1,5 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.conf import settings
 from django.db import models
 
 from main import managers
@@ -68,9 +69,19 @@ class Submission(models.Model):
         return f'account here - {self.board} - {self.date} - {self.value}'
 
     def value_display(self):
-        if self.board.metric == self.board.TIME:
+        if self.type == self.RECORD:
             minutes = int(self.value // 60)
             seconds = self.value % 60
             return f"{minutes}:{seconds}"
-        else:
-            return self.value
+        elif self.type == self.PET:
+            return self.pet.name
+        elif self.type == self.COL_LOG:
+            return f'{int(self.value)}/{settings.MAX_COL_LOG}'
+
+    def type_display(self):
+        if self.type == self.RECORD:
+            return self.board.name
+        elif self.type == self.PET:
+            return 'Pet'
+        elif self.type == self.COL_LOG:
+            return 'Collection Log'
