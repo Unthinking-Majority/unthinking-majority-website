@@ -32,7 +32,7 @@ class BoardAdmin(admin.ModelAdmin):
 
 class SubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['accounts', 'board', 'pet']
-    list_display = ['account_name', 'board', 'value', 'proof', 'date', 'accepted']
+    list_display = ['account_name', 'type', 'board', 'value', 'pet', 'proof', 'date', 'accepted']
     list_editable = ['accepted']
     list_filter = [ # put m2m account filter here TODO TODO
         'type', 'board', 'date', 'accepted']

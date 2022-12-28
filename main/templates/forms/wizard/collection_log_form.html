@@ -1,14 +1,15 @@
 {% extends 'forms/wizard/base.html' %}
 
 {% block form %}
-    {# Board #}
+
+    {# Account #}
+    {% if wizard.form.account.errors %}
+        <div class="flex justify-center">
+            {% include 'forms/field_error_list.html' with errors=wizard.form.account.errors %}
+        </div>
+    {% endif %}
     <div class="block mx-2 my-4">
-        {% if wizard.form.board.errors %}
-            <div class="flex justify-center">
-                {% include 'forms/field_error_list.html' with errors=wizard.form.board.errors %}
-            </div>
-        {% endif %}
-        {{ wizard.form.board }}
+        {{ wizard.form.account }}
     </div>
 
     {# Collections Logged #}
