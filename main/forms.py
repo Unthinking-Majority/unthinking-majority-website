@@ -5,16 +5,9 @@ from account.models import Account
 from main import models
 from main import widgets
 
-RECORD, PET, COL_LOG = range(3)
-FORM_CHOICES = (
-    (RECORD, 'Record'),
-    (PET, 'Pet'),
-    (COL_LOG, 'Collection Log'),
-)
-
 
 class SelectSubmissionTypeForm(forms.Form):
-    type = forms.TypedChoiceField(choices=FORM_CHOICES, coerce=int)
+    type = forms.TypedChoiceField(choices=models.SUBMISSION_TYPES, coerce=int)
 
 
 class SelectBoardForm(forms.Form):

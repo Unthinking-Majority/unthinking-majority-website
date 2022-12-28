@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 
 from main import managers
+from main import SUBMISSION_TYPES, RECORD, PET, COL_LOG
 
 
 class Board(models.Model):
@@ -45,12 +46,6 @@ class Pet(models.Model):
 
 
 class Submission(models.Model):
-    RECORD, PET, COL_LOG = range(3)
-    SUBMISSION_TYPES = (
-        (RECORD, 'Record'),
-        (PET, 'Pet'),
-        (COL_LOG, 'Collection Log'),
-    )
     accounts = models.ManyToManyField('account.Account')
     type = models.IntegerField(choices=SUBMISSION_TYPES, default=RECORD)
     board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
@@ -60,7 +55,7 @@ class Submission(models.Model):
     accepted = models.BooleanField(null=True)
     date = models.DateField(auto_now_add=True)
 
-    objects = managers.SubmissionManger()
+    objects = managers.SubmissionQueryset.as_manager()
 
     class Meta:
         ordering = ['-date']
@@ -69,19 +64,19 @@ class Submission(models.Model):
         return f'account here - {self.board} - {self.date} - {self.value}'
 
     def value_display(self):
-        if self.type == self.RECORD:
+        if self.type == RECORD:
             minutes = int(self.value // 60)
             seconds = self.value % 60
             return f"{minutes}:{seconds}"
-        elif self.type == self.PET:
+        elif self.type == PET:
             return self.pet.name
-        elif self.type == self.COL_LOG:
+        elif self.type == COL_LOG:
             return f'{int(self.value)}/{settings.MAX_COL_LOG}'
 
     def type_display(self):
-        if self.type == self.RECORD:
+        if self.type == RECORD:
             return self.board.name
-        elif self.type == self.PET:
+        elif self.type == PET:
             return 'Pet'
-        elif self.type == self.COL_LOG:
+        elif self.type == COL_LOG:
             return 'Collection Log'

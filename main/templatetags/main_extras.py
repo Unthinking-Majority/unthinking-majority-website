@@ -20,21 +20,23 @@ def navbar(context):
 
 @register.inclusion_tag('dashboard/pets_leaderboard.html')
 def pets_leaderboard():
+    pet_submissions = Submission.objects.accepted().pets()
+    account_pks = pet_submissions.values('accounts').annotate(num_pets=Count('accounts')).order_by('-num_pets')
     return {
-        'accounts': Account.objects.annotate(num_pets=Count('pets')).order_by('-num_pets').prefetch_related('pets')[:5]
+        'accounts': [Account.objects.get(pk=obj['accounts']) for obj in account_pks]
     }
 
 
 @register.inclusion_tag('dashboard/recent_achievements.html')
 def recent_submission_leaderboard():
     return {
-        'recent_submissions': Submission.objects.accepted().order_by('-date')[:5]
+        'recent_submissions': Submission.objects.accepted()[:5]
     }
 
 
 @register.inclusion_tag('dashboard/top_players_leaderboard.html')
 def top_players_leaderboard():
-    temp = Submission.objects.accepted().filter(type=Submission.RECORD).values('board').annotate(Max('value')).values_list('accounts', flat=True)
+    temp = Submission.objects.accepted().records().values('board').annotate(Max('value')).values_list('accounts', flat=True)
     first_places = [
         {'account': Account.objects.get(pk=pk), 'val': val}
         for pk, val in Counter(temp).most_common(5)

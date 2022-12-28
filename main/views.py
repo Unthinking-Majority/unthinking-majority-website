@@ -9,7 +9,7 @@ from formtools.wizard.views import SessionWizardView
 
 from main import forms
 from main import models
-from main.forms import RECORD, PET, COL_LOG
+from main import RECORD, PET, COL_LOG
 
 
 def landing(request):
