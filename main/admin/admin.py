@@ -52,8 +52,7 @@ class SubmissionAdmin(admin.ModelAdmin):
     )
 
     def account_name(self, obj):
-        # return obj.account.name
-        return 'put accounts here'
+        return ', '.join([account.name for account in obj.accounts.all()])
 
 
 class PetAdmin(admin.ModelAdmin):

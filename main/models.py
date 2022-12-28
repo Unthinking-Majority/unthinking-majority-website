@@ -58,7 +58,7 @@ class Submission(models.Model):
     objects = managers.SubmissionQueryset.as_manager()
 
     class Meta:
-        ordering = ['date']
+        ordering = ['-date']
 
     def __str__(self):
         return f'account here - {self.board} - {self.date} - {self.value}'

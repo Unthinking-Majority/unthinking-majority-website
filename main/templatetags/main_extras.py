@@ -30,7 +30,7 @@ def pets_leaderboard():
 @register.inclusion_tag('dashboard/recent_achievements.html')
 def recent_submission_leaderboard():
     return {
-        'recent_submissions': Submission.objects.accepted().order_by('-date')[:5]
+        'recent_submissions': Submission.objects.accepted()[:5]
     }
 
 
