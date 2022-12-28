@@ -93,14 +93,14 @@ class SubmissionWizard(SessionWizardView):
             submission.accounts.set(accounts)
         elif 'pet_form' in form_dict.keys():
             submission = models.Submission.objects.create(
-                type=models.Submission.PET,
+                type=PET,
                 pet=form_dict['pet_form'].cleaned_data['pet'],
                 proof=form_dict['pet_form'].cleaned_data['proof'],
             )
             submission.accounts.add(form_dict['pet_form'].cleaned_data['account'])
         elif 'collection_log_form' in form_dict.keys():
             submission = models.Submission.objects.create(
-                type=models.Submission.COL_LOG,
+                type=COL_LOG,
                 value=form_dict['collection_log_form'].cleaned_data['collections_logged'],
                 proof=form_dict['collection_log_form'].cleaned_data['proof'],
             )
