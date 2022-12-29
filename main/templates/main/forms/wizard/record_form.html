@@ -12,7 +12,7 @@
         {% if 'account' in field.name %}
             {% if field.errors %}
                 <div class="flex justify-center">
-                    {% include 'forms/field_error_list.html' with errors=field.errors %}
+                    {% include 'main/forms/field_error_list.html' with errors=field.errors %}
                 </div>
             {% endif %}
             <div class="block mx-2 my-4">
@@ -25,7 +25,7 @@
     <div class="block mx-2 my-4">
         {% if wizard.form.value.errors %}
             <div class="flex justify-center">
-                {% include 'forms/field_error_list.html' with errors=wizard.form.value.errors %}
+                {% include 'main/forms/field_error_list.html' with errors=wizard.form.value.errors %}
             </div>
         {% endif %}
         <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
@@ -40,7 +40,7 @@
     <div class="block mx-2 my-4">
         {% if wizard.form.notes.errors %}
             <div class="flex justify-center">
-                {% include 'forms/field_error_list.html' with errors=wizard.form.value.errors %}
+                {% include 'main/forms/field_error_list.html' with errors=wizard.form.value.errors %}
             </div>
         {% endif %}
         <label for="{{ wizard.form.notes.id_for_label }}" class="text-sm font-medium text-gray-900">

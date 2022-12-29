@@ -8,6 +8,6 @@ urlpatterns = [
     path('', views.landing, name='landing'),
     path('board/<str:board_category>/<str:board_name>/', views.BoardSubmissionsListView.as_view(), name='board'),
     path('submit-achievement/', views.SubmissionWizard.as_view(), name='submit-achievement'),
-    path('form-success/', TemplateView.as_view(template_name='forms/success.html'), name='form-success'),
+    path('form-success/', TemplateView.as_view(template_name='main/forms/success.html'), name='form-success'),
 ]
 urlpatterns += autocomplete_urlpatterns
