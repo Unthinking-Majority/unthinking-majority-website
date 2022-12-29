@@ -10,7 +10,7 @@ from main.models import BoardCategory, Board, Submission
 register = template.Library()
 
 
-@register.inclusion_tag('navbar.html', takes_context=True)
+@register.inclusion_tag('main/navbar.html', takes_context=True)
 def navbar(context):
     return {
         'request': context['request'],

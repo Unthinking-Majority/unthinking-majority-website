@@ -1,4 +1,4 @@
-{% extends "site_base.html" %}
+{% extends "main/site_base.html" %}
 
 {% block content %}
     {{ block.super }}
@@ -16,7 +16,7 @@
 
         <div class="flex gap-6 justify-center bg-gray-50 rounded-lg">
             <div class="py-4">
-                {% include 'leaderboard.html' %}
+                {% include 'main/leaderboard.html' %}
             </div>
         </div>
     </div>

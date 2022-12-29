@@ -15,13 +15,13 @@ from main import models
 def landing(request):
     return render(
         request,
-        'landing.html',
+        'main/landing.html',
     )
 
 
 class BoardSubmissionsListView(ListView):
     model = models.Submission
-    template_name = 'board.html'
+    template_name = 'main/board.html'
     paginate_by = 5
 
     def get_queryset(self):
