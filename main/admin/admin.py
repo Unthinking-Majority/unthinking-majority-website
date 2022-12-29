@@ -41,12 +41,12 @@ class SubmissionAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'accounts',
+                ('accounts', 'accepted'),
                 'type',
                 ('board', 'value'),
                 'pet',
+                'notes',
                 ('proof', 'date'),
-                'accepted',
             )
         }),
     )
