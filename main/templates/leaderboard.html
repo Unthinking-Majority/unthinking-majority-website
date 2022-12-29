@@ -27,7 +27,13 @@
                 {{ forloop.counter0|add:page_obj.start_index }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                {{ submission.accounts }}
+                {% for account in submission.accounts.all %}
+                    {% if forloop.counter0 > 0 %}
+                        , {{ account.name }}
+                    {% else %}
+                        {{ account.name }}
+                    {% endif %}
+                {% endfor %}
             </td>
             <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
                 {{ submission.date }}
