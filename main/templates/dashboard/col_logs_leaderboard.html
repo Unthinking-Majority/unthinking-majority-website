@@ -1,0 +1,33 @@
+<h3 class="text-center mb-2 font-runescape text-5xl text-yellow-runescape text-border">
+    Collection Logs
+</h3>
+<table class="min-w-full max-w-4xl bg-gray-200 rounded-lg overflow-hidden">
+    <thead class="bg-gray-800 rounded-lg">
+    <tr class="text-white">
+        <th class="text-md px-6 py-4 text-left">
+            Username
+        </th>
+        <th class="text-md px-6 py-4 text-left">
+            Collections Logged
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for account in accounts %}
+        <tr class="odd:bg-gray-100">
+            <td class="px-6 py-4 whitespace-nowrap">
+                {{ account.name }}
+            </td>
+            <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+                <div class="flex">
+                    <div class="font-runescape text-2xl px-6 py-4 whitespace-nowrap">
+                        <div class="flex justify-center">
+                            <p class="pr-2">{{ account.col_logs }}/{{ max_col_log }}</p>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

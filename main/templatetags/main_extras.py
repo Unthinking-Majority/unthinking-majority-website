@@ -1,6 +1,7 @@
 from collections import Counter
 
 from django import template
+from django.conf import settings
 from django.db.models import Count, Max
 
 from account.models import Account
@@ -24,6 +25,14 @@ def pets_leaderboard():
     account_pks = pet_submissions.values('accounts').annotate(num_pets=Count('accounts')).order_by('-num_pets')
     return {
         'accounts': [Account.objects.get(pk=obj['accounts']) for obj in account_pks]
+    }
+
+
+@register.inclusion_tag('dashboard/col_logs_leaderboard.html')
+def col_logs_leaderboard():
+    return {
+        'accounts': Account.objects.order_by('-col_logs')[:5],
+        'max_col_log': settings.MAX_COL_LOG,
     }
 
 

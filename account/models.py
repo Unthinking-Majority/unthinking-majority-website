@@ -6,6 +6,7 @@ from main.models import Submission
 class Account(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=256, help_text='In game name.', unique=True)
+    col_logs = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name

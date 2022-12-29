@@ -112,11 +112,11 @@ class CollectionLogForm(forms.Form):
 
         if cur_col_logs >= cleaned_data['col_logs']:
             raise forms.ValidationError(
-                '%(account)s already has %(cur_col_logs)s/%(max_col_logs)s collection log slots completed.',
+                '%(account)s already has %(cur_col_logs)s/%(max_col_log)s collection log slots completed.',
                 params={
                     'account': cleaned_data['account'],
                     'cur_col_logs': int(cur_col_logs),
-                    'max_col_logs': settings.MAX_COL_LOG
+                    'max_col_log': settings.MAX_COL_LOG
                 }
             )
 

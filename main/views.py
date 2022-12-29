@@ -99,12 +99,15 @@ class SubmissionWizard(SessionWizardView):
             )
             submission.accounts.add(form_dict['pet_form'].cleaned_data['account'])
         elif 'collection_log_form' in form_dict.keys():
+            account = form_dict['collection_log_form'].cleaned_data['account']
             submission = models.Submission.objects.create(
                 type=COL_LOG,
                 value=form_dict['collection_log_form'].cleaned_data['col_logs'],
                 proof=form_dict['collection_log_form'].cleaned_data['proof'],
             )
-            submission.accounts.add(form_dict['collection_log_form'].cleaned_data['account'])
+            submission.accounts.add(account)
+            account.col_logs = form_dict['collection_log_form'].cleaned_data['col_logs']
+            account.save()
         else:
             # error
             pass
