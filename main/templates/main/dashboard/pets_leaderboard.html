@@ -8,14 +8,16 @@
             Username
         </th>
         <th class="text-md px-6 py-4 text-left">
-            Number of Pets
+            Total Pets
         </th>
-        <th class="px-6 py-4"></th>
+        <th class="px-6 py-4">
+            Pets
+        </th>
     </tr>
     </thead>
     <tbody>
     {% for account in accounts %}
-        <tr class="odd:bg-gray-100">
+        <tr class="even:bg-gray-200 odd:bg-gray-100">
             <td class="px-6 py-4 whitespace-nowrap">
                 {{ account.name }}
             </td>
