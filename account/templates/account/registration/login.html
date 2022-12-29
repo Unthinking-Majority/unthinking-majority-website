@@ -3,14 +3,14 @@
 {% block content %}
     <div class="flex justify-center">
         <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
-            <h1 class="tracking-wide py-2 font-runescape text-6xl text-yellow-runescape text-border">
+            <h1 class="py-2 text-6xl tracking-wide font-runescape text-yellow-runescape text-border">
                 Log In
             </h1>
         </div>
     </div>
     {% if form.errors %}
         <div class="flex justify-center">
-            <p class="text-lg text-red-700 basis-7/12 border border-red-700 rounded-lg p-4 text-center">
+            <p class="p-4 text-lg text-center text-red-700 rounded-lg border border-red-700 basis-7/12">
                 Please enter a correct username and password. Note that both fields may be case-sensitive.
             </p>
         </div>
@@ -29,12 +29,12 @@
                 <input type="password"  id="{{ form.password.id_for_label }}" name="{{ form.password.name }}" autocomplete="{{ form.password.name }}" maxlength="{{ form.password.field.max_length }}" required
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
             <div class="flex justify-center">
-                <button type="submit" tabindex="0" class="text-gray-300 bg-gray-800 px-3 py-2 rounded-md my-4 font-medium hover:bg-gray-700 hover:text-white">
+                <button type="submit" tabindex="0" class="px-3 py-2 my-4 font-medium text-gray-300 bg-gray-800 rounded-md hover:bg-gray-700 hover:text-white">
                     Log in
                 </button>
             </div>
             <div class="flex justify-center">
-                <a href="{% url 'accounts:password_reset' %}" class="text-gray-600 px-3 py-2 rounded-md my-4 font-medium hover:text-gray-900 hover:cursor-pointer">
+                <a href="{% url 'accounts:password_reset' %}" class="px-3 py-2 my-4 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:cursor-pointer">
                     Forgot you password? Click here to reset.
                 </a>
             </div>
