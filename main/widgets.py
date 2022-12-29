@@ -5,7 +5,7 @@ class AutocompleteSelectWidget(forms.Select):
     autocomplete_url = ''
     placeholder = ''
     label = ''
-    template_name = 'widgets/autocomplete_select.html'
+    template_name = 'main/widgets/autocomplete_select.html'
 
     def __init__(self, autocomplete_url='', placeholder='', label=''):
         self.autocomplete_url = autocomplete_url
