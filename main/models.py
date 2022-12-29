@@ -21,6 +21,9 @@ class Board(models.Model):
     icon = models.ImageField(upload_to='board/icons/', null=True, blank=True)
     slug = models.SlugField(unique=True)
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 

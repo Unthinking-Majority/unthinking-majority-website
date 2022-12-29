@@ -1,13 +1,9 @@
-{% extends 'main/site_base.html' %}
+{% extends "main/site_base.html" %}
+
+{% load um_components %}
 
 {% block content %}
-    <div class="flex justify-center">
-        <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
-            <h1 class="py-2 text-6xl tracking-wide font-runescape text-yellow-runescape text-border">
-                Create Account
-            </h1>
-        </div>
-    </div>
+    {% page_header "Create Account" %}
     {% if form.errors %}
         <div class="flex justify-center pb-4">
             <p class="p-4 text-lg text-center text-red-700 rounded-lg border border-red-700 basis-7/12">
@@ -23,7 +19,7 @@
             <div class="block mx-2 my-4">
                 {% if form.name.errors %}
                     <div class="flex justify-center">
-                        {% include 'main/forms/field_error_list.html' with errors=form.name.errors %}
+                        {% include "main/forms/field_error_list.html" with errors=form.name.errors %}
                     </div>
                 {% endif %}
                 <label for="{{ form.name.id_for_label }}" class="text-sm font-medium text-gray-900">
@@ -37,7 +33,7 @@
             <div class="block mx-2 my-4">
                 {% if form.email.errors %}
                     <div class="flex justify-center">
-                        {% include 'main/forms/field_error_list.html' with errors=form.email.errors %}
+                        {% include "main/forms/field_error_list.html" with errors=form.email.errors %}
                     </div>
                 {% endif %}
                 <label for="{{ form.email.id_for_label }}" class="text-sm font-medium text-gray-900">
@@ -51,7 +47,7 @@
             <div class="block mx-2 my-4">
                 {% if form.username.errors %}
                     <div class="flex justify-center">
-                        {% include 'main/forms/field_error_list.html' with errors=form.username.errors %}
+                        {% include "main/forms/field_error_list.html" with errors=form.username.errors %}
                     </div>
                 {% endif %}
                 <label for="{{ form.username.id_for_label }}" class="text-sm font-medium text-gray-900">
@@ -65,7 +61,7 @@
             <div class="block mx-2 my-4">
                 {% if form.password1.errors %}
                     <div class="flex justify-center">
-                        {% include 'main/forms/field_error_list.html' with errors=form.password1.errors %}
+                        {% include "main/forms/field_error_list.html" with errors=form.password1.errors %}
                     </div>
                 {% endif %}
                 <label for="{{ form.password1.id_for_label }}" class="text-sm font-medium text-gray-900">
@@ -79,7 +75,7 @@
             <div class="block mx-2 my-4">
                 {% if form.password2.errors %}
                     <div class="flex justify-center">
-                        {% include 'main/forms/field_error_list.html' with errors=form.password2.errors %}
+                        {% include "main/forms/field_error_list.html" with errors=form.password2.errors %}
                     </div>
                 {% endif %}
                 <label for="{{ form.password2.id_for_label }}" class="text-sm font-medium text-gray-900">

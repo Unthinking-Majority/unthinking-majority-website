@@ -1,13 +1,9 @@
-{% extends 'main/site_base.html' %}
+{% extends "main/site_base.html" %}
+
+{% load um_components %}
 
 {% block content %}
-    <div class="flex justify-center">
-        <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
-            <h1 class="py-2 text-6xl tracking-wide font-runescape text-yellow-runescape text-border">
-                Log In
-            </h1>
-        </div>
-    </div>
+    {% page_header "Log in" %}
     {% if form.errors %}
         <div class="flex justify-center">
             <p class="p-4 text-lg text-center text-red-700 rounded-lg border border-red-700 basis-7/12">
@@ -34,7 +30,7 @@
                 </button>
             </div>
             <div class="flex justify-center">
-                <a href="{% url 'accounts:password_reset' %}" class="px-3 py-2 my-4 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:cursor-pointer">
+                <a href="{% url "accounts:password_reset" %}" class="px-3 py-2 my-4 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:cursor-pointer">
                     Forgot you password? Click here to reset.
                 </a>
             </div>

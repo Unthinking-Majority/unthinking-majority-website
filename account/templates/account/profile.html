@@ -1,16 +1,12 @@
-{% extends 'main/site_base.html' %}
+{% extends "main/site_base.html" %}
+
+{% load um_components %}
 
 {% block content %}
-    <div class="flex justify-center">
-        <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
-            <h1 class="py-2 text-6xl tracking-wide font-runescape text-yellow-runescape text-border">
-                {{ user.account.name }}
-            </h1>
-        </div>
-    </div>
+    {% page_header user.account.name %}
     <div class="flex justify-center">
         <div class="flex justify-center items-center py-6 bg-gray-200 rounded-lg basis-9/12">
-            <a href="{% url 'accounts:password_change' %}" class="font-medium text-gray-700">Change Password</a>
+            <a href="{% url "accounts:password_change" %}" class="font-medium text-gray-700">Change Password</a>
         </div>
     </div>
 {% endblock %}
