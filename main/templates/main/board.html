@@ -1,24 +1,20 @@
 {% extends "main/site_base.html" %}
 
 {% block content %}
-    {{ block.super }}
-    <div class="bg-gray-50 h-auto p-2 rounded-lg">
-        <div class="flex justify-center">
-            <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
-                {% if board.icon %}
-                    <img src="{{ board.icon.url }}" class="mx-4 h-16">
-                {% endif %}
-                <h1 class="tracking-wide text-center py-2 font-runescape text-6xl text-yellow-runescape text-border">
-                    {{ board.name }}
-                </h1>
-            </div>
-        </div>
-
-        <div class="flex gap-6 justify-center bg-gray-50 rounded-lg">
-            <div class="py-4">
-                {% include 'main/leaderboard.html' %}
-            </div>
+    <div class="flex justify-center">
+        <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
+            {% if board.icon %}
+                <img src="{{ board.icon.url }}" class="mx-4 h-16">
+            {% endif %}
+            <h1 class="py-2 text-6xl tracking-wide text-center font-runescape text-yellow-runescape text-border">
+                {{ board.name }}
+            </h1>
         </div>
     </div>
 
+    <div class="flex gap-6 justify-center bg-gray-50 rounded-lg">
+        <div class="py-4">
+            {% include 'main/leaderboard.html' %}
+        </div>
+    </div>
 {% endblock %}

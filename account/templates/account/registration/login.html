@@ -1,46 +1,43 @@
 {% extends 'main/site_base.html' %}
 
 {% block content %}
-    {{ block.super }}
-    <div class="bg-gray-50 h-auto p-4 rounded-lg">
-        <div class="flex justify-center">
-            <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
-                <h1 class="tracking-wide py-2 font-runescape text-6xl text-yellow-runescape text-border">
-                    Log In
-                </h1>
-            </div>
+    <div class="flex justify-center">
+        <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
+            <h1 class="tracking-wide py-2 font-runescape text-6xl text-yellow-runescape text-border">
+                Log In
+            </h1>
         </div>
-        {% if form.errors %}
+    </div>
+    {% if form.errors %}
+        <div class="flex justify-center">
+            <p class="text-lg text-red-700 basis-7/12 border border-red-700 rounded-lg p-4 text-center">
+                Please enter a correct username and password. Note that both fields may be case-sensitive.
+            </p>
+        </div>
+    {% endif %}
+    <div class="flex justify-center">
+        <form method="post">
+            {% csrf_token %}
+                <label for="{{ form.username.id_for_label }}" class="block mx-2 my-4 text-sm font-medium text-gray-900">
+                    Username
+                </label>
+                <input type="text"  id="{{ form.username.id_for_label }}" name="{{ form.username.name }}" autocomplete="{{ form.username.name }}" maxlength="{{ form.username.field.max_length }}" required
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
+                <label for="{{ form.password.id_for_label }}" class="block mx-2 my-4 text-sm font-medium text-gray-900">
+                    Password
+                </label>
+                <input type="password"  id="{{ form.password.id_for_label }}" name="{{ form.password.name }}" autocomplete="{{ form.password.name }}" maxlength="{{ form.password.field.max_length }}" required
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
             <div class="flex justify-center">
-                <p class="text-lg text-red-700 basis-7/12 border border-red-700 rounded-lg p-4 text-center">
-                    Please enter a correct username and password. Note that both fields may be case-sensitive.
-                </p>
+                <button type="submit" tabindex="0" class="text-gray-300 bg-gray-800 px-3 py-2 rounded-md my-4 font-medium hover:bg-gray-700 hover:text-white">
+                    Log in
+                </button>
             </div>
-        {% endif %}
-        <div class="flex justify-center">
-            <form method="post">
-                {% csrf_token %}
-                    <label for="{{ form.username.id_for_label }}" class="block mx-2 my-4 text-sm font-medium text-gray-900">
-                        Username
-                    </label>
-                    <input type="text"  id="{{ form.username.id_for_label }}" name="{{ form.username.name }}" autocomplete="{{ form.username.name }}" maxlength="{{ form.username.field.max_length }}" required
-                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
-                    <label for="{{ form.password.id_for_label }}" class="block mx-2 my-4 text-sm font-medium text-gray-900">
-                        Password
-                    </label>
-                    <input type="password"  id="{{ form.password.id_for_label }}" name="{{ form.password.name }}" autocomplete="{{ form.password.name }}" maxlength="{{ form.password.field.max_length }}" required
-                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
-                <div class="flex justify-center">
-                    <button type="submit" tabindex="0" class="text-gray-300 bg-gray-800 px-3 py-2 rounded-md my-4 font-medium hover:bg-gray-700 hover:text-white">
-                        Log in
-                    </button>
-                </div>
-                <div class="flex justify-center">
-                    <a href="{% url 'accounts:password_reset' %}" class="text-gray-600 px-3 py-2 rounded-md my-4 font-medium hover:text-gray-900 hover:cursor-pointer">
-                        Forgot you password? Click here to reset.
-                    </a>
-                </div>
-            </form>
-        </div>
+            <div class="flex justify-center">
+                <a href="{% url 'accounts:password_reset' %}" class="text-gray-600 px-3 py-2 rounded-md my-4 font-medium hover:text-gray-900 hover:cursor-pointer">
+                    Forgot you password? Click here to reset.
+                </a>
+            </div>
+        </form>
     </div>
 {% endblock %}

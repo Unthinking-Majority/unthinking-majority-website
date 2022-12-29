@@ -12,8 +12,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
 {% endblock %}
 
-{% block content %}
+{% block main %}
     {% block navbar %}
         {% navbar %}
     {% endblock %}
+    <div class="bg-gray-50 h-auto p-4 rounded-lg">
+        {% block content %}
+        {% endblock %}
+    </div>
 {% endblock %}
