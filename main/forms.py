@@ -37,7 +37,7 @@ class SelectBoardForm(forms.Form):
 class BoardSubmissionForm(forms.ModelForm):
     class Meta:
         model = models.Submission
-        fields = ['value', 'proof']
+        fields = ['value', 'proof', 'notes']
 
     def __init__(self, *args, **kwargs):
         team_size = kwargs.pop('team_size', 1)
@@ -59,6 +59,7 @@ class BoardSubmissionForm(forms.ModelForm):
 class PetForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
     pet = forms.ModelChoiceField(queryset=models.Pet.objects.all())
+    notes = forms.CharField()
     proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):
@@ -93,6 +94,7 @@ class PetForm(forms.Form):
 class CollectionLogForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
     col_logs = forms.IntegerField()
+    notes = forms.CharField()
     proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):

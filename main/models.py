@@ -52,6 +52,7 @@ class Submission(models.Model):
     value = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
     proof = models.ImageField(upload_to='submission/proof/', null=True, blank=True)
+    notes = models.TextField(blank=True)
     accepted = models.BooleanField(null=True)
     date = models.DateField(auto_now_add=True)
 

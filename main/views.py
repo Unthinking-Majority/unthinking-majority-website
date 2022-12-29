@@ -44,7 +44,7 @@ def pet_form_condition(wizard):
     return cleaned_data.get('type', None) == PET
 
 
-def collection_log_form_condition(wizard):
+def col_logs_form_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('submission_type_form') or {}
     return cleaned_data.get('type', None) == COL_LOG
 
@@ -62,20 +62,20 @@ class SubmissionWizard(SessionWizardView):
     form_list = [
         ('submission_type_form', forms.SelectSubmissionTypeForm),
         ('pet_form', forms.PetForm),
-        ('collection_log_form', forms.CollectionLogForm),
+        ('col_logs_form', forms.CollectionLogForm),
         ('select_board_form', forms.SelectBoardForm),
         ('record_form', forms.BoardSubmissionForm),
     ]
     TEMPLATES = {
         'submission_type_form': 'forms/wizard/select_submission_type_form.html',
         'pet_form': 'forms/wizard/pet_form.html',
-        'collection_log_form': 'forms/wizard/collection_log_form.html',
+        'col_logs_form': 'forms/wizard/col_logs_form.html',
         'select_board_form': 'forms/wizard/select_board_form.html',
         'record_form': 'forms/wizard/submission_create_form.html',
     }
     condition_dict = {
         'pet_form': pet_form_condition,
-        'collection_log_form': collection_log_form_condition,
+        'col_logs_form': col_logs_form_condition,
         'select_board_form': select_board_form_condition,
         'record_form': record_form_condition,
     }
@@ -88,6 +88,7 @@ class SubmissionWizard(SessionWizardView):
             submission = models.Submission.objects.create(
                 value=form_dict['record_form'].cleaned_data['value'],
                 proof=form_dict['record_form'].cleaned_data['proof'],
+                notes=form_dict['record_form'].cleaned_data['notes'],
                 board=form_dict['select_board_form'].cleaned_data['board']
             )
             submission.accounts.set(accounts)
@@ -95,18 +96,20 @@ class SubmissionWizard(SessionWizardView):
             submission = models.Submission.objects.create(
                 type=PET,
                 pet=form_dict['pet_form'].cleaned_data['pet'],
+                notes=form_dict['pet_form'].cleaned_data['notes'],
                 proof=form_dict['pet_form'].cleaned_data['proof'],
             )
             submission.accounts.add(form_dict['pet_form'].cleaned_data['account'])
-        elif 'collection_log_form' in form_dict.keys():
-            account = form_dict['collection_log_form'].cleaned_data['account']
+        elif 'col_logs_form' in form_dict.keys():
+            account = form_dict['col_logs_form'].cleaned_data['account']
             submission = models.Submission.objects.create(
                 type=COL_LOG,
-                value=form_dict['collection_log_form'].cleaned_data['col_logs'],
-                proof=form_dict['collection_log_form'].cleaned_data['proof'],
+                value=form_dict['col_logs_form'].cleaned_data['col_logs'],
+                notes=form_dict['col_logs_form'].cleaned_data['notes'],
+                proof=form_dict['col_logs_form'].cleaned_data['proof'],
             )
             submission.accounts.add(account)
-            account.col_logs = form_dict['collection_log_form'].cleaned_data['col_logs']
+            account.col_logs = form_dict['col_logs_form'].cleaned_data['col_logs']
             account.save()
         else:
             # error
