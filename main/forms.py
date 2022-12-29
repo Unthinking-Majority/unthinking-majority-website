@@ -108,16 +108,12 @@ class CollectionLogForm(forms.Form):
     def clean(self):
         cleaned_data = super(CollectionLogForm, self).clean()
 
-        cur_col_logs = models.Submission.objects.accepted().col_logs().filter(
-            accounts=cleaned_data['account']
-        ).aggregate(col_logs=Max('value'))['col_logs']
-
-        if cur_col_logs >= cleaned_data['col_logs']:
+        if cleaned_data['account'].col_logs >= cleaned_data['col_logs']:
             raise forms.ValidationError(
                 '%(account)s already has %(cur_col_logs)s/%(max_col_log)s collection log slots completed.',
                 params={
                     'account': cleaned_data['account'],
-                    'cur_col_logs': int(cur_col_logs),
+                    'cur_col_logs': int(cleaned_data['account'].col_logs),
                     'max_col_log': settings.MAX_COL_LOG
                 }
             )
