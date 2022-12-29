@@ -1,5 +1,8 @@
 <div class="flex justify-center">
     <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
+        {% if icon %}
+            <img src="{{ icon.url }}" class="mx-4 h-16">
+        {% endif %}
         <h1 class="py-2 text-6xl tracking-wide font-runescape text-yellow-runescape text-border">
             {{ text }}
         </h1>

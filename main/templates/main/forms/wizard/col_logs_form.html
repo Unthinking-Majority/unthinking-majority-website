@@ -1,11 +1,11 @@
-{% extends 'main/forms/wizard/base.html' %}
+{% extends "main/forms/wizard/base.html" %}
 
 {% block form %}
 
     {# Account #}
     {% if wizard.form.account.errors %}
         <div class="flex justify-center">
-            {% include 'main/forms/field_error_list.html' with errors=wizard.form.account.errors %}
+            {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}
         </div>
     {% endif %}
     <div class="block mx-2 my-4">
@@ -16,7 +16,7 @@
     <div class="block mx-2 my-4">
         {% if wizard.form.col_logs.errors %}
             <div class="flex justify-center">
-                {% include 'main/forms/field_error_list.html' with errors=wizard.form.col_logs.errors %}
+                {% include "main/forms/field_error_list.html" with errors=wizard.form.col_logs.errors %}
             </div>
         {% endif %}
         <label for="{{ wizard.form.col_logs.id_for_label }}" class="text-sm font-medium text-gray-900">
@@ -31,7 +31,7 @@
     <div class="block mx-2 my-4">
         {% if wizard.form.notes.errors %}
             <div class="flex justify-center">
-                {% include 'main/forms/field_error_list.html' with errors=wizard.form.value.errors %}
+                {% include "main/forms/field_error_list.html" with errors=wizard.form.value.errors %}
             </div>
         {% endif %}
         <label for="{{ wizard.form.notes.id_for_label }}" class="text-sm font-medium text-gray-900">
@@ -43,10 +43,10 @@
     </div>
 
     {# Proof #}
-    <div class="flex w-full items-center justify-center bg-grey-lighter">
+    <div class="flex justify-center items-center w-full bg-grey-lighter">
         <label for="{{ wizard.form.proof.id_for_label }}"
                class="flex items-center p-2.5 w-80 bg-white rounded-lg tracking-wide border border-gray-800 cursor-pointer hover:bg-gray-800 hover:text-gray-300">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-2 w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"/>
             </svg>

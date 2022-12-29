@@ -1,13 +1,13 @@
-<h3 class="text-center mb-2 font-runescape text-5xl text-yellow-runescape text-border">
+<h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
     Collection Logs
 </h3>
-<table class="min-w-full max-w-4xl bg-gray-200 rounded-lg overflow-hidden">
+<table class="overflow-hidden min-w-full max-w-4xl bg-gray-200 rounded-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
-        <th class="text-md px-6 py-4 text-left">
+        <th class="px-6 py-4 text-left text-md">
             Username
         </th>
-        <th class="text-md px-6 py-4 text-left">
+        <th class="px-6 py-4 text-left text-md">
             Collections Logged
         </th>
     </tr>
@@ -18,7 +18,7 @@
             <td class="px-6 py-4 whitespace-nowrap">
                 {{ account.name }}
             </td>
-            <td class="font-runescape text-2xl px-6 py-4 whitespace-nowrap ">
+            <td class="px-6 py-4 text-2xl whitespace-nowrap font-runescape">
                 <div class="flex justify-center">
                     <p class="pr-2">{{ account.col_logs }}/{{ max_col_log }}</p>
                 </div>

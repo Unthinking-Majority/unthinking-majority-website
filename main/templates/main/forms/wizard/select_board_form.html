@@ -1,4 +1,4 @@
-{% extends 'main/forms/wizard/base.html' %}
+{% extends "main/forms/wizard/base.html" %}
 {% load i18n %}
 
 {% block form %}
@@ -6,7 +6,7 @@
     <div class="block mx-2 my-4">
         {% if wizard.form.board.errors %}
             <div class="flex justify-center">
-                {% include 'main/forms/field_error_list.html' with errors=wizard.form.board.errors %}
+                {% include "main/forms/field_error_list.html" with errors=wizard.form.board.errors %}
             </div>
         {% endif %}
         {{ wizard.form.board }}
@@ -16,7 +16,7 @@
     <div class="block mx-2 my-4">
         {% if wizard.form.team_size.errors %}
             <div class="flex justify-center">
-                {% include 'main/forms/field_error_list.html' with errors=wizard.form.team_size.errors %}
+                {% include "main/forms/field_error_list.html" with errors=wizard.form.team_size.errors %}
             </div>
         {% endif %}
         <label for="{{ wizard.form.team_size.id_for_label }}" class="text-sm font-medium text-gray-900">

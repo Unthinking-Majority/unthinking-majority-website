@@ -1,4 +1,4 @@
-{% extends 'main/forms/wizard/base.html' %}
+{% extends "main/forms/wizard/base.html" %}
 {% load i18n %}
 
 {% block form %}
@@ -6,7 +6,7 @@
     <div class="block mx-2 my-4">
         {% if wizard.form.type.errors %}
             <div class="flex justify-center">
-                {% include 'main/forms/field_error_list.html' with errors=wizard.form.type.errors %}
+                {% include "main/forms/field_error_list.html" with errors=wizard.form.type.errors %}
             </div>
         {% endif %}
         <label for="{{ wizard.form.type.id_for_label }}" class="text-sm font-medium text-gray-900">

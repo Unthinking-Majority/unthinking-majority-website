@@ -1,13 +1,13 @@
-<h3 class="text-center mb-2 font-runescape text-5xl text-yellow-runescape text-border">
+<h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
     Pets Leaderboard
 </h3>
-<table class="min-w-full max-w-4xl bg-gray-200 rounded-lg overflow-hidden">
+<table class="overflow-hidden min-w-full max-w-4xl bg-gray-200 rounded-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
-        <th class="text-md px-6 py-4 text-left">
+        <th class="px-6 py-4 text-left text-md">
             Username
         </th>
-        <th class="text-md px-6 py-4 text-left">
+        <th class="px-6 py-4 text-left text-md">
             Total Pets
         </th>
         <th class="px-6 py-4">
@@ -21,9 +21,9 @@
             <td class="px-6 py-4 whitespace-nowrap">
                 {{ account.name }}
             </td>
-            <td class="text-sm font-light px-6 py-4 whitespace-nowrap">
+            <td class="px-6 py-4 text-sm font-light whitespace-nowrap">
                 <div class="flex">
-                    <div class="font-runescape text-2xl px-6 py-4 whitespace-nowrap">
+                    <div class="px-6 py-4 text-2xl whitespace-nowrap font-runescape">
                         <div class="flex justify-center">
                             <p class="pr-2">{{ account.pets.count }}</p>
                         </div>
@@ -33,7 +33,7 @@
             <td class="px-6 py-4">
                 <div class="flex flex-row flex-wrap gap-1">
                     {% for submission in account.pets %}
-                        <img src="{{ submission.pet.icon.url }}" class="h-6 w-6 col-span-1" title="{{ submission.pet.name }}">
+                        <img src="{{ submission.pet.icon.url }}" class="col-span-1 w-6 h-6" title="{{ submission.pet.name }}">
                     {% endfor %}
                 </div>
             </td>

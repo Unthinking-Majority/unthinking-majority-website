@@ -1,20 +1,13 @@
 {% extends "main/site_base.html" %}
 
+{% load um_components %}
+
 {% block content %}
-    <div class="flex justify-center">
-        <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-9/12">
-            {% if board.icon %}
-                <img src="{{ board.icon.url }}" class="mx-4 h-16">
-            {% endif %}
-            <h1 class="py-2 text-6xl tracking-wide text-center font-runescape text-yellow-runescape text-border">
-                {{ board.name }}
-            </h1>
-        </div>
-    </div>
+    {% page_header board.name board.icon %}
 
     <div class="flex gap-6 justify-center rounded-lg">
         <div class="py-4">
-            {% include 'main/leaderboard.html' %}
+            {% include "main/leaderboard.html" %}
         </div>
     </div>
 {% endblock %}
