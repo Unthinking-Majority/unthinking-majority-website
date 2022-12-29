@@ -67,11 +67,11 @@ class SubmissionWizard(SessionWizardView):
         ('record_form', forms.BoardSubmissionForm),
     ]
     TEMPLATES = {
-        'submission_type_form': 'forms/wizard/select_submission_type_form.html',
-        'pet_form': 'forms/wizard/pet_form.html',
-        'col_logs_form': 'forms/wizard/col_logs_form.html',
-        'select_board_form': 'forms/wizard/select_board_form.html',
-        'record_form': 'forms/wizard/record_form.html',
+        'submission_type_form': 'main/forms/wizard/select_submission_type_form.html',
+        'pet_form': 'main/forms/wizard/pet_form.html',
+        'col_logs_form': 'main/forms/wizard/col_logs_form.html',
+        'select_board_form': 'main/forms/wizard/select_board_form.html',
+        'record_form': 'main/forms/wizard/record_form.html',
     }
     condition_dict = {
         'pet_form': pet_form_condition,
