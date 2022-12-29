@@ -29,7 +29,7 @@
 
                         document.getElementById("autocomplete_{{ widget.attrs.id }}").setAttribute("placeholder", autoCompleteJS.placeHolder);
 
-                        return data.results;
+                        return data;
                     } catch (error) {
                         return error;
                     }
@@ -53,16 +53,13 @@
                 },
                 class: "absolute origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden w-80 z-50",
                 noResults: true,
-                maxResults: 15,
+                maxResults: 10,
             },
             resultItem: {
                 class:"flex text-sm bg-gray-50 text-gray-900 hover:cursor-pointer hover:bg-gray-300 text-ellipsis whitespace-nowrap overflow-hidden py-1.5 px-2",
             },
             events: {
                 input: {
-                    focus: () => {
-                        autoCompleteJS.start();
-                    },
                     selection: (event) => {
                         let select = document.getElementById("{{ widget.attrs.id }}"),
                             option = document.createElement("option");

@@ -1,14 +1,9 @@
-from dal import autocomplete
+from django.db.models import F
+from django.http import JsonResponse
 
 from account import models
 
 
-class AccountAutocomplete(autocomplete.Select2QuerySetView):
-
-    def get_queryset(self):
-        qs = models.Account.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__istartswith=self.q)
-
-        return qs
+def account_autocomplete(request):
+    pets = models.Account.objects.annotate(text=F('name')).values('id', 'text')
+    return JsonResponse(list(pets), safe=False)

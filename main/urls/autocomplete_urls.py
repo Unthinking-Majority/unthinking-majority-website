@@ -3,6 +3,6 @@ from django.urls import path
 from main import autocomplete
 
 autocomplete_urlpatterns = [
-    path('board-autocomplete/', autocomplete.BoardAutocomplete.as_view(), name='board-autocomplete'),
-    path('pet-autocomplete/', autocomplete.PetAutocomplete.as_view(), name='pet-autocomplete'),
+    path('board-autocomplete/', autocomplete.board_autocomplete, name='board-autocomplete'),
+    path('pet-autocomplete/', autocomplete.pet_autocomplete, name='pet-autocomplete'),
 ]

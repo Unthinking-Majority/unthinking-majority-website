@@ -7,9 +7,9 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.list import ListView
 from formtools.wizard.views import SessionWizardView
 
+from main import RECORD, PET, COL_LOG
 from main import forms
 from main import models
-from main import RECORD, PET, COL_LOG
 
 
 def landing(request):
@@ -19,19 +19,19 @@ def landing(request):
     )
 
 
-class BoardView(ListView):
+class BoardSubmissionsListView(ListView):
     model = models.Submission
     template_name = 'board.html'
     paginate_by = 5
 
     def get_queryset(self):
-        return self.model.objects.filter(
+        return self.model.objects.records().filter(
             board__slug=self.kwargs.get('board_name'),
             accepted=True
         ).order_by('value')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(BoardView, self).get_context_data()
+        context = super(BoardSubmissionsListView, self).get_context_data()
         context['board'] = get_object_or_404(
             models.Board.objects.prefetch_related('submissions'),
             slug=self.kwargs.get('board_name')

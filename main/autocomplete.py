@@ -1,25 +1,14 @@
-from dal import autocomplete
+from django.db.models import F
+from django.http import JsonResponse
 
 from main import models
 
 
-class BoardAutocomplete(autocomplete.Select2QuerySetView):
-
-    def get_queryset(self):
-        qs = models.Board.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__istartswith=self.q)
-
-        return qs
+def board_autocomplete(request):
+    boards = models.Board.objects.annotate(text=F('name')).values('id', 'text')
+    return JsonResponse(list(boards), safe=False)
 
 
-class PetAutocomplete(autocomplete.Select2QuerySetView):
-
-    def get_queryset(self):
-        qs = models.Pet.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__istartswith=self.q)
-
-        return qs
+def pet_autocomplete(request):
+    pets = models.Pet.objects.annotate(text=F('name')).values('id', 'text')
+    return JsonResponse(list(pets), safe=False)
