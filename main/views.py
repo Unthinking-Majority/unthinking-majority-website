@@ -71,7 +71,7 @@ class SubmissionWizard(SessionWizardView):
         'pet_form': 'forms/wizard/pet_form.html',
         'col_logs_form': 'forms/wizard/col_logs_form.html',
         'select_board_form': 'forms/wizard/select_board_form.html',
-        'record_form': 'forms/wizard/submission_create_form.html',
+        'record_form': 'forms/wizard/record_form.html',
     }
     condition_dict = {
         'pet_form': pet_form_condition,
