@@ -1,5 +1,3 @@
-{% load main_extras %}
-
 <table class="overflow-hidden min-w-full max-w-4xl rounded-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
@@ -19,7 +17,7 @@
             Proof
         </th>
         <th class="px-6 py-4 text-left text-md">
-            {{ board.metric|get_metric_display }}
+            {{ board.metric_name }}
         </th>
     </tr>
     </thead>
