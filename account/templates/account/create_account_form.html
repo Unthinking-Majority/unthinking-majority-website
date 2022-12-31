@@ -15,83 +15,23 @@
         <form method="post">
             {% csrf_token %}
 
-            {# In game name #}
-            <div class="block mx-2 my-4">
-                {% if form.name.errors %}
-                    <div class="flex justify-center">
-                        {% include "main/forms/field_error_list.html" with errors=form.name.errors %}
-                    </div>
-                {% endif %}
-                <label for="{{ form.name.id_for_label }}" class="text-sm font-medium text-gray-900">
-                    OSRS Username
-                </label>
-                <input type="{{ form.name.field.widget.input_type }}" id="{{ form.name.id_for_label }}" name="{{ form.name.name }}" autocomplete="{{ form.name.name }}" maxlength="{{ form.name.field.max_length }}" required
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
-            </div>
+            {% simple_input form.name "OSRS Username" %}
 
-            {# Email #}
-            <div class="block mx-2 my-4">
-                {% if form.email.errors %}
-                    <div class="flex justify-center">
-                        {% include "main/forms/field_error_list.html" with errors=form.email.errors %}
-                    </div>
-                {% endif %}
-                <label for="{{ form.email.id_for_label }}" class="text-sm font-medium text-gray-900">
-                    {{ form.email.label }}
-                </label>
-                <input type="{{ form.email.field.widget.input_type }}" id="{{ form.email.id_for_label }}" name="{{ form.email.name }}" autocomplete="{{ form.email.name }}" maxlength="{{ form.email.field.max_length }}" required
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
-            </div>
+            {% simple_input form.email  %}
 
-            {# Username #}
-            <div class="block mx-2 my-4">
-                {% if form.username.errors %}
-                    <div class="flex justify-center">
-                        {% include "main/forms/field_error_list.html" with errors=form.username.errors %}
-                    </div>
-                {% endif %}
-                <label for="{{ form.username.id_for_label }}" class="text-sm font-medium text-gray-900">
-                    Username
-                </label>
-                <input type="{{ form.username.field.widget.input_type }}" id="{{ form.username.id_for_label }}" name="{{ form.username.name }}" autocomplete="{{ form.username.name }}" maxlength="{{ form.username.field.max_length }}" required
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
-            </div>
+            {% simple_input form.username %}
 
-            {# Password #}
-            <div class="block mx-2 my-4">
-                {% if form.password1.errors %}
-                    <div class="flex justify-center">
-                        {% include "main/forms/field_error_list.html" with errors=form.password1.errors %}
-                    </div>
-                {% endif %}
-                <label for="{{ form.password1.id_for_label }}" class="text-sm font-medium text-gray-900">
-                    {{ form.password1.label }}
-                </label>
-                <input type="{{ form.password1.field.widget.input_type }}" id="{{ form.password1.id_for_label }}" name="{{ form.password1.name }}" autocomplete="{{ form.password1.name }}" maxlength="{{ form.password1.field.max_length }}" required
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
-            </div>
+            {% simple_input form.password1 %}
 
-            {# Password confirmation #}
-            <div class="block mx-2 my-4">
-                {% if form.password2.errors %}
-                    <div class="flex justify-center">
-                        {% include "main/forms/field_error_list.html" with errors=form.password2.errors %}
-                    </div>
-                {% endif %}
-                <label for="{{ form.password2.id_for_label }}" class="text-sm font-medium text-gray-900">
-                    {{ form.password2.label }}
-                </label>
-                <input type="{{ form.password2.field.widget.input_type }}" id="{{ form.password2.id_for_label }}" name="{{ form.password2.name }}" autocomplete="{{ form.password2.name }}" maxlength="{{ form.password2.field.max_length }}" required
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
-            </div>
+            {% simple_input form.password2 %}
 
-            {# Submit #}
             <div class="flex justify-center">
                 <button type="submit" tabindex="0"
                         class="px-3 py-2 my-4 font-medium text-gray-300 bg-gray-800 rounded-md hover:bg-gray-700 hover:text-white">
                     Create Account
                 </button>
             </div>
+
         </form>
     </div>
 {% endblock %}

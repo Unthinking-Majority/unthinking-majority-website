@@ -14,26 +14,25 @@
     <div class="flex justify-center">
         <form method="post">
             {% csrf_token %}
-                <label for="{{ form.username.id_for_label }}" class="block mx-2 my-4 text-sm font-medium text-gray-900">
-                    Username
-                </label>
-                <input type="text"  id="{{ form.username.id_for_label }}" name="{{ form.username.name }}" autocomplete="{{ form.username.name }}" maxlength="{{ form.username.field.max_length }}" required
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
-                <label for="{{ form.password.id_for_label }}" class="block mx-2 my-4 text-sm font-medium text-gray-900">
-                    Password
-                </label>
-                <input type="password"  id="{{ form.password.id_for_label }}" name="{{ form.password.name }}" autocomplete="{{ form.password.name }}" maxlength="{{ form.password.field.max_length }}" required
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
+
+            {% simple_input form.username %}
+
+            {% simple_input form.password %}
+
             <div class="flex justify-center">
-                <button type="submit" tabindex="0" class="px-3 py-2 my-4 font-medium text-gray-300 bg-gray-800 rounded-md hover:bg-gray-700 hover:text-white">
+                <button type="submit" tabindex="0"
+                        class="px-3 py-2 my-4 font-medium text-gray-300 bg-gray-800 rounded-md hover:bg-gray-700 hover:text-white">
                     Log in
                 </button>
             </div>
+
             <div class="flex justify-center">
-                <a href="{% url "accounts:password_reset" %}" class="px-3 py-2 my-4 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:cursor-pointer">
+                <a href="{% url "accounts:password_reset" %}"
+                   class="px-3 py-2 my-4 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:cursor-pointer">
                     Forgot you password? Click here to reset.
                 </a>
             </div>
+
         </form>
     </div>
 {% endblock %}
