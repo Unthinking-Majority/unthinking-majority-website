@@ -33,7 +33,7 @@
             <td class="px-6 py-4">
                 <div class="flex flex-row flex-wrap gap-1">
                     {% for submission in account.pets %}
-                        <img src="{{ submission.pet.icon.url }}" class="col-span-1 max-w-6 h-6" title="{{ submission.pet.name }}">
+                       <img src="{{ submission.pet.icon.url }}" class="col-span-1 object-scale-down" title="{{ submission.pet.name }}">
                     {% endfor %}
                 </div>
             </td>
