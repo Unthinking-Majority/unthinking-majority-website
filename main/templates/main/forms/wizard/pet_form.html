@@ -1,5 +1,7 @@
 {% extends "main/forms/wizard/base.html" %}
 
+{% load um_components %}
+
 {% block form %}
 
     {# Account #}
@@ -24,17 +26,6 @@
 
     {% textarea_input wizard.form.notes prefix=wizard.form.prefix %}
 
-    {# Proof #}
-    <div class="flex justify-center items-center w-full bg-grey-lighter">
-        <label for="{{ wizard.form.proof.id_for_label }}"
-               class="flex items-center p-2.5 w-80 bg-white rounded-lg tracking-wide border border-gray-800 cursor-pointer hover:bg-gray-800 hover:text-gray-300">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-2 w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"/>
-            </svg>
-            <span class="file-label">Upload a file as Proof</span>
-        </label>
-        <input id="{{ wizard.form.proof.id_for_label }}" name="{{ wizard.form.prefix }}-{{ wizard.form.proof.name }}" type="file" class="hidden file-input" required/>
-    </div>
+    {% file_input wizard.form.proof prefix=wizard.form.prefix %}
 
 {% endblock %}

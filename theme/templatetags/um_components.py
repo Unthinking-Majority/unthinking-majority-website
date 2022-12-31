@@ -12,6 +12,12 @@ def page_header(text, icon=None):
 def simple_input(field, label=None, prefix=''):
     return {'field': field, 'label': label, 'prefix': prefix}
 
+
 @register.inclusion_tag('theme/components/textarea_input.html')
 def textarea_input(field, label=None, prefix=''):
+    return {'field': field, 'label': label, 'prefix': prefix}
+
+
+@register.inclusion_tag('theme/components/file_input.html')
+def file_input(field, label=None, prefix=''):
     return {'field': field, 'label': label, 'prefix': prefix}
