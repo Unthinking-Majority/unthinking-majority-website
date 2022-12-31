@@ -12,10 +12,11 @@
         {% endif %}
     </label>
     <input id="{{ field.id_for_label }}"
-           name="{{ field.name }}"
+           name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
            type="{{ field.field.widget.input_type }}"
            autocomplete="{{ field.name }}"
            maxlength="{{ field.field.max_length }}"
+           value="{{ field.field.initial }}"
            required
            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
 </div>

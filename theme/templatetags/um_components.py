@@ -9,5 +9,5 @@ def page_header(text, icon=None):
 
 
 @register.inclusion_tag('theme/components/simple_input.html')
-def simple_input(field, label=None):
-    return {'field': field, 'label': label}
+def simple_input(field, label=None, prefix=''):
+    return {'field': field, 'label': label, 'prefix': prefix}
