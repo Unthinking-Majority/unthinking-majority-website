@@ -1,9 +1,11 @@
-from django.core.validators import MaxValueValidator, MinValueValidator
+from datetime import date
+
 from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from main import managers
 from main import SUBMISSION_TYPES, RECORD, PET, COL_LOG
+from main import managers
 
 
 class Board(models.Model):
@@ -57,7 +59,7 @@ class Submission(models.Model):
     proof = models.ImageField(upload_to='submission/proof/', null=True, blank=True)
     notes = models.TextField(blank=True)
     accepted = models.BooleanField(null=True)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(default=date.today)
 
     objects = managers.SubmissionQueryset.as_manager()
 
@@ -71,7 +73,7 @@ class Submission(models.Model):
         if self.type == RECORD:
             minutes = int(self.value // 60)
             seconds = self.value % 60
-            return f"{minutes}:{seconds}"
+            return f"{minutes}:{seconds:05}"
         elif self.type == PET:
             return self.pet.name
         elif self.type == COL_LOG:
