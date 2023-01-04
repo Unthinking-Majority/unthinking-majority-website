@@ -22,7 +22,7 @@ def pets_leaderboard():
 @register.inclusion_tag('main/dashboard/col_logs_leaderboard.html')
 def col_logs_leaderboard():
     return {
-        'accounts': Account.objects.order_by('-col_logs')[:5],
+        'accounts': Account.objects.order_by('-col_logs')[:15],
         'max_col_log': settings.MAX_COL_LOG,
     }
 
