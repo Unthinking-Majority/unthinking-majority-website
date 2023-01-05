@@ -18,10 +18,8 @@
         const autoCompleteJS = new autoComplete({
             selector: "#autocomplete_{{ widget.attrs.id }}",
             data: {
-
                 src: async () => {
                     try {
-
                         document.getElementById("autocomplete_{{ widget.attrs.id }}").setAttribute("placeholder", "Loading...");
 
                         const source = await fetch("{{ autocomplete_url }}");
@@ -45,18 +43,18 @@
                     const info = document.createElement("p");
                     if (!data.results.length > 0) {
                         info.innerHTML = `
-                    <span class="flex text-sm bg-gray-50 text-gray-900 hover:cursor-pointer hover:bg-gray-300 text-ellipsis whitespace-nowrap overflow-hidden py-1.5 px-2">
+                    <span class="flex text-sm bg-gray-50 text-gray-900 hover:cursor-pointer hover:bg-gray-300 text-ellipsis whitespace-nowrap py-2 px-2">
                         No matching results
                     </span>`;
                     }
                     list.prepend(info);
                 },
-                class: "absolute origin-top-right rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden w-80 z-50",
+                class: "absolute origin-top-right rounded-b-lg bg-gray-50 shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden max-h-48 overflow-y-auto w-80 z-50 py-1 mt-0.5",
                 noResults: true,
-                maxResults: 10,
+                maxResults: 15,
             },
             resultItem: {
-                class:"flex text-sm bg-gray-50 text-gray-900 hover:cursor-pointer hover:bg-gray-300 text-ellipsis whitespace-nowrap overflow-hidden py-1.5 px-2",
+                class:"flex text-sm bg-gray-50 text-gray-900 hover:cursor-pointer hover:bg-gray-300 text-ellipsis whitespace-nowrap overflow-hidden py-2 px-2",
             },
             events: {
                 input: {
@@ -74,6 +72,18 @@
 
                         const feedback = event.detail;
                         autoCompleteJS.input.value = feedback.selection.value[feedback.selection.key];
+                    },
+                    focus: () => {
+                        autoCompleteJS.start();
+                    },
+                },
+                list: {
+                    scroll: (event) => {
+                        let el = event.target;
+                        if (el.offsetHeight + el.scrollTop >= el.scrollHeight) {
+                            autoCompleteJS.resultsList.maxResults += 10;
+                            autoCompleteJS.start();
+                        }
                     }
                 }
             }
