@@ -63,11 +63,28 @@ class Submission(models.Model):
 
     objects = managers.SubmissionQueryset.as_manager()
 
+    __original_accepted = None
+
     class Meta:
         ordering = ['-date']
 
     def __str__(self):
         return f'account here - {self.board} - {self.date} - {self.value}'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__original_accepted = self.accepted
+
+    def save(self, *args, **kwargs):
+        if self.accepted != self.__original_accepted:
+            # status of submission has changed
+            if self.type == COL_LOG:
+                # update collection log based off of status change
+                if self.accepted:
+                    account = self.accounts.first()
+                    account.col_logs = self.value
+                    account.save()
+        return super(Submission, self).save(*args, **kwargs)
 
     def value_display(self):
         if self.type == RECORD:
