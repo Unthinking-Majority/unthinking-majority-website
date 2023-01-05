@@ -51,12 +51,11 @@
                     <button formnovalidate="formnovalidate"
                             name="wizard_goto_step"
                             value="{{ wizard.steps.prev }}"
-                            class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out delay-75 hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
+                            class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
                         {% trans "Previous" %}
                     </button>
                 {% endif %}
-                <button type="submit"
-                        class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out delay-75 hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
+                <button type="submit" class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
                     {% block submit_text %}{% trans "Submit" %}{% endblock %}
                 </button>
             </div>
