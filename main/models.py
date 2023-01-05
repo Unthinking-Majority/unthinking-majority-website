@@ -69,7 +69,8 @@ class Submission(models.Model):
         ordering = ['-date']
 
     def __str__(self):
-        return f'account here - {self.board} - {self.date} - {self.value}'
+        accounts = ', '.join(self.accounts.values_list('name', flat=True))
+        return f'{accounts} - {self.board} - {self.date} - {self.value}'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
