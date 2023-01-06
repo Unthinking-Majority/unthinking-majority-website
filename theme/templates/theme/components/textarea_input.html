@@ -1,9 +1,9 @@
+{% if field.errors %}
+    <div class="flex justify-center">
+        {% include "main/forms/field_error_list.html" with errors=field.errors %}
+    </div>
+{% endif %}
 <div class="block mx-2 my-4">
-    {% if field.errors %}
-        <div class="flex justify-center">
-            {% include "main/forms/field_error_list.html" with errors=field.errors %}
-        </div>
-    {% endif %}
     <label for="{{ field.id_for_label }}" class="text-sm font-medium text-gray-900">
         Notes
     </label>
@@ -11,5 +11,6 @@
               name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
               autocomplete="{{ field.name }}"
               maxlength="{{ field.field.max_length }}"
+              {% if field.field.required %}required{% endif %}
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80 h-40"></textarea>
 </div>

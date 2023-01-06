@@ -43,8 +43,10 @@
             {% csrf_token %}
             {{ wizard.management_form }}
 
-            {% block form %}
-            {% endblock %}
+            <div class="flex flex-col justify-center items-center">
+                {% block form %}
+                {% endblock %}
+            </div>
 
             <div class="flex justify-center">
                 {% if wizard.steps.prev %}

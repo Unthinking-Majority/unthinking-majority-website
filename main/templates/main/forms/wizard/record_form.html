@@ -5,6 +5,13 @@
 {% block extra_head %}
     {{ block.super }}
     {{ wizard.form.media }}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let selector = document.getElementById("{{ wizard.form.value.id_for_label }}"),
+                input_mask = new Inputmask({mask: "999 : 99.99", placeholder: "0", tabThrough: true, positionCaretOnClick: "none"});
+            input_mask.mask(selector);
+        });
+    </script>
 {% endblock %}
 
 {% block form %}
@@ -31,10 +38,14 @@
             </div>
         {% endif %}
         <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
-            Value
+            Time
         </label>
-        <input type="text" id="{{ wizard.form.value.id_for_label }}" name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
-               autocomplete="{{ wizard.form.value.name }}" maxlength="{{ wizard.form.value.field.max_length }}" required
+        <input type="text"
+               id="{{ wizard.form.value.id_for_label }}"
+               name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
+               autocomplete="{{ wizard.form.value.name }}"
+               maxlength="{{ wizard.form.value.field.max_length }}"
+               required
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
     </div>
 

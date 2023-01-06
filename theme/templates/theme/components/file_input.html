@@ -1,23 +1,22 @@
-<div class="flex justify-center items-center w-full bg-grey-lighter">
+{% if field.errors %}
+    <div class="flex justify-center">
+        {% include "main/forms/field_error_list.html" with errors=field.errors %}
+    </div>
+{% endif %}
+<div class="block mx-2 my-4">
     <label for="{{ field.id_for_label }}">
-        <span class="text-sm font-medium text-gray-900">
-            {% if label %}
-                {{ label }}
-            {% else %}
-                {{ field.label }}
-            {% endif %}
-        </span>
-        <span class="flex items-center p-2.5 w-80 bg-gray-50 rounded-lg text-gray-900 tracking-wide border border-gray-300 cursor-pointer hover:bg-gray-800 hover:text-gray-300">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mr-2 w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"></path>
-            </svg>
-            <span class="file-label">Upload a file</span>
-        </span>
+    <span class="block text-sm font-medium text-gray-900">
+        {% if label %}
+            {{ label }}
+        {% else %}
+            {{ field.label }}
+        {% endif %}
+    </span>
+        <input id="{{ field.id_for_label }}"
+               name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
+               type="file"
+               class="focus:outline-none file:px-3 file:py-2 file:mx-2 file:my-4 file:font-medium file:border-none file:text-gray-800 file:bg-gray-300 file:rounded-md file:drop-shadow-md file:transition file:ease-in-out file:hover:bg-gray-800 file:hover:text-gray-300 file:hover:scale-105"
+               required
+               {% if field.field.required %}required{% endif %}/>
     </label>
-    <input id="{{ field.id_for_label }}"
-           name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
-           type="file"
-           class="hidden file-input"
-           required/>
 </div>

@@ -1,9 +1,9 @@
 from django import forms
 from django.conf import settings
-from django.db.models import Max
 from django.urls import reverse_lazy
 
 from account.models import Account
+from main import fields
 from main import models
 from main import widgets
 
@@ -36,6 +36,7 @@ class SelectBoardForm(forms.Form):
 
 class BoardSubmissionForm(forms.ModelForm):
     notes = forms.CharField(required=False)
+    value = fields.RecordTimeField()
 
     class Meta:
         model = models.Submission
@@ -52,10 +53,6 @@ class BoardSubmissionForm(forms.ModelForm):
                 placeholder='Select an account',
                 label=f'Account {i + 1}',
             )
-
-    def clean(self):
-        cleaned_data = super(BoardSubmissionForm, self).clean()
-        return cleaned_data
 
 
 class PetForm(forms.Form):
