@@ -2,7 +2,7 @@
 
 {% load um_components %}
 
-{% block form %}
+{% block form_content %}
 
     {# Account #}
     {% if wizard.form.account.errors %}
@@ -10,9 +10,7 @@
             {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}
         </div>
     {% endif %}
-    <div class="block mx-2 my-4">
-        {{ wizard.form.account }}
-    </div>
+    {{ wizard.form.account }}
 
     {% simple_input wizard.form.col_logs label="Collections Logged" prefix=wizard.form.prefix %}
 

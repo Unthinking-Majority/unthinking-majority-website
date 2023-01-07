@@ -2,7 +2,7 @@
 
 {% load um_components %}
 
-{% block form %}
+{% block form_content %}
 
     {# Account #}
     {% if wizard.form.account.errors %}
@@ -10,19 +10,15 @@
             {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}
         </div>
     {% endif %}
-    <div class="block mx-2 my-4">
-        {{ wizard.form.account }}
-    </div>
+    {{ wizard.form.account }}
 
     {# Pet #}
-    {% if wizard.form.pet.errors %}
+    {% if wizard.form.pets.errors %}
         <div class="flex justify-center">
-            {% include "main/forms/field_error_list.html" with errors=wizard.form.pet.errors %}
+            {% include "main/forms/field_error_list.html" with errors=wizard.form.pets.errors %}
         </div>
     {% endif %}
-    <div class="block mx-2 my-4">
-        {{ wizard.form.pet }}
-    </div>
+    {{ wizard.form.pets }}
 
     {% textarea_input wizard.form.notes prefix=wizard.form.prefix %}
 

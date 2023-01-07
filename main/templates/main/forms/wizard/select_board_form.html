@@ -2,16 +2,14 @@
 
 {% load i18n um_components %}
 
-{% block form %}
+{% block form_content %}
     {# Board #}
-    <div class="block mx-2 my-4">
-        {% if wizard.form.board.errors %}
-            <div class="flex justify-center">
-                {% include "main/forms/field_error_list.html" with errors=wizard.form.board.errors %}
-            </div>
-        {% endif %}
-        {{ wizard.form.board }}
-    </div>
+    {% if wizard.form.board.errors %}
+        <div class="flex justify-center">
+            {% include "main/forms/field_error_list.html" with errors=wizard.form.board.errors %}
+        </div>
+    {% endif %}
+    {{ wizard.form.board }}
 
     {% simple_input wizard.form.team_size prefix=wizard.form.prefix %}
 

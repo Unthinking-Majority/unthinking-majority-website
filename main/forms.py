@@ -57,7 +57,7 @@ class BoardSubmissionForm(forms.ModelForm):
 
 class PetForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
-    pet = forms.ModelChoiceField(queryset=models.Pet.objects.all())
+    pets = forms.ModelMultipleChoiceField(queryset=models.Pet.objects.all())
     notes = forms.CharField(required=False)
     proof = forms.ImageField()
 
@@ -68,24 +68,25 @@ class PetForm(forms.Form):
             placeholder='Select an account',
             label='Account',
         )
-        self.fields['pet'].widget = widgets.AutocompleteSelectWidget(
+        self.fields['pets'].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=reverse_lazy('pet-autocomplete'),
             placeholder='Select a pet',
-            label='Pet',
+            label='Pet(s)',
         )
 
     def clean(self):
         cleaned_data = super(PetForm, self).clean()
 
-        submission = models.Submission.objects.accepted().pets().filter(
-            accounts=cleaned_data['account'],
-            pet=cleaned_data['pet']
-        )
-        if submission.exists():
-            raise forms.ValidationError(
-                '%(account)s already owns the pet %(pet)s',
-                params={'account': cleaned_data['account'], 'pet': submission.first().pet}
+        for pet in cleaned_data['pets']:
+            submission = models.Submission.objects.accepted().pets().filter(
+                accounts=cleaned_data['account'],
+                pet=pet
             )
+            if submission.exists():
+                raise forms.ValidationError(
+                    '%(account)s already owns the pet %(pet)s',
+                    params={'account': cleaned_data['account'], 'pet': submission.first().pet}
+                )
 
         return cleaned_data
 

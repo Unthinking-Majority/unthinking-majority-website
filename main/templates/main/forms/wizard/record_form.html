@@ -7,20 +7,24 @@
     {{ wizard.form.media }}
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            let selector = document.getElementById("{{ wizard.form.value.id_for_label }}"),
-                input_mask = new Inputmask(
-                    {
-                        mask: "9[99]:9[9].9[9]",
-                        placeholder: "0",
-                        positionCaretOnClick: "none",
-                        jitMasking: true,
-                        showMaskOnHover: false,
-                        numericInput: true,
-                    }
-                );
-
-
-            input_mask.mask(selector);
+            let minutes_selector = document.getElementById("{{ wizard.form.value.id_for_label }}_minutes");
+            Inputmask(
+                {
+                    mask: "9[99]",
+                    placeholder: "0",
+                    positionCaretOnClick: "select",
+                    numericInput: true,
+                }
+            ).mask(minutes_selector);
+            let seconds_selector = document.getElementById("{{ wizard.form.value.id_for_label }}_seconds");
+            Inputmask(
+                {
+                    mask: "9[9].9[9]",
+                    placeholder: "0",
+                    positionCaretOnClick: "radixFocus",
+                    positionCaretOnTab: false,
+                }
+            ).mask(seconds_selector);
         });
     </script>
 {% endblock %}
@@ -49,14 +53,23 @@
         <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
             Time
         </label>
-        <input id="{{ wizard.form.value.id_for_label }}"
-               name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
-               type="text"
-               placeholder="000 : 00.00"
-               autocomplete="{{ wizard.form.value.name }}"
-               maxlength="{{ wizard.form.value.field.max_length }}"
-               required
-               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-80">
+        <div class="flex justify-start">
+            <input id="{{ wizard.form.value.id_for_label }}_minutes"
+                   name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
+                   type="text"
+                   autocomplete="{{ wizard.form.value.name }}"
+                   maxlength="{{ wizard.form.value.field.max_length }}"
+                   required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-32 inline-block">
+            :
+            <input id="{{ wizard.form.value.id_for_label }}_seconds"
+                   name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
+                   type="text"
+                   autocomplete="{{ wizard.form.value.name }}"
+                   maxlength="{{ wizard.form.value.field.max_length }}"
+                   required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-32 inline-block">
+        </div>
     </div>
 
     {% textarea_input wizard.form.notes prefix=wizard.form.prefix %}

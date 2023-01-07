@@ -38,29 +38,27 @@
         </ul>
     {% endif %}
 
-    <div class="flex justify-center">
-        <form enctype="multipart/form-data" method="post" action="">
-            {% csrf_token %}
-            {{ wizard.management_form }}
+    <form enctype="multipart/form-data" method="post" action="">
+        {% csrf_token %}
+        {{ wizard.management_form }}
 
-            <div class="flex flex-col justify-center items-center">
-                {% block form %}
-                {% endblock %}
-            </div>
+        <div class="flex flex-col justify-center items-center">
+            {% block form_content %}
+            {% endblock %}
+        </div>
 
-            <div class="flex justify-center">
-                {% if wizard.steps.prev %}
-                    <button formnovalidate="formnovalidate"
-                            name="wizard_goto_step"
-                            value="{{ wizard.steps.prev }}"
-                            class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
-                        {% trans "Previous" %}
-                    </button>
-                {% endif %}
-                <button type="submit" class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
-                    {% block submit_text %}{% trans "Submit" %}{% endblock %}
+        <div class="flex justify-center">
+            {% if wizard.steps.prev %}
+                <button formnovalidate="formnovalidate"
+                        name="wizard_goto_step"
+                        value="{{ wizard.steps.prev }}"
+                        class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
+                    {% trans "Previous" %}
                 </button>
-            </div>
-        </form>
-    </div>
+            {% endif %}
+            <button type="submit" class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
+                {% block submit_text %}{% trans "Submit" %}{% endblock %}
+            </button>
+        </div>
+    </form>
 {% endblock %}
