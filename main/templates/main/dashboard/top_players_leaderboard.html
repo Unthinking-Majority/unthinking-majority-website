@@ -16,7 +16,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for fp in first_places %}
+    {% for account, val in accounts %}
         <tr class="even:bg-gray-200 odd:bg-gray-100">
             <td class="flex px-6 py-4 whitespace-nowrap">
                 <div class="mr-2">
@@ -37,11 +37,11 @@
                 {% endif %}
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                {{ fp.account.name }}
+                {{ account.name }}
             </td>
             <td class="px-6 py-4 text-2xl whitespace-nowrap font-runescape">
                 <div class="flex justify-center">
-                    <p class="pr-2">{{ fp.val }}</p>
+                    <p class="pr-2">{{ val }}</p>
                 </div>
             </td>
         </tr>

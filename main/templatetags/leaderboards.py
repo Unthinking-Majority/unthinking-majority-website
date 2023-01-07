@@ -2,17 +2,17 @@ from collections import Counter
 
 from django import template
 from django.conf import settings
-from django.db.models import Count, Max
+from django.db.models import Count
 
 from account.models import Account
-from main.models import Submission
+from main import models
 
 register = template.Library()
 
 
 @register.inclusion_tag('main/dashboard/pets_leaderboard.html')
 def pets_leaderboard():
-    pet_submissions = Submission.objects.accepted().pets()
+    pet_submissions = models.Submission.objects.accepted().pets()
     account_pks = pet_submissions.values('accounts').annotate(num_pets=Count('accounts')).order_by('-num_pets')
     return {
         'accounts': [Account.objects.get(pk=obj['accounts']) for obj in account_pks]
@@ -30,15 +30,18 @@ def col_logs_leaderboard():
 @register.inclusion_tag('main/dashboard/recent_achievements.html')
 def recent_submission_leaderboard():
     return {
-        'recent_submissions': Submission.objects.accepted()[:5]
+        'recent_submissions': models.Submission.objects.accepted()[:5]
     }
 
 
 @register.inclusion_tag('main/dashboard/top_players_leaderboard.html')
 def top_players_leaderboard():
-    temp = Submission.objects.accepted().records().values('board').annotate(Max('value')).values_list('accounts', flat=True)
-    first_places = [
-        {'account': Account.objects.get(pk=pk), 'val': val}
-        for pk, val in Counter(temp).most_common(5)
-    ]
-    return {'first_places': first_places}
+    accounts = []
+    for board in models.Board.objects.all():
+        try:
+            first_place_accounts = board.submissions.order_by('value').first().accounts.all()
+        except AttributeError:
+            continue
+        accounts += list(first_place_accounts)
+    print(Counter(accounts).most_common(5))
+    return {'accounts': Counter(accounts).most_common(5)}
