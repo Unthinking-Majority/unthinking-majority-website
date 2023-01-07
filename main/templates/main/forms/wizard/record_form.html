@@ -8,13 +8,24 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             let selector = document.getElementById("{{ wizard.form.value.id_for_label }}"),
-                input_mask = new Inputmask({mask: "999 : 99.99", placeholder: "0", tabThrough: true, positionCaretOnClick: "none"});
+                input_mask = new Inputmask(
+                    {
+                        mask: "9[99]:9[9].9[9]",
+                        placeholder: "0",
+                        positionCaretOnClick: "none",
+                        jitMasking: true,
+                        showMaskOnHover: false,
+                        numericInput: true,
+                    }
+                );
+
+
             input_mask.mask(selector);
         });
     </script>
 {% endblock %}
 
-{% block form %}
+{% block form_content %}
 
     {# Account(s) #}
     {% for field in wizard.form %}
@@ -24,25 +35,24 @@
                     {% include "main/forms/field_error_list.html" with errors=field.errors %}
                 </div>
             {% endif %}
-            <div class="block mx-2 my-4">
-                {{ field }}
-            </div>
+            {{ field }}
         {% endif %}
     {% endfor %}
 
     {# Value #}
-    <div class="block mx-2 my-4">
-        {% if wizard.form.value.errors %}
-            <div class="flex justify-center">
-                {% include "main/forms/field_error_list.html" with errors=wizard.form.value.errors %}
-            </div>
-        {% endif %}
+    {% if wizard.form.value.errors %}
+        <div class="flex justify-center">
+            {% include "main/forms/field_error_list.html" with errors=wizard.form.value.errors %}
+        </div>
+    {% endif %}
+    <div class="mx-2 my-4">
         <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
             Time
         </label>
-        <input type="text"
-               id="{{ wizard.form.value.id_for_label }}"
+        <input id="{{ wizard.form.value.id_for_label }}"
                name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
+               type="text"
+               placeholder="000 : 00.00"
                autocomplete="{{ wizard.form.value.name }}"
                maxlength="{{ wizard.form.value.field.max_length }}"
                required
