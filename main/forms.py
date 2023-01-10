@@ -3,7 +3,6 @@ from django.conf import settings
 from django.urls import reverse_lazy
 
 from account.models import Account
-from main import fields
 from main import models
 from main import widgets
 
@@ -36,11 +35,12 @@ class SelectBoardForm(forms.Form):
 
 class BoardSubmissionForm(forms.ModelForm):
     notes = forms.CharField(required=False)
-    value = fields.RecordTimeField()
+    minutes = forms.IntegerField(required=False)
+    seconds = forms.DecimalField(required=False)
 
     class Meta:
         model = models.Submission
-        fields = ['value', 'proof', 'notes']
+        fields = ['proof', 'notes']
 
     def __init__(self, *args, **kwargs):
         team_size = kwargs.pop('team_size', 1)
@@ -53,6 +53,19 @@ class BoardSubmissionForm(forms.ModelForm):
                 placeholder='Select an account',
                 label=f'Account {i + 1}',
             )
+
+    def clean(self):
+        cleaned_data = super(BoardSubmissionForm, self).clean()
+        cleaned_data['value'] = (cleaned_data.get('minutes', 0) * 60) + cleaned_data.get('seconds', 0)
+        if cleaned_data['value'] <= 0:
+            raise forms.ValidationError('Time must be more than 0.')
+        return cleaned_data
+
+    def clean_minutes(self):
+        return self.cleaned_data['minutes'] or 0
+
+    def clean_seconds(self):
+        return self.cleaned_data['seconds'] or 0.0
 
 
 class PetForm(forms.Form):

@@ -7,16 +7,15 @@
     {{ wizard.form.media }}
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            let minutes_selector = document.getElementById("{{ wizard.form.value.id_for_label }}_minutes");
+            let minutes_selector = document.getElementById("{{ wizard.form.minutes.id_for_label }}");
             Inputmask(
                 {
-                    mask: "9[99]",
+                    mask: "9[9][9]",
                     placeholder: "0",
-                    positionCaretOnClick: "select",
-                    numericInput: true,
+                    positionCaretOnClick: "none",
                 }
             ).mask(minutes_selector);
-            let seconds_selector = document.getElementById("{{ wizard.form.value.id_for_label }}_seconds");
+            let seconds_selector = document.getElementById("{{ wizard.form.seconds.id_for_label }}");
             Inputmask(
                 {
                     mask: "9[9].9[9]",
@@ -30,7 +29,6 @@
 {% endblock %}
 
 {% block form_content %}
-
     {# Account(s) #}
     {% for field in wizard.form %}
         {% if "account" in field.name %}
@@ -53,22 +51,24 @@
         <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
             Time
         </label>
-        <div class="flex justify-start">
-            <input id="{{ wizard.form.value.id_for_label }}_minutes"
-                   name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
+        <div class="flex justify-start w-80 items-center">
+            <input id="{{ wizard.form.minutes.id_for_label }}"
+                   name="{{ wizard.form.prefix }}-{{ wizard.form.minutes.name }}"
                    type="text"
-                   autocomplete="{{ wizard.form.value.name }}"
-                   maxlength="{{ wizard.form.value.field.max_length }}"
-                   required
-                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-32 inline-block">
-            :
-            <input id="{{ wizard.form.value.id_for_label }}_seconds"
-                   name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
+                   autocomplete="{{ wizard.form.minutes.name }}"
+                   maxlength="{{ wizard.form.minutes.field.max_length }}"
+                   placeholder="Minutes"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 inline-block">
+            <span class="font-bold px-2">
+                :
+            </span>
+            <input id="{{ wizard.form.seconds.id_for_label }}"
+                   name="{{ wizard.form.prefix }}-{{ wizard.form.seconds.name }}"
                    type="text"
-                   autocomplete="{{ wizard.form.value.name }}"
-                   maxlength="{{ wizard.form.value.field.max_length }}"
-                   required
-                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 w-32 inline-block">
+                   autocomplete="{{ wizard.form.seconds.name }}"
+                   maxlength="{{ wizard.form.seconds.field.max_length }}"
+                   placeholder="Seconds"
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 inline-block">
         </div>
     </div>
 
