@@ -105,7 +105,7 @@ class SubmissionWizard(SessionWizardView):
                     type=PET,
                     pet=pet,
                     notes=form_dict['pet_form'].cleaned_data['notes'],
-                    proof=first_submission.proof,
+                    proof=first_submission.proof,  # re-use the already uploaded file!
                 )
                 submission.accounts.add(form_dict['pet_form'].cleaned_data['account'])
         elif 'col_logs_form' in form_dict.keys():

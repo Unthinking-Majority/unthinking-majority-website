@@ -20,26 +20,23 @@ class CreateAccountForm(forms.ModelForm):
     username = forms.CharField(
         label='Username',
         max_length=150,
-        help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
         error_messages={
             'unique': 'A user with that username already exists.',
         },
     )
     email = forms.EmailField(
         label='Email',
-        help_text='Email address. In the event you lose your password, we can use your email to reset it.'
+        help_text='In the event you lose your password, we can use your email to reset it.'
     )
     password1 = forms.CharField(
         label='Password',
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
-        help_text=password_validation.password_validators_help_text_html(),
     )
     password2 = forms.CharField(
         label='Password confirmation',
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
-        help_text='Enter the same password as before, for verification.',
     )
 
     class Meta:
