@@ -2,6 +2,10 @@
 
 {% load i18n um_components %}
 
+{% block header %}
+    {% page_header "Select Board and Team Size" %}
+{% endblock %}
+
 {% block form_content %}
     {# Board #}
     {% if wizard.form.board.errors %}

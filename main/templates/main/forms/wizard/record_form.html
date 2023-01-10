@@ -1,6 +1,6 @@
 {% extends "main/forms/wizard/base.html" %}
 
-{% load um_components %}
+{% load main_extras um_components %}
 
 {% block extra_head %}
     {{ block.super }}
@@ -28,6 +28,10 @@
     </script>
 {% endblock %}
 
+{% block header %}
+    {% page_header "Submit Record for "|addstr:board.name %}
+{% endblock %}
+
 {% block form_content %}
     {# Account(s) #}
     {% for field in wizard.form %}
@@ -48,28 +52,32 @@
         </div>
     {% endif %}
     <div class="mx-2 my-4">
-        <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
-            Time
-        </label>
-        <div class="flex justify-start w-80 items-center">
-            <input id="{{ wizard.form.minutes.id_for_label }}"
-                   name="{{ wizard.form.prefix }}-{{ wizard.form.minutes.name }}"
-                   type="text"
-                   autocomplete="{{ wizard.form.minutes.name }}"
-                   maxlength="{{ wizard.form.minutes.field.max_length }}"
-                   placeholder="Minutes"
-                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 inline-block">
-            <span class="font-bold px-2">
+        {% if board.metric == board.TIME %}
+            <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
+                {{ board.metric_name }}
+            </label>
+            <div class="flex justify-start w-80 items-center">
+                <input id="{{ wizard.form.minutes.id_for_label }}"
+                       name="{{ wizard.form.prefix }}-{{ wizard.form.minutes.name }}"
+                       type="text"
+                       autocomplete="{{ wizard.form.minutes.name }}"
+                       maxlength="{{ wizard.form.minutes.field.max_length }}"
+                       placeholder="Minutes"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 inline-block">
+                <span class="font-bold px-2">
                 :
             </span>
-            <input id="{{ wizard.form.seconds.id_for_label }}"
-                   name="{{ wizard.form.prefix }}-{{ wizard.form.seconds.name }}"
-                   type="text"
-                   autocomplete="{{ wizard.form.seconds.name }}"
-                   maxlength="{{ wizard.form.seconds.field.max_length }}"
-                   placeholder="Seconds"
-                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 inline-block">
-        </div>
+                <input id="{{ wizard.form.seconds.id_for_label }}"
+                       name="{{ wizard.form.prefix }}-{{ wizard.form.seconds.name }}"
+                       type="text"
+                       autocomplete="{{ wizard.form.seconds.name }}"
+                       maxlength="{{ wizard.form.seconds.field.max_length }}"
+                       placeholder="Seconds"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 inline-block">
+            </div>
+        {% else %}
+            {% simple_input wizard.form.value prefix=wizard.form.prefix label=board.metric_name %}
+        {% endif %}
     </div>
 
     {% textarea_input wizard.form.notes prefix=wizard.form.prefix %}

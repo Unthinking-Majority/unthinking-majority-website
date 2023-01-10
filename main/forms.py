@@ -35,6 +35,7 @@ class SelectBoardForm(forms.Form):
 
 class BoardSubmissionForm(forms.ModelForm):
     notes = forms.CharField(required=False)
+    value = forms.DecimalField(required=False)
     minutes = forms.IntegerField(required=False)
     seconds = forms.DecimalField(required=False)
 
@@ -56,9 +57,12 @@ class BoardSubmissionForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(BoardSubmissionForm, self).clean()
-        cleaned_data['value'] = (cleaned_data.get('minutes', 0) * 60) + cleaned_data.get('seconds', 0)
-        if cleaned_data['value'] <= 0:
-            raise forms.ValidationError('Time must be more than 0.')
+
+        if not cleaned_data['value']:
+            cleaned_data['value'] = (cleaned_data.get('minutes', 0) * 60) + cleaned_data.get('seconds', 0)
+            if cleaned_data['value'] <= 0:
+                raise forms.ValidationError('Time must be more than 0.')
+
         return cleaned_data
 
     def clean_minutes(self):

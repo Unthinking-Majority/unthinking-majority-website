@@ -7,8 +7,11 @@
     {{ wizard.form.media }}
 {% endblock %}
 
-{% block content %}
+{% block header %}
     {% page_header "Submit New Achievement" %}
+{% endblock %}
+
+{% block content %}
 
     {% if wizard.form.errors %}
         <div class="flex justify-center pb-4">
