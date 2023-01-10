@@ -89,12 +89,17 @@ class Submission(models.Model):
 
     def value_display(self):
         if self.type == RECORD:
-            try:
-                minutes = int(self.value // 60)
-                seconds = self.value % 60
-                return f"{minutes}:{seconds:05}"
-            except TypeError:
-                return ""
+            if self.board.metric == self.board.TIME:
+                try:
+                    minutes = int(self.value // 60)
+                    seconds = self.value % 60
+                    return f"{minutes}:{seconds:05}"
+                except TypeError:
+                    return ""
+            elif self.board.metric == self.board.INTEGER:
+                return int(self.value)
+            else:
+                return self.value
         elif self.type == PET:
             return self.pet.name
         elif self.type == COL_LOG:
