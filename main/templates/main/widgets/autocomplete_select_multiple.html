@@ -1,5 +1,5 @@
 <div class="block mx-2 my-4">
-    <select id="{{ widget.attrs.id }}" name="{{ widget.name }}" required class="hidden" multiple></select>
+    <select id="{{ widget.attrs.id }}" name="{{ widget.name }}" class="hidden" multiple></select>
     <label for="autocomplete_{{ widget.attrs.id }}" class="text-sm font-medium text-gray-900">
         {% if label %}
             {{ label }}
@@ -7,10 +7,9 @@
             {{ widget.name|capfirst }}
         {% endif %}
     </label>
-    <ul id="autocomplete_button_list-{{ widget.attrs.id }}" class="list-none flex flex-wrap"></ul>
-    <input id="autocomplete_{{ widget.attrs.id }}" type="text" tabindex="1" spellcheck="false" autocomplete="off"
+    <input id="autocomplete_{{ widget.attrs.id }}" type="text" tabindex="1" spellcheck="false" autocomplete="off" required
            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 w-80">
-    <div class="selection"></div>
+    <ul id="autocomplete_button_list-{{ widget.attrs.id }}" class="flex flex-wrap w-80 list-none mt-1"></ul>
 </div>
 
 <script>
@@ -43,9 +42,10 @@
                     const info = document.createElement("p");
                     if (!data.results.length > 0) {
                         info.innerHTML = `
-                    <span class="flex px-2 py-2 text-sm text-gray-900 whitespace-nowrap bg-gray-50 hover:cursor-pointer hover:bg-gray-300 text-ellipsis">
-                        No matching results
-                    </span>`;
+                            <span class="flex px-2 py-2 text-sm text-gray-900 whitespace-nowrap bg-gray-50 hover:cursor-pointer hover:bg-gray-300 text-ellipsis">
+                                No matching results
+                            </span>
+                        `;
                     }
                     list.prepend(info);
                 },
@@ -60,36 +60,42 @@
                 input: {
                     selection: (event) => {
                         let select = document.getElementById("{{ widget.attrs.id }}"),
-                            option = document.createElement("option");
+                            option = document.createElement("option"),
+                            option_id = "{{ widget.attrs.id }}_option_{{ event.detail.selection.value.id }}";
 
                         // create option
                         option.text = event.detail.selection.value.text;
                         option.value = event.detail.selection.value.id;
+                        option.id = option_id;
                         option.selected = true;
 
                         // if option hasn't been created before, add it
                         if (![...select.options].map(o => o.value).includes(option.value)) {
                             select.add(option);
+
+                            // create button for selected option inside of input
+                            let new_el = document.createElement("div");
+                            new_el.innerHTML = `
+                                <button type="button" onclick="document.getElementById('${option_id}').remove() ; this.parentElement.remove()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                                ${event.detail.selection.value.text}
+                            `;
+                            new_el.className = "flex justify-center items-center px-2 py-1 mx-1 my-1 text-sm font-medium text-gray-300 bg-gray-800 rounded-full";
+
+                            document.getElementById("autocomplete_button_list-{{ widget.attrs.id }}").appendChild(
+                                new_el
+                           );
+
+                            document.getElementById("autocomplete_{{ widget.attrs.id }}").required = false;
+                        } else {
+                            // if option HAS been added before already, what do we do? if anything? remove it?
+                            // or maybe... we just do nothing! MWUAHAHAHAHAHA >:)
                         }
-                        // if option HAS been added before already, what do we do? if anything? remove it?
 
                         autoCompleteJS.input.value = "";
-
-                        // create button for selected option inside of input
-                        // <button class="px-2 py-1 m-1 text-gray-900 rounded-md bg-zinc-300">KingOfJelly</button>
-                        let new_el = document.createElement("button");
-                        {#new_el.innerText = event.detail.selection.value.text;#}
-                        new_el.innerHTML = `
-                            <div></div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
-                            </svg>
-                            ${event.detail.selection.value.text}
-                        `;
-                        new_el.className = "px-2 py-1 mx-1 my-1 text-gray-900 rounded-md bg-zinc-200 text-sm flex justify-center items-center";
-                        document.getElementById("autocomplete_button_list-{{ widget.attrs.id }}").appendChild(
-                            new_el
-                        );
                     },
                     focus: () => {
                         autoCompleteJS.start();
@@ -109,9 +115,5 @@
                 }
             },
         });
-
-        {#document.getElementById("wrapper_autocomplete_{{ widget.attrs.id }}").addEventListener("click", () => {#}
-        {#    document.getElementById("autocomplete_{{ widget.attrs.id }}").focus();#}
-        {#});#}
     });
 </script>
