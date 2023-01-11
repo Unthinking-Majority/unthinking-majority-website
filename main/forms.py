@@ -35,7 +35,7 @@ class SelectBoardForm(forms.Form):
 
 class BoardSubmissionForm(forms.Form):
     notes = forms.CharField(required=False)
-    value = forms.DecimalField(required=False)
+    value = forms.DecimalField(max_digits=7, decimal_places=2, min_value=0, required=False)
     minutes = forms.IntegerField(required=False)
     seconds = forms.DecimalField(required=False)
     proof = forms.ImageField()
@@ -52,15 +52,12 @@ class BoardSubmissionForm(forms.Form):
                 label=f'Account {i + 1}',
             )
 
-    def clean(self):
-        cleaned_data = super(BoardSubmissionForm, self).clean()
-
-        if not cleaned_data.get('value'):
-            cleaned_data['value'] = (cleaned_data.get('minutes', 0) * 60) + cleaned_data.get('seconds', 0)
-            if cleaned_data['value'] <= 0:
+    def clean_value(self):
+        if self.cleaned_data.get('value') is None:
+            self.cleaned_data['value'] = (self.cleaned_data.get('minutes', 0) * 60) + self.cleaned_data.get('seconds', 0)
+            if self.cleaned_data['value'] <= 0:
                 raise forms.ValidationError('Time must be more than 0.')
-
-        return cleaned_data
+        return self.cleaned_data['value']
 
     def clean_minutes(self):
         return self.cleaned_data['minutes'] or 0

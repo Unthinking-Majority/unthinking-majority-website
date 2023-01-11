@@ -51,8 +51,8 @@
             {% include "main/forms/field_error_list.html" with errors=wizard.form.value.errors %}
         </div>
     {% endif %}
-    <div class="mx-2 my-4">
-        {% if board.metric == board.TIME %}
+    {% if board.metric == board.TIME %}
+        <div class="mx-2 my-4">
             <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
                 {{ board.metric_name }} *
             </label>
@@ -75,10 +75,23 @@
                        placeholder="Seconds"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 inline-block">
             </div>
-        {% else %}
-            {% simple_input wizard.form.value prefix=wizard.form.prefix label=board.metric_name %}
-        {% endif %}
-    </div>
+        </div>
+    {% else %}
+        <div class="flex flex-col justify-center mx-2 my-4 flex-wrap w-80">
+            <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
+                    {{ board.metric_name }} *
+            </label>
+            <input id="{{ wizard.form.value.id_for_label }}"
+                   name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
+                   type="number"
+                   min="0.01"
+                   required
+                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-full">
+            <p class="text-sm text-gray-600">
+                {{ wizard.form.value.help_text }}
+            </p>
+        </div>
+    {% endif %}
 
     {% textarea_input wizard.form.notes prefix=wizard.form.prefix %}
 
