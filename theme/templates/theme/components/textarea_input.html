@@ -5,7 +5,12 @@
 {% endif %}
 <div class="flex flex-col justify-center mx-2 my-4 flex-wrap w-80">
     <label for="{{ field.id_for_label }}" class="text-sm font-medium text-gray-900">
-        Notes
+        {% if label %}
+            {{ label }}
+        {% else %}
+            {{ field.label }}
+        {% endif %}
+        {% if field.field.required %}*{% endif %}
     </label>
     <textarea id="{{ field.id_for_label }}"
               name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"

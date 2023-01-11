@@ -11,6 +11,7 @@
         {% else %}
             {{ field.label }}
         {% endif %}
+        {% if field.field.required %}*{% endif %}
     </span>
         <input id="{{ field.id_for_label }}"
                name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"

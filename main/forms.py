@@ -33,15 +33,12 @@ class SelectBoardForm(forms.Form):
         return cleaned_data
 
 
-class BoardSubmissionForm(forms.ModelForm):
+class BoardSubmissionForm(forms.Form):
     notes = forms.CharField(required=False)
     value = forms.DecimalField(required=False)
     minutes = forms.IntegerField(required=False)
     seconds = forms.DecimalField(required=False)
-
-    class Meta:
-        model = models.Submission
-        fields = ['proof', 'notes']
+    proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):
         team_size = kwargs.pop('team_size', 1)
@@ -58,7 +55,7 @@ class BoardSubmissionForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(BoardSubmissionForm, self).clean()
 
-        if not cleaned_data['value']:
+        if not cleaned_data.get('value'):
             cleaned_data['value'] = (cleaned_data.get('minutes', 0) * 60) + cleaned_data.get('seconds', 0)
             if cleaned_data['value'] <= 0:
                 raise forms.ValidationError('Time must be more than 0.')
@@ -72,14 +69,14 @@ class BoardSubmissionForm(forms.ModelForm):
         return self.cleaned_data['seconds'] or 0.0
 
 
-class PetForm(forms.Form):
+class PetSubmissionForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
     pets = forms.ModelMultipleChoiceField(queryset=models.Pet.objects.all())
     notes = forms.CharField(required=False)
     proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):
-        super(PetForm, self).__init__(*args, **kwargs)
+        super(PetSubmissionForm, self).__init__(*args, **kwargs)
         self.fields['account'].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
             placeholder='Select an account',
@@ -92,7 +89,7 @@ class PetForm(forms.Form):
         )
 
     def clean(self):
-        cleaned_data = super(PetForm, self).clean()
+        cleaned_data = super(PetSubmissionForm, self).clean()
 
         for pet in cleaned_data['pets']:
             submission = models.Submission.objects.accepted().pets().filter(
@@ -108,14 +105,14 @@ class PetForm(forms.Form):
         return cleaned_data
 
 
-class CollectionLogForm(forms.Form):
+class ColLogSubmissionForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
     col_logs = forms.IntegerField(max_value=settings.MAX_COL_LOG)
     notes = forms.CharField(required=False)
     proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):
-        super(CollectionLogForm, self).__init__(*args, **kwargs)
+        super(ColLogSubmissionForm, self).__init__(*args, **kwargs)
         self.fields['account'].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
             placeholder='Select an account',
@@ -123,7 +120,7 @@ class CollectionLogForm(forms.Form):
         )
 
     def clean(self):
-        cleaned_data = super(CollectionLogForm, self).clean()
+        cleaned_data = super(ColLogSubmissionForm, self).clean()
 
         if cleaned_data.get('col_logs', 0) > settings.MAX_COL_LOG:
             raise forms.ValidationError(

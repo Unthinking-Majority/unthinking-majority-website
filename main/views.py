@@ -39,12 +39,12 @@ class BoardSubmissionsListView(ListView):
         return context
 
 
-def pet_form_condition(wizard):
+def pet_submission_form_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('submission_type_form') or {}
     return cleaned_data.get('type', None) == PET
 
 
-def col_logs_form_condition(wizard):
+def col_logs_submission_form_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('submission_type_form') or {}
     return cleaned_data.get('type', None) == COL_LOG
 
@@ -54,68 +54,68 @@ def select_board_form_condition(wizard):
     return cleaned_data.get('type', None) == RECORD
 
 
-def record_form_condition(wizard):
+def board_submission_form_condition(wizard):
     return wizard.get_cleaned_data_for_step('select_board_form') or None
 
 
 class SubmissionWizard(SessionWizardView):
     form_list = [
         ('submission_type_form', forms.SelectSubmissionTypeForm),
-        ('pet_form', forms.PetForm),
-        ('col_logs_form', forms.CollectionLogForm),
         ('select_board_form', forms.SelectBoardForm),
-        ('record_form', forms.BoardSubmissionForm),
+        ('board_submission_form', forms.BoardSubmissionForm),
+        ('pet_submission_form', forms.PetSubmissionForm),
+        ('col_logs_submission_form', forms.ColLogSubmissionForm),
     ]
     TEMPLATES = {
         'submission_type_form': 'main/forms/wizard/select_submission_type_form.html',
-        'pet_form': 'main/forms/wizard/pet_form.html',
-        'col_logs_form': 'main/forms/wizard/col_logs_form.html',
         'select_board_form': 'main/forms/wizard/select_board_form.html',
-        'record_form': 'main/forms/wizard/record_form.html',
+        'board_submission_form': 'main/forms/wizard/record_form.html',
+        'pet_submission_form': 'main/forms/wizard/pet_form.html',
+        'col_logs_submission_form': 'main/forms/wizard/col_logs_form.html',
     }
     condition_dict = {
-        'pet_form': pet_form_condition,
-        'col_logs_form': col_logs_form_condition,
         'select_board_form': select_board_form_condition,
-        'record_form': record_form_condition,
+        'board_submission_form': board_submission_form_condition,
+        'pet_submission_form': pet_submission_form_condition,
+        'col_logs_submission_form': col_logs_submission_form_condition,
     }
     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'temp_files'))
 
     def done(self, form_list, **kwargs):
         form_dict = kwargs.get('form_dict')
-        if 'record_form' in form_dict.keys():
-            accounts = [val for key, val in form_dict['record_form'].cleaned_data.items() if 'account' in key]
+        if 'board_submission_form' in form_dict.keys():
+            accounts = [val for key, val in form_dict['board_submission_form'].cleaned_data.items() if 'account' in key]
             submission = models.Submission.objects.create(
-                value=form_dict['record_form'].cleaned_data['value'],
-                proof=form_dict['record_form'].cleaned_data['proof'],
-                notes=form_dict['record_form'].cleaned_data['notes'],
+                value=form_dict['board_submission_form'].cleaned_data['value'],
+                proof=form_dict['board_submission_form'].cleaned_data['proof'],
+                notes=form_dict['board_submission_form'].cleaned_data['notes'],
                 board=form_dict['select_board_form'].cleaned_data['board']
             )
             submission.accounts.set(accounts)
-        elif 'pet_form' in form_dict.keys():
+        elif 'pet_submission_form' in form_dict.keys():
             first_submission = models.Submission.objects.create(
                 type=PET,
-                pet=form_dict['pet_form'].cleaned_data['pets'][0],
-                notes=form_dict['pet_form'].cleaned_data['notes'],
-                proof=form_dict['pet_form'].cleaned_data['proof'],
+                pet=form_dict['pet_submission_form'].cleaned_data['pets'][0],
+                notes=form_dict['pet_submission_form'].cleaned_data['notes'],
+                proof=form_dict['pet_submission_form'].cleaned_data['proof'],
             )
-            first_submission.accounts.add(form_dict['pet_form'].cleaned_data['account'])
-            for pet in form_dict['pet_form'].cleaned_data['pets'][1:]:
+            first_submission.accounts.add(form_dict['pet_submission_form'].cleaned_data['account'])
+            for pet in form_dict['pet_submission_form'].cleaned_data['pets'][1:]:
                 submission = models.Submission.objects.create(
                     type=PET,
                     pet=pet,
-                    notes=form_dict['pet_form'].cleaned_data['notes'],
+                    notes=form_dict['pet_submission_form'].cleaned_data['notes'],
                     proof=first_submission.proof,  # re-use the already uploaded file!
                 )
-                submission.accounts.add(form_dict['pet_form'].cleaned_data['account'])
-        elif 'col_logs_form' in form_dict.keys():
+                submission.accounts.add(form_dict['pet_submission_form'].cleaned_data['account'])
+        elif 'col_logs_submission_form' in form_dict.keys():
             submission = models.Submission.objects.create(
                 type=COL_LOG,
-                value=form_dict['col_logs_form'].cleaned_data['col_logs'],
-                notes=form_dict['col_logs_form'].cleaned_data['notes'],
-                proof=form_dict['col_logs_form'].cleaned_data['proof'],
+                value=form_dict['col_logs_submission_form'].cleaned_data['col_logs'],
+                notes=form_dict['col_logs_submission_form'].cleaned_data['notes'],
+                proof=form_dict['col_logs_submission_form'].cleaned_data['proof'],
             )
-            submission.accounts.add(form_dict['col_logs_form'].cleaned_data['account'])
+            submission.accounts.add(form_dict['col_logs_submission_form'].cleaned_data['account'])
         else:
             # error
             pass
@@ -123,13 +123,13 @@ class SubmissionWizard(SessionWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
-        if self.steps.current == 'record_form':
+        if self.steps.current == 'board_submission_form':
             context.update({'board': self.get_cleaned_data_for_step('select_board_form')['board']})
         return context
 
     def get_form_kwargs(self, step=None):
         kwargs = {}
-        if step == 'record_form':
+        if step == 'board_submission_form':
             cleaned_data = self.get_cleaned_data_for_step('select_board_form')
             kwargs.update({'team_size': cleaned_data['team_size']})
         return kwargs

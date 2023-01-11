@@ -10,11 +10,11 @@
         {% else %}
             {{ field.label }}
         {% endif %}
+        {% if field.field.required %}*{% endif %}
     </label>
     <input id="{{ field.id_for_label }}"
            name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
            type="{{ field.field.widget.input_type }}"
-           autocomplete="{{ field.name }}"
            max="{{ field.field.max_value }}"
            min="{{ field.field.min_value }}"
            maxlength="{{ field.field.max_length }}"
