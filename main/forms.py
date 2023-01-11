@@ -110,7 +110,7 @@ class PetForm(forms.Form):
 
 class CollectionLogForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
-    col_logs = forms.IntegerField()
+    col_logs = forms.IntegerField(max_value=settings.MAX_COL_LOG)
     notes = forms.CharField(required=False)
     proof = forms.ImageField()
 
@@ -125,7 +125,15 @@ class CollectionLogForm(forms.Form):
     def clean(self):
         cleaned_data = super(CollectionLogForm, self).clean()
 
-        if cleaned_data['account'].col_logs >= cleaned_data['col_logs']:
+        if cleaned_data.get('col_logs', 0) > settings.MAX_COL_LOG:
+            raise forms.ValidationError(
+                'You must select a value less than %(max_col_log)s',
+                params={
+                    'max_col_log': settings.MAX_COL_LOG
+                }
+            )
+
+        if cleaned_data['account'].col_logs >= cleaned_data.get('col_logs', settings.MAX_COL_LOG):
             raise forms.ValidationError(
                 '%(account)s already has %(cur_col_logs)s/%(max_col_log)s collection log slots completed.',
                 params={

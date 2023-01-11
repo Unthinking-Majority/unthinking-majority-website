@@ -16,6 +16,8 @@
            type="{{ field.field.widget.input_type }}"
            autocomplete="{{ field.name }}"
            maxlength="{{ field.field.max_length }}"
+           max="{{ field.field.max_value }}"
+           min="{{ field.field.min_value }}"
            value="{% if field.field.initial %}{{ field.field.initial }}{% endif %}"
            {% if field.field.required %}required{% endif %}
            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-full">
