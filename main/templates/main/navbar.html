@@ -18,10 +18,10 @@
                         </a>
                         {% for bc in board_categories %}
                             <div class="relative group">
-                                <button class="{% if board.category == bc %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md font-medium">
+                                <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md font-medium">
                                     {{ bc.name }}
                                 </button>
-                                <ul class="hidden overflow-hidden absolute z-10 mt-2 w-60 bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none" tabindex="-1">
+                                <ul class="hidden overflow-hidden whitespace-nowrap absolute z-10 mt-2 w-min bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none" tabindex="-1">
                                     {% for b in bc.boards.all %}
                                         <li>
                                             <a href="{{ b|board_url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300" tabindex="-1">{{ b.name }}</a>
