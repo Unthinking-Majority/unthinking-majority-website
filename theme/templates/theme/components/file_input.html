@@ -3,7 +3,7 @@
         {% include "main/forms/field_error_list.html" with errors=field.errors %}
     </div>
 {% endif %}
-<div class="block mx-2 my-4">
+<div class="flex flex-col justify-center mx-2 my-4 flex-wrap w-80">
     <label for="{{ field.id_for_label }}">
     <span class="block text-sm font-medium text-gray-900">
         {% if label %}
@@ -15,8 +15,10 @@
         <input id="{{ field.id_for_label }}"
                name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
                type="file"
-               class="focus:outline-none file:px-3 file:py-2 file:mx-2 file:my-4 file:font-medium file:border-none file:text-gray-800 file:bg-gray-300 file:rounded-md file:drop-shadow-md file:transition file:ease-in-out file:hover:bg-gray-800 file:hover:text-gray-300 file:hover:scale-105"
-               required
-               {% if field.field.required %}required{% endif %}/>
+               {% if field.field.required %}required{% endif %}
+               class="focus:outline-none file:px-3 file:py-2 file:mx-2 file:my-4 file:font-medium file:border-none file:text-gray-800 file:bg-gray-300 file:rounded-md file:drop-shadow-md file:transition file:ease-in-out file:hover:bg-gray-800 file:hover:text-gray-300 file:hover:scale-105"/>
+        <p class="text-sm text-gray-600">
+            {{ field.help_text }}
+        </p>
     </label>
 </div>
