@@ -11,16 +11,31 @@ class SelectSubmissionTypeForm(forms.Form):
     type = forms.TypedChoiceField(choices=models.SUBMISSION_TYPES, coerce=int)
 
 
-class SelectBoardForm(forms.Form):
-    board = forms.ModelChoiceField(queryset=models.ParentBoard.objects.all())
+class SelectParentBoardForm(forms.Form):
+    parent_board = forms.ModelChoiceField(queryset=models.ParentBoard.objects.all())
 
     def __init__(self, *args, **kwargs):
-        super(SelectBoardForm, self).__init__(*args, **kwargs)
-        self.fields['board'].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=reverse_lazy('board-autocomplete'),
+        super(SelectParentBoardForm, self).__init__(*args, **kwargs)
+        self.fields['parent_board'].widget = widgets.AutocompleteSelectWidget(
+            autocomplete_url=reverse_lazy('parent-board-autocomplete'),
             placeholder='Select a board',
             label='Board',
         )
+
+
+class SelectBoardForm(forms.Form):
+    board = forms.ModelChoiceField(queryset=models.Board.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        parent_board = kwargs.pop('parent_board', None)
+        super(SelectBoardForm, self).__init__(*args, **kwargs)
+        if parent_board:
+            self.fields['board'].queryset = parent_board.boards.all()
+        # self.fields['board'].widget = widgets.AutocompleteSelectWidget(
+        #     autocomplete_url=reverse_lazy('board-autocomplete'),
+        #     placeholder='Select a board',
+        #     label='Board',
+        # )
 
 
 class BoardSubmissionForm(forms.Form):
@@ -40,12 +55,13 @@ class BoardSubmissionForm(forms.Form):
             label='Account(s)',
         )
 
-    def clean_value(self):
-        if self.cleaned_data.get('value') is None:
-            self.cleaned_data['value'] = (self.cleaned_data.get('minutes', 0) * 60) + self.cleaned_data.get('seconds', 0)
-            if self.cleaned_data['value'] <= 0:
+    def clean(self):
+        cleaned_data = super(BoardSubmissionForm, self).clean()
+        if cleaned_data.get('value') is None:
+            cleaned_data['value'] = (cleaned_data.get('minutes', 0) * 60) + cleaned_data.get('seconds', 0)
+            if cleaned_data['value'] <= 0:
                 raise forms.ValidationError('Time must be more than 0.')
-        return self.cleaned_data['value']
+        return cleaned_data
 
     def clean_minutes(self):
         return self.cleaned_data['minutes'] or 0

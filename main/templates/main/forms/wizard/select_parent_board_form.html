@@ -3,17 +3,17 @@
 {% load i18n um_components %}
 
 {% block header %}
-    {% page_header "Select Board... Again!" %}
+    {% page_header "Select Board" %}
 {% endblock %}
 
 {% block form_content %}
     {# Board #}
-    {% if wizard.form.board.errors %}
+    {% if wizard.form.parent_board.errors %}
         <div class="flex justify-center">
-            {% include "main/forms/field_error_list.html" with errors=wizard.form.board.errors %}
+            {% include "main/forms/field_error_list.html" with errors=wizard.form.parent_board.errors %}
         </div>
     {% endif %}
-    {{ wizard.form.board }}
+    {{ wizard.form.parent_board }}
 
 {% endblock %}
 

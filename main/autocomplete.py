@@ -5,7 +5,12 @@ from main import models
 
 
 def board_autocomplete(request):
-    boards = models.Board.objects.annotate(text=F('name')).values('id', 'text')
+    boards = models.Board.objects.annotate(text=F('name')).values()
+    return JsonResponse(list(boards), safe=False)
+
+
+def parent_board_autocomplete(request):
+    boards = models.ParentBoard.objects.annotate(text=F('name')).values()
     return JsonResponse(list(boards), safe=False)
 
 
