@@ -27,7 +27,6 @@ class BoardAdmin(admin.ModelAdmin):
                 'parent',
                 'max_team_size',
                 ('metric', 'metric_name'),
-                'icon',
             )
         }),
     )

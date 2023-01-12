@@ -19,22 +19,22 @@ def landing(request):
     )
 
 
-class BoardSubmissionsListView(ListView):
+class LeaderBoardsListView(ListView):
     model = models.Submission
     template_name = 'main/board.html'
     paginate_by = 5
 
     def get_queryset(self):
         return self.model.objects.records().filter(
-            board__slug=self.kwargs.get('board_name'),
+            board__parent__slug=self.kwargs.get('parent_board_name'),
             accepted=True
         ).order_by('value')
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(BoardSubmissionsListView, self).get_context_data()
-        context['board'] = get_object_or_404(
-            models.Board.objects.prefetch_related('submissions'),
-            slug=self.kwargs.get('board_name')
+        context = super(LeaderBoardsListView, self).get_context_data()
+        context['parent_board'] = get_object_or_404(
+            models.ParentBoard.objects.prefetch_related('boards__submissions'),
+            slug=self.kwargs.get('parent_board_name')
         )
         return context
 
