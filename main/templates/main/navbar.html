@@ -22,7 +22,7 @@
                                     {{ bc.name }}
                                 </button>
                                 <ul class="hidden overflow-hidden whitespace-nowrap absolute z-10 mt-2 w-min bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none" tabindex="-1">
-                                    {% for b in bc.boards.all %}
+                                    {% for b in bc.parent_boards.all %}
                                         <li>
                                             <a href="{{ b|board_url }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300" tabindex="-1">{{ b.name }}</a>
                                         </li>

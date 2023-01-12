@@ -10,6 +10,7 @@ class BoardCategoryAdmin(admin.ModelAdmin):
 
 
 class ParentBoardAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
 
 
@@ -17,7 +18,6 @@ class BoardAdmin(admin.ModelAdmin):
     autocomplete_fields = ['parent']
     list_display = ['name', 'metric']
     list_filter = ['metric']
-    prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
 
     fieldsets = (
@@ -28,7 +28,6 @@ class BoardAdmin(admin.ModelAdmin):
                 'max_team_size',
                 ('metric', 'metric_name'),
                 'icon',
-                'slug',
             )
         }),
     )
