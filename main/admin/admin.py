@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from main import models
-from main.admin.autocomplete_filters import BoardCategoryFilter, AccountsFilter, BoardFilter
+from main.admin.autocomplete_filters import AccountsFilter, BoardFilter
 
 
 class BoardCategoryAdmin(admin.ModelAdmin):
@@ -9,10 +9,14 @@ class BoardCategoryAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
+class ParentBoardAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+
+
 class BoardAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['category']
-    list_display = ['name', 'category', 'metric']
-    list_filter = [BoardCategoryFilter, 'metric']
+    autocomplete_fields = ['parent']
+    list_display = ['name', 'metric']
+    list_filter = ['metric']
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
 
@@ -20,7 +24,7 @@ class BoardAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'name',
-                'category',
+                'parent',
                 'max_team_size',
                 ('metric', 'metric_name'),
                 'icon',
@@ -63,5 +67,6 @@ class PetAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Board, BoardAdmin)
 admin.site.register(models.BoardCategory, BoardCategoryAdmin)
+admin.site.register(models.ParentBoard, ParentBoardAdmin)
 admin.site.register(models.Pet, PetAdmin)
 admin.site.register(models.Submission, SubmissionAdmin)

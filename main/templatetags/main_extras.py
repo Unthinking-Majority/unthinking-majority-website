@@ -16,7 +16,7 @@ def navbar(context):
 
 @register.filter
 def board_url(board):
-    return f'/board/{board.category.slug}/{board.slug}'
+    return f'/board/{board.parent.category.slug}/{board.slug}'
 
 
 @register.filter
