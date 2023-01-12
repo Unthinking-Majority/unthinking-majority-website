@@ -19,7 +19,7 @@ class Board(models.Model):
     parent = models.ForeignKey('main.ParentBoard', on_delete=models.CASCADE, related_name='boards')
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default='Time')
-    max_team_size = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(8)])
+    team_size = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(8)])
 
     class Meta:
         ordering = ['name']

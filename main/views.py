@@ -127,12 +127,5 @@ class SubmissionWizard(SessionWizardView):
             context.update({'board': self.get_cleaned_data_for_step('select_board_form')['board']})
         return context
 
-    def get_form_kwargs(self, step=None):
-        kwargs = {}
-        if step == 'board_submission_form':
-            cleaned_data = self.get_cleaned_data_for_step('select_board_form')
-            kwargs.update({'team_size': cleaned_data['team_size']})
-        return kwargs
-
     def get_template_names(self):
         return [self.TEMPLATES[self.steps.current]]

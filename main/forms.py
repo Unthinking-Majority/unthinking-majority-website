@@ -12,8 +12,7 @@ class SelectSubmissionTypeForm(forms.Form):
 
 
 class SelectBoardForm(forms.Form):
-    board = forms.ModelChoiceField(queryset=models.Board.objects.all())
-    team_size = forms.IntegerField(initial=1, min_value=1, max_value=8)
+    board = forms.ModelChoiceField(queryset=models.ParentBoard.objects.all())
 
     def __init__(self, *args, **kwargs):
         super(SelectBoardForm, self).__init__(*args, **kwargs)
@@ -23,17 +22,9 @@ class SelectBoardForm(forms.Form):
             label='Board',
         )
 
-    def clean(self):
-        cleaned_data = super(SelectBoardForm, self).clean()
-        if cleaned_data['team_size'] > cleaned_data['board'].max_team_size:
-            raise forms.ValidationError(
-                'Invalid team size of %(team_size)s selected',
-                params={'team_size': cleaned_data['team_size']}
-            )
-        return cleaned_data
-
 
 class BoardSubmissionForm(forms.Form):
+    accounts = forms.ModelMultipleChoiceField(queryset=Account.objects.all())
     notes = forms.CharField(required=False)
     value = forms.DecimalField(max_digits=7, decimal_places=2, min_value=0, required=False)
     minutes = forms.IntegerField(required=False)
@@ -41,16 +32,13 @@ class BoardSubmissionForm(forms.Form):
     proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):
-        team_size = kwargs.pop('team_size', 1)
         super(BoardSubmissionForm, self).__init__(*args, **kwargs)
 
-        for i in range(team_size):
-            self.fields[f'account_{i}'] = forms.ModelChoiceField(queryset=Account.objects.all())
-            self.fields[f'account_{i}'].widget = widgets.AutocompleteSelectWidget(
-                autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
-                placeholder='Select an account',
-                label=f'Account {i + 1}',
-            )
+        self.fields['accounts'].widget = widgets.AutocompleteSelectMultipleWidget(
+            autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
+            placeholder='Select all account(s)',
+            label='Account(s)',
+        )
 
     def clean_value(self):
         if self.cleaned_data.get('value') is None:
