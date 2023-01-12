@@ -96,7 +96,7 @@ class SubmissionWizard(SessionWizardView):
             if self.get_cleaned_data_for_step('select_board_form'):
                 board = self.get_cleaned_data_for_step('select_board_form').get('board')
             else:
-                board = self.get_cleaned_data_for_step('select_parent_board_form').get('parent_board')
+                board = self.get_cleaned_data_for_step('select_parent_board_form').get('parent_board').boards.first()
             submission = models.Submission.objects.create(
                 value=form_dict['board_submission_form'].cleaned_data['value'],
                 proof=form_dict['board_submission_form'].cleaned_data['proof'],
@@ -141,7 +141,7 @@ class SubmissionWizard(SessionWizardView):
             if self.get_cleaned_data_for_step('select_board_form'):
                 board = self.get_cleaned_data_for_step('select_board_form').get('board')
             else:
-                board = self.get_cleaned_data_for_step('select_parent_board_form').get('parent_board')
+                board = self.get_cleaned_data_for_step('select_parent_board_form').get('parent_board').boards.first()
             context.update({'board': board})
         return context
 
@@ -150,10 +150,6 @@ class SubmissionWizard(SessionWizardView):
         if step == 'select_board_form':
             cleaned_data = self.get_cleaned_data_for_step('select_parent_board_form')
             kwargs.update({'parent_board': cleaned_data['parent_board']})
-        # if step == 'board_submission_form':
-        #     cleaned_data = self.get_cleaned_data_for_step('select_board_form')
-        #     board = cleaned_data.get('board') or self.get_cleaned_data_for_step('select_parent_board_form').get('parent_board')
-        #     kwargs.update({'board': board})
         return kwargs
 
     def get_template_names(self):
