@@ -17,6 +17,9 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=256)),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='parent_boards', to='main.boardcategory')),
+                ('metric', models.IntegerField(choices=[(0, 'Time'), (1, 'Integer'), (2, 'Decimal')], default=0)),
+                ('metric_name', models.CharField(default='Time', max_length=128)),
+                ('icon', models.ImageField(blank=True, null=True, upload_to='board/icons/')),
             ],
             options={
                 'ordering': ['name'],

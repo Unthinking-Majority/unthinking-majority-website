@@ -29,8 +29,16 @@ class Board(models.Model):
 
 
 class ParentBoard(models.Model):
+    TIME, INTEGER, DECIMAL = range(3)
+    METRIC_CHOICES = (
+        (TIME, 'Time'),
+        (INTEGER, 'Integer'),
+        (DECIMAL, 'Decimal'),
+    )
     name = models.CharField(max_length=256)
     category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='parent_boards')
+    metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
+    metric_name = models.CharField(max_length=128, default='Time')
     slug = models.SlugField(unique=True)
     icon = models.ImageField(upload_to='board/icons/', null=True, blank=True)
 

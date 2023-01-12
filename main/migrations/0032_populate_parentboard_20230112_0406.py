@@ -8,7 +8,10 @@ def forwards(apps, schema_data):
     for board in board_model.objects.all():
         parent_board = parent_board_model.objects.create(
             name=board.name,
-            category=board.category
+            category=board.category,
+            metric=board.metric,
+            metric_name=board.metric_name,
+            icon=board.icon
         )
         board.parent = parent_board
         board.save()

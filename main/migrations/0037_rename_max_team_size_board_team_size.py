@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0038_remove_board_icon'),
+        ('main', '0036_remove_board_icon'),
     ]
 
     operations = [

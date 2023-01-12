@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='board',
             name='parent',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='boards', to='main.parentboard'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='boards', to='main.parentboard', null=True),
             preserve_default=False,
         ),
     ]

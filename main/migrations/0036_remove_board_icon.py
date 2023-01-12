@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0037_populate_parentboard_icon_20230112_0447'),
+        ('main', '0035_alter_parentboard_slug'),
     ]
 
     operations = [
