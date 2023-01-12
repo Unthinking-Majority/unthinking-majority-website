@@ -33,6 +33,9 @@
 {% endblock %}
 
 {% block form_content %}
+
+    {{ wizard.form.board }}
+
     {# Account(s) #}
     {% for field in wizard.form %}
         {% if "account" in field.name %}

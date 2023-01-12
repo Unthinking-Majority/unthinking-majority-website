@@ -39,6 +39,7 @@ class SelectBoardForm(forms.Form):
 
 
 class BoardSubmissionForm(forms.Form):
+    board = forms.ModelChoiceField(queryset=models.Board.objects.all(), widget=forms.HiddenInput())
     accounts = forms.ModelMultipleChoiceField(queryset=Account.objects.all())
     notes = forms.CharField(required=False)
     value = forms.DecimalField(max_digits=7, decimal_places=2, min_value=0, required=False)
@@ -47,7 +48,10 @@ class BoardSubmissionForm(forms.Form):
     proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):
+        board = kwargs.pop('board')
         super(BoardSubmissionForm, self).__init__(*args, **kwargs)
+
+        self.fields['board'].initial = board
 
         self.fields['accounts'].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
@@ -57,10 +61,21 @@ class BoardSubmissionForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(BoardSubmissionForm, self).clean()
+
+        # validate value
         if cleaned_data.get('value') is None:
             cleaned_data['value'] = (cleaned_data.get('minutes', 0) * 60) + cleaned_data.get('seconds', 0)
             if cleaned_data['value'] <= 0:
                 raise forms.ValidationError('Time must be more than 0.')
+
+        # validate team size
+        if cleaned_data['board'].team_size != cleaned_data['accounts'].count():
+            raise forms.ValidationError(
+                'You must select exactly %(team_size)s account(s).',
+                params={
+                    'team_size': cleaned_data['board'].team_size
+                }
+            )
         return cleaned_data
 
     def clean_minutes(self):
