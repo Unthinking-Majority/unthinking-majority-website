@@ -17,8 +17,8 @@ class ParentBoardAdmin(admin.ModelAdmin):
 
 class BoardAdmin(admin.ModelAdmin):
     autocomplete_fields = ['parent']
-    list_display = ['name', 'parent', 'team_size', 'metric', 'metric_name']
-    list_filter = ['metric']
+    list_display = ['name', 'parent', 'team_size']
+    list_filter = ['parent']
     search_fields = ['name']
 
     fieldsets = (
@@ -27,7 +27,6 @@ class BoardAdmin(admin.ModelAdmin):
                 'name',
                 'parent',
                 'team_size',
-                ('metric', 'metric_name'),
             )
         }),
     )

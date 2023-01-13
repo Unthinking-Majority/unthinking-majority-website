@@ -9,16 +9,8 @@ from main import managers
 
 
 class Board(models.Model):
-    TIME, INTEGER, DECIMAL = range(3)
-    METRIC_CHOICES = (
-        (TIME, 'Time'),
-        (INTEGER, 'Integer'),
-        (DECIMAL, 'Decimal'),
-    )
     name = models.CharField(max_length=256, unique=True)
     parent = models.ForeignKey('main.ParentBoard', on_delete=models.CASCADE, related_name='boards')
-    metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
-    metric_name = models.CharField(max_length=128, default='Time')
     team_size = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(8)])
 
     class Meta:
@@ -110,14 +102,14 @@ class Submission(models.Model):
 
     def value_display(self):
         if self.type == RECORD:
-            if self.board.metric == self.board.TIME:
+            if self.board.parent.metric == self.board.parent.TIME:
                 try:
                     minutes = int(self.value // 60)
                     seconds = self.value % 60
                     return f"{minutes}:{seconds:05}"
                 except TypeError:
                     return ""
-            elif self.board.metric == self.board.INTEGER:
+            elif self.board.parent.metric == self.board.parent.INTEGER:
                 return int(self.value)
             else:
                 return self.value
