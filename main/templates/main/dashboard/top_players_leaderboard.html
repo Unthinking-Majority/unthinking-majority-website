@@ -4,13 +4,13 @@
 <table class="overflow-hidden min-w-full bg-gray-200 rounded-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
-        <th class="px-6 py-4 text-left text-md">
+        <th class="px-4 py-4 text-left text-md">
             Rank
         </th>
-        <th class="px-6 py-4 text-left text-md">
+        <th class="px-4 py-4 text-left text-md">
             Username
         </th>
-        <th class="px-6 py-4 text-left text-md">
+        <th class="px-4 py-4 text-left text-md">
             1st Places
         </th>
     </tr>
@@ -18,7 +18,7 @@
     <tbody>
     {% for account, val in accounts %}
         <tr class="even:bg-gray-200 odd:bg-gray-100">
-            <td class="flex px-6 py-4 whitespace-nowrap">
+            <td class="flex px-4 py-4 whitespace-nowrap">
                 <div class="mr-2">
                     {{ forloop.counter }}
                 </div>
@@ -36,10 +36,10 @@
                     </svg>
                 {% endif %}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-4 py-4 whitespace-nowrap">
                 {{ account.name }}
             </td>
-            <td class="px-6 py-4 text-2xl whitespace-nowrap font-runescape">
+            <td class="px-4 py-4 text-2xl whitespace-nowrap font-runescape">
                 <p class="pr-2 text-center">{{ val }}</p>
             </td>
         </tr>

@@ -4,13 +4,13 @@
 <table class="overflow-hidden min-w-full max-w-4xl bg-gray-200 rounded-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
-        <th class="px-6 py-4 text-left text-md">
+        <th class="px-4 py-4 text-left text-md">
             Username
         </th>
-        <th class="px-6 py-4 text-left text-md">
+        <th class="px-4 py-4 text-left text-md">
             Total Pets
         </th>
-        <th class="px-6 py-4">
+        <th class="px-4 py-4">
             Pets
         </th>
     </tr>
@@ -18,15 +18,15 @@
     <tbody>
     {% for account in accounts %}
         <tr class="even:bg-gray-200 odd:bg-gray-100">
-            <td class="px-6 py-4 whitespace-nowrap">
+            <td class="px-4 py-4 whitespace-nowrap">
                 {{ account.name }}
             </td>
-            <td class="px-6 py-4 text-sm font-light whitespace-nowrap">
-                <div class="px-6 py-4 text-2xl whitespace-nowrap font-runescape">
+            <td class="px-4 py-4 text-sm font-light whitespace-nowrap">
+                <div class="px-4 py-4 text-2xl whitespace-nowrap font-runescape">
                     <p class="pr-2 text-center">{{ account.pets.count }}</p>
                 </div>
             </td>
-            <td class="px-6 py-4">
+            <td class="px-4 py-4">
                 <div class="flex flex-row flex-wrap gap-1">
                     {% for submission in account.pets %}
                         <a href="{{ submission.proof.url }}" target="_blank">
