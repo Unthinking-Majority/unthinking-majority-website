@@ -18,7 +18,6 @@ def navbar(context):
 @register.filter
 def leaderboard_url(board):
     return reverse('leaderboard', kwargs={'board_category': board.category.slug, 'parent_board_name': board.slug})
-    # return f'/board/{board.category.slug}/{board.slug}'
 
 
 @register.filter

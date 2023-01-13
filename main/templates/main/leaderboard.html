@@ -1,82 +1,20 @@
-<table class="overflow-hidden min-w-full max-w-4xl rounded-lg">
-    <thead class="bg-gray-800 rounded-lg">
-    <tr class="text-white">
-        <th class="px-6 py-4 text-left text-md">
-            Rank
-        </th>
-        <th class="px-6 py-4 text-left text-md">
-            Username
-        </th>
-        <th class="px-6 py-4 text-left text-md">
-            Date
-        </th>
-        <th class="px-6 py-4 text-left text-md">
-            Notes
-        </th>
-        <th class="px-6 py-4 text-left text-md">
-            Proof
-        </th>
-        <th class="px-6 py-4 text-left text-md">
-            {{ board.parent.metric_name }}
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for submission in board.submissions.all %}
-        <tr class="even:bg-gray-200 odd:bg-gray-100">
-            <td class="px-6 py-4 whitespace-nowrap">
-{#                {{ forloop.counter0|add:page_obj.start_index }}#}
-                {{ forloop.counter1 }}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                {% for account in submission.accounts.all %}
-                    {% if forloop.counter0 > 0 %}
-                        , {{ account.name }}
-                    {% else %}
-                        {{ account.name }}
-                    {% endif %}
-                {% endfor %}
-            </td>
-            <td class="px-6 py-4 text-sm font-light whitespace-nowrap">
-                {{ submission.date }}
-            </td>
-            <td class="px-6 py-4 text-sm font-light whitespace-nowrap">
-            </td>
-            <td class="px-6 py-4 text-sm font-light text-gray-900 underline whitespace-nowrap hover:text-gray-600">
-                <a href="{{ submission.proof.url }}" target="_blank">
-                    Proof
-                </a>
-            </td>
-            <td class="px-6 py-4 text-2xl whitespace-nowrap font-runescape">
-                {{ submission.value_display }}
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% extends "main/site_base.html" %}
 
-<div class="flex justify-around py-2 mt-4 text-gray-800 border-t-2">
-    {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
-            Previous
-        </a>
-    {% else %}
-        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md drop-shadow-md hover:cursor-default" disabled>
-            Previous
-        </a>
-    {% endif %}
+{% load um_components %}
 
-    <a class="px-3 py-2 my-4 font-medium rounded-md hover:cursor-default">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-    </a>
+{% block content %}
+    {% page_header parent_board.name parent_board.icon %}
 
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
-            Next
-        </a>
-    {% else %}
-        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md drop-shadow-md hover:cursor-default" disabled>
-            Next
-        </a>
-    {% endif %}
-</div>
+    <div class="flex flex-wrap gap-4 justify-around">
+        {% for board, page in data %}
+            <div class="w-3/8">
+                <h2 class="text-4xl tracking-wide text-center text-gray-900 font-runescape">
+                    {{ board.name }}
+                </h2>
+                <div class="py-4">
+                    {% include "main/board.html" %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

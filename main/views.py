@@ -2,9 +2,9 @@ import os
 
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator
 from django.shortcuts import redirect, reverse
 from django.shortcuts import render, get_object_or_404
-from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
 from formtools.wizard.views import SessionWizardView
 
@@ -20,8 +20,8 @@ def landing(request):
     )
 
 
-class LeaderBoardView(TemplateView):
-    template_name = 'main/board.html'
+class LeaderboardView(TemplateView):
+    template_name = 'main/leaderboard.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -29,6 +29,13 @@ class LeaderBoardView(TemplateView):
             models.ParentBoard.objects.prefetch_related('boards__submissions'),
             slug=self.kwargs.get('parent_board_name')
         )
+
+        context['data'] = []
+        for board in context['parent_board'].boards.all():
+            p = Paginator(board.submissions.accepted(), 5)
+            page = p.page(self.request.GET.get(f'{board.id}__page', 1))
+            context['data'].append((board, page))
+
         return context
 
 
