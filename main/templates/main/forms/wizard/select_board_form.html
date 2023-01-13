@@ -15,11 +15,7 @@
             </div>
         {% endif %}
         <label for="{{ wizard.form.board.id_for_label }}" class="text-sm font-medium text-gray-900">
-            {% if label %}
-                {{ label }}
-            {% else %}
-                {{ wizard.form.board.label }}
-            {% endif %}
+            Sub-Board
             {% if wizard.form.board.field.required %}*{% endif %}
         </label>
         <select id="{{ wizard.form.board.id_for_label }}"

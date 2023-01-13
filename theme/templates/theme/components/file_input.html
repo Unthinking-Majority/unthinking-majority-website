@@ -5,14 +5,14 @@
         </div>
     {% endif %}
     <label for="{{ field.id_for_label }}">
-    <span class="block text-sm font-medium text-gray-900">
+    <div class="text-sm font-medium text-gray-900">
         {% if label %}
             {{ label }}
         {% else %}
             {{ field.label }}
         {% endif %}
         {% if field.field.required %}*{% endif %}
-    </span>
+    </div>
         <input id="{{ field.id_for_label }}"
                name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
                type="file"

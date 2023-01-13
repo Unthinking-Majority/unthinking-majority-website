@@ -3,7 +3,7 @@
 
 {% block form_content %}
     {# Type #}
-    <div class="block mx-2 my-4">
+    <div class="mx-2 my-4">
         {% if wizard.form.type.errors %}
             <div class="flex justify-center">
                 {% include "main/forms/field_error_list.html" with errors=wizard.form.type.errors %}
