@@ -22,18 +22,14 @@
                 {{ account.name }}
             </td>
             <td class="px-6 py-4 text-sm font-light whitespace-nowrap">
-                <div class="flex">
-                    <div class="px-6 py-4 text-2xl whitespace-nowrap font-runescape">
-                        <div class="flex justify-center">
-                            <p class="pr-2">{{ account.pets.count }}</p>
-                        </div>
-                    </div>
+                <div class="px-6 py-4 text-2xl whitespace-nowrap font-runescape">
+                    <p class="pr-2 text-center">{{ account.pets.count }}</p>
                 </div>
             </td>
             <td class="px-6 py-4">
                 <div class="flex flex-row flex-wrap gap-1">
                     {% for submission in account.pets %}
-                        <a href="{{ submission.proof.url }}">
+                        <a href="{{ submission.proof.url }}" target="_blank">
                             <img src="{{ submission.pet.icon.url }}" class="col-span-1 object-scale-down" title="{{ submission.pet.name }}">
                         </a>
                     {% endfor %}
