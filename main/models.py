@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -72,7 +72,7 @@ class Submission(models.Model):
     proof = models.ImageField(upload_to='submission/proof/', null=True, blank=True)
     notes = models.TextField(blank=True)
     accepted = models.BooleanField(null=True)
-    date = models.DateField(default=date.today)
+    date = models.DateTimeField(default=datetime.now())
 
     objects = managers.SubmissionQueryset.as_manager()
 
