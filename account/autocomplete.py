@@ -5,5 +5,5 @@ from account import models
 
 
 def account_autocomplete(request):
-    pets = models.Account.objects.annotate(text=F('name')).values('id', 'text')
-    return JsonResponse(list(pets), safe=False)
+    accounts = models.Account.objects.filter(active=True).annotate(text=F('name')).values('id', 'text')
+    return JsonResponse(list(accounts), safe=False)
