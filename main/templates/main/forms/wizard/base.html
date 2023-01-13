@@ -41,7 +41,7 @@
         </ul>
     {% endif %}
 
-    <form enctype="multipart/form-data" method="post" action="">
+    <form enctype="multipart/form-data" method="post" action="" autocomplete="off">
         {% csrf_token %}
         {{ wizard.management_form }}
 
