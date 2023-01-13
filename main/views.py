@@ -90,6 +90,12 @@ class SubmissionWizard(SessionWizardView):
     }
     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'temp_files'))
 
+    def post(self, *args, **kwargs):
+        wizard_goto_step = self.request.POST.get('wizard_goto_step', None)
+        if wizard_goto_step and wizard_goto_step in self.get_form_list():
+            self.storage.set_step_data(self.steps.current, None)
+        return super(SubmissionWizard, self).post(*args, **kwargs)
+
     def done(self, form_list, **kwargs):
         form_dict = kwargs.get('form_dict')
         if 'board_submission_form' in form_dict.keys():
