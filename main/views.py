@@ -5,6 +5,7 @@ from django.core.files.storage import FileSystemStorage
 from django.shortcuts import redirect, reverse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.list import ListView
+from django.views.generic.base import TemplateView
 from formtools.wizard.views import SessionWizardView
 
 from main import RECORD, PET, COL_LOG
@@ -19,24 +20,36 @@ def landing(request):
     )
 
 
-class LeaderBoardsListView(ListView):
-    model = models.Submission
+class LeaderBoardView(TemplateView):
     template_name = 'main/board.html'
-    paginate_by = 5
-
-    def get_queryset(self):
-        return self.model.objects.records().filter(
-            board__parent__slug=self.kwargs.get('parent_board_name'),
-            accepted=True
-        ).order_by('value')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(LeaderBoardsListView, self).get_context_data()
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['parent_board'] = get_object_or_404(
             models.ParentBoard.objects.prefetch_related('boards__submissions'),
             slug=self.kwargs.get('parent_board_name')
         )
         return context
+
+
+# class BoardListView(ListView):
+#     model = models.Submission
+#     template_name = 'main/board.html'
+#     paginate_by = 5
+#
+#     def get_queryset(self):
+#         return self.model.objects.records().filter(
+#             board__parent__slug=self.kwargs.get('parent_board_name'),
+#             accepted=True
+#         ).order_by('value')
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super(BoardListView, self).get_context_data()
+#         context['parent_board'] = get_object_or_404(
+#             models.ParentBoard.objects.prefetch_related('boards__submissions'),
+#             slug=self.kwargs.get('parent_board_name')
+#         )
+#         return context
 
 
 def pet_submission_form_condition(wizard):
