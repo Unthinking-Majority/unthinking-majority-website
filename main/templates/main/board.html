@@ -37,7 +37,7 @@
                 {% endfor %}
             </td>
             <td class="px-4 py-4 text-sm font-light whitespace-nowrap">
-                {{ submission.date }}
+                {{ submission.date|date:"M d, Y" }}
             </td>
             <td class="px-4 py-4 text-sm font-light text-center whitespace-nowrap">
                 {% if submission.notes %}
