@@ -32,7 +32,7 @@ class LeaderboardView(TemplateView):
 
         context['data'] = []
         for board in context['parent_board'].boards.all():
-            p = Paginator(board.submissions.accepted(), 5)
+            p = Paginator(board.submissions.accepted().order_by('value'), 5)
             page = p.page(self.request.GET.get(f'{board.id}__page', 1))
             context['data'].append((board, page))
 
