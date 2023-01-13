@@ -12,11 +12,12 @@ class BoardCategoryAdmin(admin.ModelAdmin):
 class ParentBoardAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
+    list_display = ['name', 'category', 'metric', 'metric_name']
 
 
 class BoardAdmin(admin.ModelAdmin):
     autocomplete_fields = ['parent']
-    list_display = ['name', 'metric']
+    list_display = ['name', 'parent', 'team_size', 'metric', 'metric_name']
     list_filter = ['metric']
     search_fields = ['name']
 

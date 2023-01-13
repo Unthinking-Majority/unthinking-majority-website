@@ -32,26 +32,6 @@ class LeaderBoardView(TemplateView):
         return context
 
 
-# class BoardListView(ListView):
-#     model = models.Submission
-#     template_name = 'main/board.html'
-#     paginate_by = 5
-#
-#     def get_queryset(self):
-#         return self.model.objects.records().filter(
-#             board__parent__slug=self.kwargs.get('parent_board_name'),
-#             accepted=True
-#         ).order_by('value')
-#
-#     def get_context_data(self, *, object_list=None, **kwargs):
-#         context = super(BoardListView, self).get_context_data()
-#         context['parent_board'] = get_object_or_404(
-#             models.ParentBoard.objects.prefetch_related('boards__submissions'),
-#             slug=self.kwargs.get('parent_board_name')
-#         )
-#         return context
-
-
 def pet_submission_form_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('submission_type_form') or {}
     return cleaned_data.get('type', None) == PET

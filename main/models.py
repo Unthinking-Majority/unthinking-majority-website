@@ -21,9 +21,6 @@ class Board(models.Model):
     metric_name = models.CharField(max_length=128, default='Time')
     team_size = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(8)])
 
-    # TODO maybe re-add slugs for individual boards, cause then we could do the pagination there!
-    # slug = models.SlugField(unique=True)
-
     class Meta:
         ordering = ['team_size', 'name']
 
