@@ -15,14 +15,17 @@ class Board(models.Model):
         (INTEGER, 'Integer'),
         (DECIMAL, 'Decimal'),
     )
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, unique=True)
     parent = models.ForeignKey('main.ParentBoard', on_delete=models.CASCADE, related_name='boards')
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default='Time')
     team_size = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(8)])
 
+    # TODO maybe re-add slugs for individual boards, cause then we could do the pagination there!
+    # slug = models.SlugField(unique=True)
+
     class Meta:
-        ordering = ['name']
+        ordering = ['team_size', 'name']
 
     def __str__(self):
         return self.name
@@ -35,7 +38,7 @@ class ParentBoard(models.Model):
         (INTEGER, 'Integer'),
         (DECIMAL, 'Decimal'),
     )
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, unique=True)
     category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='parent_boards')
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default='Time')

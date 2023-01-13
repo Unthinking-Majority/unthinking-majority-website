@@ -6,7 +6,10 @@
     {% page_header parent_board.name parent_board.icon %}
 
     {% for board in parent_board.boards.all %}
-        <div class="flex gap-6 justify-center rounded-lg">
+        <div class="inline-block w-min">
+            <h2 class="text-4xl tracking-wide font-runescape text-gray-900 text-center">
+                {{ board.name }}
+            </h2>
             <div class="py-4">
                 {% include "main/leaderboard.html" %}
             </div>
