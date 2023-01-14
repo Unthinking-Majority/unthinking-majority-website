@@ -1,3 +1,5 @@
+import os
+import uuid
 from datetime import datetime
 
 from django.conf import settings
@@ -6,6 +8,11 @@ from django.db import models
 
 from main import SUBMISSION_TYPES, RECORD, PET, COL_LOG
 from main import managers
+
+
+def get_file_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return os.path.join(instance.UPLOAD_TO, f'{uuid.uuid4()}.{ext}')
 
 
 class Board(models.Model):
@@ -27,12 +34,14 @@ class ParentBoard(models.Model):
         (INTEGER, 'Integer'),
         (DECIMAL, 'Decimal'),
     )
+    UPLOAD_TO = 'board/icons/'
+
     name = models.CharField(max_length=256, unique=True)
     category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='parent_boards')
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default='Time')
     slug = models.SlugField(unique=True)
-    icon = models.ImageField(upload_to='board/icons/', null=True, blank=True)
+    icon = models.ImageField(upload_to=get_file_path, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Parent Board'
@@ -56,23 +65,27 @@ class BoardCategory(models.Model):
 
 
 class Pet(models.Model):
+    UPLOAD_TO = 'pet/icons/'
+
     name = models.CharField(max_length=256, unique=True)
-    icon = models.ImageField(upload_to='pet/icons/', null=True, blank=True)
+    icon = models.ImageField(upload_to=get_file_path, null=True, blank=True)
 
     def __str__(self):
         return self.name
 
 
 class Submission(models.Model):
+    UPLOAD_TO = 'submission/proof/'
+
     accounts = models.ManyToManyField('account.Account')
     type = models.IntegerField(choices=SUBMISSION_TYPES, default=RECORD)
     board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
     value = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
-    proof = models.ImageField(upload_to='submission/proof/', null=True, blank=True)
+    proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     notes = models.TextField(blank=True)
     accepted = models.BooleanField(null=True)
-    date = models.DateTimeField(default=datetime.now())
+    date = models.DateTimeField(default=datetime.now)
 
     objects = managers.SubmissionQueryset.as_manager()
 
