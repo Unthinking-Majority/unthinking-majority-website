@@ -1,4 +1,4 @@
-<table class="overflow-hidden rounded-lg drop-shadow-lg">
+<table class="overflow-hidden rounded-lg shadow-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
         <th class="px-2 py-4 text-left text-md">
@@ -29,7 +29,7 @@
             </td>
             <td class="flex flex-wrap px-4 py-4 max-w-xs">
                 {% for account in submission.accounts.all %}
-                    <span class="rounded-lg px-2 m-1">
+                    <span class="px-2 m-1 rounded-lg">
                         {{ account.name }}
                     </span>
                 {% endfor %}
@@ -37,20 +37,19 @@
             <td class="px-2 py-4 text-sm font-light whitespace-nowrap">
                 {{ submission.date|date:"M d, Y" }}
             </td>
-            <td class="px-2 py-4 text-sm font-light text-center whitespace-nowrap">
+            <td class="px-2 py-4 text-sm font-light text-center">
                 {% if submission.notes %}
-                    <button type="button" class="group">
+                    <span class="group hover:cursor-pointer" tabindex="0">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                              class="w-6 h-6 text-gray-400 transition ease-in-out delay-75 hover:scale-125 hover:text-gray-800">
                             <path fill-rule="evenodd"
                                   d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
                                   clip-rule="evenodd"></path>
                         </svg>
-                        <span class="hidden absolute z-10 p-2 mt-2 text-sm font-light whitespace-normal bg-gray-100 rounded-md ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-hover:block group-focus-within:block focus:outline-none"
-                              tabindex="-1">
+                        <span class="hidden absolute z-10 px-4 py-4 mt-2 text-sm font-light max-w-sm bg-gray-50 rounded-md ring-1 ring-gray-800 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default" tabindex="-1">
                         {{ submission.notes }}
                     </span>
-                    </button>
+                    </span>
                 {% endif %}
             </td>
             <td class="px-2 py-4 text-sm font-light text-gray-900 underline whitespace-nowrap hover:text-gray-600">
@@ -69,11 +68,11 @@
 <div class="flex justify-around py-2 mt-4 text-gray-800 border-t-2">
     {% if page.has_previous %}
         <a href="?{{ board.id }}__page={{ page.previous_page_number }}"
-           class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
+           class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
             Previous
         </a>
     {% else %}
-        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md drop-shadow-md hover:cursor-default"
+        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md shadow-md hover:cursor-default"
            disabled>
             Previous
         </a>
@@ -85,11 +84,11 @@
 
     {% if page.has_next %}
         <a href="?{{ board.id }}__page={{ page.next_page_number }}"
-           class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
+           class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
             Next
         </a>
     {% else %}
-        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md drop-shadow-md hover:cursor-default"
+        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md shadow-md hover:cursor-default"
            disabled>
             Next
         </a>
