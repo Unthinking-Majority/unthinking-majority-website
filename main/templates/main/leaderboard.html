@@ -5,15 +5,13 @@
 {% block content %}
     {% page_header parent_board.name parent_board.icon %}
 
-    <div class="flex flex-wrap gap-4 justify-around">
+    <div class="flex flex-wrap justify-around">
         {% for board, page in data %}
-            <div class="w-3/8">
-                <h2 class="text-4xl tracking-wide text-center text-gray-900 font-runescape">
+            <div class="py-2">
+                <h2 class="text-4xl tracking-wide text-gray-900 font-runescape text-center">
                     {{ board.name }}
                 </h2>
-                <div class="py-4">
-                    {% include "main/board.html" %}
-                </div>
+                {% include "main/board.html" %}
             </div>
         {% endfor %}
     </div>

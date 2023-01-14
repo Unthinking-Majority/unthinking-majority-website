@@ -1,7 +1,7 @@
 <h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
     Collection Logs
 </h3>
-<table class="overflow-hidden min-w-full max-w-4xl bg-gray-200 rounded-lg">
+<table class="overflow-hidden min-w-full max-w-4xl bg-gray-200 rounded-lg drop-shadow-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
         <th class="px-4 py-2 text-left text-md">
@@ -14,7 +14,7 @@
     </thead>
     <tbody>
     {% for account in accounts %}
-        <tr class="even:bg-gray-200 odd:bg-gray-100">
+        <tr class="even:bg-gray-100 odd:bg-gray-50">
             <td class="px-4 py-4 whitespace-nowrap">
                 {{ account.name }}
             </td>

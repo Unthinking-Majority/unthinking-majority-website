@@ -1,45 +1,43 @@
-<table class="overflow-hidden min-w-full max-w-4xl rounded-lg">
+<table class="overflow-hidden rounded-lg drop-shadow-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-left text-md">
             Rank
         </th>
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-left text-md">
             Username
         </th>
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-left text-md">
             Date
         </th>
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-left text-md">
             Notes
         </th>
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-left text-md">
             Proof
         </th>
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-left text-md">
             {{ board.parent.metric_name }}
         </th>
     </tr>
     </thead>
     <tbody>
     {% for submission in page %}
-        <tr class="even:bg-gray-200 odd:bg-gray-100">
-            <td class="px-4 py-4 whitespace-nowrap">
+        <tr class="even:bg-gray-100 odd:bg-gray-50">
+            <td class="px-2 py-4 whitespace-nowrap">
                 {{ forloop.counter0|add:page.start_index }}
             </td>
-            <td class="px-4 py-4">
+            <td class="flex flex-wrap px-4 py-4 max-w-xs">
                 {% for account in submission.accounts.all %}
-                    {% if forloop.counter0 > 0 %}
-                        , {{ account.name }}
-                    {% else %}
+                    <span class="rounded-lg px-2 m-1">
                         {{ account.name }}
-                    {% endif %}
+                    </span>
                 {% endfor %}
             </td>
-            <td class="px-4 py-4 text-sm font-light whitespace-nowrap">
+            <td class="px-2 py-4 text-sm font-light whitespace-nowrap">
                 {{ submission.date|date:"M d, Y" }}
             </td>
-            <td class="px-4 py-4 text-sm font-light text-center whitespace-nowrap">
+            <td class="px-2 py-4 text-sm font-light text-center whitespace-nowrap">
                 {% if submission.notes %}
                     <button type="button" class="group">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -48,18 +46,19 @@
                                   d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
                                   clip-rule="evenodd"></path>
                         </svg>
-                        <span class="hidden absolute z-10 p-2 mt-2 max-w-md text-sm font-light whitespace-normal bg-gray-100 rounded-md ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-hover:block group-focus-within:block focus:outline-none" tabindex="-1">
-                            {{ submission.notes }}
-                        </span>
+                        <span class="hidden absolute z-10 p-2 mt-2 text-sm font-light whitespace-normal bg-gray-100 rounded-md ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-hover:block group-focus-within:block focus:outline-none"
+                              tabindex="-1">
+                        {{ submission.notes }}
+                    </span>
                     </button>
                 {% endif %}
             </td>
-            <td class="px-4 py-4 text-sm font-light text-gray-900 underline whitespace-nowrap hover:text-gray-600">
+            <td class="px-2 py-4 text-sm font-light text-gray-900 underline whitespace-nowrap hover:text-gray-600">
                 <a href="{{ submission.proof.url }}" target="_blank">
                     Proof
                 </a>
             </td>
-            <td class="px-4 py-4 text-2xl whitespace-nowrap font-runescape">
+            <td class="px-2 py-4 text-2xl whitespace-nowrap font-runescape">
                 {{ submission.value_display }}
             </td>
         </tr>
@@ -69,11 +68,13 @@
 
 <div class="flex justify-around py-2 mt-4 text-gray-800 border-t-2">
     {% if page.has_previous %}
-        <a href="?{{ board.id }}__page={{ page.previous_page_number }}" class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
+        <a href="?{{ board.id }}__page={{ page.previous_page_number }}"
+           class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
             Previous
         </a>
     {% else %}
-        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md drop-shadow-md hover:cursor-default" disabled>
+        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md drop-shadow-md hover:cursor-default"
+           disabled>
             Previous
         </a>
     {% endif %}
@@ -83,11 +84,13 @@
     </a>
 
     {% if page.has_next %}
-        <a href="?{{ board.id }}__page={{ page.next_page_number }}" class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
+        <a href="?{{ board.id }}__page={{ page.next_page_number }}"
+           class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md drop-shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
             Next
         </a>
     {% else %}
-        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md drop-shadow-md hover:cursor-default" disabled>
+        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md drop-shadow-md hover:cursor-default"
+           disabled>
             Next
         </a>
     {% endif %}
