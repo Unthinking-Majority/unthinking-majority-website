@@ -1,9 +1,9 @@
 <div class="flex justify-center">
-    <div class="flex justify-center items-center my-6 bg-gray-800 rounded-lg basis-11/12">
+    <div class="flex justify-center items-center px-2 mx-2 my-2 md:my-6 bg-gray-800 rounded-lg md:mx-0 max-sm:flex-col">
         {% if icon %}
-            <img src="{{ icon.url }}" class="mx-4 h-16">
+            <img src="{{ icon.url }}" class="mx-4 my-2 h-16">
         {% endif %}
-        <h1 class="p-2 text-6xl tracking-wide text-center font-runescape text-yellow-runescape text-border">
+        <h1 class="p-1 text-4xl tracking-wide text-center md:text-6xl font-runescape text-yellow-runescape text-border">
             {{ text }}
         </h1>
     </div>

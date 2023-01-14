@@ -1,22 +1,22 @@
 <table class="overflow-hidden rounded-lg shadow-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
-        <th class="px-2 py-4 text-center text-md">
+        <th class="p-2 text-center md:px-2 md:py-4 md:text-md">
             Rank
         </th>
-        <th class="px-2 py-4 text-center text-md">
+        <th class="p-2 text-center md:px-2 md:py-4 md:text-md">
             Username
         </th>
-        <th class="px-2 py-4 text-center text-md">
+        <th class="hidden text-center md:table-cell md:px-2 md:py-4 md:text-md">
             Date
         </th>
-        <th class="px-2 py-4 text-center text-md">
+        <th class="p-2 text-center md:px-2 md:py-4 md:text-md">
             Notes
         </th>
-        <th class="px-2 py-4 text-center text-md">
+        <th class="p-2 text-center md:px-2 md:py-4 md:text-md">
             Proof
         </th>
-        <th class="px-2 py-4 text-center text-md">
+        <th class="p-2 text-center md:px-2 md:py-4 md:text-md">
             {{ board.parent.metric_name }}
         </th>
     </tr>
@@ -24,20 +24,20 @@
     <tbody>
     {% for submission in page %}
         <tr class="even:bg-gray-100 odd:bg-gray-50">
-            <td class="px-2 py-4 whitespace-nowrap">
+            <td class="py-1 text-center whitespace-nowrap md:px-2 md:py-4">
                 {{ forloop.counter0|add:page.start_index }}
             </td>
-            <td class="flex flex-wrap px-2 py-4 max-w-xs">
+            <td class="flex flex-wrap max-w-xs md:px-2 md:py-4">
                 {% for account in submission.accounts.all %}
-                    <span class="px-2 m-1 rounded-lg">
+                    <span class="m-1 text-sm md:px-2 md:text-lg">
                         {{ account.name }}
                     </span>
                 {% endfor %}
             </td>
-            <td class="px-2 py-4 text-sm font-light whitespace-nowrap">
+            <td class="hidden py-1 text-sm font-light whitespace-nowrap md:table-cell md:px-2 md:py-4">
                 {{ submission.date|date:"M d, Y" }}
             </td>
-            <td class="px-2 py-4 text-sm font-light text-center">
+            <td class="py-1 text-sm font-light text-center md:px-2 md:py-4">
                 {% if submission.notes %}
                     <span class="group hover:cursor-pointer" tabindex="0">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -46,18 +46,23 @@
                                   d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
                                   clip-rule="evenodd"></path>
                         </svg>
-                        <span class="hidden absolute z-10 px-2 py-4 mt-2 max-w-sm text-sm font-light bg-gray-50 rounded-md ring-1 ring-gray-800 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default" tabindex="-1">
+                        <span class="hidden absolute z-10 mt-2 max-w-sm text-sm font-light bg-gray-50 rounded-md ring-1 ring-gray-800 md:px-2 md:py-4 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default" tabindex="-1">
                         {{ submission.notes }}
                     </span>
                     </span>
                 {% endif %}
             </td>
-            <td class="px-2 py-4 text-sm font-light text-gray-900 underline whitespace-nowrap hover:text-gray-600">
+            <td class="py-1 text-sm font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 md:py-4 hover:text-gray-600">
                 <a href="{{ submission.proof.url }}" target="_blank">
-                    Proof
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-400 transition ease-in-out delay-75 hover:scale-125 hover:text-gray-800">
+                        <path fill-rule="evenodd"
+                              d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+
                 </a>
             </td>
-            <td class="px-2 py-4 text-2xl whitespace-nowrap font-runescape">
+            <td class="py-1 text-xl whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
                 {{ submission.value_display }}
             </td>
         </tr>
