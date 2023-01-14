@@ -1,22 +1,22 @@
 <table class="overflow-hidden rounded-lg shadow-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
-        <th class="px-2 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center text-md">
             Rank
         </th>
-        <th class="px-2 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center text-md">
             Username
         </th>
-        <th class="px-2 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center text-md">
             Date
         </th>
-        <th class="px-2 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center text-md">
             Notes
         </th>
-        <th class="px-2 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center text-md">
             Proof
         </th>
-        <th class="px-2 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center text-md">
             {{ board.parent.metric_name }}
         </th>
     </tr>
@@ -27,7 +27,7 @@
             <td class="px-2 py-4 whitespace-nowrap">
                 {{ forloop.counter0|add:page.start_index }}
             </td>
-            <td class="flex flex-wrap px-4 py-4 max-w-xs">
+            <td class="flex flex-wrap px-2 py-4 max-w-xs">
                 {% for account in submission.accounts.all %}
                     <span class="px-2 m-1 rounded-lg">
                         {{ account.name }}
@@ -46,7 +46,7 @@
                                   d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
                                   clip-rule="evenodd"></path>
                         </svg>
-                        <span class="hidden absolute z-10 px-4 py-4 mt-2 text-sm font-light max-w-sm bg-gray-50 rounded-md ring-1 ring-gray-800 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default" tabindex="-1">
+                        <span class="hidden absolute z-10 px-2 py-4 mt-2 max-w-sm text-sm font-light bg-gray-50 rounded-md ring-1 ring-gray-800 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default" tabindex="-1">
                         {{ submission.notes }}
                     </span>
                     </span>
