@@ -7,7 +7,7 @@
         <th class="px-4 py-4 text-left text-md">
             Username
         </th>
-        <th class="px-4 py-4 text-left text-md">
+        <th class="hidden text-center lg:table-cell lg:px-2 lg:py-4 lg:text-md">
             Date
         </th>
         <th class="px-4 py-4 text-left text-md">
@@ -31,7 +31,7 @@
                     </span>
                 {% endfor %}
             </td>
-            <td class="px-4 py-4 text-sm font-light whitespace-nowrap">
+            <td class="hidden px-4 py-4 text-sm font-light whitespace-nowrap lg:table-cell">
                 {{ submission.date|date:"M d, Y" }}
             </td>
             <td class="px-4 py-4 text-sm font-light max-w-sm">

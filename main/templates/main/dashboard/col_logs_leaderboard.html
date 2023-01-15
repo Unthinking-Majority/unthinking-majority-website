@@ -14,7 +14,7 @@
     </thead>
     <tbody>
     {% for account in accounts %}
-        <tr class="even:bg-gray-100 odd:bg-gray-50">
+        <tr class="even:bg-gray-100 odd:bg-gray-50 {% if forloop.counter0 >= 5 %}hidden xl:table-row{% endif %}">
             <td class="px-4 py-4 whitespace-nowrap">
                 {{ account.name }}
             </td>
