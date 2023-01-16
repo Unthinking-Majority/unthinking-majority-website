@@ -1,16 +1,16 @@
-<h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
+<h3 class="mb-2 text-4xl text-center md:text-5xl font-runescape text-yellow-runescape text-border">
     Pets Leaderboard
 </h3>
 <table class="overflow-hidden min-w-full max-w-4xl bg-gray-200 rounded-lg shadow-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center md:p-4 md:text-md">
             Username
         </th>
-        <th class="px-4 py-4 text-left text-md">
+        <th class="hidden text-center md:table-cell md:p-4 md:text-md">
             Total Pets
         </th>
-        <th class="px-4 py-4">
+        <th class="px-2 py-4 md:p-4">
             Pets
         </th>
     </tr>
@@ -18,19 +18,19 @@
     <tbody>
     {% for account in accounts %}
         <tr class="even:bg-gray-100 odd:bg-gray-50">
-            <td class="px-4 py-4 whitespace-nowrap">
+            <td class="py-2 text-center whitespace-nowrap">
                 {{ account.name }}
             </td>
-            <td class="px-4 py-4 text-sm font-light whitespace-nowrap">
+            <td class="hidden py-2 text-center whitespace-nowrap md:table-cell">
                 <div class="px-4 py-4 text-2xl whitespace-nowrap font-runescape">
                     <p class="pr-2 text-center">{{ account.pets.count }}</p>
                 </div>
             </td>
-            <td class="px-4 py-4">
+            <td class="py-2 pl-2">
                 <div class="flex flex-row flex-wrap gap-1">
                     {% for submission in account.pets %}
                         <a href="{{ submission.proof.url }}" target="_blank">
-                            <img src="{{ submission.pet.icon.url }}" class="col-span-1 object-scale-down" title="{{ submission.pet.name }}">
+                            <img src="{{ submission.pet.icon.url }}" class="object-scale-down col-span-1" title="{{ submission.pet.name }}">
                         </a>
                     {% endfor %}
                 </div>

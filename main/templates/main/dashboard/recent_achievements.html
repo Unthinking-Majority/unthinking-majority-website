@@ -1,22 +1,22 @@
-<h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
+<h3 class="mb-2 text-4xl text-center md:text-5xl font-runescape text-yellow-runescape text-border">
     Recent Achievements
 </h3>
 <table class="overflow-hidden min-w-full rounded-lg shadow-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center md:text-md">
             Username
         </th>
-        <th class="hidden text-center lg:table-cell lg:px-2 lg:py-4 lg:text-md">
+        <th class="hidden text-center lg:table-cell lg:px-2 lg:py-4 lg:md:text-md">
             Date
         </th>
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center md:text-md">
             Type
         </th>
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center md:text-md">
             Proof
         </th>
-        <th class="px-4 py-4 text-left text-md">
+        <th class="px-2 py-4 text-center md:text-md">
             Achievement
         </th>
     </tr>
@@ -24,25 +24,31 @@
     <tbody>
     {% for submission in recent_submissions %}
         <tr class="even:bg-gray-100 odd:bg-gray-50">
-            <td class="flex flex-wrap px-4 py-4 max-w-xs">
+            <td class="max-w-xs text-center md:px-2 md:py-4">
                 {% for account in submission.accounts.all %}
-                    <span class="rounded-lg px-2 m-1">
+                    <span class="m-1 text-sm whitespace-nowrap md:px-2 md:text-lg">
                         {{ account.name }}
                     </span>
                 {% endfor %}
             </td>
-            <td class="hidden px-4 py-4 text-sm font-light whitespace-nowrap lg:table-cell">
+            <td class="hidden py-4 text-sm font-light whitespace-nowrap md:px-2 lg:table-cell">
                 {{ submission.date|date:"M d, Y" }}
             </td>
-            <td class="px-4 py-4 text-sm font-light max-w-sm">
+            <td class="py-4 max-w-sm text-sm font-light text-center md:px-2">
                 {{ submission.type_display }}
             </td>
-            <td class="px-4 py-4 text-sm font-light text-gray-900 underline whitespace-nowrap hover:text-gray-600">
-                <a href="{{ submission.proof.url }}" target="_blank">
-                    Proof
-                </a>
+            <td class="py-2 text-sm font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 md:py-4 hover:text-gray-600">
+                <div class="m-auto w-min">
+                    <a href="{{ submission.proof.url }}" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-400 transition ease-in-out delay-75 hover:scale-125 hover:text-gray-800">
+                            <path fill-rule="evenodd"
+                                  d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </div>
             </td>
-            <td class="px-4 py-4 text-2xl whitespace-nowrap font-runescape">
+            <td class="py-4 text-2xl text-center whitespace-nowrap md:px-2 font-runescape">
                 {{ submission.value_display }}
             </td>
         </tr>

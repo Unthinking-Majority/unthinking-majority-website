@@ -1,22 +1,22 @@
 <table class="overflow-hidden rounded-lg shadow-lg">
     <thead class="bg-gray-800 rounded-lg">
     <tr class="text-white">
-        <th class="p-2 text-center md:px-2 md:py-4 md:text-md">
+        <th class="px-2 py-4 text-center md:py-4 md:text-md">
             Rank
         </th>
-        <th class="p-2 text-center md:px-2 md:py-4 md:text-md">
+        <th class="px-2 py-4 text-center md:py-4 md:text-md">
             Username{% if board.team_size > 1 %}s{% endif %}
         </th>
-        <th class="hidden text-center md:table-cell md:px-2 md:py-4 md:text-md">
+        <th class="hidden text-center md:table-cell md:p-4 md:text-md">
             Date
         </th>
-        <th class="p-2 text-center md:px-2 md:py-4 md:text-md">
+        <th class="px-2 py-4 text-center md:py-4 md:text-md">
             Notes
         </th>
-        <th class="p-2 text-center md:px-2 md:py-4 md:text-md">
+        <th class="px-2 py-4 text-center md:py-4 md:text-md">
             Proof
         </th>
-        <th class="p-2 text-center md:px-2 md:py-4 md:text-md">
+        <th class="px-2 py-4 text-center md:py-4 md:text-md">
             {{ board.parent.metric_name }}
         </th>
     </tr>
@@ -34,12 +34,12 @@
                     </span>
                 {% endfor %}
             </td>
-            <td class="hidden py-2 text-sm font-light whitespace-nowrap md:table-cell md:px-2 md:py-4">
+            <td class="hidden py-2 text-sm font-light whitespace-nowrap md:table-cell">
                 {{ submission.date|date:"M d, Y" }}
             </td>
             <td class="py-2 text-sm md:py-4">
                 {% if submission.notes %}
-                    <div class="w-min group m-auto " tabindex="0">
+                    <div class="m-auto w-min group" tabindex="0">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                              class="w-6 h-6 text-gray-400 transition ease-in-out delay-75 hover:scale-125 hover:text-gray-800 hover:cursor-pointer">
                             <path fill-rule="evenodd"
@@ -53,7 +53,7 @@
                     </div>
                 {% endif %}
             </td>
-            <td class="py-2 text-sm font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 md:py-4 hover:text-gray-600">
+            <td class="py-2 font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 md:py-4 hover:text-gray-600">
                 <div class="m-auto w-min">
                     <a href="{{ submission.proof.url }}" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-400 transition ease-in-out delay-75 hover:scale-125 hover:text-gray-800">
@@ -64,7 +64,7 @@
                     </a>
                 </div>
             </td>
-            <td class="py-2 pr-1 text-xl whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
+            <td class="py-2 text-xl text-center whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
                 {{ submission.value_display }}
             </td>
         </tr>

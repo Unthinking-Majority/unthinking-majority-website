@@ -8,30 +8,30 @@
             <img class="w-auto h-auto" src="{% static "um_logos/gifs/logo_animated_blue.gif" %}"
                  alt="Unthinking Majority Logo">
         </div>
-        <h1 class="py-2 text-center text-4xl sm:text-6xl font-bold tracking-wide text-gray-800">
+        <h1 class="py-2 text-4xl font-bold tracking-wide text-center text-gray-800 sm:text-6xl">
             Unthinking Majority
         </h1>
-        <h2 class="py-2 text-center text-3xl sm:text-5xl font-bold tracking-wide text-gray-700">
+        <h2 class="py-2 text-3xl font-bold tracking-wide text-center text-gray-700 sm:text-5xl">
             Leaderboards
         </h2>
     </div>
 
-    <div class="flex md:gap-4 justify-center flex-wrap">
-        <div class="flex flex-wrap xl:flex-col md:gap-4 justify-center">
-            <div class="py-2">
+    <div class="flex flex-wrap justify-center md:gap-4">
+        <div class="flex flex-wrap justify-center xl:flex-col md:gap-4">
+            <div class="mx-1 my-4">
                 {% top_players_leaderboard %}
             </div>
-            <div class="py-2">
+            <div class="mx-1 my-4">
                 {% col_logs_leaderboard %}
             </div>
         </div>
         <div class="flex-col">
             <div class="flex gap-4 justify-center">
-                <div class="py-2">
+                <div class="mx-1 my-4">
                     {% recent_submission_leaderboard %}
                 </div>
             </div>
-            <div class="py-2">
+            <div class="mx-1 my-4">
                 {% pets_leaderboard %}
             </div>
         </div>
