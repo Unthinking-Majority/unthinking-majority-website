@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
-from django.db.models import Subquery
+from django.db.models import Subquery, Count, F, Q
 from django.shortcuts import redirect, reverse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
@@ -34,15 +34,23 @@ class LeaderboardView(TemplateView):
         context['data'] = []
         for board in context['parent_board'].boards.all():
 
+            # filter out submissions whose inactive accounts account for at least half of the accounts
+            active_accounts_submissions = board.submissions.accepted().annotate(
+                num_accounts=Count('accounts'),
+                num_active_accounts=Count('accounts', filter=Q(accounts__active=True))
+            ).filter(num_active_accounts__gt=F('num_accounts') / 2)
+
             # group by accounts and value, then select distinct; this way, we only get 1 entry from each user!
-            submissions_subquery = board.submissions.accepted().order_by().order_by(
+            submissions_subquery = models.Submission.objects.filter(
+                pk__in=Subquery(active_accounts_submissions.values('pk'))
+            ).order_by().order_by(
                 'accounts',
                 'value'
             ).distinct(
                 'accounts'
             )
 
-            submissions = models.Submission.objects.accepted().filter(
+            submissions = models.Submission.objects.filter(
                 pk__in=Subquery(submissions_subquery.values('pk'))
             ).order_by('value')
 
