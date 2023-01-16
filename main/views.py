@@ -3,6 +3,7 @@ import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
+from django.db.models import Subquery
 from django.shortcuts import redirect, reverse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
@@ -32,7 +33,20 @@ class LeaderboardView(TemplateView):
 
         context['data'] = []
         for board in context['parent_board'].boards.all():
-            p = Paginator(board.submissions.accepted().order_by('value'), 5)
+
+            # group by accounts and value, then select distinct; this way, we only get 1 entry from each user!
+            submissions_subquery = board.submissions.accepted().order_by().order_by(
+                'accounts',
+                'value'
+            ).distinct(
+                'accounts'
+            )
+
+            submissions = models.Submission.objects.accepted().filter(
+                pk__in=Subquery(submissions_subquery.values('pk'))
+            ).order_by('value')
+
+            p = Paginator(submissions, 5)
             page = p.page(self.request.GET.get(f'{board.id}__page', 1))
             context['data'].append((board, page))
 
