@@ -100,7 +100,7 @@
                 </div>
 
                 {# Link to admin #}
-                {% if request.user.is_authenticated %}
+                {% if request.user.is_staff %}
                     <div class="hidden ml-6 md:block">
                         <div class="flex items-center space-x-4">
                             <a href="{% url "admin:index" %}"
@@ -145,7 +145,7 @@
                                 Profile
                             </a>
                         </li>
-                        {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff %}
                             <li>
                                 <a href="{% url "admin:index" %}"
                                    class="block px-4 py-2 text-gray-700 hover:bg-gray-300 md:hidden">

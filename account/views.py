@@ -16,7 +16,7 @@ class CreateAccountView(FormView):
     success_url = reverse_lazy('accounts:login')
 
     def form_valid(self, form):
-        form.save()
+        form.form_valid()
         return super(CreateAccountView, self).form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):

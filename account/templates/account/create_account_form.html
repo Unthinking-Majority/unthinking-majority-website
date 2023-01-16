@@ -4,6 +4,11 @@
 
 {% block content %}
     {% page_header "Create Account" %}
+    <div class="text-center m-auto">
+        <h2 class="py-2 text-xl text-gray-900">
+            Create an account so you can see a personalized dashboard highlighting all of your achievements!
+        </h2>
+    </div>
     {% if form.errors %}
         <div class="flex justify-center pb-4">
             <p class="p-4 text-lg text-center text-red-700 rounded-lg border border-red-700 basis-7/12">
@@ -21,12 +26,17 @@
 
             {% simple_input form.password2 %}
 
-            {% simple_input form.name "OSRS Username" %}
+            {% if wizard.form.parent_board.errors %}
+                <div class="flex justify-center">
+                    {% include "main/forms/field_error_list.html" with errors=form.username.errors %}
+                </div>
+            {% endif %}
+            {{ form.name }}
 
             {% simple_input form.email  %}
 
             <div class="flex justify-center">
-                <button type="submit" tabindex="0" class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-gray-300 hover:scale-105">
+                <button type="submit" tabindex="0" class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
                     Create Account
                 </button>
             </div>

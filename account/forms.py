@@ -1,13 +1,14 @@
 from django import forms
-from django.contrib.auth import password_validation
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ValidationError
+from django.urls import reverse_lazy
 
 from account import models
+from main import widgets
 
 
 class CreateUserForm(UserCreationForm):
-    email = forms.EmailField(label='Email')
+    email = forms.EmailField(label='Email', required=False)
 
     def save(self, commit=True):
         user = super(CreateUserForm, self).save(commit=commit)
@@ -16,7 +17,7 @@ class CreateUserForm(UserCreationForm):
         return user
 
 
-class CreateAccountForm(forms.ModelForm):
+class CreateAccountForm(forms.Form):
     username = forms.CharField(
         label='Username',
         max_length=150,
@@ -24,9 +25,13 @@ class CreateAccountForm(forms.ModelForm):
             'unique': 'A user with that username already exists.',
         },
     )
+    name = forms.ModelChoiceField(
+        queryset=models.Account.objects.all()
+    )
     email = forms.EmailField(
         label='Email',
-        help_text='In the event you lose your password, we can use your email to reset it.'
+        help_text='(Optional) In the event you lose your password, we can use your email to reset it.',
+        required=False
     )
     password1 = forms.CharField(
         label='Password',
@@ -39,23 +44,26 @@ class CreateAccountForm(forms.ModelForm):
         strip=False,
     )
 
-    class Meta:
-        model = models.Account
-        fields = ['name', 'username', 'email', 'password1', 'password2']
+    def __init__(self, *args, **kwargs):
+        super(CreateAccountForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget = widgets.AutocompleteSelectWidget(
+            autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
+            placeholder='',
+            label='In Game Name',
+            help_text='If your in game name is not listed, please contact an admin through discord.',
+        )
 
     def clean(self):
         cleaned_data = super(CreateAccountForm, self).clean()
         user_form = CreateUserForm(cleaned_data)
         if user_form.is_valid():
-            self._user = user_form.save(commit=True)
+            cleaned_data['user'] = user_form.save(commit=True)
         else:
             raise ValidationError(user_form.errors)
         return cleaned_data
 
-    def save(self, commit=True):
-        # Create new Account, add above created User object to this newly created Account
-        account = super(CreateAccountForm, self).save(commit=commit)
-        account.user = self._user
+    def form_valid(self):
+        account = self.cleaned_data['name']
+        account.user = self.cleaned_data['user']
         account.save()
-
         return account

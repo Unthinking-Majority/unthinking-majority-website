@@ -31,11 +31,6 @@ class SelectBoardForm(forms.Form):
         super(SelectBoardForm, self).__init__(*args, **kwargs)
         if parent_board:
             self.fields['board'].queryset = parent_board.boards.all()
-        # self.fields['board'].widget = widgets.AutocompleteSelectWidget(
-        #     autocomplete_url=reverse_lazy('board-autocomplete'),
-        #     placeholder='Select a board',
-        #     label='Board',
-        # )
 
 
 class BoardSubmissionForm(forms.Form):
