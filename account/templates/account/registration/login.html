@@ -26,8 +26,10 @@
             </div>
         </form>
     </div>
-    <a href="{% url "accounts:password_reset" %}"
-       class="px-3 py-2 my-4 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:cursor-pointer">
-        Forgot you password? Click here to reset it.
-    </a>
+    <div class="sm:m-auto sm:w-min sm:whitespace-nowrap text-center">
+        <a href="{% url "accounts:password_reset" %}"
+           class="px-3 py-2 my-4 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:cursor-pointer">
+            Forgot you password? Click here to reset it.
+        </a>
+    </div>
 {% endblock %}
