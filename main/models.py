@@ -96,7 +96,7 @@ class Submission(models.Model):
 
     def __str__(self):
         accounts = ', '.join(self.accounts.values_list('name', flat=True))
-        return f'{accounts} - {self.board} - {self.date} - {self.value}'
+        return f'{accounts} - {self.board} - {self.value}'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

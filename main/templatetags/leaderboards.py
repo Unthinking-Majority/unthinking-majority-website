@@ -43,5 +43,4 @@ def top_players_leaderboard():
         except AttributeError:
             continue
         accounts += list(first_place_accounts)
-    print(Counter(accounts).most_common(5))
     return {'accounts': Counter(accounts).most_common(5)}

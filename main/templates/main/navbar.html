@@ -15,7 +15,7 @@
                 <div class="hidden ml-6 md:block">
                     <div class="flex items-center space-x-4">
                         <a tabindex="0" href="/"
-                           class="{% if request.path == "/" %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md font-medium">
+                           class="text-gray-300 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md font-medium">
                             Home
                         </a>
                         {% for bc in board_categories %}
@@ -36,7 +36,7 @@
                             </div>
                         {% endfor %}
                         <a href="{% url "submit-achievement" %}"
-                           class="{% if request.path == "/submit-achievment/" %}bg-gray-900 text-white{% else %}text-gray-300{% endif %} hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md font-medium">
+                           class="text-gray-300 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md font-medium">
                             Submit Achievement
                         </a>
                     </div>
