@@ -6,7 +6,8 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from main import SUBMISSION_TYPES, RECORD, PET, COL_LOG
+from account import CA_CHOICES
+from main import SUBMISSION_TYPES, RECORD, PET, COL_LOG, CA
 from main import managers
 
 
@@ -82,6 +83,7 @@ class Submission(models.Model):
     board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
     value = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
+    combat_achievement_tier = models.IntegerField(choices=CA_CHOICES, default=None, null=True, blank=True)
     proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     notes = models.TextField(blank=True)
     accepted = models.BooleanField(null=True)
@@ -130,6 +132,8 @@ class Submission(models.Model):
             return self.pet.name
         elif self.type == COL_LOG:
             return f'{int(self.value)}/{settings.MAX_COL_LOG}'
+        elif self.type == CA:
+            return self.get_combat_achievement_tier_display()
 
     def type_display(self):
         if self.type == RECORD:

@@ -2,6 +2,7 @@ from django import forms
 from django.conf import settings
 from django.urls import reverse_lazy
 
+from account import CA_CHOICES
 from account.models import Account
 from main import models
 from main import widgets
@@ -152,3 +153,18 @@ class ColLogSubmissionForm(forms.Form):
             )
 
         return cleaned_data
+
+
+class CASubmissionForm(forms.Form):
+    account = forms.ModelChoiceField(queryset=Account.objects.all())
+    combat_achievement_tier = forms.TypedChoiceField(choices=CA_CHOICES, coerce=int)
+    notes = forms.CharField(required=False)
+    proof = forms.ImageField()
+
+    def __init__(self, *args, **kwargs):
+        super(CASubmissionForm, self).__init__(*args, **kwargs)
+        self.fields['account'].widget = widgets.AutocompleteSelectWidget(
+            autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
+            placeholder='Select an account',
+            label='Account',
+        )

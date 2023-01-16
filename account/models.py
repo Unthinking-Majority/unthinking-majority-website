@@ -1,15 +1,10 @@
 from django.db import models
 
+from account import CA_CHOICES
 from main.models import Submission
 
 
 class Account(models.Model):
-    GRANDMASTER, MASTER, ELITE = range(3)
-    CA_CHOICES = (
-        (GRANDMASTER, 'GrandMaster'),
-        (MASTER, 'Master'),
-        (ELITE, 'Elite'),
-    )
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=256, help_text='In game name.', unique=True)
     active = models.BooleanField(default=True)

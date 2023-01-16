@@ -9,7 +9,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
 from formtools.wizard.views import SessionWizardView
 
-from main import RECORD, PET, COL_LOG
+from main import RECORD, PET, COL_LOG, CA
 from main import forms
 from main import models
 
@@ -71,6 +71,11 @@ def col_logs_submission_form_condition(wizard):
     return cleaned_data.get('type', None) == COL_LOG
 
 
+def ca_submission_form_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('submission_type_form') or {}
+    return cleaned_data.get('type', None) == CA
+
+
 def select_parent_board_form_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('submission_type_form') or {}
     return cleaned_data.get('type', None) == RECORD
@@ -94,6 +99,7 @@ class SubmissionWizard(SessionWizardView):
         ('board_submission_form', forms.BoardSubmissionForm),
         ('pet_submission_form', forms.PetSubmissionForm),
         ('col_logs_submission_form', forms.ColLogSubmissionForm),
+        ('ca_submission_form', forms.CASubmissionForm),
     ]
     TEMPLATES = {
         'submission_type_form': 'main/forms/wizard/select_submission_type_form.html',
@@ -102,6 +108,7 @@ class SubmissionWizard(SessionWizardView):
         'board_submission_form': 'main/forms/wizard/board_submission_form.html',
         'pet_submission_form': 'main/forms/wizard/pet_submission_form.html',
         'col_logs_submission_form': 'main/forms/wizard/col_logs_submission_form.html',
+        'ca_submission_form': 'main/forms/wizard/ca_submission_form.html',
     }
     condition_dict = {
         'select_parent_board_form': select_parent_board_form_condition,
@@ -109,6 +116,7 @@ class SubmissionWizard(SessionWizardView):
         'board_submission_form': board_submission_form_condition,
         'pet_submission_form': pet_submission_form_condition,
         'col_logs_submission_form': col_logs_submission_form_condition,
+        'ca_submission_form': ca_submission_form_condition,
     }
     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'temp_files'))
 
@@ -152,6 +160,15 @@ class SubmissionWizard(SessionWizardView):
                 proof=form_dict['col_logs_submission_form'].cleaned_data['proof'],
             )
             submission.accounts.add(form_dict['col_logs_submission_form'].cleaned_data['account'])
+        elif 'ca_submission_form' in form_dict.keys():
+            submission = models.Submission.objects.create(
+                type=CA,
+                combat_achievement_tier=form_dict['ca_submission_form'].cleaned_data['combat_achievement_tier'],
+                notes=form_dict['ca_submission_form'].cleaned_data['notes'],
+                proof=form_dict['ca_submission_form'].cleaned_data['proof'],
+            )
+            submission.accounts.add(form_dict['ca_submission_form'].cleaned_data['account'])
+
         return redirect(reverse('form-success'))
 
     def get_context_data(self, form, **kwargs):

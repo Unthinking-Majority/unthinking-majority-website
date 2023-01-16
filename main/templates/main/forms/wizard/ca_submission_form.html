@@ -1,0 +1,49 @@
+{% extends "main/forms/wizard/base.html" %}
+
+{% load um_components %}
+
+{% block header %}
+    {% page_header "Submit Number of Collection Logs" %}
+{% endblock %}
+
+{% block form_content %}
+
+    {# Account #}
+    {% if wizard.form.account.errors %}
+        <div class="flex justify-center">
+            {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}
+        </div>
+    {% endif %}
+    {{ wizard.form.account }}
+
+{#    {% simple_input wizard.form.combat_achievement_tier %}#}
+
+    {# Combat Achievement Tier #}
+    <div class="flex flex-col flex-wrap justify-center mx-2 my-4 w-80">
+        {% if wizard.form.combat_achievement_tier.errors %}
+            <div class="flex justify-center">
+                {% include "main/forms/field_error_list.html" with errors=wizard.form.combat_achievement_tier.errors %}
+            </div>
+        {% endif %}
+        <label for="{{ wizard.form.combat_achievement_tier.id_for_label }}" class="text-sm font-medium text-gray-900">
+            Combat Achievement Tier
+            {% if wizard.form.combat_achievement_tier.field.required %}*{% endif %}
+        </label>
+        <select id="{{ wizard.form.combat_achievement_tier.id_for_label }}"
+                name="{{ wizard.form.prefix }}-{{ wizard.form.combat_achievement_tier.name }}"
+                {% if wizard.form.combat_achievement_tier.field.required %}required{% endif %}
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-full">
+            {% for choice in wizard.form.combat_achievement_tier.field.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+        <p class="text-sm text-gray-600">
+            {{ wizard.form.combat_achievement_tier.help_text }}
+        </p>
+    </div>
+
+    {% textarea_input wizard.form.notes prefix=wizard.form.prefix %}
+
+    {% file_input wizard.form.proof prefix=wizard.form.prefix %}
+
+{% endblock %}
