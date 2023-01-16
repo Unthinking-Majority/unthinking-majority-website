@@ -5,6 +5,7 @@ from account import models
 
 
 def account_autocomplete(request):
+    # TODO
     # accounts = models.Account.objects.filter(active=True).annotate(text=F('name')).values('id', 'text')
     accounts = models.Account.objects.annotate(text=F('name')).values('id', 'text')
     return JsonResponse(list(accounts), safe=False)
