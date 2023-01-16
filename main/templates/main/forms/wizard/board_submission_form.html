@@ -49,7 +49,7 @@
     {% endfor %}
 
     {# Value #}
-    {% if board.parent.metric == board.parent.TIME %}
+    {% if board.parent.get_metric_display == 'Time' %}
         <div class="mx-2 my-4">
             {% if wizard.form.value.errors %}
                 <div class="flex justify-center">
@@ -85,8 +85,6 @@
                 </div>
             {% endif %}
             <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
-                {{ board }}
-                {{ board.parent }}
                 {{ board.parent.metric_name }} *
             </label>
             <input id="{{ wizard.form.value.id_for_label }}"

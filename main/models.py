@@ -6,8 +6,7 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from account import CA_CHOICES
-from main import SUBMISSION_TYPES, RECORD, PET, COL_LOG, CA
+from main import METRIC_CHOICES, CA_CHOICES, SUBMISSION_TYPES, RECORD, PET, COL_LOG, CA, TIME, INTEGER
 from main import managers
 
 
@@ -29,12 +28,6 @@ class Board(models.Model):
 
 
 class ParentBoard(models.Model):
-    TIME, INTEGER, DECIMAL = range(3)
-    METRIC_CHOICES = (
-        (TIME, 'Time'),
-        (INTEGER, 'Integer'),
-        (DECIMAL, 'Decimal'),
-    )
     UPLOAD_TO = 'board/icons/'
 
     name = models.CharField(max_length=256, unique=True)
@@ -91,8 +84,6 @@ class Submission(models.Model):
 
     objects = managers.SubmissionQueryset.as_manager()
 
-    __original_accepted = None
-
     class Meta:
         ordering = ['-date']
 
@@ -100,45 +91,29 @@ class Submission(models.Model):
         accounts = ', '.join(self.accounts.values_list('name', flat=True))
         return f'{accounts} - {self.board} - {self.value}'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__original_accepted = self.accepted
-
-    def save(self, *args, **kwargs):
-        if self.accepted != self.__original_accepted:
-            # status of submission has changed
-            if self.type == COL_LOG:
-                # update collection log based off of status change
-                if self.accepted:
-                    account = self.accounts.first()
-                    account.col_logs = self.value
-                    account.save()
-        return super(Submission, self).save(*args, **kwargs)
-
     def value_display(self):
-        if self.type == RECORD:
-            if self.board.parent.metric == self.board.parent.TIME:
-                try:
-                    minutes = int(self.value // 60)
-                    seconds = self.value % 60
-                    return f"{minutes}:{seconds:05}"
-                except TypeError:
-                    return ""
-            elif self.board.parent.metric == self.board.parent.INTEGER:
-                return int(self.value)
-            else:
-                return self.value
-        elif self.type == PET:
-            return self.pet.name
-        elif self.type == COL_LOG:
-            return f'{int(self.value)}/{settings.MAX_COL_LOG}'
-        elif self.type == CA:
+        if self.type == CA:
             return self.get_combat_achievement_tier_display()
+
+        if not self.value:
+            return None
+
+        if self.type == RECORD:
+            if self.board.parent.metric == TIME:
+                minutes = int(self.value // 60)
+                seconds = self.value % 60
+                return f"{minutes}:{seconds:05}"
+            else:
+                return int(self.value) if self.board.parent.metric == INTEGER else self.value
+
+        if self.type == PET:
+            return self.pet.name
+
+        if self.type == COL_LOG:
+            return f'{int(self.value)}/{settings.MAX_COL_LOG}'
 
     def type_display(self):
         if self.type == RECORD:
             return self.board.name
-        elif self.type == PET:
-            return 'Pet'
-        elif self.type == COL_LOG:
-            return 'Collection Log'
+        else:
+            return self.get_type_display()
