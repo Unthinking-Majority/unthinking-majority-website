@@ -5,7 +5,7 @@
 {% block content %}
     {% page_header user.account.name %}
 
-    <div class="flex flex-col justify-center content-center m-auto rounded-lg ring-1 ring-gray-200 shadow-lg xl:w-7/12">
+    <div class="flex flex-col justify-center m-auto rounded-lg ring-1 ring-gray-200 shadow-lg xl:w-7/12">
         <p class="py-1 text-center sm:py-2">
             <a href="{% url "accounts:password_change" %}" class="text-gray-700">
                 Change Password
@@ -29,133 +29,137 @@
                 </a>
             {% endfor %}
         </div>
-
-        <span>
-        <h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
-            Submissions
-        </h3>
-        <table class="overflow-hidden m-auto rounded-lg shadow-lg">
-            <thead class="bg-gray-800 rounded-lg">
-            <tr class="text-white">
-                <th class="py-4 px-0.5 sm:px-1 text-sm text-center md:text-base">
-                    Type
-                </th>
-                <th class="hidden text-center md:table-cell md:p-4 md:text-base">
-                    Date
-                </th>
-                <th class="py-4 px-0.5 sm:px-1 text-sm text-center md:text-base">
-                    Notes
-                </th>
-                <th class="py-4 px-0.5 sm:px-1 text-sm text-center md:text-base">
-                    Proof
-                </th>
-                <th class="py-4 px-0.5 sm:px-1 text-sm text-center md:text-base">
-                    Accepted
-                </th>
-                <th class="py-4 px-0.5 sm:px-1 text-sm py-4 text-center md:text-base">
-                    Value
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for submission in page_obj %}
-                <tr class="even:bg-gray-100 odd:bg-gray-50">
-                    <td class="py-2 text-sm font-light text-center sm:text-base sm:whitespace-nowrap md:px-2 md:py-4">
-                        {{ submission.type_display }}
-                    </td>
-                    <td class="hidden py-2 text-sm font-light text-center whitespace-nowrap md:table-cell">
-                        {{ submission.date|date:"M d, Y" }}
-                    </td>
-                    <td class="py-2 text-sm md:py-4">
-                        {% if submission.notes %}
-                            <div class="m-auto w-min group" tabindex="0">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                     class="w-5 h-5 text-gray-400 transition ease-in-out sm:w-6 sm:h-6 hover:scale-125 hover:text-gray-800 hover:cursor-pointer">
-                                    <path fill-rule="evenodd"
-                                          d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
-                                          clip-rule="evenodd"></path>
-                                </svg>
-                                <span class="hidden absolute z-10 p-1 mt-2 mr-4 max-w-sm text-gray-900 bg-gray-50 rounded-sm ring-2 ring-gray-400 md:px-2 md:py-2 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default"
-                                      tabindex="-1">
-                            {{ submission.notes }}
-                        </span>
-                            </div>
-                        {% endif %}
-                    </td>
-                    <td class="py-2 font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 md:py-4 hover:text-gray-600">
-                        <div class="m-auto w-min">
-                            <a href="{{ submission.proof.url }}" target="_blank">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                     class="w-5 h-5 text-gray-400 transition ease-in-out sm:w-6 sm:h-6 hover:scale-125 hover:text-gray-800">
-                                    <path fill-rule="evenodd"
-                                          d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                                          clip-rule="evenodd"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </td>
-                    <td class="py-2 text-center">
-                        <div class="m-auto w-min">
-                            {% if submission.accepted %}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5"
-                                     stroke="currentColor" class="w-5 h-5 text-green-800 sm:w-6 sm:h-6 sm:w-8 sm:h-8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
-                                </svg>
-                            {% elif submission.accepted != None %} {# False #}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5"
-                                     stroke="currentColor" class="w-5 h-5 text-red-800 sm:w-6 sm:h-6 sm:w-8 sm:h-8">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            {% else %} {# Null (has not been reviewed) #}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5"
-                                     stroke="currentColor" class="w-5 h-5 text-gray-800 sm:w-6 sm:h-6 sm:w-8 sm:h-8">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
-                                </svg>
-                            {% endif %}
-                        </div>
-                    </td>
-                    <td class="py-2 pr-1 text-base text-center sm:text-xl sm:whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
-                        {{ submission.value_display }}
-                    </td>
+        <div class="flex justify-center">
+        <span class="xl:basis-9/12">
+            <h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
+                Submissions
+            </h3>
+            <table class="overflow-hidden min-w-full rounded-lg shadow-lg">
+                <thead class="bg-gray-800 rounded-lg">
+                <tr class="text-white">
+                    <th class="py-4 px-0.5 sm:px-1 text-sm text-center md:text-base">
+                        Type
+                    </th>
+                    <th class="hidden text-center md:table-cell md:p-4 md:text-base">
+                        Date
+                    </th>
+                    <th class="py-4 px-0.5 sm:px-1 text-sm text-center md:text-base">
+                        Notes
+                    </th>
+                    <th class="py-4 px-0.5 sm:px-1 text-sm text-center md:text-base">
+                        Proof
+                    </th>
+                    <th class="py-4 px-0.5 sm:px-1 text-sm text-center md:text-base">
+                        Accepted
+                    </th>
+                    <th class="py-4 px-0.5 sm:px-1 text-sm py-4 text-center md:text-base">
+                        Value
+                    </th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {% for submission in page_obj %}
+                    <tr class="even:bg-gray-100 odd:bg-gray-50">
+                        <td class="py-2 text-sm font-light text-center sm:text-base sm:whitespace-nowrap md:px-2 md:py-4">
+                            {{ submission.type_display }}
+                        </td>
+                        <td class="hidden py-2 text-sm font-light text-center whitespace-nowrap md:table-cell">
+                            {{ submission.date|date:"M d, Y" }}
+                        </td>
+                        <td class="py-2 text-sm md:py-4">
+                            {% if submission.notes %}
+                                <div class="m-auto w-min group" tabindex="0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                         class="w-5 h-5 text-gray-400 transition ease-in-out sm:w-6 sm:h-6 hover:scale-125 hover:text-gray-800 hover:cursor-pointer">
+                                        <path fill-rule="evenodd"
+                                              d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
+                                              clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="hidden absolute z-10 p-1 mt-2 mr-4 max-w-sm text-gray-900 bg-gray-50 rounded-sm ring-2 ring-gray-400 md:px-2 md:py-2 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default"
+                                          tabindex="-1">
+                                {{ submission.notes }}
+                            </span>
+                                </div>
+                            {% endif %}
+                        </td>
+                        <td class="py-2 font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 md:py-4 hover:text-gray-600">
+                            <div class="m-auto w-min">
+                                <a href="{{ submission.proof.url }}" target="_blank">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                         class="w-5 h-5 text-gray-400 transition ease-in-out sm:w-6 sm:h-6 hover:scale-125 hover:text-gray-800">
+                                        <path fill-rule="evenodd"
+                                              d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                              clip-rule="evenodd"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </td>
+                        <td class="py-2 text-center">
+                            <div class="m-auto w-min">
+                                {% if submission.accepted %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor"
+                                         class="w-5 h-5 text-green-800 sm:w-6 sm:h-6 sm:w-8 sm:h-8">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M4.5 12.75l6 6 9-13.5"></path>
+                                    </svg>
+                                {% elif submission.accepted != None %} {# False #}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor" class="w-5 h-5 text-red-800 sm:w-6 sm:h-6 sm:w-8 sm:h-8">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                {% else %} {# Null (has not been reviewed) #}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor"
+                                         class="w-5 h-5 text-gray-800 sm:w-6 sm:h-6 sm:w-8 sm:h-8">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
+                                    </svg>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="py-2 pr-1 text-base text-center sm:text-xl sm:whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
+                            {{ submission.value_display }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-        <div class="flex justify-around py-2 mt-4 text-gray-800 border-t-2">
-            {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}"
-                   class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
-                    Previous
-                </a>
-            {% else %}
-                <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md shadow-md hover:cursor-default"
-                   disabled>
-                    Previous
-                </a>
-            {% endif %}
+            <div class="flex justify-around py-2 mt-4 text-gray-800 border-t-2">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}"
+                       class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
+                        Previous
+                    </a>
+                {% else %}
+                    <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md shadow-md hover:cursor-default"
+                       disabled>
+                        Previous
+                    </a>
+                {% endif %}
 
-            <a class="px-3 py-2 my-4 font-medium rounded-md hover:cursor-default">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-            </a>
+                <a class="px-3 py-2 my-4 font-medium rounded-md hover:cursor-default">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </a>
 
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}"
-                   class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
-                    Next
-                </a>
-            {% else %}
-                <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md shadow-md hover:cursor-default"
-                   disabled>
-                    Next
-                </a>
-            {% endif %}
-        </div>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}"
+                       class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
+                        Next
+                    </a>
+                {% else %}
+                    <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md shadow-md hover:cursor-default"
+                       disabled>
+                        Next
+                    </a>
+                {% endif %}
+            </div>
         </span>
-
+        </div>
     </div>
 {% endblock %}

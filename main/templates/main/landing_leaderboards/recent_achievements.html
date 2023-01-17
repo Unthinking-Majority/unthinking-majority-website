@@ -10,7 +10,7 @@
         <th class="hidden text-center lg:table-cell lg:px-2 lg:py-4 lg:md:text-md">
             Date
         </th>
-        <th class="px-2 py-4 text-center md:text-md">
+        <th class="hidden px-2 py-4 text-center md:table-cell md:text-md">
             Type
         </th>
         <th class="px-2 py-4 text-center md:text-md">
@@ -34,7 +34,7 @@
             <td class="hidden py-4 text-sm font-light whitespace-nowrap md:px-2 lg:table-cell">
                 {{ submission.date|date:"M d, Y" }}
             </td>
-            <td class="py-4 max-w-sm text-sm font-light text-center md:px-2">
+            <td class="hidden py-4 max-w-sm text-sm font-light text-center md:table-cell md:px-2">
                 {{ submission.type_display }}
             </td>
             <td class="py-2 text-sm font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 md:py-4 hover:text-gray-600">
@@ -50,6 +50,11 @@
             </td>
             <td class="py-4 text-2xl text-center whitespace-nowrap md:px-2 font-runescape">
                 {{ submission.value_display }}
+                {% if submission.get_type_display != 'Pet' %}
+                    <p class="font-sans text-sm md:hidden">
+                        {{ submission.type_display }}
+                    </p>
+                {% endif %}
             </td>
         </tr>
     {% endfor %}
