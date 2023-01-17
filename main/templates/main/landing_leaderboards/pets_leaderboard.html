@@ -30,7 +30,7 @@
                 <div class="flex flex-row flex-wrap gap-1">
                     {% for submission in account.pets %}
                         <a href="{{ submission.proof.url }}" target="_blank">
-                            <img src="{{ submission.pet.icon.url }}" class="object-scale-down col-span-1" title="{{ submission.pet.name }}">
+                            <img src="{{ submission.pet.icon.url }}" class="object-scale-down" title="{{ submission.pet.name }}">
                         </a>
                     {% endfor %}
                 </div>

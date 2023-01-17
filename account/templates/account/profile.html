@@ -5,59 +5,54 @@
 {% block content %}
     {% page_header user.account.name %}
 
-    <div class="flex flex-col flex-wrap justify-around content-center m-auto w-7/12 rounded-lg ring-1 ring-gray-200 shadow-lg">
-        <div class="py-6">
-            {#            <p class="py-2">#}
-            {#                <span class="font-medium">Email:</span> {% if user.email %}{{ user.email }}{% else %}No email attached to your account.{% endif %}#}
-            {#            </p>#}
-            <p class="py-2">
-                <a href="{% url "accounts:password_change" %}" class="text-gray-700">
-                    Change Password
+    <div class="flex flex-col justify-center content-center m-auto rounded-lg ring-1 ring-gray-200 shadow-lg xl:w-7/12">
+        <p class="py-1 text-center sm:py-2">
+            <a href="{% url "accounts:password_change" %}" class="text-gray-700">
+                Change Password
+            </a>
+        </p>
+        <p class="text-center sm:py-2">
+            <span class="font-medium align-middle">Highest Tier Combat Achievement: </span>
+            <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.ca_tier }}</span>
+        </p>
+        <p class="text-center sm:py-2">
+            <span class="font-medium align-middle">Collection Log Total: </span>
+            <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
+        </p>
+        <div class="flex flex-wrap gap-1 py-1 max-sm:justify-center sm:py-2 sm:mx-4">
+            <span class="font-medium">Pets:</span>
+            {% for pet_submission in user.account.pets %}
+                <a href="{{ pet_submission.proof.url }}" target="_blank">
+                    <img src="{{ pet_submission.pet.icon.url }}"
+                         class="object-scale-down"
+                         title="{{ pet_submission.pet.name }}">
                 </a>
-            </p>
-            <p class="py-2">
-                <span class="font-medium align-middle">Highest Tier Combat Achievement: </span>
-                <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.ca_tier }}</span>
-            </p>
-            <p class="py-2">
-                <span class="font-medium align-middle">Collection Log Total: </span>
-                <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
-            </p>
-            <div class="flex flex-row flex-wrap gap-1 py-2">
-                <span class="font-medium">Pets:</span>
-                {% for pet_submission in user.account.pets %}
-                    <a href="{{ pet_submission.proof.url }}" target="_blank">
-                        <img src="{{ pet_submission.pet.icon.url }}"
-                             class="object-scale-down col-span-1"
-                             title="{{ pet_submission.pet.name }}">
-                    </a>
-                {% endfor %}
-            </div>
+            {% endfor %}
         </div>
 
         <span>
         <h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
             Submissions
         </h3>
-        <table class="overflow-hidden rounded-lg shadow-lg">
+        <table class="overflow-hidden m-auto rounded-lg shadow-lg">
             <thead class="bg-gray-800 rounded-lg">
             <tr class="text-white">
-                <th class="px-1 py-4 text-center md:py-4 md:text-md">
+                <th class="py-4 text-center sm:px-1 md:py-4 md:text-md">
                     Type
                 </th>
                 <th class="hidden text-center md:table-cell md:p-4 md:text-md">
                     Date
                 </th>
-                <th class="px-1 py-4 text-center md:py-4 md:text-md">
+                <th class="py-4 text-center sm:px-1 md:py-4 md:text-md">
                     Notes
                 </th>
-                <th class="px-1 py-4 text-center md:py-4 md:text-md">
+                <th class="py-4 text-center sm:px-1 md:py-4 md:text-md">
                     Proof
                 </th>
-                <th class="px-1 py-4 text-center md:py-4 md:text-md">
+                <th class="py-4 text-center sm:px-1 md:py-4 md:text-md">
                     Accepted
                 </th>
-                <th class="px-1 py-4 text-center md:py-4 md:text-md">
+                <th class="py-4 text-center sm:px-1 md:py-4 md:text-md">
                     Value
                 </th>
             </tr>
@@ -65,7 +60,7 @@
             <tbody>
             {% for submission in page_obj %}
                 <tr class="even:bg-gray-100 odd:bg-gray-50">
-                    <td class="py-2 text-center whitespace-nowrap md:px-2 md:py-4">
+                    <td class="py-2 text-center sm:whitespace-nowrap md:px-2 md:py-4">
                         {{ submission.type_display }}
                     </td>
                     <td class="hidden py-2 text-sm font-light text-center whitespace-nowrap md:table-cell">
@@ -104,26 +99,26 @@
                             {% if submission.accepted %}
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
-                                     stroke="currentColor" class="w-8 h-8 text-green-800">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+                                     stroke="currentColor" class="w-6 h-6 text-green-800 sm:w-8 sm:h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>
                                 </svg>
                             {% elif submission.accepted != None %} {# False #}
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
-                                     stroke="currentColor" class="w-8 h-8 text-red-800">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                     stroke="currentColor" class="w-6 h-6 text-red-800 sm:w-8 sm:h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
                             {% else %} {# Null (has not been reviewed) #}
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
-                                     stroke="currentColor" class="w-8 h-8 text-gray-800">
+                                     stroke="currentColor" class="w-6 h-6 text-gray-800 sm:w-8 sm:h-8">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
+                                          d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
                                 </svg>
                             {% endif %}
                         </div>
                     </td>
-                    <td class="py-2 text-xl text-center whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
+                    <td class="py-2 pr-1 text-xl text-center whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
                         {{ submission.value_display }}
                     </td>
                 </tr>
