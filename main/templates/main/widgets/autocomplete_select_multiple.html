@@ -1,5 +1,5 @@
 <div class="block mx-2 my-4">
-    <select id="{{ widget.attrs.id }}" name="{{ widget.name }}" class="hidden" multiple></select>
+    <select id="{{ widget.attrs.id }}" name="{{ widget.name }}" class="hidden" multiple tabindex="-1"></select>
     <label for="autocomplete_{{ widget.attrs.id }}" class="text-sm font-medium text-gray-900">
         {% if label %}
             {{ label }}
@@ -8,7 +8,7 @@
         {% endif %}
         *
     </label>
-    <input id="autocomplete_{{ widget.attrs.id }}" type="text" tabindex="1" spellcheck="false" autocomplete="off" required
+    <input id="autocomplete_{{ widget.attrs.id }}" type="text" spellcheck="false" autocomplete="off" required tabindex="0"
            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 w-80">
     <ul id="autocomplete_button_list-{{ widget.attrs.id }}" class="flex flex-wrap w-80 list-none mt-1"></ul>
 </div>
