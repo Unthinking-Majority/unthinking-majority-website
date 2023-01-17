@@ -24,10 +24,10 @@
     <tbody>
     {% for submission in page %}
         <tr class="even:bg-gray-100 odd:bg-gray-50">
-            <td class="py-2 text-center whitespace-nowrap md:px-2 md:py-4">
+            <td class="text-center whitespace-nowrap md:px-2 py-4">
                 {{ forloop.counter0|add:page.start_index }}
             </td>
-            <td class="max-w-xs text-center md:px-2 md:py-4">
+            <td class="max-w-xs text-center md:px-2 py-4">
                 {% for account in submission.accounts.all %}
                     <span class="m-1 text-sm whitespace-nowrap md:px-2 md:text-lg">
                         {% if not account.active %}
@@ -40,10 +40,10 @@
                     </span>
                 {% endfor %}
             </td>
-            <td class="hidden py-2 text-sm font-light text-center whitespace-nowrap md:table-cell">
+            <td class="hidden py-4 text-sm font-light text-center whitespace-nowrap md:table-cell">
                 {{ submission.date|date:"M d, Y" }}
             </td>
-            <td class="py-2 text-sm md:py-4">
+            <td class="text-sm py-4">
                 {% if submission.notes %}
                     <div class="m-auto w-min group" tabindex="0">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -59,7 +59,7 @@
                     </div>
                 {% endif %}
             </td>
-            <td class="py-2 font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 md:py-4 hover:text-gray-600">
+            <td class="font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 py-4 hover:text-gray-600">
                 <div class="m-auto w-min">
                     <a href="{{ submission.proof.url }}" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
@@ -70,7 +70,7 @@
                     </a>
                 </div>
             </td>
-            <td class="py-2 text-xl text-center whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
+            <td class="text-xl text-center whitespace-nowrap md:px-2 py-4 md:text-2xl font-runescape">
                 {{ submission.value_display }}
             </td>
         </tr>
