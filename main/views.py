@@ -44,7 +44,7 @@ class LeaderboardView(TemplateView):
 
             # group by accounts and value, then select distinct; this way, we only get 1 entry from each user!
             submissions_subquery = models.Submission.objects.filter(
-                pk__in=Subquery(active_accounts_submissions.values('pk'))
+                id__in=Subquery(active_accounts_submissions.values('id'))
             ).order_by().order_by(
                 'accounts',
                 'value'
@@ -53,7 +53,7 @@ class LeaderboardView(TemplateView):
             )
 
             submissions = models.Submission.objects.filter(
-                pk__in=Subquery(submissions_subquery.values('pk'))
+                id__in=Subquery(submissions_subquery.values('id'))
             ).order_by('value')
 
             p = Paginator(submissions, 5)

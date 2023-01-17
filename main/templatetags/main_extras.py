@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 from django.urls import reverse
 
 from main.models import BoardCategory
@@ -23,3 +24,8 @@ def leaderboard_url(board):
 @register.filter
 def addstr(str1, str2):
     return str(str1) + str(str2)
+
+
+@register.simple_tag
+def settings_value(name):
+    return getattr(settings, name, "")

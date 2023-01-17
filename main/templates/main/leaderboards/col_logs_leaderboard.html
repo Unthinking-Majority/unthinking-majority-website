@@ -1,6 +1,6 @@
 {% extends "main/site_base.html" %}
 
-{% load um_components %}
+{% load um_components main_extras %}
 
 {% block content %}
     {% page_header "Collection Logs" %}
@@ -74,8 +74,8 @@
                             </a>
                         </div>
                     </td>
-                    <td class="py-4 whitespace-nowrap md:px-2 font-runescape">
-                        <p class="pr-2 text-center">{{ submission.value|stringformat:"d" }}/{{ max_col_log }}</p>
+                    <td class="py-2 text-lg text-center whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
+                        <p class="pr-2 text-center">{{ submission.value|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</p>
                     </td>
                 </tr>
             {% endfor %}

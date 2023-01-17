@@ -19,3 +19,8 @@ CA_CHOICES = (
     (MASTER, 'Master'),
     (ELITE, 'Elite'),
 )
+CA_DICT = {
+    GRANDMASTER: 'GrandMaster',
+    MASTER: 'Master',
+    ELITE: 'Elite',
+}

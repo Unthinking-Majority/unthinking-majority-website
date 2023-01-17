@@ -1,13 +1,19 @@
-from django.urls import reverse_lazy
-from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import FormView
+from django.views.generic.list import ListView
 
 from account import forms
+from main.models import Submission
 
 
-class ProfileView(TemplateView):
+class ProfileView(ListView):
+    model = Submission
     template_name = 'account/profile.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        return Submission.objects.all().filter(accounts=self.request.user.account)
 
 
 class CreateAccountView(FormView):
