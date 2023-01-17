@@ -5,7 +5,7 @@ from django.conf import settings
 from django.db.models import Count, OuterRef
 
 from account.models import Account
-from main import models
+from main import models, GRANDMASTER
 
 register = template.Library()
 
@@ -26,7 +26,7 @@ def col_logs_leaderboard():
     col_logs_submissions = models.Submission.objects.col_logs().accepted().order_by()
 
     # create sub query, which grabs the Max col_log value for each account
-    sub_query = col_logs_submissions.order_by('accounts', '-value').distinct('accounts').filter(id=OuterRef('id'))
+    sub_query = col_logs_submissions.order_by('accounts', '-value').distinct('accounts').filter(accounts__id=OuterRef('id'))
 
     # annotate each account object with its max col_log value using the previous sub_query
     accounts = Account.objects.annotate(col_logs=sub_query.values('value')[:1])
@@ -37,6 +37,14 @@ def col_logs_leaderboard():
     return {
         'accounts': accounts,
         'max_col_log': settings.MAX_COL_LOG,
+    }
+
+
+@register.inclusion_tag('main/dashboard/grandmasters_leaderboard.html')
+def grandmasters_leaderboard():
+    submissions = models.Submission.objects.combat_achievements().accepted().filter(ca_tier=GRANDMASTER).order_by('-date')
+    return {
+        'submissions': submissions
     }
 
 

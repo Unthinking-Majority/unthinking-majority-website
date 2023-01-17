@@ -76,7 +76,7 @@ class Submission(models.Model):
     board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
     value = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
-    combat_achievement_tier = models.IntegerField(choices=CA_CHOICES, default=None, null=True, blank=True)
+    ca_tier = models.IntegerField(choices=CA_CHOICES, default=None, null=True, blank=True)
     proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     notes = models.TextField(blank=True)
     accepted = models.BooleanField(null=True)
@@ -93,7 +93,7 @@ class Submission(models.Model):
 
     def value_display(self):
         if self.type == CA:
-            return self.get_combat_achievement_tier_display()
+            return self.get_ca_tier_display()
 
         if not self.value:
             return None

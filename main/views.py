@@ -163,7 +163,7 @@ class SubmissionWizard(SessionWizardView):
         elif 'ca_submission_form' in form_dict.keys():
             submission = models.Submission.objects.create(
                 type=CA,
-                combat_achievement_tier=form_dict['ca_submission_form'].cleaned_data['combat_achievement_tier'],
+                ca_tier=form_dict['ca_submission_form'].cleaned_data['ca_tier'],
                 notes=form_dict['ca_submission_form'].cleaned_data['notes'],
                 proof=form_dict['ca_submission_form'].cleaned_data['proof'],
             )

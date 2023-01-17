@@ -157,7 +157,7 @@ class ColLogSubmissionForm(forms.Form):
 
 class CASubmissionForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
-    combat_achievement_tier = forms.TypedChoiceField(choices=CA_CHOICES, coerce=int)
+    ca_tier = forms.TypedChoiceField(choices=CA_CHOICES, coerce=int)
     notes = forms.CharField(required=False)
     proof = forms.ImageField()
 

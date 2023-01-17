@@ -1,0 +1,27 @@
+<h3 class="mb-2 text-4xl text-center md:text-5xl font-runescape text-yellow-runescape text-border">
+    Grandmasters
+</h3>
+<table class="overflow-hidden min-w-full max-w-4xl bg-gray-200 rounded-lg shadow-lg">
+    <thead class="sticky top-0 min-w-full bg-gray-800 rounded-lg">
+    <tr class="text-white">
+        <th class="px-2 py-4 text-center md:p-4 md:text-md">
+            Username
+        </th>
+        <th class="px-2 py-4 text-center md:p-4 md:text-md">
+            Date
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for submission in submissions %}
+        <tr class="even:bg-gray-100 odd:bg-gray-50">
+            <td class="py-4 text-center whitespace-nowrap md:px-2">
+                {{ submission.accounts.first.name }}
+            </td>
+            <td class="py-4 text-center whitespace-nowrap md:px-2">
+                {{ submission.date|date:"M d, Y" }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

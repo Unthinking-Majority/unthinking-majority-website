@@ -1,6 +1,6 @@
 from django.db import models
 
-from main import RECORD, PET, COL_LOG
+from main import RECORD, PET, COL_LOG, CA
 
 
 class SubmissionQueryset(models.query.QuerySet):
@@ -18,3 +18,6 @@ class SubmissionQueryset(models.query.QuerySet):
 
     def col_logs(self):
         return self.filter(type=COL_LOG)
+
+    def combat_achievements(self):
+        return self.filter(type=CA)
