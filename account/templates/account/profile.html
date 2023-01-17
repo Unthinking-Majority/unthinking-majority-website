@@ -7,9 +7,9 @@
 
     <div class="flex flex-col flex-wrap justify-around content-center m-auto w-7/12 rounded-lg ring-1 ring-gray-200 shadow-lg">
         <div class="py-6">
-{#            <p class="py-2">#}
-{#                <span class="font-medium">Email:</span> {% if user.email %}{{ user.email }}{% else %}No email attached to your account.{% endif %}#}
-{#            </p>#}
+            {#            <p class="py-2">#}
+            {#                <span class="font-medium">Email:</span> {% if user.email %}{{ user.email }}{% else %}No email attached to your account.{% endif %}#}
+            {#            </p>#}
             <p class="py-2">
                 <a href="{% url "accounts:password_change" %}" class="text-gray-700">
                     Change Password
@@ -55,6 +55,9 @@
                     Proof
                 </th>
                 <th class="px-1 py-4 text-center md:py-4 md:text-md">
+                    Accepted
+                </th>
+                <th class="px-1 py-4 text-center md:py-4 md:text-md">
                     Value
                 </th>
             </tr>
@@ -87,12 +90,37 @@
                     <td class="py-2 font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 md:py-4 hover:text-gray-600">
                         <div class="m-auto w-min">
                             <a href="{{ submission.proof.url }}" target="_blank">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                     class="w-6 h-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
                                     <path fill-rule="evenodd"
                                           d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
                                           clip-rule="evenodd"></path>
                                 </svg>
                             </a>
+                        </div>
+                    </td>
+                    <td class="py-2 text-center">
+                        <div class="m-auto w-min">
+                            {% if submission.accepted %}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-8 h-8 text-green-800">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+                                </svg>
+                            {% elif submission.accepted != None %} {# False #}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-8 h-8 text-red-800">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            {% else %} {# Null (has not been reviewed) #}
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-8 h-8 text-gray-800">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
+                                </svg>
+                            {% endif %}
                         </div>
                     </td>
                     <td class="py-2 text-xl text-center whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
