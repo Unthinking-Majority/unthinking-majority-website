@@ -95,6 +95,9 @@ class Submission(models.Model):
         if self.type == CA:
             return self.get_ca_tier_display()
 
+        if self.type == PET:
+            return self.pet.name
+
         if not self.value:
             return None
 
@@ -105,9 +108,6 @@ class Submission(models.Model):
                 return f"{minutes}:{seconds:05}"
             else:
                 return int(self.value) if self.board.parent.metric == INTEGER else self.value
-
-        if self.type == PET:
-            return self.pet.name
 
         if self.type == COL_LOG:
             return f'{int(self.value)}/{settings.MAX_COL_LOG}'
