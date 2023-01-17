@@ -21,4 +21,4 @@ class Account(models.Model):
 
     def ca_tier(self):
         ca_tier = Submission.objects.combat_achievements().accepted().filter(accounts=self.id).aggregate(ca_tier=Min('ca_tier'))['ca_tier']
-        return CA_DICT[ca_tier]
+        return CA_DICT.get(ca_tier, 'None')
