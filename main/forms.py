@@ -45,15 +45,28 @@ class BoardSubmissionForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         board = kwargs.pop('board')
+        data = kwargs.get('data')
+
+        if data:
+            accounts = data.get('board_submission_form-accounts')
+            kwargs.update({'data': data.copy()})
+            kwargs.get('data').update({'board_submission_form-accounts': [accounts] if isinstance(accounts, str) else accounts})
+
         super(BoardSubmissionForm, self).__init__(*args, **kwargs)
 
         self.fields['board'].initial = board
-
-        self.fields['accounts'].widget = widgets.AutocompleteSelectMultipleWidget(
-            autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
-            placeholder='Select all account(s)',
-            label='Account(s)',
-        )
+        if board.team_size == 1:
+            self.fields['accounts'].widget = widgets.AutocompleteSelectWidget(
+                autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
+                placeholder='Select account',
+                label='Account',
+            )
+        else:
+            self.fields['accounts'].widget = widgets.AutocompleteSelectMultipleWidget(
+                autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
+                placeholder='Select all accounts',
+                label='Accounts',
+            )
 
     def clean(self):
         cleaned_data = super(BoardSubmissionForm, self).clean()
