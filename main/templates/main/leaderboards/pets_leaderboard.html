@@ -1,0 +1,85 @@
+{% extends "main/site_base.html" %}
+
+{% load um_components %}
+
+{% block content %}
+    {% page_header "Pets" %}
+    <div class="flex flex-wrap justify-around">
+        <span>
+        <table class="overflow-hidden rounded-lg shadow-lg">
+            <thead class="bg-gray-800 rounded-lg">
+            <tr class="text-white">
+                <th class="px-2 py-4 text-center md:py-4 md:text-md">
+                    Rank
+                </th>
+                <th class="px-2 py-4 text-center md:py-4 md:text-md">
+                    Username
+                </th>
+                <th class="px-2 py-4 text-center md:py-4 md:text-md">
+                    Pets
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for account in page_obj %}
+                <tr class="even:bg-gray-100 odd:bg-gray-50">
+                    <td class="py-2 text-center whitespace-nowrap md:px-2 md:py-4">
+                        {{ forloop.counter0|add:page_obj.start_index }}
+                    </td>
+                    <td class="max-w-xs text-center md:px-2 md:py-4">
+                        {% if not account.active %}
+                            <s class="text-gray-700">
+                                {{ account.name }}
+                            </s>
+                        {% else %}
+                            {{ account.name }}
+                        {% endif %}
+                    </td>
+                    <td class="py-2 text-xl text-center whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
+                        <div class="flex flex-row flex-wrap gap-1">
+                            {% for pet_submission in account.pets %}
+                                <a href="{{ pet_submission.proof.url }}" target="_blank">
+                                    <img src="{{ pet_submission.pet.icon.url }}"
+                                         class="object-scale-down col-span-1"
+                                         title="{{ pet_submission.pet.name }}">
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="flex justify-around py-2 mt-4 text-gray-800 border-t-2">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}"
+                   class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
+                    Previous
+                </a>
+            {% else %}
+                <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md shadow-md hover:cursor-default"
+                   disabled>
+                    Previous
+                </a>
+            {% endif %}
+
+            <a class="px-3 py-2 my-4 font-medium rounded-md hover:cursor-default">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </a>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}"
+                   class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
+                    Next
+                </a>
+            {% else %}
+                <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md shadow-md hover:cursor-default"
+                   disabled>
+                    Next
+                </a>
+            {% endif %}
+        </div>
+        </span>
+    </div>
+{% endblock %}

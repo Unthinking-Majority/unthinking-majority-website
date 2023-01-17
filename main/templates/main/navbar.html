@@ -15,7 +15,7 @@
                 <div class="hidden ml-6 md:block">
                     <div class="flex items-center space-x-4">
                         <a tabindex="0" href="/"
-                           class="text-gray-300 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md font-medium">
+                           class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white">
                             Home
                         </a>
                         {% for bc in board_categories %}
@@ -35,8 +35,31 @@
                                 </ul>
                             </div>
                         {% endfor %}
+                        <div class="relative group">
+                            <button class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                                Other
+                            </button>
+                            <ul class="hidden overflow-hidden absolute z-10 mt-2 w-min whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
+                                tabindex="-1">
+                                <li>
+                                    <a href="{% url "pets-leaderboard" %}"
+                                       class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                       tabindex="-1">Pets</a>
+                                </li>
+                                <li>
+                                    <a href="{% url "col-logs-leaderboard" %}"
+                                       class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                       tabindex="-1">Collection Logs</a>
+                                </li>
+                                <li>
+                                    <a href="{% url "ca-leaderboard" %}"
+                                       class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                       tabindex="-1">Combat Achievements</a>
+                                </li>
+                            </ul>
+                        </div>
                         <a href="{% url "submit-achievement" %}"
-                           class="text-gray-300 hover:bg-gray-800 hover:text-white px-3 py-2 rounded-md font-medium">
+                           class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white">
                             Submit Achievement
                         </a>
                     </div>
@@ -78,6 +101,31 @@
                                 </div>
                             </li>
                         {% endfor %}
+                        <li>
+                            <div class="relative group/dropdown">
+                                <button class="block px-4 py-2 w-full font-medium text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                                    Other
+                                </button>
+                                <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
+                                    tabindex="-1">
+                                    <li>
+                                        <a href="{% url "pets-leaderboard" %}"
+                                           class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                           tabindex="-1">Pets</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url "col-logs-leaderboard" %}"
+                                           class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                           tabindex="-1">Collection Logs</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url "ca-leaderboard" %}"
+                                           class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                           tabindex="-1">Combat Achievements</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         <li>
                             <a tabindex="0" href="{% url "submit-achievement" %}"
                                class="block px-4 py-2 font-medium text-gray-900 hover:bg-gray-800 hover:text-white">
@@ -175,7 +223,7 @@
                         </div>
                     </button>
                     <ul class="hidden overflow-hidden absolute z-10 mt-2 w-min whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg max-xl:right-0 group-focus-within:block focus:outline-none">
-                       <li>
+                        <li>
                             <a href="{% url "accounts:login" %}"
                                class="block px-4 py-2 text-gray-700 hover:bg-gray-300">
                                 Log in

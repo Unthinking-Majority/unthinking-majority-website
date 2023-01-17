@@ -47,6 +47,7 @@ class SubmissionAdmin(admin.ModelAdmin):
                 'type',
                 ('board', 'value'),
                 'pet',
+                'ca_tier',
                 'notes',
                 ('proof', 'date'),
             )
