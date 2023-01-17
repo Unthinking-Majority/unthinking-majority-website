@@ -37,7 +37,7 @@
             <table class="overflow-hidden min-w-full rounded-lg shadow-lg">
                 <thead class="bg-gray-800 rounded-lg">
                 <tr class="text-white">
-                    <th class="py-4 px-0.5 sm:px-1 text-sm text-center md:text-base">
+                    <th class="hidden md:table-cell py-4 px-0.5 sm:px-1 text-sm text-center md:text-base">
                         Type
                     </th>
                     <th class="hidden text-center md:table-cell md:p-4 md:text-base">
@@ -53,14 +53,14 @@
                         Accepted
                     </th>
                     <th class="py-4 px-0.5 sm:px-1 text-sm py-4 text-center md:text-base">
-                        Value
+                        Submission
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for submission in page_obj %}
                     <tr class="even:bg-gray-100 odd:bg-gray-50">
-                        <td class="py-2 text-sm font-light text-center sm:text-base sm:whitespace-nowrap md:px-2 md:py-4">
+                        <td class="hidden md:table-cell py-2 text-sm font-light text-center sm:text-base sm:whitespace-nowrap md:px-2 md:py-4">
                             {{ submission.type_display }}
                         </td>
                         <td class="hidden py-2 text-sm font-light text-center whitespace-nowrap md:table-cell">
@@ -124,6 +124,11 @@
                         </td>
                         <td class="py-2 pr-1 text-base text-center sm:text-xl sm:whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
                             {{ submission.value_display }}
+                            {% if submission.get_type_display != 'Pet' %}
+                                <p class="font-sans text-sm md:hidden">
+                                    {{ submission.type_display }}
+                                </p>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
