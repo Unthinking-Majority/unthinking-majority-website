@@ -8,31 +8,31 @@
             <img class="w-auto h-auto" src="{% static "um_logos/gifs/logo_animated_blue.gif" %}"
                  alt="Unthinking Majority Logo">
         </div>
-        <h1 class="py-2 text-4xl font-bold tracking-wide text-center text-gray-800 sm:text-6xl">
+        <h1 class="py-2 text-5xl font-bold tracking-wide text-center text-gray-800 sm:text-6xl">
             Unthinking Majority
         </h1>
-        <h2 class="py-2 text-3xl font-bold tracking-wide text-center text-gray-700 sm:text-5xl">
+        <h2 class="hidden py-2 font-bold tracking-wide text-center text-gray-700 sm:text-5xl sm:block">
             Leaderboards
         </h2>
     </div>
 
     <div class="flex flex-wrap justify-evenly">
-        <div class="mx-1 my-4">
+        <div class="mx-1 my-4 basis-full lg:basis-auto">
             {% col_logs_leaderboard %}
         </div>
-        <div class="mx-1 my-4">
+        <div class="order-first mx-1 my-4 lg:order-none basis-full lg:basis-auto">
             {% top_players_leaderboard %}
         </div>
-        <div class="mx-1 my-4">
+        <div class="mx-1 my-4 basis-full lg:basis-auto">
             {% grandmasters_leaderboard %}
         </div>
     </div>
-    <div class="flex flex-wrap lg:flex-nowrap justify-center">
-        <div class="mx-1 my-4">
-            {% recent_submission_leaderboard %}
-        </div>
-        <div class="mx-1 my-4">
+    <div class="flex flex-wrap justify-center lg:flex-nowrap">
+        <div class="mx-1 my-4 basis-full lg:basis-auto">
             {% pets_leaderboard %}
+        </div>
+        <div class="mx-1 my-4 basis-full lg:basis-auto">
+            {% recent_submission_leaderboard %}
         </div>
     </div>
 
