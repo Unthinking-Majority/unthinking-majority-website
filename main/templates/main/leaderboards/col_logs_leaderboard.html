@@ -6,7 +6,7 @@
     {% page_header "Collection Logs" %}
     <div class="flex flex-wrap justify-around">
         <span class="basis-7/12">
-        <table class="overflow-hidden rounded-lg shadow-lg w-full">
+        <table class="overflow-hidden w-full rounded-lg shadow-lg">
             <thead class="bg-gray-800 rounded-lg">
             <tr class="text-white">
                 <th class="px-1 py-4 text-center md:py-4 md:text-md">
@@ -44,7 +44,7 @@
                             {{ submission.accounts.first.name }}
                         {% endif %}
                     </td>
-                    <td class="hidden py-2 text-sm font-light whitespace-nowrap md:table-cell">
+                    <td class="hidden py-2 text-sm font-light text-center whitespace-nowrap md:table-cell">
                         {{ submission.date|date:"M d, Y" }}
                     </td>
                     <td class="py-2 text-sm md:py-4">
