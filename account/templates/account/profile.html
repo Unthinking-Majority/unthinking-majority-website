@@ -37,22 +37,22 @@
         <table class="overflow-hidden m-auto rounded-lg shadow-lg">
             <thead class="bg-gray-800 rounded-lg">
             <tr class="text-white">
-                <th class="py-4 text-center sm:px-1 md:py-4 md:text-md">
+                <th class="py-4 px-1 text-center sm:px-1 md:py-4 md:text-md">
                     Type
                 </th>
                 <th class="hidden text-center md:table-cell md:p-4 md:text-md">
                     Date
                 </th>
-                <th class="py-4 text-center sm:px-1 md:py-4 md:text-md">
+                <th class="py-4 px-1 text-center sm:px-1 md:py-4 md:text-md">
                     Notes
                 </th>
-                <th class="py-4 text-center sm:px-1 md:py-4 md:text-md">
+                <th class="py-4 px-1 text-center sm:px-1 md:py-4 md:text-md">
                     Proof
                 </th>
-                <th class="py-4 text-center sm:px-1 md:py-4 md:text-md">
+                <th class="py-4 px-1 text-center sm:px-1 md:py-4 md:text-md">
                     Accepted
                 </th>
-                <th class="py-4 text-center sm:px-1 md:py-4 md:text-md">
+                <th class="px-1 py-4 text-center sm:px-1 md:py-4 md:text-md">
                     Value
                 </th>
             </tr>
@@ -60,7 +60,7 @@
             <tbody>
             {% for submission in page_obj %}
                 <tr class="even:bg-gray-100 odd:bg-gray-50">
-                    <td class="py-2 text-center sm:whitespace-nowrap md:px-2 md:py-4">
+                    <td class="text-sm sm:text-base py-2 text-center sm:whitespace-nowrap md:px-2 md:py-4">
                         {{ submission.type_display }}
                     </td>
                     <td class="hidden py-2 text-sm font-light text-center whitespace-nowrap md:table-cell">
