@@ -10,7 +10,7 @@
 
     {# Account #}
     {% if wizard.form.account.errors %}
-        <div class="flex justify-center">
+        <div class="flex justify-center mx-2 w-80">
             {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}
         </div>
     {% endif %}

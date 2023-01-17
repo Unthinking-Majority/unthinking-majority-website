@@ -4,7 +4,7 @@
 
 {% block content %}
     {% page_header "Create Account" %}
-    <div class="text-center m-auto">
+    <div class="m-auto text-center">
         <h2 class="py-2 text-xl text-gray-900">
             Create an account so you can see a personalized dashboard highlighting all of your achievements!
         </h2>
@@ -26,12 +26,12 @@
 
             {% simple_input form.password2 %}
 
-            {% if wizard.form.parent_board.errors %}
-                <div class="flex justify-center">
-                    {% include "main/forms/field_error_list.html" with errors=form.username.errors %}
+            {% if form.account.errors %}
+                <div class="flex justify-center mx-2 w-80">
+                    {% include "main/forms/field_error_list.html" with errors=form.account.errors %}
                 </div>
             {% endif %}
-            {{ form.name }}
+            {{ form.account }}
 
             {% simple_input form.email  %}
 

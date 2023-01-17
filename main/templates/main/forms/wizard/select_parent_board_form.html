@@ -9,7 +9,7 @@
 {% block form_content %}
     {# Board #}
     {% if wizard.form.parent_board.errors %}
-        <div class="flex justify-center">
+        <div class="flex justify-center mx-2 w-80">
             {% include "main/forms/field_error_list.html" with errors=wizard.form.parent_board.errors %}
         </div>
     {% endif %}

@@ -25,7 +25,7 @@ class CreateAccountForm(forms.Form):
             'unique': 'A user with that username already exists.',
         },
     )
-    name = forms.ModelChoiceField(
+    account = forms.ModelChoiceField(
         queryset=models.Account.objects.all()
     )
     email = forms.EmailField(
@@ -46,24 +46,36 @@ class CreateAccountForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(CreateAccountForm, self).__init__(*args, **kwargs)
-        self.fields['name'].widget = widgets.AutocompleteSelectWidget(
+        self.fields['account'].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
             placeholder='',
             label='In Game Name',
             help_text='If your in game name is not listed, please contact an admin through discord.',
         )
 
+    def clean_account(self):
+        if self.cleaned_data['account'].user:
+            raise ValidationError(
+                'The account %(ign)s has already been assigned to a user',
+                params={
+                    'ign': self.cleaned_data['account'].name
+                }
+            )
+        return self.cleaned_data['account']
+
     def clean(self):
         cleaned_data = super(CreateAccountForm, self).clean()
         user_form = CreateUserForm(cleaned_data)
-        if user_form.is_valid():
-            cleaned_data['user'] = user_form.save(commit=True)
-        else:
+        if not user_form.is_valid():
             raise ValidationError(user_form.errors)
         return cleaned_data
 
     def form_valid(self):
-        account = self.cleaned_data['name']
-        account.user = self.cleaned_data['user']
+        user_form = CreateUserForm(self.cleaned_data)
+        user = user_form.save(commit=True)
+
+        account = self.cleaned_data['account']
+        account.user = user
         account.save()
+
         return account
