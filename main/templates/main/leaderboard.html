@@ -5,7 +5,7 @@
 {% block content %}
     {% page_header parent_board.name parent_board.icon %}
 
-    <div class="flex flex-wrap justify-around gap-1">
+    <div class="flex flex-wrap gap-1 justify-around">
         {% for board, page in data %}
             <span class="basis-full lg:basis-7/12">
                 {% if data|length > 1 %}
