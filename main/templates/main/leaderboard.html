@@ -7,7 +7,7 @@
 
     <div class="flex flex-wrap justify-around">
         {% for board, page in data %}
-            <span>
+            <span class="{% if data|length == 1 %}basis-7/12{% endif %}">
                 {% if data|length > 1 %}
                     <h2 class="text-2xl tracking-wide text-center text-gray-900 md:text-4xl font-runescape">
                         {{ board.name }}
