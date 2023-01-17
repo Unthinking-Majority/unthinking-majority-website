@@ -55,6 +55,9 @@
                         {{ submission.type_display }}
                     </p>
                 {% endif %}
+                <p class="font-sans text-sm md:hidden">
+                    {{ submission.date|date:"M d, Y" }}
+                </p>
             </td>
         </tr>
     {% endfor %}
