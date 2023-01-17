@@ -6,7 +6,7 @@
     {% page_header "Pets" %}
     <div class="flex flex-wrap justify-around">
         <span class="lg:basis-7/12">
-        <table class="overflow-hidden rounded-lg shadow-lg w-full">
+        <table class="overflow-hidden w-full rounded-lg shadow-lg">
             <thead class="bg-gray-800 rounded-lg">
             <tr class="text-white">
                 <th class="px-2 py-4 text-center md:py-4 md:text-md">
@@ -23,10 +23,10 @@
             <tbody>
             {% for account in page_obj %}
                 <tr class="even:bg-gray-100 odd:bg-gray-50">
-                    <td class="py-2 text-center whitespace-nowrap md:px-2 md:py-4">
+                    <td class="py-4 text-center whitespace-nowrap md:px-2">
                         {{ forloop.counter0|add:page_obj.start_index }}
                     </td>
-                    <td class="max-w-xs text-center md:px-2 md:py-4">
+                    <td class="py-4 max-w-xs text-center md:px-2">
                         {% if not account.active %}
                             <s class="text-gray-700">
                                 {{ account.name }}
@@ -35,7 +35,7 @@
                             {{ account.name }}
                         {% endif %}
                     </td>
-                    <td class="py-2 text-xl text-center whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
+                    <td class="py-4 text-xl text-center whitespace-nowrap md:px-2 md:text-2xl font-runescape">
                         <div class="flex flex-row flex-wrap gap-1">
                             {% for pet_submission in account.pets %}
                                 <a href="{{ pet_submission.proof.url }}" target="_blank">
