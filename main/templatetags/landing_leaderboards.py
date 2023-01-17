@@ -10,18 +10,24 @@ from main import models, GRANDMASTER
 register = template.Library()
 
 
-@register.inclusion_tag('main/dashboard/pets_leaderboard.html')
+@register.inclusion_tag('main/landing_leaderboards/pets_leaderboard.html')
 def pets_leaderboard():
+    # get accepted pet submissions
     pet_submissions = models.Submission.objects.accepted().pets()
-    account_pks = pet_submissions.values('accounts').annotate(num_pets=Count('accounts')).order_by('-num_pets')
+
+    # create sub query, to annotate the number of pets per account
+    sub_query = pet_submissions.values('accounts').annotate(num_pets=Count('accounts')).filter(accounts__id=OuterRef('id'))
+
+    # annotate num_pets per account using sub query ; filter out null values ; order by number of pets descending
+    accounts = Account.objects.annotate(num_pets=sub_query.values('num_pets')[:1]).filter(num_pets__isnull=False).order_by('-num_pets')
+
     return {
-        'accounts': [Account.objects.get(pk=obj['accounts']) for obj in account_pks]
+        'accounts': accounts[:5]
     }
 
 
-@register.inclusion_tag('main/dashboard/col_logs_leaderboard.html')
+@register.inclusion_tag('main/landing_leaderboards/col_logs_leaderboard.html')
 def col_logs_leaderboard():
-
     # get accepted collection log submissions ; use empty order_by() to clear any ordering
     col_logs_submissions = models.Submission.objects.col_logs().accepted().order_by()
 
@@ -40,7 +46,7 @@ def col_logs_leaderboard():
     }
 
 
-@register.inclusion_tag('main/dashboard/grandmasters_leaderboard.html')
+@register.inclusion_tag('main/landing_leaderboards/grandmasters_leaderboard.html')
 def grandmasters_leaderboard():
     submissions = models.Submission.objects.combat_achievements().accepted().filter(ca_tier=GRANDMASTER).order_by('-date')
     return {
@@ -48,14 +54,14 @@ def grandmasters_leaderboard():
     }
 
 
-@register.inclusion_tag('main/dashboard/recent_achievements.html')
+@register.inclusion_tag('main/landing_leaderboards/recent_achievements.html')
 def recent_submission_leaderboard():
     return {
         'recent_submissions': models.Submission.objects.accepted()[:5]
     }
 
 
-@register.inclusion_tag('main/dashboard/top_players_leaderboard.html')
+@register.inclusion_tag('main/landing_leaderboards/top_players_leaderboard.html')
 def top_players_leaderboard():
     accounts = []
     for board in models.Board.objects.all():
