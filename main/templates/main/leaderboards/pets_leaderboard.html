@@ -15,6 +15,9 @@
                 <th class="px-2 py-4 text-center md:py-4 md:text-md">
                     Username
                 </th>
+                <th class="hidden text-center whitespace-nowrap md:table-cell p-4 text-md">
+                    Total Pets
+                </th>
                 <th class="px-2 py-4 text-center md:py-4 md:text-md">
                     Pets
                 </th>
@@ -35,8 +38,13 @@
                             {{ account.name }}
                         {% endif %}
                     </td>
+                    <td class="hidden py-2 text-center whitespace-nowrap md:table-cell">
+                        <div class="px-4 py-4 text-2xl whitespace-nowrap font-runescape">
+                            <p class="pr-2 text-center">{{ account.pets.count }}</p>
+                        </div>
+                    </td>
                     <td class="py-4 text-xl text-center whitespace-nowrap md:px-2 md:text-2xl font-runescape">
-                        <div class="flex flex-row flex-wrap gap-1">
+                        <div class="flex flex-row flex-wrap gap-1 max-md:ml-4">
                             {% for pet_submission in account.pets %}
                                 <a href="{{ pet_submission.proof.url }}" target="_blank">
                                     <img src="{{ pet_submission.pet.icon.url }}"
