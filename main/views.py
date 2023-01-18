@@ -33,6 +33,8 @@ class LeaderboardView(TemplateView):
             slug=self.kwargs.get('parent_board_name')
         )
 
+        from django.contrib.postgres.aggregates import StringAgg
+
         context['data'] = []
         for board in context['parent_board'].boards.all():
 
@@ -42,19 +44,17 @@ class LeaderboardView(TemplateView):
                 num_active_accounts=Count('accounts', filter=Q(accounts__active=True))
             ).filter(num_active_accounts__gt=F('num_accounts') / 2)
 
-            # group by accounts and value, then select distinct; this way, we only get 1 entry from each user!
-            submissions_subquery = models.Submission.objects.filter(
-                id__in=Subquery(active_accounts_submissions.values('id'))
-            ).order_by().order_by(
-                'accounts',
-                'value'
-            ).distinct(
-                'accounts'
-            )
+            # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
+            annotated_submissions = active_accounts_submissions.annotate(
+                accounts_str=StringAgg('accounts__name', delimiter=',', ordering='accounts__name')
+            ).order_by('accounts_str', 'value')
 
-            submissions = models.Submission.objects.filter(
-                id__in=Subquery(submissions_subquery.values('id'))
-            ).order_by('value')
+            # grab the first submission for each team (which is the best, since we ordered by value above)
+            submissions = {}
+            for submission in annotated_submissions:
+                if submission.accounts_str not in submissions.keys():
+                    submissions[submission.accounts_str] = submission
+            submissions = list(submissions.values())
 
             p = Paginator(submissions, 5)
             page = p.page(self.request.GET.get(f'{board.id}__page', 1))
