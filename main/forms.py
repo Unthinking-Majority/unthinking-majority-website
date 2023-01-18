@@ -47,10 +47,11 @@ class BoardSubmissionForm(forms.Form):
         board = kwargs.pop('board')
         data = kwargs.get('data')
 
-        if data:
+        if data and board.team_size == 1:
+            data = data.copy()
             accounts = data.get('board_submission_form-accounts')
-            kwargs.update({'data': data.copy()})
-            kwargs.get('data').update({'board_submission_form-accounts': [accounts] if isinstance(accounts, str) else accounts})
+            data.update({'board_submission_form-accounts': list(accounts)})
+            kwargs.update({'data': data})
 
         super(BoardSubmissionForm, self).__init__(*args, **kwargs)
 
