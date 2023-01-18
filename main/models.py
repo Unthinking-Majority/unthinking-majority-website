@@ -80,7 +80,7 @@ class Submission(models.Model):
     proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     notes = models.TextField(blank=True)
     accepted = models.BooleanField(null=True)
-    date = models.DateTimeField(default=datetime.now)
+    date = models.DateTimeField(default=datetime.now, null=True, blank=True)
 
     objects = managers.SubmissionQueryset.as_manager()
 
