@@ -5,7 +5,7 @@
 {% block content %}
     {% page_header user.account.name %}
 
-    <div class="flex flex-col justify-center m-auto rounded-lg ring-1 ring-gray-200 shadow-lg xl:w-7/12">
+    <div class="flex flex-col justify-center m-auto rounded-lg lg:ring-1 lg:ring-gray-200 lg:shadow-lg xl:w-7/12">
         <p class="py-1 text-center sm:py-2">
             <a href="{% url "accounts:password_change" %}" class="text-gray-700">
                 Change Password
@@ -19,7 +19,7 @@
             <span class="font-medium align-middle">Collection Log Total: </span>
             <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
         </p>
-        <div class="flex flex-wrap gap-1 py-1 max-sm:justify-center sm:py-2 sm:mx-4">
+        <div class="flex flex-wrap gap-1 justify-center py-1 sm:py-2 sm:mx-4">
             <span class="font-medium">Pets:</span>
             {% for pet_submission in user.account.pets %}
                 <a href="{{ pet_submission.proof.url }}" target="_blank">
@@ -30,7 +30,7 @@
             {% endfor %}
         </div>
         <div class="flex justify-center">
-        <span class="xl:basis-9/12">
+        <span class="mx-1 basis-full xl:basis-9/12">
             <h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
                 Submissions
             </h3>
@@ -86,7 +86,7 @@
                             <div class="m-auto w-min">
                                 <a href="{{ submission.proof.url }}" target="_blank">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                         class="w-5 h-5 text-gray-400 transition ease-in-out sm:w-6 sm:h-6 hover:scale-125 hover:text-gray-800">
+                                         class="w-6 h-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
                                         <path fill-rule="evenodd"
                                               d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
                                               clip-rule="evenodd"></path>
@@ -100,14 +100,14 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5"
                                          stroke="currentColor"
-                                         class="w-5 h-5 text-green-800 sm:w-6 sm:h-6 sm:w-8 sm:h-8">
+                                         class="w-6 h-6 text-green-800">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                               d="M4.5 12.75l6 6 9-13.5"></path>
                                     </svg>
                                 {% elif submission.accepted != None %} {# False #}
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5"
-                                         stroke="currentColor" class="w-5 h-5 text-red-800 sm:w-6 sm:h-6 sm:w-8 sm:h-8">
+                                         stroke="currentColor" class="w-6 h-6 text-red-800">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                               d="M6 18L18 6M6 6l12 12"></path>
                                     </svg>
@@ -115,14 +115,14 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5"
                                          stroke="currentColor"
-                                         class="w-5 h-5 text-gray-800 sm:w-6 sm:h-6 sm:w-8 sm:h-8">
+                                         class="w-6 h-6 text-gray-800">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                               d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
                                     </svg>
                                 {% endif %}
                             </div>
                         </td>
-                        <td class="py-4 pr-1 text-base text-center sm:text-xl sm:whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
+                        <td class="py-4 pr-1 text-xl text-center sm:whitespace-nowrap md:px-2 md:py-4 md:text-2xl font-runescape">
                             {{ submission.value_display }}
                             {% if submission.get_type_display != 'Pet' %}
                                 <p class="font-sans text-sm md:hidden">
