@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-center mx-2 my-4 flex-wrap w-80">
+<div class="flex flex-col flex-wrap justify-center mx-2 my-4 w-80">
     <select id="{{ widget.attrs.id }}" name="{{ widget.name }}" required class="hidden" tabindex="-1">
     </select>
     <label for="autocomplete_{{ widget.attrs.id }}" class="text-sm font-medium text-gray-900">
@@ -9,7 +9,7 @@
         {% endif %}
         *
     </label>
-    <input id="autocomplete_{{ widget.attrs.id }}" type="text" tabindex="0" spellcheck="false" autocomplete="off" required
+    <input id="autocomplete_{{ widget.attrs.id }}" type="text" tabindex="1" spellcheck="false" autocomplete="off" required
            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 w-full">
     <p class="text-sm text-gray-600">
         {{ help_text }}
@@ -46,7 +46,7 @@
                     const info = document.createElement("p");
                     if (!data.results.length > 0) {
                         info.innerHTML = `
-                    <span class="flex text-sm bg-gray-50 text-gray-900 hover:cursor-pointer hover:bg-gray-300 text-ellipsis whitespace-nowrap py-2 px-2">
+                    <span class="flex px-2 py-2 text-sm text-gray-900 whitespace-nowrap bg-gray-50 hover:cursor-pointer hover:bg-gray-300 text-ellipsis">
                         No matching results
                     </span>`;
                     }
@@ -55,9 +55,10 @@
                 class: "absolute origin-top-right rounded-lg bg-gray-50 shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden max-h-48 overflow-y-auto w-80 z-50 py-1 mt-1",
                 noResults: true,
                 maxResults: 15,
+                tabSelect: true,
             },
             resultItem: {
-                class:"flex group text-sm bg-gray-50 rounded-lg hover:cursor-pointer hover:bg-blue-100 text-ellipsis whitespace-nowrap overflow-hidden py-2 px-2 mx-1",
+                class:"flex group text-sm bg-gray-50 rounded-lg hover:cursor-pointer hover:bg-blue-100 text-ellipsis whitespace-nowrap overflow-hidden py-2 px-2 mx-1 aria-selected:bg-blue-100",
                 highlight: "text-zinc-900 font-semibold bg-gray-50 group-hover:bg-blue-100",
                 element: (item, data) => {
                     item.innerHTML = `
