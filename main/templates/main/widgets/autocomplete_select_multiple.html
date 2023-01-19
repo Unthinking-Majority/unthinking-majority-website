@@ -70,7 +70,7 @@
                     selection: (event) => {
                         let select = document.getElementById("{{ widget.attrs.id }}"),
                             option = document.createElement("option"),
-                            option_id = "{{ widget.attrs.id }}_option_{{ event.detail.selection.value.id }}";
+                            option_id = `{{ widget.attrs.id }}_option_${ event.detail.selection.value.id }`;
 
                         // create option
                         option.text = event.detail.selection.value.text;
