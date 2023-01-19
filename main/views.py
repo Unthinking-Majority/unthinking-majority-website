@@ -54,7 +54,7 @@ class LeaderboardView(TemplateView):
             for submission in annotated_submissions:
                 if submission.accounts_str not in submissions.keys():
                     submissions[submission.accounts_str] = submission.id
-            submissions = models.Submission.objects.filter(id__in=submissions.values()).order_by('value')
+            submissions = models.Submission.objects.filter(id__in=submissions.values()).order_by('value', 'date')
 
             p = Paginator(submissions, 5)
             page = p.page(self.request.GET.get(f'{board.id}__page', 1))
@@ -96,7 +96,7 @@ class ColLogsLeaderboardView(ListView):
         sub_query = col_logs_submissions.order_by('accounts', '-value').distinct('accounts')
 
         # filter for Submission which have a matching id from the above sub query ; order by value descending
-        submissions = models.Submission.objects.filter(id__in=sub_query.values('id')).order_by('-value', '-date')
+        submissions = models.Submission.objects.filter(id__in=sub_query.values('id')).order_by('-value', 'date')
 
         return submissions
 
@@ -119,7 +119,7 @@ class CALeaderboardView(ListView):
         sub_query = ca_submissions.order_by('accounts', 'ca_tier').distinct('accounts')
 
         # filter for Submission which have a matching id from the above sub query ; order by ca_tier descending
-        submissions = models.Submission.objects.filter(id__in=sub_query.values('id')).order_by('ca_tier', '-date')
+        submissions = models.Submission.objects.filter(id__in=sub_query.values('id')).order_by('ca_tier', 'date')
         return submissions
 
 
