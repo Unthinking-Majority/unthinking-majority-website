@@ -65,7 +65,8 @@ class BoardSubmissionForm(forms.Form):
                 raise forms.ValidationError('Time must be more than 0.')
 
         # validate team size
-        if cleaned_data['board'].team_size != cleaned_data['accounts'].count():
+        accounts = cleaned_data.get('accounts')
+        if accounts and cleaned_data['board'].team_size != accounts.count():
             raise forms.ValidationError(
                 'You must select exactly %(team_size)s account(s).',
                 params={
