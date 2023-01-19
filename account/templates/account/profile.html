@@ -24,7 +24,7 @@
             {% for pet_submission in user.account.pets %}
                 <a href="{{ pet_submission.proof.url }}" target="_blank">
                     <img src="{{ pet_submission.pet.icon.url }}"
-                         class="object-scale-down"
+                         class="inline-block object-scale-down"
                          title="{{ pet_submission.pet.name }}">
                 </a>
             {% endfor %}

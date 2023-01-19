@@ -7,7 +7,7 @@
         <th class="px-2 py-4 text-center md:p-4 md:text-md">
             Username
         </th>
-        <th class="hidden text-center whitespace-nowrap md:table-cell p-4 text-md">
+        <th class="hidden p-4 text-center whitespace-nowrap md:table-cell text-md">
             Total Pets
         </th>
         <th class="px-2 py-4 md:p-4">
@@ -30,7 +30,7 @@
                 <div class="flex flex-row flex-wrap gap-1">
                     {% for submission in account.pets %}
                         <a href="{{ submission.proof.url }}" target="_blank">
-                            <img src="{{ submission.pet.icon.url }}" class="object-scale-down" title="{{ submission.pet.name }}">
+                            <img src="{{ submission.pet.icon.url }}" class="inline-block object-scale-down" title="{{ submission.pet.name }}">
                         </a>
                     {% endfor %}
                 </div>

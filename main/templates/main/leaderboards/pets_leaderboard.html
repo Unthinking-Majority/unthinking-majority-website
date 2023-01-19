@@ -15,7 +15,7 @@
                 <th class="px-2 py-4 text-center md:py-4 md:text-md">
                     Username
                 </th>
-                <th class="hidden text-center whitespace-nowrap md:table-cell p-4 text-md">
+                <th class="hidden p-4 text-center whitespace-nowrap md:table-cell text-md">
                     Total Pets
                 </th>
                 <th class="px-2 py-4 text-center md:py-4 md:text-md">
@@ -48,7 +48,7 @@
                             {% for pet_submission in account.pets %}
                                 <a href="{{ pet_submission.proof.url }}" target="_blank">
                                     <img src="{{ pet_submission.pet.icon.url }}"
-                                         class="object-scale-down"
+                                         class="inline-block object-scale-down"
                                          title="{{ pet_submission.pet.name }}">
                                 </a>
                             {% endfor %}
