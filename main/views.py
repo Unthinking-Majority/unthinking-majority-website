@@ -37,6 +37,7 @@ class LeaderboardView(TemplateView):
 
         context['data'] = []
         ordering = context['parent_board'].ordering
+        num_objs_per_page = 10 if context['parent_board'].boards.count() == 1 else 5
         for board in context['parent_board'].boards.all():
 
             # filter out submissions whose inactive accounts account for at least half of the accounts
@@ -57,7 +58,7 @@ class LeaderboardView(TemplateView):
                     submissions[submission.accounts_str] = submission.id
             submissions = models.Submission.objects.filter(id__in=submissions.values()).order_by(f'{ordering}value', 'date')
 
-            p = Paginator(submissions, 5)
+            p = Paginator(submissions, num_objs_per_page)
             page = p.page(self.request.GET.get(f'{board.id}__page', 1))
             context['data'].append((board, page))
 
