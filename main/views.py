@@ -36,6 +36,7 @@ class LeaderboardView(TemplateView):
         from django.contrib.postgres.aggregates import StringAgg
 
         context['data'] = []
+        ordering = context['parent_board'].ordering
         for board in context['parent_board'].boards.all():
 
             # filter out submissions whose inactive accounts account for at least half of the accounts
@@ -47,14 +48,14 @@ class LeaderboardView(TemplateView):
             # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
             annotated_submissions = active_accounts_submissions.annotate(
                 accounts_str=StringAgg('accounts__name', delimiter=',', ordering='accounts__name')
-            ).order_by('accounts_str', 'value')
+            ).order_by('accounts_str', f'{ordering}value')
 
             # grab the first submission for each team (which is the best, since we ordered by value above)
             submissions = {}
             for submission in annotated_submissions:
                 if submission.accounts_str not in submissions.keys():
                     submissions[submission.accounts_str] = submission.id
-            submissions = models.Submission.objects.filter(id__in=submissions.values()).order_by('value', 'date')
+            submissions = models.Submission.objects.filter(id__in=submissions.values()).order_by(f'{ordering}value', 'date')
 
             p = Paginator(submissions, 5)
             page = p.page(self.request.GET.get(f'{board.id}__page', 1))

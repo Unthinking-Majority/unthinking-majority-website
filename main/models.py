@@ -37,6 +37,7 @@ class ParentBoard(models.Model):
     metric_name = models.CharField(max_length=128, default='Time')
     slug = models.SlugField(unique=True)
     icon = models.ImageField(upload_to=get_file_path, null=True, blank=True)
+    ordering = models.CharField(choices=(('-', 'Descending'), ('', 'Ascending')), default='', max_length=1)
 
     class Meta:
         verbose_name = 'Parent Board'
