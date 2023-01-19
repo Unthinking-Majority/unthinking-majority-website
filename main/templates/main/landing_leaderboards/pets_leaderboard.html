@@ -1,8 +1,9 @@
 <h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
     Pets Leaderboard
 </h3>
-<table class="overflow-hidden min-w-full max-w-4xl bg-gray-200 rounded-lg shadow-lg">
-    <thead class="bg-gray-800 rounded-lg">
+<div class="overflow-hidden overflow-y-auto max-h-96 rounded-lg shadow-lg">
+    <table class="min-w-full max-w-4xl bg-gray-200">
+        <thead class="sticky top-0 min-w-full bg-gray-800 rounded-lg">
     <tr class="text-white">
         <th class="px-2 py-4 text-center md:p-4 md:text-md">
             Username
@@ -46,3 +47,4 @@
     {% endfor %}
     </tbody>
 </table>
+</div>

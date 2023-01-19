@@ -25,7 +25,7 @@ def pets_leaderboard():
     ).order_by('-num_pets')
 
     return {
-        'accounts': accounts[:5]
+        'accounts': accounts[:10]
     }
 
 

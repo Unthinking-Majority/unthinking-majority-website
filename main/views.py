@@ -68,7 +68,7 @@ class LeaderboardView(TemplateView):
 class PetsLeaderboardView(ListView):
     model = Account
     template_name = 'main/leaderboards/pets_leaderboard.html'
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
         # get accepted pet submissions
@@ -89,7 +89,7 @@ class PetsLeaderboardView(ListView):
 class ColLogsLeaderboardView(ListView):
     model = Account
     template_name = 'main/leaderboards/col_logs_leaderboard.html'
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
         # get accepted collection log submissions ; use empty order_by() to clear any ordering
@@ -112,7 +112,7 @@ class ColLogsLeaderboardView(ListView):
 class CALeaderboardView(ListView):
     model = Account
     template_name = 'main/leaderboards/ca_leaderboard.html'
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
         # get accepted combat achievement submissions ; use empty order_by() to clear any ordering
