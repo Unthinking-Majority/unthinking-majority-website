@@ -36,13 +36,9 @@
                         {{ forloop.counter0|add:page_obj.start_index }}
                     </td>
                     <td class="py-4 max-w-xs text-center md:px-2">
-                        {% if not submission.accounts.first.active %}
-                            <s class="text-gray-700">
-                                {{ submission.accounts.first.name }}
-                            </s>
-                        {% else %}
+                        <span class="m-1 text-sm whitespace-nowrap md:px-2 md:text-lg">
                             {{ submission.accounts.first.name }}
-                        {% endif %}
+                        </span>
                     </td>
                     <td class="hidden py-4 text-sm font-light text-center whitespace-nowrap md:table-cell">
                         {{ submission.date|date:"M d, Y" }}

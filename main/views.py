@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
-from django.db.models import Subquery, Count, F, Q, OuterRef
+from django.db.models import Count, F, Q, OuterRef
 from django.shortcuts import redirect, reverse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
@@ -74,12 +74,13 @@ class PetsLeaderboardView(ListView):
         pet_submissions = models.Submission.objects.accepted().pets()
 
         # create sub query, to annotate the number of pets per account
-        sub_query = pet_submissions.values('accounts').annotate(num_pets=Count('accounts')).filter(
-            accounts__id=OuterRef('id'))
+        sub_query = pet_submissions.values('accounts').annotate(num_pets=Count('accounts')).filter(accounts__id=OuterRef('id'))
 
         # annotate num_pets per account using sub query ; filter out null values ; order by number of pets descending
         accounts = Account.objects.annotate(num_pets=sub_query.values('num_pets')[:1]).filter(
-            num_pets__isnull=False).order_by('-num_pets')
+            num_pets__isnull=False,
+            active=True
+        ).order_by('-num_pets')
 
         return accounts
 
@@ -91,7 +92,7 @@ class ColLogsLeaderboardView(ListView):
 
     def get_queryset(self):
         # get accepted collection log submissions ; use empty order_by() to clear any ordering
-        col_logs_submissions = models.Submission.objects.col_logs().accepted().order_by()
+        col_logs_submissions = models.Submission.objects.col_logs().accepted().order_by().filter(accounts__active=True)
 
         # create sub query, which grabs the Max col_log value for each account
         sub_query = col_logs_submissions.order_by('accounts', '-value').distinct('accounts')
@@ -114,7 +115,7 @@ class CALeaderboardView(ListView):
 
     def get_queryset(self):
         # get accepted combat achievement submissions ; use empty order_by() to clear any ordering
-        ca_submissions = models.Submission.objects.combat_achievements().accepted().order_by()
+        ca_submissions = models.Submission.objects.combat_achievements().accepted().order_by().filter(accounts__active=True)
 
         # create sub query, which grabs the best ca tier value for each account
         sub_query = ca_submissions.order_by('accounts', 'ca_tier').distinct('accounts')

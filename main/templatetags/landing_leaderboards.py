@@ -19,7 +19,10 @@ def pets_leaderboard():
     sub_query = pet_submissions.values('accounts').annotate(num_pets=Count('accounts')).filter(accounts__id=OuterRef('id'))
 
     # annotate num_pets per account using sub query ; filter out null values ; order by number of pets descending
-    accounts = Account.objects.annotate(num_pets=sub_query.values('num_pets')[:1]).filter(num_pets__isnull=False).order_by('-num_pets')
+    accounts = Account.objects.annotate(num_pets=sub_query.values('num_pets')[:1]).filter(
+        num_pets__isnull=False,
+        active=True
+    ).order_by('-num_pets')
 
     return {
         'accounts': accounts[:5]
@@ -29,7 +32,7 @@ def pets_leaderboard():
 @register.inclusion_tag('main/landing_leaderboards/col_logs_leaderboard.html')
 def col_logs_leaderboard():
     # get accepted collection log submissions ; use empty order_by() to clear any ordering
-    col_logs_submissions = models.Submission.objects.col_logs().accepted().order_by()
+    col_logs_submissions = models.Submission.objects.col_logs().accepted().order_by().filter(accounts__active=True)
 
     # create sub query, which grabs the Max col_log value for each account
     sub_query = col_logs_submissions.order_by('accounts', '-value').distinct('accounts').filter(accounts__id=OuterRef('id'))
@@ -48,7 +51,10 @@ def col_logs_leaderboard():
 
 @register.inclusion_tag('main/landing_leaderboards/grandmasters_leaderboard.html')
 def grandmasters_leaderboard():
-    submissions = models.Submission.objects.combat_achievements().accepted().filter(ca_tier=GRANDMASTER).order_by('date')
+    submissions = models.Submission.objects.combat_achievements().accepted().filter(
+        ca_tier=GRANDMASTER,
+        accounts__active=True
+    ).order_by('date')
     return {
         'submissions': submissions
     }
@@ -57,7 +63,7 @@ def grandmasters_leaderboard():
 @register.inclusion_tag('main/landing_leaderboards/recent_achievements.html')
 def recent_submission_leaderboard():
     return {
-        'recent_submissions': models.Submission.objects.accepted()[:5]
+        'recent_submissions': models.Submission.objects.accepted().filter(accounts__active=True)[:5]
     }
 
 
@@ -65,8 +71,9 @@ def recent_submission_leaderboard():
 def top_players_leaderboard():
     accounts = []
     for board in models.Board.objects.all():
+        order = f'{board.parent.ordering}value'
         try:
-            first_place_accounts = board.submissions.order_by('value').first().accounts.all()
+            first_place_accounts = board.submissions.order_by(order).first().accounts.filter(active=True)
         except AttributeError:
             continue
         accounts += list(first_place_accounts)
