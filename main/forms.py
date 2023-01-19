@@ -142,12 +142,12 @@ class ColLogSubmissionForm(forms.Form):
                 }
             )
 
-        if cleaned_data['account'].col_logs >= cleaned_data.get('col_logs', settings.MAX_COL_LOG):
+        if cleaned_data['account'].col_logs() >= cleaned_data.get('col_logs', settings.MAX_COL_LOG):
             raise forms.ValidationError(
                 '%(account)s already has %(cur_col_logs)s/%(max_col_log)s collection log slots completed.',
                 params={
                     'account': cleaned_data['account'],
-                    'cur_col_logs': int(cleaned_data['account'].col_logs),
+                    'cur_col_logs': int(cleaned_data['account'].col_logs()),
                     'max_col_log': settings.MAX_COL_LOG
                 }
             )
