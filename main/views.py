@@ -53,8 +53,8 @@ class LeaderboardView(TemplateView):
             submissions = {}
             for submission in annotated_submissions:
                 if submission.accounts_str not in submissions.keys():
-                    submissions[submission.accounts_str] = submission
-            submissions = list(submissions.values())
+                    submissions[submission.accounts_str] = submission.id
+            submissions = models.Submission.objects.filter(id__in=submissions.values()).order_by('value')
 
             p = Paginator(submissions, 5)
             page = p.page(self.request.GET.get(f'{board.id}__page', 1))
