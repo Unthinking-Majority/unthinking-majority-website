@@ -48,7 +48,7 @@ def col_logs_leaderboard():
 
 @register.inclusion_tag('main/landing_leaderboards/grandmasters_leaderboard.html')
 def grandmasters_leaderboard():
-    submissions = models.Submission.objects.combat_achievements().accepted().filter(ca_tier=GRANDMASTER).order_by('-date')
+    submissions = models.Submission.objects.combat_achievements().accepted().filter(ca_tier=GRANDMASTER).order_by('date')
     return {
         'submissions': submissions
     }
