@@ -15,12 +15,12 @@ SUBMISSION_TYPES = (
 
 GRANDMASTER, MASTER, ELITE = range(3)
 CA_CHOICES = (
-    (GRANDMASTER, 'GrandMaster'),
+    (GRANDMASTER, 'Grandmaster'),
     (MASTER, 'Master'),
     (ELITE, 'Elite'),
 )
 CA_DICT = {
-    GRANDMASTER: 'GrandMaster',
+    GRANDMASTER: 'Grandmaster',
     MASTER: 'Master',
     ELITE: 'Elite',
 }
