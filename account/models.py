@@ -17,7 +17,7 @@ class Account(models.Model):
         return Submission.objects.pets().accepted().filter(accounts=self.id)
 
     def col_logs(self):
-        return Submission.objects.col_logs().accepted().filter(accounts=self.id).aggregate(col_logs=Max('value'))['col_logs']
+        return Submission.objects.col_logs().accepted().filter(accounts=self.id).aggregate(col_logs=Max('value'))['col_logs'] or 0
 
     def ca_tier(self):
         ca_tier = Submission.objects.combat_achievements().accepted().filter(accounts=self.id).aggregate(ca_tier=Min('ca_tier'))['ca_tier']
