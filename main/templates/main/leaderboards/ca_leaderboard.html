@@ -9,22 +9,22 @@
         <table class="overflow-hidden w-full rounded-lg shadow-lg">
             <thead class="bg-gray-800 rounded-lg">
             <tr class="text-white">
-                <th class="px-2 py-4 text-center md:py-4 md:text-md">
+                <th class="px-1 py-4 text-center md:py-4 md:text-md">
                     Rank
                 </th>
-                <th class="px-2 py-4 text-center md:py-4 md:text-md">
+                <th class="px-1 py-4 text-center md:py-4 md:text-md">
                     Username
                 </th>
                 <th class="hidden text-center md:table-cell md:p-4 md:text-md">
                     Date
                 </th>
-                <th class="px-2 py-4 text-center md:py-4 md:text-md">
+                <th class="px-1 py-4 text-center md:py-4 md:text-md">
                     Notes
                 </th>
-                <th class="px-2 py-4 text-center md:py-4 md:text-md">
+                <th class="px-1 py-4 text-center md:py-4 md:text-md">
                     Proof
                 </th>
-                <th class="px-2 py-4 text-center md:py-4 md:text-md">
+                <th class="px-1 py-4 text-center md:py-4 md:text-md">
                     Tier
                 </th>
             </tr>
@@ -36,7 +36,7 @@
                         {{ forloop.counter0|add:page_obj.start_index }}
                     </td>
                     <td class="max-w-xs text-center md:px-2 md:py-4">
-                        <span class="m-1 text-sm whitespace-nowrap md:px-2 md:text-lg">
+                        <span class="m-1 text-sm md:px-2 md:text-lg">
                             {{ submission.accounts.first.name }}
                         </span>
                     </td>
@@ -70,7 +70,7 @@
                             </a>
                         </div>
                     </td>
-                    <td class="py-4 text-xl text-center whitespace-nowrap md:px-2 md:text-2xl font-runescape">
+                    <td class="py-4 text-base sm:text-xl text-center whitespace-nowrap md:px-2 md:text-2xl font-runescape">
                         {{ submission.value_display }}
                     </td>
                 </tr>
