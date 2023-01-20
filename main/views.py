@@ -2,7 +2,7 @@ import os
 
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Count, F, Q, OuterRef
 from django.shortcuts import redirect, reverse
 from django.shortcuts import render, get_object_or_404
@@ -59,7 +59,10 @@ class LeaderboardView(TemplateView):
             submissions = models.Submission.objects.filter(id__in=submissions.values()).order_by(f'{ordering}value', 'date')
 
             p = Paginator(submissions, num_objs_per_page)
-            page = p.page(self.request.GET.get(f'{board.id}__page', 1))
+            try:
+                page = p.page(self.request.GET.get(f'{board.id}__page', 1))
+            except EmptyPage:
+                page = p.page(1)
             context['data'].append((board, page))
 
         return context
