@@ -11,3 +11,9 @@ urlpatterns = [
     path('__reload__/', include('django_browser_reload.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    from django.views.generic import TemplateView
+    urlpatterns += [
+        path('404/', TemplateView.as_view(template_name='404.html')),
+        path('500/', TemplateView.as_view(template_name='500.html')),
+    ]
