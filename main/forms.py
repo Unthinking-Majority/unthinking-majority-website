@@ -114,6 +114,16 @@ class PetSubmissionForm(forms.Form):
                     '%(account)s already owns the pet %(pet)s',
                     params={'account': cleaned_data['account'], 'pet': submission.first().pet}
                 )
+            submission = models.Submission.objects.pets().filter(
+                accounts=cleaned_data['account'],
+                pet=pet,
+                accepted=None
+            )
+            if submission.exists():
+                raise forms.ValidationError(
+                    '%(account)s already has a submission for the pet %(pet)s under review',
+                    params={'account': cleaned_data['account'], 'pet': submission.first().pet}
+                )
 
         return cleaned_data
 
