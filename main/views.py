@@ -255,7 +255,7 @@ class SubmissionWizard(SessionWizardView):
         kwargs = {}
         if step == 'select_board_form':
             cleaned_data = self.get_cleaned_data_for_step('select_parent_board_form')
-            kwargs.update({'parent_board': cleaned_data['parent_board']})
+            kwargs.update({'parent_board': cleaned_data.get('parent_board')})
         if step == 'board_submission_form':
             if self.get_cleaned_data_for_step('select_board_form'):
                 board = self.get_cleaned_data_for_step('select_board_form').get('board')

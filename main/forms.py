@@ -37,7 +37,9 @@ class SelectBoardForm(forms.Form):
 class BoardSubmissionForm(forms.Form):
     board = forms.ModelChoiceField(queryset=models.Board.objects.all(), widget=forms.HiddenInput())
     accounts = forms.ModelMultipleChoiceField(queryset=Account.objects.all())
-    notes = forms.CharField(required=False)
+    notes = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Talk about gear used, strategy, or even how you felt getting this achievement!'}
+    ))
     value = forms.DecimalField(max_digits=7, decimal_places=2, min_value=0, required=False)
     minutes = forms.IntegerField(required=False)
     seconds = forms.DecimalField(required=False)
