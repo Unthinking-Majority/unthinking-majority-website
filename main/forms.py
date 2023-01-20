@@ -87,7 +87,9 @@ class BoardSubmissionForm(forms.Form):
 class PetSubmissionForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
     pets = forms.ModelMultipleChoiceField(queryset=models.Pet.objects.all())
-    notes = forms.CharField(required=False)
+    notes = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Tell us about this achievement!'}
+    ))
     proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):
@@ -133,7 +135,9 @@ class PetSubmissionForm(forms.Form):
 class ColLogSubmissionForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
     col_logs = forms.IntegerField(max_value=settings.MAX_COL_LOG)
-    notes = forms.CharField(required=False)
+    notes = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Tell us about this achievement!'}
+    ))
     proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):
@@ -171,7 +175,9 @@ class ColLogSubmissionForm(forms.Form):
 class CASubmissionForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
     ca_tier = forms.TypedChoiceField(choices=CA_CHOICES, coerce=int)
-    notes = forms.CharField(required=False)
+    notes = forms.CharField(required=False, widget=forms.TextInput(
+        attrs={'placeholder': 'Tell us about this achievement!'},
+    ))
     proof = forms.ImageField()
 
     def __init__(self, *args, **kwargs):
