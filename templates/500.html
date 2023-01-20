@@ -1,0 +1,9 @@
+{% extends "main/site_base.html" %}
+
+{% load static um_components %}
+
+{% block content %}
+    {% page_header "500 - Server Error" %}
+    <img class="m-auto w-auto h-auto" src="{% static "gifs/spongebob_server_fire.gif" %}"
+         alt="Unthinking Majority Logo">
+{% endblock %}
