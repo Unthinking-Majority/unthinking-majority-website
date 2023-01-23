@@ -181,6 +181,6 @@ class Submission(models.Model):
 
         if not settings.DEBUG:
             embed['image'] = {'url': self.proof.url}
-            embed['url'] = self.board.parent.leaderboard_url()
+            embed['url'] = f'https://www.um-osrs.com{self.board.parent.leaderboard_url()}'
 
         return embed
