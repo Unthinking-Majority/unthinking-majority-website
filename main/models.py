@@ -8,6 +8,7 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import F
+from django.templatetags.static import static
 
 from main import METRIC_CHOICES, CA_CHOICES, SUBMISSION_TYPES, RECORD, PET, COL_LOG, CA, TIME, INTEGER
 from main import managers
@@ -98,8 +99,9 @@ class Submission(models.Model):
         self.__original_accepted = self.accepted
 
     def save(self, *args, **kwargs):
-        if self.accepted and self.accepted != self.__original_accepted:
-            # post to discord um pb webhook the newly accepted submission!
+        if self.accepted and self.accepted != self.__original_accepted and self.type != COL_LOG:
+            # post to discord um pb webhook the newly accepted submission! but don't post col log updates, might get
+            # too spammy
             data = json.dumps({'embeds': [self.create_embed()]})
             request = requests.post(
                 settings.UM_PB_DISCORD_WEBHOOK_URL,
@@ -141,10 +143,45 @@ class Submission(models.Model):
 
     def create_embed(self):
         # create json discord embed
-        return {
+        fields = []
+        if self.type == RECORD:
+            fields = [
+                {
+                    'name': 'Board',
+                    'value': self.board.name
+                },
+                {
+                    'name': 'User(s)',
+                    'value': ', '.join(self.accounts.values_list('name', flat=True))
+                },
+                {
+                    'name': self.board.parent.metric_name,
+                    'value': self.value_display()
+                },
+            ]
+        elif self.type == PET:
+            fields = [
+                {
+                    'name': 'User',
+                    'value': self.accounts.first().name
+                },
+                {
+                    'name': 'Pet',
+                    'value': self.pet.name
+                }
+            ]
+
+        embed = {
             'title': 'New Submission',
-            'description': 'Man, I\'m a beast',
-            'image': {
-                'url': self.proof.url
-            }
+            'thumbNail': {
+                'url': static('um_logos/logo_gradient.png')
+            },
+            'url': 'https://www.um-osrs.com',
+            'fields': fields,
+            'color': 0x0099FF
         }
+
+        if not settings.DEBUG:
+            embed['image'] = {'url': self.proof.url}
+
+        return embed
