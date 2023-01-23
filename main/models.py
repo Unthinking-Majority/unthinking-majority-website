@@ -1,7 +1,9 @@
+import json
 import os
 import uuid
 from datetime import datetime
 
+import requests
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -86,8 +88,25 @@ class Submission(models.Model):
 
     objects = managers.SubmissionQueryset.as_manager()
 
+    __original_accepted = None
+
     class Meta:
         ordering = [F('date').desc(nulls_last=True)]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__original_accepted = self.accepted
+
+    def save(self, *args, **kwargs):
+        if self.accepted and self.accepted != self.__original_accepted:
+            # post to discord um pb webhook the newly accepted submission!
+            data = json.dumps({'embeds': [self.create_embed()]})
+            request = requests.post(
+                settings.UM_PB_DISCORD_WEBHOOK_URL,
+                data=data,
+                headers={'Content-Type': 'application/json'}
+            )
+        return super(Submission, self).save(*args, **kwargs)
 
     def __str__(self):
         accounts = ', '.join(self.accounts.values_list('name', flat=True))
@@ -119,3 +138,13 @@ class Submission(models.Model):
             return self.board.name
         else:
             return self.get_type_display()
+
+    def create_embed(self):
+        # create json discord embed
+        return {
+            'title': 'New Submission',
+            'description': 'Man, I\'m a beast',
+            'image': {
+                'url': self.proof.url
+            }
+        }
