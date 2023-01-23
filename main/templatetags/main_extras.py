@@ -1,6 +1,5 @@
 from django import template
 from django.conf import settings
-from django.urls import reverse
 
 from main.models import BoardCategory
 
@@ -14,11 +13,6 @@ def navbar(context):
         'board': context.get('board', None),
         'board_categories': BoardCategory.objects.all(),
     }
-
-
-@register.filter
-def leaderboard_url(board):
-    return reverse('leaderboard', kwargs={'board_category': board.category.slug, 'parent_board_name': board.slug})
 
 
 @register.filter

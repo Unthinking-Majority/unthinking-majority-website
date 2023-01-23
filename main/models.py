@@ -9,6 +9,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import F
 from django.templatetags.static import static
+from django.urls import reverse
 
 from main import METRIC_CHOICES, CA_CHOICES, SUBMISSION_TYPES, RECORD, PET, COL_LOG, CA, TIME, INTEGER
 from main import managers
@@ -49,6 +50,9 @@ class ParentBoard(models.Model):
 
     def __str__(self):
         return self.name
+
+    def leaderboard_url(self):
+        return reverse('leaderboard', kwargs={'board_category': self.category.slug, 'parent_board_name': self.slug})
 
 
 class BoardCategory(models.Model):
@@ -99,9 +103,8 @@ class Submission(models.Model):
         self.__original_accepted = self.accepted
 
     def save(self, *args, **kwargs):
-        if self.accepted and self.accepted != self.__original_accepted and self.type != COL_LOG:
-            # post to discord um pb webhook the newly accepted submission! but don't post col log updates, might get
-            # too spammy
+        if self.accepted and self.accepted != self.__original_accepted and self.type == RECORD:
+            # post to discord um pb webhook the newly accepted submission! only for record submissions
             data = json.dumps({'embeds': [self.create_embed()]})
             request = requests.post(
                 settings.UM_PB_DISCORD_WEBHOOK_URL,
@@ -143,45 +146,41 @@ class Submission(models.Model):
 
     def create_embed(self):
         # create json discord embed
-        fields = []
-        if self.type == RECORD:
-            fields = [
-                {
-                    'name': 'Board',
-                    'value': self.board.name
-                },
-                {
-                    'name': 'User(s)',
-                    'value': ', '.join(self.accounts.values_list('name', flat=True))
-                },
-                {
-                    'name': self.board.parent.metric_name,
-                    'value': self.value_display()
-                },
-            ]
-        elif self.type == PET:
-            fields = [
-                {
-                    'name': 'User',
-                    'value': self.accounts.first().name
-                },
-                {
-                    'name': 'Pet',
-                    'value': self.pet.name
-                }
-            ]
+        # only supported for type RECORD
+
+        if self.type != RECORD:
+            return {}
+
+        fields = [
+            {
+                'name': 'Board',
+                'value': self.board.name,
+            },
+            {
+                'name': 'User(s)',
+                'value': ', '.join(self.accounts.values_list('name', flat=True)),
+            },
+            {
+                'name': self.board.parent.metric_name,
+                'value': self.value_display(),
+            },
+            {
+                'name': 'Date',
+                'value': f'{self.date:%b %d, %Y}',
+            },
+        ]
 
         embed = {
             'title': 'New Submission',
             'thumbNail': {
                 'url': static('um_logos/logo_gradient.png')
             },
-            'url': 'https://www.um-osrs.com',
             'fields': fields,
-            'color': 0x0099FF
+            'color': 0x0099FF,
         }
 
         if not settings.DEBUG:
             embed['image'] = {'url': self.proof.url}
+            embed['url'] = self.board.parent.leaderboard_url()
 
         return embed
