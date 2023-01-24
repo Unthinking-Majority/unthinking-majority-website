@@ -7,7 +7,7 @@
 
     <div class="flex flex-wrap gap-1 justify-around">
         {% for board, page in data %}
-            <span class="basis-full lg:basis-7/12 {% if board.flex_order %}order-{{ board.flex_order }}{% endif %}">
+            <span class="basis-full lg:basis-7/12 {% if board.flex_order %}order-{{ board.flex_order }}{% else %}order-last{% endif %}">
                 {% if data|length > 1 %}
                     <h2 class="text-2xl tracking-wide text-center text-gray-900 md:text-4xl font-runescape">
                         {{ board.name }}
