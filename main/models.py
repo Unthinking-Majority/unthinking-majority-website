@@ -198,16 +198,14 @@ class Submission(models.Model):
             )
 
         embed = {
-            'title': 'New Submission',
-            'thumbNail': {
-                'url': static('um_logos/logo_gradient.png')
-            },
-            'fields': fields,
             'color': 0x0099FF,
+            'title': 'New Submission',
+            'fields': fields,
         }
 
         if not settings.DEBUG:
             embed['image'] = {'url': self.proof.url}
+            embed['thumbnail'] = {'url': static('um_logos/logo_gradient.png')},
             embed['url'] = f'https://www.um-osrs.com{self.board.parent.leaderboard_url()}'
 
         return embed
