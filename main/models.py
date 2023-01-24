@@ -24,7 +24,7 @@ class Board(models.Model):
     parent = models.ForeignKey('main.ParentBoard', on_delete=models.CASCADE, related_name='boards')
     team_size = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(8)])
     flex_order = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(12)],
-                                             help_text='Order on leaderboard page.')
+                                             help_text='Order on leaderboard page. Empty values will appear last (order is then defined by team size). Allowed numbers are 1 - 12.')
 
     class Meta:
         ordering = ['team_size', 'name']
@@ -45,7 +45,7 @@ class ParentBoard(models.Model):
     ordering = models.CharField(choices=(('-', 'Descending'), ('', 'Ascending')), default='', max_length=1,
                                 help_text='Order of values when showing submission from child boards.')
     order = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(12)],
-                                        help_text='Order in navbar.')
+                                        help_text='Order in navbar. Empty values will appear last (order is then defined by alphabetical order of name). Allowed numbers are 1 - 12.')
 
     class Meta:
         verbose_name = 'Parent Board'
