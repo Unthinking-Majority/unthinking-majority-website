@@ -8,7 +8,6 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import F
-from django.templatetags.static import static
 from django.urls import reverse
 
 from main import METRIC_CHOICES, CA_CHOICES, SUBMISSION_TYPES, RECORD, PET, COL_LOG, CA, TIME, INTEGER
@@ -24,6 +23,8 @@ class Board(models.Model):
     name = models.CharField(max_length=256, unique=True)
     parent = models.ForeignKey('main.ParentBoard', on_delete=models.CASCADE, related_name='boards')
     team_size = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(8)])
+    flex_order = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(12)],
+                                             help_text='Order on leaderboard page.')
 
     class Meta:
         ordering = ['team_size', 'name']
@@ -41,12 +42,15 @@ class ParentBoard(models.Model):
     metric_name = models.CharField(max_length=128, default='Time')
     slug = models.SlugField(unique=True)
     icon = models.ImageField(upload_to=get_file_path, null=True, blank=True)
-    ordering = models.CharField(choices=(('-', 'Descending'), ('', 'Ascending')), default='', max_length=1)
+    ordering = models.CharField(choices=(('-', 'Descending'), ('', 'Ascending')), default='', max_length=1,
+                                help_text='Order of values when showing submission from child boards.')
+    order = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(12)],
+                                        help_text='Order in navbar.')
 
     class Meta:
         verbose_name = 'Parent Board'
         verbose_name_plural = 'Parent Boards'
-        ordering = ['name']
+        ordering = ['order', 'name']
 
     def __str__(self):
         return self.name
