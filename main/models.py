@@ -103,6 +103,7 @@ class Submission(models.Model):
         self.__original_accepted = self.accepted
 
     def save(self, *args, **kwargs):
+        super(Submission, self).save(*args, **kwargs)
         if self.accepted and self.accepted != self.__original_accepted and self.type == RECORD:
             # post to discord um pb webhook the newly accepted submission! only for record submissions
             data = json.dumps({'embeds': [self.create_embed()]})
@@ -111,7 +112,6 @@ class Submission(models.Model):
                 data=data,
                 headers={'Content-Type': 'application/json'}
             )
-        return super(Submission, self).save(*args, **kwargs)
 
     def __str__(self):
         accounts = ', '.join(self.accounts.values_list('name', flat=True))
@@ -144,9 +144,22 @@ class Submission(models.Model):
         else:
             return self.get_type_display()
 
+    def get_rank(self):
+        submissions = self.board.submissions.accepted().order_by(
+            f'{self.board.parent.ordering}value',
+            'date'
+        )
+        print(submissions)
+        for rank, submission in enumerate(submissions):
+            print(rank, submission)
+            if submission.id == self.id:
+                print('gottem')
+                return rank + 1
+
     def create_embed(self):
-        # create json discord embed
-        # only supported for type RECORD
+        """
+        Create json discord embed. Only supported for submission type RECORD.
+        """
 
         if self.type != RECORD:
             return {}
@@ -168,6 +181,11 @@ class Submission(models.Model):
             {
                 'name': 'Date',
                 'value': f'{self.date:%b %d, %Y}',
+                'inline': True,
+            },
+            {
+                'name': 'Rank',
+                'value': str(self.get_rank()),
                 'inline': True,
             },
         ]
