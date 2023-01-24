@@ -205,7 +205,8 @@ class Submission(models.Model):
 
         if not settings.DEBUG:
             embed['image'] = {'url': self.proof.url}
-            embed['thumbnail'] = {'url': static('um_logos/logo_gradient.png')},
+            # embed['thumbnail'] = {'url': static('um_logos/logo_gradient.png')},
+            embed['thumbnail'] = {'url': self.proof.url},
             embed['url'] = f'https://www.um-osrs.com{self.board.parent.leaderboard_url()}'
 
         return embed
