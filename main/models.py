@@ -163,12 +163,21 @@ class Submission(models.Model):
             {
                 'name': self.board.parent.metric_name,
                 'value': self.value_display(),
+                'inline': True,
             },
             {
                 'name': 'Date',
                 'value': f'{self.date:%b %d, %Y}',
+                'inline': True,
             },
         ]
+        if self.notes:
+            fields.append(
+                {
+                    'name': 'Notes',
+                    'value': self.notes,
+                }
+            )
 
         embed = {
             'title': 'New Submission',
