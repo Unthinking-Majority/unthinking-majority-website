@@ -205,10 +205,10 @@ class Submission(models.Model):
             'color': 0x0099FF,
             'title': 'New Submission',
             'fields': fields,
+            'url': f'https://www.um-osrs.com{self.board.parent.leaderboard_url()}',
         }
 
         if not settings.DEBUG:
             embed['image'] = {'url': self.proof.url}
-            embed['url'] = f'https://www.um-osrs.com{self.board.parent.leaderboard_url()}'
 
         return embed
