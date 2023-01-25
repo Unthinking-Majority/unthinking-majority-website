@@ -63,7 +63,7 @@ def grandmasters_leaderboard():
 @register.inclusion_tag('main/landing_leaderboards/recent_achievements.html')
 def recent_submission_leaderboard():
     return {
-        'recent_submissions': models.Submission.objects.accepted().filter(accounts__active=True)[:5]
+        'recent_submissions': models.Submission.objects.accepted()[:5]
     }
 
 
