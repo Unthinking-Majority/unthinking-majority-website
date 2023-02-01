@@ -5,8 +5,10 @@ from datetime import datetime
 
 import requests
 from django.conf import settings
+from django.contrib.postgres.aggregates import StringAgg
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import Count, Q
 from django.db.models import F
 from django.urls import reverse
 
@@ -149,15 +151,28 @@ class Submission(models.Model):
             return self.get_type_display()
 
     def get_rank(self):
-        submissions = self.board.submissions.accepted().order_by(
-            f'{self.board.parent.ordering}value',
-            'date'
-        )
-        print(submissions)
+        ordering = self.board.parent.ordering
+
+        # filter out submissions whose inactive accounts account for at least half of the accounts
+        active_accounts_submissions = self.board.submissions.accepted().annotate(
+            num_accounts=Count('accounts'),
+            num_active_accounts=Count('accounts', filter=Q(accounts__active=True))
+        ).filter(num_active_accounts__gt=F('num_accounts') / 2)
+
+        # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
+        annotated_submissions = active_accounts_submissions.annotate(
+            accounts_str=StringAgg('accounts__name', delimiter=',', ordering='accounts__name')
+        ).order_by('accounts_str', f'{ordering}value')
+
+        # grab the first submission for each team (which is the best, since we ordered by value above)
+        submissions = {}
+        for submission in annotated_submissions:
+            if submission.accounts_str not in submissions.keys():
+                submissions[submission.accounts_str] = submission.id
+        submissions = self.__class__.objects.filter(id__in=submissions.values()).order_by(f'{ordering}value', 'date')
+
         for rank, submission in enumerate(submissions):
-            print(rank, submission)
             if submission.id == self.id:
-                print('gottem')
                 return rank + 1
 
     def create_embed(self):

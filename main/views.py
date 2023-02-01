@@ -1,6 +1,7 @@
 import os
 
 from django.conf import settings
+from django.contrib.postgres.aggregates import StringAgg
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Count, F, Q, OuterRef
@@ -32,8 +33,6 @@ class LeaderboardView(TemplateView):
             models.ParentBoard.objects.prefetch_related('boards__submissions'),
             slug=self.kwargs.get('parent_board_name')
         )
-
-        from django.contrib.postgres.aggregates import StringAgg
 
         context['data'] = []
         ordering = context['parent_board'].ordering
