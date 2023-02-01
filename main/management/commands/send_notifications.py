@@ -1,3 +1,5 @@
+import datetime
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -10,14 +12,14 @@ from main.models import Submission
 class Command(BaseCommand):
     def handle(self, *args, **options):
         submissions = Submission.objects.filter(accepted__isnull=True)
-        if submissions.exists():
-            # send mail
+        if submissions.exists() and (datetime.datetime.today().timetuple().tm_yday % 2) != 0:
+            # send notifications for unreviewed submissions only every other day! (odd-numbered days of the year)
             user_emails = User.objects.filter(is_staff=True).values_list('email', flat=True)
             send_mail(
                 'UM LeaderBoards - Unreviewed Submissions',
-                'There are unreviewed submissions for the UM PB leaderboards. Go to https://www.um-osrs.com/admin to resolve review the submissions.',
+                'There are unreviewed submissions for the UM PB leaderboards. Please Go to https://www.um-osrs.com/admin to review the submissions.',
                 settings.DEFAULT_FROM_EMAIL,
                 user_emails,
                 html_message=f"There are unreviewed submissions for the UM PB leaderboards. "
-                             f"Click here to resolve the issues: https://{settings.DOMAIN}{reverse('admin:main_submission_changelist')}?accepted__isnull=True"
+                             f"Click here to review the submissions: https://{settings.DOMAIN}{reverse('admin:main_submission_changelist')}?accepted__isnull=True"
             )

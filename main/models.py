@@ -220,7 +220,7 @@ class Submission(models.Model):
             'color': 0x0099FF,
             'title': 'New Submission',
             'fields': fields,
-            'url': f'https://www.um-osrs.com{self.board.parent.leaderboard_url()}',
+            'url': f'https://{settings.DOMAIN}{self.board.parent.leaderboard_url()}',
         }
 
         if not settings.DEBUG:
