@@ -1,7 +1,7 @@
 from django import template
 from django.conf import settings
 
-from main.models import BoardCategory
+from main.models import ContentCategory
 
 register = template.Library()
 
@@ -11,7 +11,7 @@ def navbar(context):
     return {
         'request': context['request'],
         'board': context.get('board', None),
-        'board_categories': BoardCategory.objects.all(),
+        'content_categories': ContentCategory.objects.all(),
     }
 
 

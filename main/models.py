@@ -39,7 +39,7 @@ class Content(models.Model):
     UPLOAD_TO = 'board/icons/'
 
     name = models.CharField(max_length=256, unique=True)
-    category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='content_types')
+    category = models.ForeignKey('main.ContentCategory', on_delete=models.CASCADE, related_name='content_types')
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default='Time')
     slug = models.SlugField(unique=True)
@@ -58,16 +58,16 @@ class Content(models.Model):
         return self.name
 
     def leaderboard_url(self):
-        return reverse('leaderboard', kwargs={'board_category': self.category.slug, 'content_name': self.slug})
+        return reverse('leaderboard', kwargs={'content_category': self.category.slug, 'content_name': self.slug})
 
 
-class BoardCategory(models.Model):
+class ContentCategory(models.Model):
     name = models.CharField(max_length=256)
     slug = models.SlugField(unique=True)
 
     class Meta:
-        verbose_name = 'Board Category'
-        verbose_name_plural = 'Board Categories'
+        verbose_name = 'Content Category'
+        verbose_name_plural = 'Content Categories'
 
     def __str__(self):
         return self.name

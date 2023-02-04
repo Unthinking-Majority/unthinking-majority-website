@@ -18,7 +18,7 @@
                            class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white">
                             Home
                         </a>
-                        {% for bc in board_categories %}
+                        {% for bc in content_categories %}
                             <div class="relative group">
                                 <button class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                                     {{ bc.name }}
@@ -82,7 +82,7 @@
                                 Home
                             </a>
                         </li>
-                        {% for bc in board_categories %}
+                        {% for bc in content_categories %}
                             <li>
                                 <div class="relative group/dropdown">
                                     <button class="block px-4 py-2 w-full font-medium text-left text-gray-900 hover:bg-gray-800 hover:text-white">
