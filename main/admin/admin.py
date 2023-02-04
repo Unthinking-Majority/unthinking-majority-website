@@ -19,6 +19,26 @@ class ContentAdmin(admin.ModelAdmin):
         AutocompleteFilterFactory('Content Category', 'category'),
     ]
 
+    fieldsets = (
+        (None, {
+            'fields': (
+                'name',
+                'category',
+                ('metric', 'metric_name'),
+                ('ordering', 'order'),
+                'icon',
+            ),
+        }),
+        ('Options', {
+            'fields': (
+                'slug',
+            ),
+            'classes': (
+                'collapse',
+            ),
+        }),
+    )
+
 
 class BoardAdmin(admin.ModelAdmin):
     autocomplete_fields = ['content']
@@ -37,7 +57,7 @@ class BoardAdmin(admin.ModelAdmin):
                 'content',
                 'team_size',
                 'flex_order'
-            )
+            ),
         }),
     )
 
@@ -60,7 +80,7 @@ class SubmissionAdmin(admin.ModelAdmin):
                 'ca_tier',
                 'notes',
                 ('proof', 'date'),
-            )
+            ),
         }),
     )
 
