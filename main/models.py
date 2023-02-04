@@ -44,7 +44,7 @@ class Content(models.Model):
     metric_name = models.CharField(max_length=128, default='Time')
     slug = models.SlugField(unique=True)
     icon = models.ImageField(upload_to=get_file_path, null=True, blank=True)
-    ordering = models.CharField(choices=(('-', 'Descending'), ('', 'Ascending')), default='', max_length=1,
+    ordering = models.CharField(choices=(('-', 'Descending'), ('', 'Ascending')), default='', max_length=1, blank=True,
                                 help_text='Order of values when showing submission from child boards.')
     order = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(12)],
                                         help_text='Order in navbar. Empty values will appear last (order is then defined by alphabetical order of name). Allowed numbers are 1 - 12.')
