@@ -23,7 +23,7 @@ def get_file_path(instance, filename):
 
 class Board(models.Model):
     name = models.CharField(max_length=256, unique=True)
-    parent = models.ForeignKey('main.Content', on_delete=models.CASCADE, related_name='boards')
+    content = models.ForeignKey('main.Content', on_delete=models.CASCADE, related_name='boards')
     team_size = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(8)])
     flex_order = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(12)],
                                              help_text='Order on leaderboard page. Empty values will appear last (order is then defined by team size). Allowed numbers are 1 - 12.')
@@ -39,7 +39,7 @@ class Content(models.Model):
     UPLOAD_TO = 'board/icons/'
 
     name = models.CharField(max_length=256, unique=True)
-    category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='contents')
+    category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='content_types')
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default='Time')
     slug = models.SlugField(unique=True)

@@ -21,11 +21,11 @@ class ContentAdmin(admin.ModelAdmin):
 
 
 class BoardAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['parent']
-    list_display = ['name', 'parent', 'team_size', 'flex_order']
+    autocomplete_fields = ['content']
+    list_display = ['name', 'content', 'team_size', 'flex_order']
     list_editable = ['flex_order']
     list_filter = [
-        AutocompleteFilterFactory('Board Category', 'parent__category'),
+        AutocompleteFilterFactory('Board Category', 'content__category'),
         ContentFilter,
     ]
     search_fields = ['name']
@@ -34,7 +34,7 @@ class BoardAdmin(admin.ModelAdmin):
         (None, {
             'fields': (
                 'name',
-                'parent',
+                'content',
                 'team_size',
                 'flex_order'
             )
