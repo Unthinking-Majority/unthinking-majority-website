@@ -16,9 +16,9 @@ class BoardFilter(AutocompleteFilter):
     field_name = 'board'
 
 
-class ParentBoardFilter(AutocompleteFilter):
-    title = 'Parent Board'
-    field_name = 'parent'
+class ContentFilter(AutocompleteFilter):
+    title = 'Content'
+    field_name = 'content'
 
 
 class PetFilter(AutocompleteFilter):

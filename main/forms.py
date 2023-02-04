@@ -12,13 +12,13 @@ class SelectSubmissionTypeForm(forms.Form):
     type = forms.TypedChoiceField(choices=models.SUBMISSION_TYPES, coerce=int)
 
 
-class SelectParentBoardForm(forms.Form):
-    parent_board = forms.ModelChoiceField(queryset=models.ParentBoard.objects.all())
+class SelectContentForm(forms.Form):
+    content = forms.ModelChoiceField(queryset=models.Content.objects.all())
 
     def __init__(self, *args, **kwargs):
-        super(SelectParentBoardForm, self).__init__(*args, **kwargs)
-        self.fields['parent_board'].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=reverse_lazy('parent-board-autocomplete'),
+        super(SelectContentForm, self).__init__(*args, **kwargs)
+        self.fields['content'].widget = widgets.AutocompleteSelectWidget(
+            autocomplete_url=reverse_lazy('content-autocomplete'),
             placeholder='Select a board',
             label='Board',
         )
@@ -28,10 +28,10 @@ class SelectBoardForm(forms.Form):
     board = forms.ModelChoiceField(queryset=models.Board.objects.all())
 
     def __init__(self, *args, **kwargs):
-        parent_board = kwargs.pop('parent_board', None)
+        content = kwargs.pop('content', None)
         super(SelectBoardForm, self).__init__(*args, **kwargs)
-        if parent_board:
-            self.fields['board'].queryset = parent_board.boards.all()
+        if content:
+            self.fields['board'].queryset = content.boards.all()
 
 
 class BoardSubmissionForm(forms.Form):

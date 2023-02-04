@@ -2,7 +2,7 @@ from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
 
 from main import models
-from main.admin.autocomplete_filters import AccountsFilter, BoardFilter, ParentBoardFilter
+from main.admin.autocomplete_filters import AccountsFilter, BoardFilter, ContentFilter
 
 
 class BoardCategoryAdmin(admin.ModelAdmin):
@@ -10,7 +10,7 @@ class BoardCategoryAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
-class ParentBoardAdmin(admin.ModelAdmin):
+class ContentAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
     list_display = ['name', 'category', 'metric', 'metric_name', 'order']
@@ -26,7 +26,7 @@ class BoardAdmin(admin.ModelAdmin):
     list_editable = ['flex_order']
     list_filter = [
         AutocompleteFilterFactory('Board Category', 'parent__category'),
-        ParentBoardFilter,
+        ContentFilter,
     ]
     search_fields = ['name']
 
@@ -76,6 +76,6 @@ class PetAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Board, BoardAdmin)
 admin.site.register(models.BoardCategory, BoardCategoryAdmin)
-admin.site.register(models.ParentBoard, ParentBoardAdmin)
+admin.site.register(models.Content, ContentAdmin)
 admin.site.register(models.Pet, PetAdmin)
 admin.site.register(models.Submission, SubmissionAdmin)

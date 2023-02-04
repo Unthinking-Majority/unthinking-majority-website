@@ -9,8 +9,8 @@ def board_autocomplete(request):
     return JsonResponse(list(boards), safe=False)
 
 
-def parent_board_autocomplete(request):
-    boards = models.ParentBoard.objects.annotate(text=F('name')).values()
+def content_autocomplete(request):
+    boards = models.Content.objects.annotate(text=F('name')).values()
     return JsonResponse(list(boards), safe=False)
 
 

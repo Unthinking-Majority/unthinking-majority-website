@@ -29,15 +29,15 @@ class LeaderboardView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['parent_board'] = get_object_or_404(
-            models.ParentBoard.objects.prefetch_related('boards__submissions'),
-            slug=self.kwargs.get('parent_board_name')
+        context['content'] = get_object_or_404(
+            models.Content.objects.prefetch_related('boards__submissions'),
+            slug=self.kwargs.get('content_name')
         )
 
         context['data'] = []
-        ordering = context['parent_board'].ordering
-        num_objs_per_page = 10 if context['parent_board'].boards.count() == 1 else 5
-        for board in context['parent_board'].boards.all():
+        ordering = context['content'].ordering
+        num_objs_per_page = 10 if context['content'].boards.count() == 1 else 5
+        for board in context['content'].boards.all():
 
             # filter out submissions whose inactive accounts account for at least half of the accounts
             active_accounts_submissions = board.submissions.accepted().annotate(
@@ -143,25 +143,25 @@ def ca_submission_form_condition(wizard):
     return cleaned_data.get('type', None) == CA
 
 
-def select_parent_board_form_condition(wizard):
+def select_content_form_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step('submission_type_form') or {}
     return cleaned_data.get('type', None) == RECORD
 
 
 def select_board_form_condition(wizard):
-    cleaned_data = wizard.get_cleaned_data_for_step('select_parent_board_form') or {}
-    parent_board = cleaned_data.get('parent_board')
-    return parent_board and parent_board.boards.count() > 1
+    cleaned_data = wizard.get_cleaned_data_for_step('select_content_form') or {}
+    content = cleaned_data.get('content')
+    return content and content.boards.count() > 1
 
 
 def board_submission_form_condition(wizard):
-    return wizard.get_cleaned_data_for_step('select_parent_board_form') or None
+    return wizard.get_cleaned_data_for_step('select_content_form') or None
 
 
 class SubmissionWizard(SessionWizardView):
     form_list = [
         ('submission_type_form', forms.SelectSubmissionTypeForm),
-        ('select_parent_board_form', forms.SelectParentBoardForm),
+        ('select_content_form', forms.SelectContentForm),
         ('select_board_form', forms.SelectBoardForm),
         ('board_submission_form', forms.BoardSubmissionForm),
         ('pet_submission_form', forms.PetSubmissionForm),
@@ -170,7 +170,7 @@ class SubmissionWizard(SessionWizardView):
     ]
     TEMPLATES = {
         'submission_type_form': 'main/forms/wizard/select_submission_type_form.html',
-        'select_parent_board_form': 'main/forms/wizard/select_parent_board_form.html',
+        'select_content_form': 'main/forms/wizard/select_content_form.html',
         'select_board_form': 'main/forms/wizard/select_board_form.html',
         'board_submission_form': 'main/forms/wizard/board_submission_form.html',
         'pet_submission_form': 'main/forms/wizard/pet_submission_form.html',
@@ -178,7 +178,7 @@ class SubmissionWizard(SessionWizardView):
         'ca_submission_form': 'main/forms/wizard/ca_submission_form.html',
     }
     condition_dict = {
-        'select_parent_board_form': select_parent_board_form_condition,
+        'select_content_form': select_content_form_condition,
         'select_board_form': select_board_form_condition,
         'board_submission_form': board_submission_form_condition,
         'pet_submission_form': pet_submission_form_condition,
@@ -241,25 +241,25 @@ class SubmissionWizard(SessionWizardView):
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         if self.steps.current == 'select_board_form':
-            context.update({'parent_board': self.get_cleaned_data_for_step('select_parent_board_form')['parent_board']})
+            context.update({'content': self.get_cleaned_data_for_step('select_content_form')['content']})
         if self.steps.current == 'board_submission_form':
             if self.get_cleaned_data_for_step('select_board_form'):
                 board = self.get_cleaned_data_for_step('select_board_form').get('board')
             else:
-                board = self.get_cleaned_data_for_step('select_parent_board_form').get('parent_board').boards.first()
+                board = self.get_cleaned_data_for_step('select_content_form').get('content').boards.first()
             context.update({'board': board})
         return context
 
     def get_form_kwargs(self, step=None):
         kwargs = {}
         if step == 'select_board_form':
-            cleaned_data = self.get_cleaned_data_for_step('select_parent_board_form')
-            kwargs.update({'parent_board': cleaned_data.get('parent_board')})
+            cleaned_data = self.get_cleaned_data_for_step('select_content_form')
+            kwargs.update({'content': cleaned_data.get('content')})
         if step == 'board_submission_form':
             if self.get_cleaned_data_for_step('select_board_form'):
                 board = self.get_cleaned_data_for_step('select_board_form').get('board')
             else:
-                board = self.get_cleaned_data_for_step('select_parent_board_form').get('parent_board').boards.first()
+                board = self.get_cleaned_data_for_step('select_content_form').get('content').boards.first()
             kwargs.update({'board': board})
         return kwargs
 

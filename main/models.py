@@ -23,7 +23,7 @@ def get_file_path(instance, filename):
 
 class Board(models.Model):
     name = models.CharField(max_length=256, unique=True)
-    parent = models.ForeignKey('main.ParentBoard', on_delete=models.CASCADE, related_name='boards')
+    parent = models.ForeignKey('main.Content', on_delete=models.CASCADE, related_name='boards')
     team_size = models.IntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(8)])
     flex_order = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(12)],
                                              help_text='Order on leaderboard page. Empty values will appear last (order is then defined by team size). Allowed numbers are 1 - 12.')
@@ -35,11 +35,11 @@ class Board(models.Model):
         return self.name
 
 
-class ParentBoard(models.Model):
+class Content(models.Model):
     UPLOAD_TO = 'board/icons/'
 
     name = models.CharField(max_length=256, unique=True)
-    category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='parent_boards')
+    category = models.ForeignKey('main.BoardCategory', on_delete=models.CASCADE, related_name='contents')
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default='Time')
     slug = models.SlugField(unique=True)
@@ -50,15 +50,15 @@ class ParentBoard(models.Model):
                                         help_text='Order in navbar. Empty values will appear last (order is then defined by alphabetical order of name). Allowed numbers are 1 - 12.')
 
     class Meta:
-        verbose_name = 'Parent Board'
-        verbose_name_plural = 'Parent Boards'
+        verbose_name = 'Content'
+        verbose_name_plural = 'Content Types'
         ordering = ['order', 'name']
 
     def __str__(self):
         return self.name
 
     def leaderboard_url(self):
-        return reverse('leaderboard', kwargs={'board_category': self.category.slug, 'parent_board_name': self.slug})
+        return reverse('leaderboard', kwargs={'board_category': self.category.slug, 'content_name': self.slug})
 
 
 class BoardCategory(models.Model):
@@ -134,12 +134,12 @@ class Submission(models.Model):
             return None
 
         if self.type == RECORD:
-            if self.board.parent.metric == TIME:
+            if self.board.content.metric == TIME:
                 minutes = int(self.value // 60)
                 seconds = self.value % 60
                 return f"{minutes}:{seconds:05}"
             else:
-                return int(self.value) if self.board.parent.metric == INTEGER else self.value
+                return int(self.value) if self.board.content.metric == INTEGER else self.value
 
         if self.type == COL_LOG:
             return f'{int(self.value)}/{settings.MAX_COL_LOG}'
@@ -151,7 +151,7 @@ class Submission(models.Model):
             return self.get_type_display()
 
     def get_rank(self):
-        ordering = self.board.parent.ordering
+        ordering = self.board.content.ordering
 
         # filter out submissions whose inactive accounts account for at least half of the accounts
         active_accounts_submissions = self.board.submissions.accepted().annotate(
@@ -193,7 +193,7 @@ class Submission(models.Model):
                 'value': ', '.join(self.accounts.values_list('name', flat=True)),
             },
             {
-                'name': self.board.parent.metric_name,
+                'name': self.board.content.metric_name,
                 'value': self.value_display(),
                 'inline': True,
             },
@@ -220,7 +220,7 @@ class Submission(models.Model):
             'color': 0x0099FF,
             'title': 'New Submission',
             'fields': fields,
-            'url': f'https://{settings.DOMAIN}{self.board.parent.leaderboard_url()}',
+            'url': f'https://{settings.DOMAIN}{self.board.content.leaderboard_url()}',
         }
 
         if not settings.DEBUG:
