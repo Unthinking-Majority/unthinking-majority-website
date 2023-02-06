@@ -53,6 +53,7 @@
                                     <span class="hidden absolute z-10 p-2 w-72 text-base text-center text-gray-50 bg-gray-600 rounded-lg translate-y-2 max-md:right-0 max-md:left-0 max-md:m-auto md:-translate-x-1/2 md:w-96 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default"
                                           tabindex="-1">
                                         <p>{{ pet_submission.pet.name }}</p>
+                                        <p>{{ pet_submission.date|date:"M d, Y" }}</p>
                                         {{ pet_submission.notes }}
                                     </span>
                                 </div>
