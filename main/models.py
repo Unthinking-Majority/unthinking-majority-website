@@ -113,7 +113,7 @@ class Submission(models.Model):
         if self.accepted and self.accepted != self.__original_accepted and self.type == RECORD:
             # post to discord um pb webhook the newly accepted submission! only for record submissions
             data = json.dumps({'embeds': [self.create_embed()]})
-            request = requests.post(
+            requests.post(
                 settings.UM_PB_DISCORD_WEBHOOK_URL,
                 data=data,
                 headers={'Content-Type': 'application/json'}
