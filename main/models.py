@@ -48,6 +48,8 @@ class Content(models.Model):
                                 help_text='Order of values when showing submission from child boards.')
     order = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(12)],
                                         help_text='Order in navbar. Empty values will appear last (order is then defined by alphabetical order of name). Allowed numbers are 1 - 12.')
+    # difficulty = choicefield
+    # splits_allowed = boolean
 
     class Meta:
         verbose_name = 'Content'
