@@ -24,14 +24,15 @@ class ContentAdmin(admin.ModelAdmin):
             'fields': (
                 'name',
                 'category',
-                ('metric', 'metric_name'),
-                ('ordering', 'order'),
+                'difficulty',
                 'icon',
             ),
         }),
         ('Options', {
             'fields': (
                 'slug',
+                ('metric', 'metric_name'),
+                ('ordering', 'order'),
             ),
             'classes': (
                 'collapse',

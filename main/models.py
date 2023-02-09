@@ -10,7 +10,7 @@ from django.db.models import Count, Q
 from django.db.models import F
 from django.urls import reverse
 
-from main import METRIC_CHOICES, CA_CHOICES, TIME, INTEGER
+from main import METRIC_CHOICES, DIFFICULTY_CHOICES, CA_CHOICES, TIME, INTEGER, EASY
 from main import managers
 from um.functions import get_file_path
 
@@ -36,14 +36,13 @@ class Content(models.Model):
     category = models.ForeignKey('main.ContentCategory', on_delete=models.CASCADE, related_name='content_types')
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default='Time')
+    difficulty = models.PositiveIntegerField(choices=DIFFICULTY_CHOICES, default=EASY)
     slug = models.SlugField(unique=True)
     icon = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     ordering = models.CharField(choices=(('-', 'Descending'), ('', 'Ascending')), default='', max_length=1, blank=True,
                                 help_text='Order of values when showing submission from child boards.')
     order = models.PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(1), MaxValueValidator(12)],
                                         help_text='Order in navbar. Empty values will appear last (order is then defined by alphabetical order of name). Allowed numbers are 1 - 12.')
-    # difficulty = choicefield
-    # splits_allowed = boolean
 
     class Meta:
         verbose_name = 'Content'

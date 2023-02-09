@@ -5,6 +5,14 @@ METRIC_CHOICES = (
     (DECIMAL, 'Decimal'),
 )
 
+EASY, MEDIUM, HARD, VERY_HARD = range(4)
+DIFFICULTY_CHOICES = (
+    (EASY, 'Easy'),
+    (MEDIUM, 'Medium'),
+    (HARD, 'Hard'),
+    (VERY_HARD, 'Very Hard'),
+)
+
 RECORD, PET, COL_LOG, CA = range(4)
 SUBMISSION_TYPES = (
     (RECORD, 'Record'),
