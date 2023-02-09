@@ -36,24 +36,28 @@ class SelectBoardForm(forms.Form):
             self.fields['board'].queryset = content.boards.all()
 
 
-class BoardSubmissionForm(forms.Form):
-    board = forms.ModelChoiceField(queryset=models.Board.objects.all(), widget=forms.HiddenInput())
-    accounts = forms.ModelMultipleChoiceField(queryset=Account.objects.all())
+class RecordSubmissionForm(forms.ModelForm):
     notes = forms.CharField(
         required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Talk about gear used, strategy, or even how you felt getting this achievement!'}
         )
     )
-    value = forms.DecimalField(max_digits=7, decimal_places=2, min_value=0, required=False)
     minutes = forms.IntegerField(required=False)
     seconds = forms.DecimalField(required=False)
-    proof = forms.ImageField()
+    value = forms.DecimalField(required=False)
+
+    class Meta:
+        model = models.RecordSubmission
+        fields = ['board', 'accounts', 'notes', 'value', 'proof']
+        widgets = {
+            'board': forms.HiddenInput(),
+        }
 
     def __init__(self, *args, **kwargs):
         board = kwargs.pop('board')
 
-        super(BoardSubmissionForm, self).__init__(*args, **kwargs)
+        super(RecordSubmissionForm, self).__init__(*args, **kwargs)
 
         self.fields['board'].initial = board
         self.fields['accounts'].widget = widgets.AutocompleteSelectMultipleWidget(
@@ -63,7 +67,7 @@ class BoardSubmissionForm(forms.Form):
         )
 
     def clean(self):
-        cleaned_data = super(BoardSubmissionForm, self).clean()
+        cleaned_data = super(RecordSubmissionForm, self).clean()
 
         # validate value
         if cleaned_data.get('value') is None:
@@ -129,17 +133,16 @@ class PetSubmissionForm(forms.Form):
 
 
 class ColLogSubmissionForm(forms.ModelForm):
-
-    class Meta:
-        model = models.ColLogSubmission
-        fields = ['account', 'col_logs', 'notes', 'proof']
-
     notes = forms.CharField(
         required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Tell us about this achievement!'}
         )
     )
+
+    class Meta:
+        model = models.ColLogSubmission
+        fields = ['account', 'col_logs', 'notes', 'proof']
 
     def __init__(self, *args, **kwargs):
         super(ColLogSubmissionForm, self).__init__(*args, **kwargs)

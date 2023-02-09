@@ -165,7 +165,7 @@ class SubmissionWizard(SessionWizardView):
         ('submission_type_form', forms.SelectSubmissionTypeForm),
         ('select_content_form', forms.SelectContentForm),
         ('select_board_form', forms.SelectBoardForm),
-        ('board_submission_form', forms.BoardSubmissionForm),
+        ('record_submission_form', forms.RecordSubmissionForm),
         ('pet_submission_form', forms.PetSubmissionForm),
         ('col_logs_submission_form', forms.ColLogSubmissionForm),
         ('ca_submission_form', forms.CASubmissionForm),
@@ -174,7 +174,7 @@ class SubmissionWizard(SessionWizardView):
         'submission_type_form': 'main/forms/wizard/select_submission_type_form.html',
         'select_content_form': 'main/forms/wizard/select_content_form.html',
         'select_board_form': 'main/forms/wizard/select_board_form.html',
-        'board_submission_form': 'main/forms/wizard/board_submission_form.html',
+        'record_submission_form': 'main/forms/wizard/record_submission_form.html',
         'pet_submission_form': 'main/forms/wizard/pet_submission_form.html',
         'col_logs_submission_form': 'main/forms/wizard/col_logs_submission_form.html',
         'ca_submission_form': 'main/forms/wizard/ca_submission_form.html',
@@ -182,7 +182,7 @@ class SubmissionWizard(SessionWizardView):
     condition_dict = {
         'select_content_form': select_content_form_condition,
         'select_board_form': select_board_form_condition,
-        'board_submission_form': board_submission_form_condition,
+        'record_submission_form': board_submission_form_condition,
         'pet_submission_form': pet_submission_form_condition,
         'col_logs_submission_form': col_logs_submission_form_condition,
         'ca_submission_form': ca_submission_form_condition,
@@ -197,14 +197,8 @@ class SubmissionWizard(SessionWizardView):
 
     def done(self, form_list, **kwargs):
         form_dict = kwargs.get('form_dict')
-        if 'board_submission_form' in form_dict.keys():
-            submission = models.RecordSubmission.objects.create(
-                value=form_dict['board_submission_form'].cleaned_data['value'],
-                proof=form_dict['board_submission_form'].cleaned_data['proof'],
-                notes=form_dict['board_submission_form'].cleaned_data['notes'],
-                board=form_dict['board_submission_form'].cleaned_data['board']
-            )
-            submission.accounts.set(form_dict['board_submission_form'].cleaned_data['accounts'])
+        if 'record_submission_form' in form_dict.keys():
+            form_dict['record_submission_form'].save()
         elif 'pet_submission_form' in form_dict.keys():
             first_submission = models.PetSubmission.objects.create(
                 account=form_dict['pet_submission_form'].cleaned_data['account'],
@@ -232,7 +226,7 @@ class SubmissionWizard(SessionWizardView):
         context = super().get_context_data(form=form, **kwargs)
         if self.steps.current == 'select_board_form':
             context.update({'content': self.get_cleaned_data_for_step('select_content_form')['content']})
-        if self.steps.current == 'board_submission_form':
+        if self.steps.current == 'record_submission_form':
             if self.get_cleaned_data_for_step('select_board_form'):
                 board = self.get_cleaned_data_for_step('select_board_form').get('board')
             else:
@@ -245,7 +239,7 @@ class SubmissionWizard(SessionWizardView):
         if step == 'select_board_form':
             cleaned_data = self.get_cleaned_data_for_step('select_content_form')
             kwargs.update({'content': cleaned_data.get('content')})
-        if step == 'board_submission_form':
+        if step == 'record_submission_form':
             if self.get_cleaned_data_for_step('select_board_form'):
                 board = self.get_cleaned_data_for_step('select_board_form').get('board')
             else:
