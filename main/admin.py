@@ -74,7 +74,7 @@ class RecordSubmissionAdmin(admin.ModelAdmin):
         AutocompleteFilterFactory('Accounts', 'accounts'),
         AutocompleteFilterFactory('Board', 'board'),
     ]
-    search_fields = ['accounts__name']
+    search_fields = ['accounts__name', 'board__name']
 
     fieldsets = (
         (None, {
@@ -101,7 +101,7 @@ class PetSubmissionAdmin(admin.ModelAdmin):
         AutocompleteFilterFactory('Account', 'account'),
         AutocompleteFilterFactory('Pet', 'pet'),
     ]
-    search_fields = ['account__name']
+    search_fields = ['account__name', 'pet__name']
 
     fieldsets = (
         (None, {
