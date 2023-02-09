@@ -141,7 +141,24 @@ class ColLogSubmissionAdmin(admin.ModelAdmin):
 
 
 class CASubmissionAdmin(admin.ModelAdmin):
-    pass
+    autocomplete_fields = ['account']
+    list_display = ['account', 'ca_tier', 'proof', 'date', 'accepted']
+    list_editable = ['accepted']
+    list_filter = [
+        AutocompleteFilterFactory('Account', 'account'),
+    ]
+    search_fields = ['account__name']
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'account',
+                'ca_tier',
+                'notes',
+                ('proof', 'date', 'accepted'),
+            ),
+        }),
+    )
 
 
 admin.site.register(models.Board, BoardAdmin)
