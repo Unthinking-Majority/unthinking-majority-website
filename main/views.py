@@ -55,7 +55,9 @@ class LeaderboardView(TemplateView):
             for submission in annotated_submissions:
                 if submission.accounts_str not in submissions.keys():
                     submissions[submission.accounts_str] = submission.id
-            submissions = models.Submission.objects.filter(id__in=submissions.values()).order_by(f'{ordering}value', 'date')
+            submissions = models.RecordSubmission.objects.filter(
+                id__in=submissions.values()
+            ).order_by(f'{ordering}value', 'date')
 
             p = Paginator(submissions, num_objs_per_page)
             try:
@@ -74,10 +76,10 @@ class PetsLeaderboardView(ListView):
 
     def get_queryset(self):
         # get accepted pet submissions
-        pet_submissions = models.Submission.objects.accepted().pets()
+        pet_submissions = models.PetSubmission.objects.accepted()
 
         # create sub query, to annotate the number of pets per account
-        sub_query = pet_submissions.values('accounts').annotate(num_pets=Count('accounts')).filter(accounts__id=OuterRef('id'))
+        sub_query = pet_submissions.values('account').annotate(num_pets=Count('account')).filter(account__id=OuterRef('id'))
 
         # annotate num_pets per account using sub query ; filter out null values ; order by number of pets descending
         accounts = Account.objects.annotate(num_pets=sub_query.values('num_pets')[:1]).filter(
@@ -95,13 +97,13 @@ class ColLogsLeaderboardView(ListView):
 
     def get_queryset(self):
         # get accepted collection log submissions ; use empty order_by() to clear any ordering
-        col_logs_submissions = models.Submission.objects.col_logs().accepted().order_by().filter(accounts__active=True)
+        col_logs_submissions = models.ColLogSubmission.objects.accepted().order_by().filter(account__active=True)
 
         # create sub query, which grabs the Max col_log value for each account
-        sub_query = col_logs_submissions.order_by('accounts', '-value').distinct('accounts')
+        sub_query = col_logs_submissions.order_by('account', '-col_logs').distinct('account')
 
-        # filter for Submission which have a matching id from the above sub query ; order by value descending
-        submissions = models.Submission.objects.filter(id__in=sub_query.values('id')).order_by('-value', 'date')
+        # filter for submissions which have a matching id from the above sub query ; order by value descending
+        submissions = models.ColLogSubmission.objects.filter(id__in=sub_query.values('id')).order_by('-col_logs', 'date')
 
         return submissions
 
@@ -118,13 +120,13 @@ class CALeaderboardView(ListView):
 
     def get_queryset(self):
         # get accepted combat achievement submissions ; use empty order_by() to clear any ordering
-        ca_submissions = models.Submission.objects.combat_achievements().accepted().order_by().filter(accounts__active=True)
+        ca_submissions = models.CASubmission.objects.accepted().order_by().filter(account__active=True)
 
         # create sub query, which grabs the best ca tier value for each account
-        sub_query = ca_submissions.order_by('accounts', 'ca_tier').distinct('accounts')
+        sub_query = ca_submissions.order_by('account', 'ca_tier').distinct('account')
 
-        # filter for Submission which have a matching id from the above sub query ; order by ca_tier descending
-        submissions = models.Submission.objects.filter(id__in=sub_query.values('id')).order_by('ca_tier', 'date')
+        # filter for submissions which have a matching id from the above sub query ; order by ca_tier descending
+        submissions = models.CASubmission.objects.filter(id__in=sub_query.values('id')).order_by('ca_tier', 'date')
         return submissions
 
 
@@ -196,7 +198,7 @@ class SubmissionWizard(SessionWizardView):
     def done(self, form_list, **kwargs):
         form_dict = kwargs.get('form_dict')
         if 'board_submission_form' in form_dict.keys():
-            submission = models.Submission.objects.create(
+            submission = models.RecordSubmission.objects.create(
                 value=form_dict['board_submission_form'].cleaned_data['value'],
                 proof=form_dict['board_submission_form'].cleaned_data['proof'],
                 notes=form_dict['board_submission_form'].cleaned_data['notes'],
@@ -204,37 +206,37 @@ class SubmissionWizard(SessionWizardView):
             )
             submission.accounts.set(form_dict['board_submission_form'].cleaned_data['accounts'])
         elif 'pet_submission_form' in form_dict.keys():
-            first_submission = models.Submission.objects.create(
+            first_submission = models.PetSubmission.objects.create(
+                account=form_dict['pet_submission_form'].cleaned_data['account'],
                 type=PET,
                 pet=form_dict['pet_submission_form'].cleaned_data['pets'][0],
                 notes=form_dict['pet_submission_form'].cleaned_data['notes'],
                 proof=form_dict['pet_submission_form'].cleaned_data['proof'],
             )
-            first_submission.accounts.add(form_dict['pet_submission_form'].cleaned_data['account'])
             for pet in form_dict['pet_submission_form'].cleaned_data['pets'][1:]:
-                submission = models.Submission.objects.create(
+                models.PetSubmission.objects.create(
+                    account=form_dict['pet_submission_form'].cleaned_data['account'],
                     type=PET,
                     pet=pet,
                     notes=form_dict['pet_submission_form'].cleaned_data['notes'],
                     proof=first_submission.proof,  # re-use the already uploaded file!
                 )
-                submission.accounts.add(form_dict['pet_submission_form'].cleaned_data['account'])
         elif 'col_logs_submission_form' in form_dict.keys():
-            submission = models.Submission.objects.create(
+            models.ColLogSubmission.objects.create(
+                account=form_dict['col_logs_submission_form'].cleaned_data['account'],
                 type=COL_LOG,
                 value=form_dict['col_logs_submission_form'].cleaned_data['col_logs'],
                 notes=form_dict['col_logs_submission_form'].cleaned_data['notes'],
                 proof=form_dict['col_logs_submission_form'].cleaned_data['proof'],
             )
-            submission.accounts.add(form_dict['col_logs_submission_form'].cleaned_data['account'])
         elif 'ca_submission_form' in form_dict.keys():
-            submission = models.Submission.objects.create(
+            models.CASubmission.objects.create(
+                account=form_dict['ca_submission_form'].cleaned_data['account'],
                 type=CA,
                 ca_tier=form_dict['ca_submission_form'].cleaned_data['ca_tier'],
                 notes=form_dict['ca_submission_form'].cleaned_data['notes'],
                 proof=form_dict['ca_submission_form'].cleaned_data['proof'],
             )
-            submission.accounts.add(form_dict['ca_submission_form'].cleaned_data['account'])
 
         return redirect(reverse('form-success'))
 

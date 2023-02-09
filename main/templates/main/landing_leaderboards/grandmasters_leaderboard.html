@@ -16,7 +16,7 @@
     {% for submission in submissions %}
         <tr class="even:bg-gray-100 odd:bg-gray-50">
             <td class="py-4 text-center whitespace-nowrap md:px-2">
-                {{ submission.accounts.first.name }}
+                {{ submission.account.name }}
             </td>
             <td class="py-4 text-2xl text-center whitespace-nowrap md:px-2 font-runescape">
                 {{ submission.date|date:"M d, Y" }}

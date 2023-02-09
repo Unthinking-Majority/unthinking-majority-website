@@ -2,18 +2,30 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from django.db.models import Q
 
 from account import forms
-from main.models import Submission
+from main.models import BaseSubmission, RecordSubmission, PetSubmission, ColLogSubmission, CASubmission
 
 
 class ProfileView(ListView):
-    model = Submission
     template_name = 'account/profile.html'
     paginate_by = 5
 
     def get_queryset(self):
-        return Submission.objects.all().filter(accounts=self.request.user.account)
+        record_submissions = RecordSubmission.objects.filter(accounts=self.request.user.account).values('pk')
+        pet_submissions = PetSubmission.objects.filter(account=self.request.user.account).values('pk')
+        col_logs_submissions = ColLogSubmission.objects.filter(account=self.request.user.account).values('pk')
+        ca_submissions = CASubmission.objects.filter(account=self.request.user.account).values('pk')
+
+        submissions = BaseSubmission.objects.filter(
+            Q(pk__in=record_submissions) |
+            Q(pk__in=pet_submissions) |
+            Q(pk__in=col_logs_submissions) |
+            Q(pk__in=ca_submissions)
+        )
+
+        return [obj.get_child_instance() for obj in submissions]
 
 
 class CreateAccountView(FormView):

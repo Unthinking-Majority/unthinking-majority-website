@@ -12,7 +12,7 @@ from django.db.models import Count, Q
 from django.db.models import F
 from django.urls import reverse
 
-from main import METRIC_CHOICES, CA_CHOICES, SUBMISSION_TYPES, RECORD, PET, COL_LOG, CA, TIME, INTEGER
+from main import METRIC_CHOICES, CA_CHOICES, RECORD, TIME, INTEGER
 from main import managers
 
 
@@ -91,17 +91,52 @@ class BaseSubmission(models.Model):
     accepted = models.BooleanField(null=True)
     date = models.DateTimeField(default=datetime.now, null=True, blank=True)
 
+    objects = managers.SubmissionQueryset.as_manager()
+
+    child_models = (
+        'recordsubmission',
+        'petsubmission',
+        'collogsubmission',
+        'casubmission'
+    )
+
     class Meta:
         ordering = [F('date').desc(nulls_last=True)]
 
+    def type_display(self):
+        """
+        Call the type_display() method from the corresponding child instance of this base submission
+        """
+        for child_model in self.child_models:
+            child_obj = getattr(self, child_model, None)
+            if child_obj:
+                return child_obj.type_display()
+
     def value_display(self):
-        raise NotImplementedError
+        """
+        Call the value_display() method from the corresponding child instance of this base submission
+        """
+        for child_model in self.child_models:
+            child_obj = getattr(self, child_model, None)
+            if child_obj:
+                return child_obj.value_display()
+
+    def get_child_instance(self):
+        """
+        Return the corresponding child instance of this base submission
+        """
+        for child_model in self.child_models:
+            child_obj = getattr(self, child_model, None)
+            if child_obj:
+                return child_obj
 
 
 class RecordSubmission(BaseSubmission):
     accounts = models.ManyToManyField('account.Account')
-    board = models.ForeignKey('main.Board', on_delete=models.CASCADE)
+    board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions')
     value = models.DecimalField(max_digits=7, decimal_places=2)
+
+    __original_accepted = None
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -117,6 +152,9 @@ class RecordSubmission(BaseSubmission):
                 data=data,
                 headers={'Content-Type': 'application/json'}
             )
+
+    def type_display(self):
+        return 'Record'
 
     def value_display(self):
         if self.board.content.metric == TIME:
@@ -205,6 +243,9 @@ class PetSubmission(BaseSubmission):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE)
 
+    def type_display(self):
+        return 'Pet'
+
     def value_display(self):
         return self.pet.name
 
@@ -213,159 +254,19 @@ class ColLogSubmission(BaseSubmission):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     col_logs = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(settings.MAX_COL_LOG)])
 
+    def type_display(self):
+        return 'Collection Logs'
+
     def value_display(self):
-        return f'{int(self.value)}/{settings.MAX_COL_LOG}'
+        return f'{int(self.col_logs)}/{settings.MAX_COL_LOG}'
 
 
 class CASubmission(BaseSubmission):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     ca_tier = models.IntegerField(choices=CA_CHOICES, default=None, null=True, blank=True)
 
+    def type_display(self):
+        return 'Combat Achievement'
+
     def value_display(self):
         return self.get_ca_tier_display()
-
-
-class Submission(models.Model):
-    UPLOAD_TO = 'submission/proof/'
-
-    accounts = models.ManyToManyField('account.Account')
-    type = models.IntegerField(choices=SUBMISSION_TYPES, default=RECORD)
-    board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
-    value = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
-    pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE, related_name='submissions', blank=True, null=True)
-    ca_tier = models.IntegerField(choices=CA_CHOICES, default=None, null=True, blank=True)
-    proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
-    notes = models.TextField(blank=True)
-    accepted = models.BooleanField(null=True)
-    date = models.DateTimeField(default=datetime.now, null=True, blank=True)
-
-    objects = managers.SubmissionQueryset.as_manager()
-
-    __original_accepted = None
-
-    class Meta:
-        ordering = [F('date').desc(nulls_last=True)]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__original_accepted = self.accepted
-
-    def save(self, *args, **kwargs):
-        super(Submission, self).save(*args, **kwargs)
-        if self.accepted and self.accepted != self.__original_accepted and self.type == RECORD:
-            # post to discord um pb webhook the newly accepted submission! only for record submissions
-            data = json.dumps({'embeds': [self.create_embed()]})
-            requests.post(
-                settings.UM_PB_DISCORD_WEBHOOK_URL,
-                data=data,
-                headers={'Content-Type': 'application/json'}
-            )
-
-    def __str__(self):
-        accounts = ', '.join(self.accounts.values_list('name', flat=True))
-        return f'{accounts} - {self.board} - {self.value}'
-
-    def value_display(self):
-        if self.type == CA:
-            return self.get_ca_tier_display()
-
-        if self.type == PET:
-            return self.pet.name
-
-        if not self.value:
-            return None
-
-        if self.type == RECORD:
-            if self.board.content.metric == TIME:
-                minutes = int(self.value // 60)
-                seconds = self.value % 60
-                return f"{minutes}:{seconds:05}"
-            else:
-                return int(self.value) if self.board.content.metric == INTEGER else self.value
-
-        if self.type == COL_LOG:
-            return f'{int(self.value)}/{settings.MAX_COL_LOG}'
-
-    def type_display(self):
-        if self.type == RECORD:
-            return self.board.name
-        else:
-            return self.get_type_display()
-
-    def get_rank(self):
-        ordering = self.board.content.ordering
-
-        # filter out submissions whose inactive accounts account for at least half of the accounts
-        active_accounts_submissions = self.board.submissions.accepted().annotate(
-            num_accounts=Count('accounts'),
-            num_active_accounts=Count('accounts', filter=Q(accounts__active=True))
-        ).filter(num_active_accounts__gt=F('num_accounts') / 2)
-
-        # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
-        annotated_submissions = active_accounts_submissions.annotate(
-            accounts_str=StringAgg('accounts__name', delimiter=',', ordering='accounts__name')
-        ).order_by('accounts_str', f'{ordering}value')
-
-        # grab the first submission for each team (which is the best, since we ordered by value above)
-        submissions = {}
-        for submission in annotated_submissions:
-            if submission.accounts_str not in submissions.keys():
-                submissions[submission.accounts_str] = submission.id
-        submissions = self.__class__.objects.filter(id__in=submissions.values()).order_by(f'{ordering}value', 'date')
-
-        for rank, submission in enumerate(submissions):
-            if submission.id == self.id:
-                return rank + 1
-
-    def create_embed(self):
-        """
-        Create json discord embed. Only supported for submission type RECORD.
-        """
-
-        if self.type != RECORD:
-            return {}
-
-        fields = [
-            {
-                'name': 'Board',
-                'value': self.board.name,
-            },
-            {
-                'name': 'User(s)',
-                'value': ', '.join(self.accounts.values_list('name', flat=True)),
-            },
-            {
-                'name': self.board.content.metric_name,
-                'value': self.value_display(),
-                'inline': True,
-            },
-            {
-                'name': 'Date',
-                'value': f'{self.date:%b %d, %Y}',
-                'inline': True,
-            },
-            {
-                'name': 'Rank',
-                'value': str(self.get_rank()),
-                'inline': True,
-            },
-        ]
-        if self.notes:
-            fields.append(
-                {
-                    'name': 'Notes',
-                    'value': self.notes,
-                }
-            )
-
-        embed = {
-            'color': 0x0099FF,
-            'title': 'New Submission',
-            'fields': fields,
-            'url': f'https://{settings.DOMAIN}{self.board.content.leaderboard_url()}',
-        }
-
-        if not settings.DEBUG:
-            embed['image'] = {'url': self.proof.url}
-
-        return embed

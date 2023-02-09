@@ -1,15 +1,17 @@
 from django import forms
 from django.conf import settings
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 from account.models import Account
 from main import CA_CHOICES
 from main import models
+from main import SUBMISSION_TYPES
 from main import widgets
 
 
 class SelectSubmissionTypeForm(forms.Form):
-    type = forms.TypedChoiceField(choices=models.SUBMISSION_TYPES, coerce=int)
+    type = forms.TypedChoiceField(choices=SUBMISSION_TYPES, coerce=int)
 
 
 class SelectContentForm(forms.Form):
@@ -37,9 +39,12 @@ class SelectBoardForm(forms.Form):
 class BoardSubmissionForm(forms.Form):
     board = forms.ModelChoiceField(queryset=models.Board.objects.all(), widget=forms.HiddenInput())
     accounts = forms.ModelMultipleChoiceField(queryset=Account.objects.all())
-    notes = forms.CharField(required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Talk about gear used, strategy, or even how you felt getting this achievement!'}
-    ))
+    notes = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Talk about gear used, strategy, or even how you felt getting this achievement!'}
+        )
+    )
     value = forms.DecimalField(max_digits=7, decimal_places=2, min_value=0, required=False)
     minutes = forms.IntegerField(required=False)
     seconds = forms.DecimalField(required=False)
@@ -109,23 +114,14 @@ class PetSubmissionForm(forms.Form):
         cleaned_data = super(PetSubmissionForm, self).clean()
 
         for pet in cleaned_data['pets']:
-            submission = models.Submission.objects.accepted().pets().filter(
-                accounts=cleaned_data['account'],
-                pet=pet
+            submission = models.PetSubmission.objects.accepted().filter(
+                Q(account=cleaned_data['account']),
+                Q(pet=pet),
+                Q(accepted=None) | Q(accepted=True)
             )
             if submission.exists():
                 raise forms.ValidationError(
-                    '%(account)s already owns the pet %(pet)s',
-                    params={'account': cleaned_data['account'], 'pet': submission.first().pet}
-                )
-            submission = models.Submission.objects.pets().filter(
-                accounts=cleaned_data['account'],
-                pet=pet,
-                accepted=None
-            )
-            if submission.exists():
-                raise forms.ValidationError(
-                    '%(account)s already has a submission for the pet %(pet)s under review',
+                    '%(account)s either already owns the pet %(pet)s, or already has a submission under review',
                     params={'account': cleaned_data['account'], 'pet': submission.first().pet}
                 )
 

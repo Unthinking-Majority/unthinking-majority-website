@@ -25,11 +25,15 @@
     {% for submission in recent_submissions %}
         <tr class="even:bg-gray-100 odd:bg-gray-50">
             <td class="max-w-xs text-center md:px-2 md:py-4">
-                {% for account in submission.accounts.all %}
-                    <span class="m-1 text-sm whitespace-nowrap md:px-2 md:text-base">
-                        {{ account.name }}
-                    </span>
-                {% endfor %}
+                {% if submission.accounts %}
+                    {% for account in submission.accounts.all %}
+                        <span class="m-1 text-sm whitespace-nowrap md:px-2 md:text-base">
+                            {{ account.name }}
+                        </span>
+                    {% endfor %}
+                {% else %}
+                    {{ submission.account }}
+                {% endif %}
             </td>
             <td class="hidden py-4 text-sm font-light whitespace-nowrap md:px-2 lg:table-cell">
                 {{ submission.date|date:"M d, Y" }}

@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models import Max, Min
 
-from main.models import Submission
 from main import CA_DICT
+from main.models import PetSubmission, ColLogSubmission, CASubmission
 
 
 class Account(models.Model):
@@ -14,11 +14,11 @@ class Account(models.Model):
         return self.name
 
     def pets(self):
-        return Submission.objects.pets().accepted().filter(accounts=self.id)
+        return PetSubmission.objects.accepted().filter(account=self.id)
 
     def col_logs(self):
-        return Submission.objects.col_logs().accepted().filter(accounts=self.id).aggregate(col_logs=Max('value'))['col_logs'] or 0
+        return ColLogSubmission.objects.accepted().filter(account=self.id).aggregate(Max('col_logs'))['col_logs__max'] or 0
 
     def ca_tier(self):
-        ca_tier = Submission.objects.combat_achievements().accepted().filter(accounts=self.id).aggregate(ca_tier=Min('ca_tier'))['ca_tier']
+        ca_tier = CASubmission.objects.accepted().filter(account=self.id).aggregate(Min('ca_tier'))['ca_tier__min']
         return CA_DICT.get(ca_tier, 'None')

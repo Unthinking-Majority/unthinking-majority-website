@@ -13,10 +13,10 @@ register = template.Library()
 @register.inclusion_tag('main/landing_leaderboards/pets_leaderboard.html')
 def pets_leaderboard():
     # get accepted pet submissions
-    pet_submissions = models.Submission.objects.accepted().pets()
+    pet_submissions = models.PetSubmission.objects.accepted()
 
     # create sub query, to annotate the number of pets per account
-    sub_query = pet_submissions.values('accounts').annotate(num_pets=Count('accounts')).filter(accounts__id=OuterRef('id'))
+    sub_query = pet_submissions.values('account').annotate(num_pets=Count('account')).filter(account__id=OuterRef('id'))
 
     # annotate num_pets per account using sub query ; filter out null values ; order by number of pets descending
     accounts = Account.objects.annotate(num_pets=sub_query.values('num_pets')[:1]).filter(
@@ -32,13 +32,13 @@ def pets_leaderboard():
 @register.inclusion_tag('main/landing_leaderboards/col_logs_leaderboard.html')
 def col_logs_leaderboard():
     # get accepted collection log submissions ; use empty order_by() to clear any ordering
-    col_logs_submissions = models.Submission.objects.col_logs().accepted().order_by().filter(accounts__active=True)
+    col_logs_submissions = models.ColLogSubmission.objects.accepted().order_by().filter(account__active=True)
 
     # create sub query, which grabs the Max col_log value for each account
-    sub_query = col_logs_submissions.order_by('accounts', '-value').distinct('accounts').filter(accounts__id=OuterRef('id'))
+    sub_query = col_logs_submissions.order_by('account', '-col_logs').distinct('account').filter(account__id=OuterRef('id'))
 
     # annotate each account object with its max col_log value using the previous sub_query
-    accounts = Account.objects.annotate(col_logs=sub_query.values('value')[:1])
+    accounts = Account.objects.annotate(col_logs=sub_query.values('col_logs')[:1])
 
     # filter out null col_log values, order by descending, return top 15
     accounts = accounts.filter(col_logs__isnull=False).order_by('-col_logs')[:15]
@@ -51,9 +51,9 @@ def col_logs_leaderboard():
 
 @register.inclusion_tag('main/landing_leaderboards/grandmasters_leaderboard.html')
 def grandmasters_leaderboard():
-    submissions = models.Submission.objects.combat_achievements().accepted().filter(
+    submissions = models.CASubmission.objects.accepted().filter(
         ca_tier=GRANDMASTER,
-        accounts__active=True
+        account__active=True
     ).order_by('date')
     return {
         'submissions': submissions
@@ -63,7 +63,7 @@ def grandmasters_leaderboard():
 @register.inclusion_tag('main/landing_leaderboards/recent_achievements.html')
 def recent_submission_leaderboard():
     return {
-        'recent_submissions': models.Submission.objects.accepted()[:5]
+        'recent_submissions': [obj.get_child_instance() for obj in models.BaseSubmission.objects.all()[:5]]
     }
 
 
