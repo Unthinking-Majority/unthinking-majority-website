@@ -1,4 +1,5 @@
 from admin_auto_filters.filters import AutocompleteFilterFactory
+from django.conf import settings
 from django.contrib import admin
 
 from main import models
@@ -115,7 +116,28 @@ class PetSubmissionAdmin(admin.ModelAdmin):
 
 
 class ColLogSubmissionAdmin(admin.ModelAdmin):
-    pass
+    autocomplete_fields = ['account']
+    list_display = ['account', 'col_logs_display', 'proof', 'date', 'accepted']
+    list_editable = ['accepted']
+    list_filter = [
+        AutocompleteFilterFactory('Account', 'account'),
+    ]
+    search_fields = ['account__name']
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'account',
+                'col_logs',
+                'notes',
+                ('proof', 'date', 'accepted'),
+            ),
+        }),
+    )
+
+    @admin.display(description='Collections Logged')
+    def col_logs_display(self, obj):
+        return f'{obj.col_logs}/{settings.MAX_COL_LOG}'
 
 
 class CASubmissionAdmin(admin.ModelAdmin):
