@@ -67,24 +67,29 @@ class PetAdmin(admin.ModelAdmin):
 
 class RecordSubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['accounts', 'board']
-    list_display = ['name', 'content', 'team_size', 'flex_order']
-    list_editable = ['flex_order']
+    list_display = ['accounts_display', 'board', 'value', 'proof', 'date', 'accepted']
+    list_editable = ['accepted']
     list_filter = [
-        AutocompleteFilterFactory('Content Category', 'content__category'),
-        AutocompleteFilterFactory('Content', 'content'),
+        AutocompleteFilterFactory('Accounts', 'accounts'),
+        AutocompleteFilterFactory('Board', 'board'),
     ]
-    search_fields = ['name']
+    search_fields = ['accounts__name']
 
     fieldsets = (
         (None, {
             'fields': (
-                'name',
-                'content',
-                'team_size',
-                'flex_order'
+                'accounts',
+                'board',
+                'value',
+                'notes',
+                ('proof', 'date', 'accepted'),
             ),
         }),
     )
+
+    @admin.display(description='Accounts')
+    def accounts_display(self, obj):
+        return ", ".join(obj.accounts.values_list('name', flat=True))
 
 
 class PetSubmissionAdmin(admin.ModelAdmin):
