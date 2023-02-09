@@ -138,6 +138,10 @@ class RecordSubmission(BaseSubmission):
 
     __original_accepted = None
 
+    class Meta:
+        verbose_name = 'Record Submission'
+        verbose_name_plural = 'Record Submissions'
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.__original_accepted = self.accepted
@@ -243,6 +247,10 @@ class PetSubmission(BaseSubmission):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = 'Pet Submission'
+        verbose_name_plural = 'Pet Submissions'
+
     def type_display(self):
         return 'Pet'
 
@@ -254,6 +262,10 @@ class ColLogSubmission(BaseSubmission):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     col_logs = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(settings.MAX_COL_LOG)])
 
+    class Meta:
+        verbose_name = 'Collection Log Submission'
+        verbose_name_plural = 'Collection Log Submissions'
+
     def type_display(self):
         return 'Collection Logs'
 
@@ -264,6 +276,10 @@ class ColLogSubmission(BaseSubmission):
 class CASubmission(BaseSubmission):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     ca_tier = models.IntegerField(choices=CA_CHOICES, default=None, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Combat Achievement Submission'
+        verbose_name_plural = 'Combat Achievement Submissions'
 
     def type_display(self):
         return 'Combat Achievement'
