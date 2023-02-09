@@ -61,7 +61,7 @@ class MentorSubmission(BaseSubmission):
     UPLOAD_TO = 'dragonstone/mentor/proof/'
     mentors = models.ManyToManyField('account.Account', related_name='mentored')
     learners = models.ManyToManyField('account.Account', related_name='mentor_learners')
-    content = models.ForeignKey('account.Account', on_delete=models.CASCADE)
+    content = models.ForeignKey('main.Content', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Mentor Submission'
