@@ -200,21 +200,7 @@ class SubmissionWizard(SessionWizardView):
         if 'record_submission_form' in form_dict.keys():
             form_dict['record_submission_form'].save()
         elif 'pet_submission_form' in form_dict.keys():
-            first_submission = models.PetSubmission.objects.create(
-                account=form_dict['pet_submission_form'].cleaned_data['account'],
-                type=PET,
-                pet=form_dict['pet_submission_form'].cleaned_data['pets'][0],
-                notes=form_dict['pet_submission_form'].cleaned_data['notes'],
-                proof=form_dict['pet_submission_form'].cleaned_data['proof'],
-            )
-            for pet in form_dict['pet_submission_form'].cleaned_data['pets'][1:]:
-                models.PetSubmission.objects.create(
-                    account=form_dict['pet_submission_form'].cleaned_data['account'],
-                    type=PET,
-                    pet=pet,
-                    notes=form_dict['pet_submission_form'].cleaned_data['notes'],
-                    proof=first_submission.proof,  # re-use the already uploaded file!
-                )
+            form_dict['pet_submission_form'].form_valid()
         elif 'col_logs_submission_form' in form_dict.keys():
             form_dict['col_logs_submission_form'].save()
         elif 'ca_submission_form' in form_dict.keys():
