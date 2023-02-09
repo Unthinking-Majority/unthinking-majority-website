@@ -161,6 +161,10 @@ def board_submission_form_condition(wizard):
 
 
 class SubmissionWizard(SessionWizardView):
+    """
+    Main form wizard for dictating the submission process.
+    Helps the user navigate the decision tree to the correct form for their submission.
+    """
     form_list = [
         ('submission_type_form', forms.SelectSubmissionTypeForm),
         ('select_content_form', forms.SelectContentForm),

@@ -1,12 +1,11 @@
 from django import forms
 from django.conf import settings
-from django.urls import reverse_lazy
 from django.db.models import Q
+from django.urls import reverse_lazy
 
 from account.models import Account
-from main import CA_CHOICES
-from main import models
 from main import SUBMISSION_TYPES
+from main import models
 from main import widgets
 
 

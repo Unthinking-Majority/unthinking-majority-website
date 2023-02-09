@@ -2,7 +2,6 @@ from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
 
 from main import models
-from main.admin.autocomplete_filters import AccountsFilter, BoardFilter, ContentFilter
 
 
 class ContentCategoryAdmin(admin.ModelAdmin):
@@ -46,7 +45,7 @@ class BoardAdmin(admin.ModelAdmin):
     list_editable = ['flex_order']
     list_filter = [
         AutocompleteFilterFactory('Content Category', 'content__category'),
-        ContentFilter,
+        AutocompleteFilterFactory('Content', 'content'),
     ]
     search_fields = ['name']
 

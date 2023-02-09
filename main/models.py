@@ -12,7 +12,7 @@ from django.db.models import Count, Q
 from django.db.models import F
 from django.urls import reverse
 
-from main import METRIC_CHOICES, CA_CHOICES, RECORD, TIME, INTEGER
+from main import METRIC_CHOICES, CA_CHOICES, TIME, INTEGER
 from main import managers
 
 
@@ -144,7 +144,7 @@ class RecordSubmission(BaseSubmission):
 
     def save(self, *args, **kwargs):
         super(RecordSubmission, self).save(*args, **kwargs)
-        if self.accepted and self.accepted != self.__original_accepted and self.type == RECORD:
+        if self.accepted and self.accepted != self.__original_accepted:
             # post to discord um pb webhook the newly accepted submission! only for record submissions
             data = json.dumps({'embeds': [self.create_embed()]})
             requests.post(
@@ -160,7 +160,7 @@ class RecordSubmission(BaseSubmission):
         if self.board.content.metric == TIME:
             minutes = int(self.value // 60)
             seconds = self.value % 60
-            return f"{minutes}:{seconds:05}"
+            return f'{minutes}:{seconds:05}'
         else:
             return int(self.value) if self.board.content.metric == INTEGER else self.value
 
@@ -191,7 +191,7 @@ class RecordSubmission(BaseSubmission):
 
     def create_embed(self):
         """
-        Create json discord embed. Only supported for submission type RECORD.
+        Create json discord embed.
         """
         fields = [
             {
@@ -258,7 +258,7 @@ class ColLogSubmission(BaseSubmission):
         return 'Collection Logs'
 
     def value_display(self):
-        return f'{int(self.col_logs)}/{settings.MAX_COL_LOG}'
+        return f'{self.col_logs}/{settings.MAX_COL_LOG}'
 
 
 class CASubmission(BaseSubmission):
