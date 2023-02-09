@@ -2,13 +2,12 @@ from django.contrib import admin
 from django.db.models import When, Case, IntegerField, Value
 
 from account import models
-from dragonstone.models import RecruitmentSubmission, SotMSubmission, PVMSplitSubmission, MentorSubmission, \
-    EventSubmission
+from dragonstone.models import RecruitmentSubmission, SotMSubmission, PVMSplitSubmission, MentorSubmission, EventSubmission
 
 
 class AccountAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user']
-    list_display = ['name', 'dragonstone_pts']
+    list_display = ['name', 'dragonstone_pts', 'active']
     list_filter = ['active']
     search_fields = ['name']
 
