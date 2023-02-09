@@ -46,7 +46,7 @@ class Content(models.Model):
 
     class Meta:
         verbose_name = 'Content'
-        verbose_name_plural = 'Content Types'
+        verbose_name_plural = 'Content'
         ordering = ['order', 'name']
 
     def __str__(self):

@@ -57,7 +57,7 @@ class SotMAdmin(admin.ModelAdmin):
 
 
 class PVMSplitAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['accounts']
+    autocomplete_fields = ['accounts', 'content']
     list_display = ['accounts_display', 'content', 'proof', 'date', 'accepted']
     list_editable = ['accepted']
     list_filter = [
@@ -135,7 +135,7 @@ class EventAdmin(admin.ModelAdmin):
         }),
     )
 
-    @admin.display(description='Mentors')
+    @admin.display(description='Hosts')
     def hosts_display(self, obj):
         return ", ".join(obj.hosts.values_list('name', flat=True))
 
