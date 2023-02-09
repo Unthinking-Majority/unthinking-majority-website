@@ -93,7 +93,25 @@ class RecordSubmissionAdmin(admin.ModelAdmin):
 
 
 class PetSubmissionAdmin(admin.ModelAdmin):
-    pass
+    autocomplete_fields = ['account', 'pet']
+    list_display = ['account', 'pet', 'proof', 'date', 'accepted']
+    list_editable = ['accepted']
+    list_filter = [
+        AutocompleteFilterFactory('Account', 'account'),
+        AutocompleteFilterFactory('Pet', 'pet'),
+    ]
+    search_fields = ['account__name']
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'account',
+                'pet',
+                'notes',
+                ('proof', 'date', 'accepted'),
+            ),
+        }),
+    )
 
 
 class ColLogSubmissionAdmin(admin.ModelAdmin):
