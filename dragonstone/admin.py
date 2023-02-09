@@ -48,7 +48,12 @@ class SotMAdmin(admin.ModelAdmin):
 
     @admin.display(description='Rank')
     def rank_display(self, obj):
-        return obj.value_display()
+        nth = {
+            1: '1st',
+            2: '2nd',
+            3: '3rd'
+        }
+        return nth[obj.rank]
 
 
 class PVMSplitAdmin(admin.ModelAdmin):
