@@ -66,7 +66,25 @@ class PetAdmin(admin.ModelAdmin):
 
 
 class RecordSubmissionAdmin(admin.ModelAdmin):
-    pass
+    autocomplete_fields = ['accounts', 'board']
+    list_display = ['name', 'content', 'team_size', 'flex_order']
+    list_editable = ['flex_order']
+    list_filter = [
+        AutocompleteFilterFactory('Content Category', 'content__category'),
+        AutocompleteFilterFactory('Content', 'content'),
+    ]
+    search_fields = ['name']
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'name',
+                'content',
+                'team_size',
+                'flex_order'
+            ),
+        }),
+    )
 
 
 class PetSubmissionAdmin(admin.ModelAdmin):
