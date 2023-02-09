@@ -1,6 +1,4 @@
 import json
-import os
-import uuid
 from datetime import datetime
 
 import requests
@@ -14,11 +12,7 @@ from django.urls import reverse
 
 from main import METRIC_CHOICES, CA_CHOICES, TIME, INTEGER
 from main import managers
-
-
-def get_file_path(instance, filename):
-    ext = filename.split('.')[-1]
-    return os.path.join(instance.UPLOAD_TO, f'{uuid.uuid4()}.{ext}')
+from um.functions import get_file_path
 
 
 class Board(models.Model):
