@@ -66,7 +66,27 @@ class PetAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
+class RecordSubmissionAdmin(admin.ModelAdmin):
+    pass
+
+
+class PetSubmissionAdmin(admin.ModelAdmin):
+    pass
+
+
+class ColLogSubmissionAdmin(admin.ModelAdmin):
+    pass
+
+
+class CASubmissionAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(models.Board, BoardAdmin)
 admin.site.register(models.ContentCategory, ContentCategoryAdmin)
 admin.site.register(models.Content, ContentAdmin)
 admin.site.register(models.Pet, PetAdmin)
+admin.site.register(models.RecordSubmission, RecordSubmissionAdmin)
+admin.site.register(models.PetSubmission, PetSubmissionAdmin)
+admin.site.register(models.ColLogSubmission, ColLogSubmissionAdmin)
+admin.site.register(models.CASubmission, CASubmissionAdmin)

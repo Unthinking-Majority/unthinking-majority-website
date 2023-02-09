@@ -222,21 +222,9 @@ class SubmissionWizard(SessionWizardView):
                     proof=first_submission.proof,  # re-use the already uploaded file!
                 )
         elif 'col_logs_submission_form' in form_dict.keys():
-            models.ColLogSubmission.objects.create(
-                account=form_dict['col_logs_submission_form'].cleaned_data['account'],
-                type=COL_LOG,
-                value=form_dict['col_logs_submission_form'].cleaned_data['col_logs'],
-                notes=form_dict['col_logs_submission_form'].cleaned_data['notes'],
-                proof=form_dict['col_logs_submission_form'].cleaned_data['proof'],
-            )
+            form_dict['col_logs_submission_form'].save()
         elif 'ca_submission_form' in form_dict.keys():
-            models.CASubmission.objects.create(
-                account=form_dict['ca_submission_form'].cleaned_data['account'],
-                type=CA,
-                ca_tier=form_dict['ca_submission_form'].cleaned_data['ca_tier'],
-                notes=form_dict['ca_submission_form'].cleaned_data['notes'],
-                proof=form_dict['ca_submission_form'].cleaned_data['proof'],
-            )
+            form_dict['ca_submission_form'].save()
 
         return redirect(reverse('form-success'))
 

@@ -128,13 +128,18 @@ class PetSubmissionForm(forms.Form):
         return cleaned_data
 
 
-class ColLogSubmissionForm(forms.Form):
-    account = forms.ModelChoiceField(queryset=Account.objects.all())
-    col_logs = forms.IntegerField(max_value=settings.MAX_COL_LOG)
-    notes = forms.CharField(required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Tell us about this achievement!'}
-    ))
-    proof = forms.ImageField()
+class ColLogSubmissionForm(forms.ModelForm):
+
+    class Meta:
+        model = models.ColLogSubmission
+        fields = ['account', 'col_logs', 'notes', 'proof']
+
+    notes = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Tell us about this achievement!'}
+        )
+    )
 
     def __init__(self, *args, **kwargs):
         super(ColLogSubmissionForm, self).__init__(*args, **kwargs)
@@ -168,13 +173,17 @@ class ColLogSubmissionForm(forms.Form):
         return cleaned_data
 
 
-class CASubmissionForm(forms.Form):
-    account = forms.ModelChoiceField(queryset=Account.objects.all())
-    ca_tier = forms.TypedChoiceField(choices=CA_CHOICES, coerce=int)
-    notes = forms.CharField(required=False, widget=forms.TextInput(
-        attrs={'placeholder': 'Tell us about this achievement!'},
-    ))
-    proof = forms.ImageField()
+class CASubmissionForm(forms.ModelForm):
+    notes = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Tell us about this achievement!'},
+        )
+    )
+
+    class Meta:
+        model = models.CASubmission
+        fields = ['account', 'ca_tier', 'notes', 'proof']
 
     def __init__(self, *args, **kwargs):
         super(CASubmissionForm, self).__init__(*args, **kwargs)
