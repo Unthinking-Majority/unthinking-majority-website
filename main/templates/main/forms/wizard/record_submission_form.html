@@ -36,17 +36,13 @@
 
     {{ wizard.form.board }}
 
-    {# Account(s) #}
-    {% for field in wizard.form %}
-        {% if "account" in field.name %}
-            {% if field.errors %}
-                <div class="flex justify-center mx-2 w-80">
-                    {% include "main/forms/field_error_list.html" with errors=field.errors %}
-                </div>
-            {% endif %}
-            {{ field }}
-        {% endif %}
-    {% endfor %}
+    {# Accounts #}
+    {% if wizard.form.accounts.errors %}
+        <div class="flex justify-center mx-2 w-80">
+            {% include "main/forms/field_error_list.html" with errors=wizard.form.accounts.errors %}
+        </div>
+    {% endif %}
+    {{ wizard.form.accounts }}
 
     {# Value #}
     {% if board.content.get_metric_display == 'Time' %}
