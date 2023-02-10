@@ -5,11 +5,13 @@ from django.contrib import admin
 from main import models
 
 
+@admin.register(models.ContentCategory)
 class ContentCategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
 
 
+@admin.register(models.Content)
 class ContentAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
@@ -41,6 +43,7 @@ class ContentAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(models.Board)
 class BoardAdmin(admin.ModelAdmin):
     autocomplete_fields = ['content']
     list_display = ['name', 'content', 'team_size', 'flex_order']
@@ -63,10 +66,12 @@ class BoardAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(models.Pet)
 class PetAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
+@admin.register(models.RecordSubmission)
 class RecordSubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['accounts', 'board']
     list_display = ['accounts_display', 'board', 'value', 'proof', 'date', 'accepted']
@@ -94,6 +99,7 @@ class RecordSubmissionAdmin(admin.ModelAdmin):
         return ", ".join(obj.accounts.values_list('name', flat=True))
 
 
+@admin.register(models.PetSubmission)
 class PetSubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['account', 'pet']
     list_display = ['account', 'pet', 'proof', 'date', 'accepted']
@@ -116,6 +122,7 @@ class PetSubmissionAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(models.ColLogSubmission)
 class ColLogSubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['account']
     list_display = ['account', 'col_logs_display', 'proof', 'date', 'accepted']
@@ -141,6 +148,7 @@ class ColLogSubmissionAdmin(admin.ModelAdmin):
         return f'{obj.col_logs}/{settings.MAX_COL_LOG}'
 
 
+@admin.register(models.CASubmission)
 class CASubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['account']
     list_display = ['account', 'ca_tier', 'proof', 'date', 'accepted']
@@ -160,13 +168,3 @@ class CASubmissionAdmin(admin.ModelAdmin):
             ),
         }),
     )
-
-
-admin.site.register(models.Board, BoardAdmin)
-admin.site.register(models.ContentCategory, ContentCategoryAdmin)
-admin.site.register(models.Content, ContentAdmin)
-admin.site.register(models.Pet, PetAdmin)
-admin.site.register(models.RecordSubmission, RecordSubmissionAdmin)
-admin.site.register(models.PetSubmission, PetSubmissionAdmin)
-admin.site.register(models.ColLogSubmission, ColLogSubmissionAdmin)
-admin.site.register(models.CASubmission, CASubmissionAdmin)

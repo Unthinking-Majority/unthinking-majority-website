@@ -4,6 +4,7 @@ from django.contrib import admin
 from dragonstone import models
 
 
+@admin.register(models.RecruitmentSubmission)
 class RecruitmentAdmin(admin.ModelAdmin):
     autocomplete_fields = ['recruiter', 'recruited']
     list_display = ['recruiter', 'recruited', 'proof', 'date', 'accepted']
@@ -26,6 +27,7 @@ class RecruitmentAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(models.SotMSubmission)
 class SotMAdmin(admin.ModelAdmin):
     autocomplete_fields = ['account']
     list_display = ['account', 'rank_display', 'proof', 'date', 'accepted']
@@ -56,6 +58,7 @@ class SotMAdmin(admin.ModelAdmin):
         return nth[obj.rank]
 
 
+@admin.register(models.PVMSplitSubmission)
 class PVMSplitAdmin(admin.ModelAdmin):
     autocomplete_fields = ['accounts', 'content']
     list_display = ['accounts_display', 'content', 'proof', 'date', 'accepted']
@@ -82,6 +85,7 @@ class PVMSplitAdmin(admin.ModelAdmin):
         return ", ".join(obj.accounts.values_list('name', flat=True))
 
 
+@admin.register(models.MentorSubmission)
 class MentorAdmin(admin.ModelAdmin):
     autocomplete_fields = ['mentors', 'learners', 'content']
     list_display = ['mentors_display', 'content', 'proof', 'date', 'accepted']
@@ -110,6 +114,7 @@ class MentorAdmin(admin.ModelAdmin):
         return ", ".join(obj.mentors.values_list('name', flat=True))
 
 
+@admin.register(models.EventSubmission)
 class EventAdmin(admin.ModelAdmin):
     autocomplete_fields = ['hosts', 'participants', 'donators']
     list_display = ['hosts_display', 'type', 'proof', 'date', 'accepted']
@@ -138,10 +143,3 @@ class EventAdmin(admin.ModelAdmin):
     @admin.display(description='Hosts')
     def hosts_display(self, obj):
         return ", ".join(obj.hosts.values_list('name', flat=True))
-
-
-admin.site.register(models.RecruitmentSubmission, RecruitmentAdmin)
-admin.site.register(models.SotMSubmission, SotMAdmin)
-admin.site.register(models.PVMSplitSubmission, PVMSplitAdmin)
-admin.site.register(models.MentorSubmission, MentorAdmin)
-admin.site.register(models.EventSubmission, EventAdmin)

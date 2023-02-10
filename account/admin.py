@@ -5,6 +5,7 @@ from account import models
 from dragonstone.models import RecruitmentSubmission, SotMSubmission, PVMSplitSubmission, MentorSubmission, EventSubmission
 
 
+@admin.register(models.Account)
 class AccountAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user']
     list_display = ['name', 'dragonstone_pts', 'active']
@@ -33,6 +34,3 @@ class AccountAdmin(admin.ModelAdmin):
     @admin.display(description='Dragonstone Points', ordering='dragonstone_pts')
     def dragonstone_pts(self, obj):
         return obj.dragonstone_pts
-
-
-admin.site.register(models.Account, AccountAdmin)
