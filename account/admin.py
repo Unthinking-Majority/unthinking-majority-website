@@ -29,7 +29,7 @@ class AccountAdmin(admin.ModelAdmin):
                 dragonstone_pts[obj['account']] = obj['dragonstone_pts']
 
         whens = [When(id=account, then=d_pts) for account, d_pts in dragonstone_pts.items()]
-        return queryset.annotate(dragonstone_pts=Case(*whens, output_field=IntegerField(), default=Value(0))).order_by('-dragonstone_pts')
+        return queryset.annotate(dragonstone_pts=Case(*whens, output_field=IntegerField(), default=Value(0))).order_by('-dragonstone_pts', 'name')
 
     @admin.display(description='Dragonstone Points', ordering='dragonstone_pts')
     def dragonstone_pts(self, obj):
