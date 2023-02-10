@@ -10,7 +10,7 @@ urlpatterns = [
     path('board/pets/', views.PetsLeaderboardView.as_view(), name='pets-leaderboard'),
     path('board/collection-logs/', views.ColLogsLeaderboardView.as_view(), name='col-logs-leaderboard'),
     path('board/combat-achievements/', views.CALeaderboardView.as_view(), name='ca-leaderboard'),
-    path('submit-achievement/', views.SubmissionWizard.as_view(), name='submit-achievement'),
+    path('submit/achievement/', views.SubmissionWizard.as_view(), name='submit-achievement'),
     path('form-success/', TemplateView.as_view(template_name='main/forms/success.html'), name='form-success'),
 ]
 urlpatterns += autocomplete_urlpatterns

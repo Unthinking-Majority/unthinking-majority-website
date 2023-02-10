@@ -6,6 +6,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('', include('main.urls')),
+    path('', include('dragonstone.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('account.urls', namespace='account')),
     path('__reload__/', include('django_browser_reload.urls')),

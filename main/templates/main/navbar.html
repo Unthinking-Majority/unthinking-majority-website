@@ -58,10 +58,24 @@
                                 </li>
                             </ul>
                         </div>
-                        <a href="{% url "submit-achievement" %}"
-                           class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white">
-                            Submit
-                        </a>
+                        <div class="relative group">
+                            <button class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                                Submit
+                            </button>
+                            <ul class="hidden overflow-hidden absolute z-10 mt-2 w-min whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
+                                tabindex="-1">
+                                <li>
+                                    <a href="{% url "submit-achievement" %}"
+                                       class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                       tabindex="-1">Achievement</a>
+                                </li>
+                                <li>
+                                    <a href="{% url "submit-dragonstone" %}"
+                                       class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                       tabindex="-1">Dragonstone</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -127,10 +141,24 @@
                             </div>
                         </li>
                         <li>
-                            <a tabindex="0" href="{% url "submit-achievement" %}"
-                               class="block px-4 py-2 font-medium text-gray-900 hover:bg-gray-800 hover:text-white">
-                                Submit
-                            </a>
+                            <div class="relative group/dropdown">
+                                <button class="block px-4 py-2 w-full font-medium text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                                    Submit
+                                </button>
+                                <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
+                                    tabindex="-1">
+                                    <li>
+                                        <a href="{% url "submit-achievement" %}"
+                                           class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                           tabindex="-1">Achievement</a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url "submit-dragonstone" %}"
+                                           class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                           tabindex="-1">Dragonstone</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </div>
