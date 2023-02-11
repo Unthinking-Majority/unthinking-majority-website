@@ -58,6 +58,7 @@
                                 </li>
                             </ul>
                         </div>
+                    {% if request.user.is_staff %}
                         <div class="relative group">
                             <button class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                                 Submit
@@ -76,6 +77,12 @@
                                 </li>
                             </ul>
                         </div>
+                    {% else %}
+                        <a href="{% url "submit-achievement" %}"
+                           class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white">
+                            Submit
+                        </a>
+                    {% endif %}
                     </div>
                 </div>
 
@@ -141,24 +148,31 @@
                             </div>
                         </li>
                         <li>
-                            <div class="relative group/dropdown">
-                                <button class="block px-4 py-2 w-full font-medium text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                            {% if request.user.is_staff %}
+                                <div class="relative group/dropdown">
+                                    <button class="block px-4 py-2 w-full font-medium text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                                        Submit
+                                    </button>
+                                    <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
+                                        tabindex="-1">
+                                        <li>
+                                            <a href="{% url "submit-achievement" %}"
+                                               class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                               tabindex="-1">Achievement</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url "submit-dragonstone" %}"
+                                               class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                               tabindex="-1">Dragonstone</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% else %}
+                                <a tabindex="0" href="{% url "submit-achievement" %}"
+                                   class="block px-4 py-2 font-medium text-gray-900 hover:bg-gray-800 hover:text-white">
                                     Submit
-                                </button>
-                                <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
-                                    tabindex="-1">
-                                    <li>
-                                        <a href="{% url "submit-achievement" %}"
-                                           class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
-                                           tabindex="-1">Achievement</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url "submit-dragonstone" %}"
-                                           class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
-                                           tabindex="-1">Dragonstone</a>
-                                    </li>
-                                </ul>
-                            </div>
+                                </a>
+                            {% endif %}
                         </li>
                     </ul>
                 </div>
