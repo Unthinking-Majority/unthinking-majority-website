@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -7,12 +7,62 @@ from django.utils import timezone
 
 from dragonstone import EVENT_CHOICES, PVM, SKILLING, MAJOR, OTHER
 from main import EASY, MEDIUM, HARD, VERY_HARD
-from main.models import BaseSubmission
+from main import managers
+from um.functions import get_file_path
 
 three_months_ago = timezone.now().date() - timedelta(days=90)
 
 
-class RecruitmentSubmission(BaseSubmission):
+class DragonstoneBaseSubmission(models.Model):
+    UPLOAD_TO = 'dragonstone/submission/proof/'
+
+    proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
+    notes = models.TextField(blank=True)
+    accepted = models.BooleanField(null=True)
+    date = models.DateTimeField(default=datetime.now, null=True, blank=True)
+
+    objects = managers.SubmissionQueryset.as_manager()
+
+    child_models = (
+        'recruitmentsubmission',
+        'sotmsubmission',
+        'pvmsplitsubmission',
+        'mentorsubmission',
+        'eventsubmission',
+    )
+
+    class Meta:
+        ordering = [F('date').desc(nulls_last=True)]
+
+    def type_display(self):
+        """
+        Call the type_display() method from the corresponding child instance of this base submission
+        """
+        for child_model in self.child_models:
+            child_obj = getattr(self, child_model, None)
+            if child_obj:
+                return child_obj.type_display()
+
+    def value_display(self):
+        """
+        Call the value_display() method from the corresponding child instance of this base submission
+        """
+        for child_model in self.child_models:
+            child_obj = getattr(self, child_model, None)
+            if child_obj:
+                return child_obj.value_display()
+
+    def get_child_instance(self):
+        """
+        Return the corresponding child instance of this base submission
+        """
+        for child_model in self.child_models:
+            child_obj = getattr(self, child_model, None)
+            if child_obj:
+                return child_obj
+
+
+class RecruitmentSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/recruitment/proof/'
     RECRUITER_PTS = 2
 
@@ -41,7 +91,7 @@ class RecruitmentSubmission(BaseSubmission):
         return f'{self.recruiter} recruited {self.recruited}'
 
 
-class SotMSubmission(BaseSubmission):
+class SotMSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/sotm/proof/'
     FIRST_PTS = 3
     SECONDS_PTS = 2
@@ -80,7 +130,7 @@ class SotMSubmission(BaseSubmission):
         return f'{self.account.name} - {nth[self.rank]}'
 
 
-class PVMSplitSubmission(BaseSubmission):
+class PVMSplitSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/pvm/proof/'
     MEDIUM_PTS = 1
     HARD_PTS = 1
@@ -115,7 +165,7 @@ class PVMSplitSubmission(BaseSubmission):
         return f'{", ".join(self.accounts.values_list("name", flat=True))} - {self.content.name}'
 
 
-class MentorSubmission(BaseSubmission):
+class MentorSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/mentor/proof/'
     EASY_PTS = 1
     MEDIUM_PTS = 2
@@ -153,7 +203,7 @@ class MentorSubmission(BaseSubmission):
         return f'Mentorship by {", ".join(self.mentors.values_list("name", flat=True))} for {self.content.name}'
 
 
-class EventSubmission(BaseSubmission):
+class EventSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/event/proof/'
     MINOR_HOSTS_PTS = 5
     MINOR_PARTICIPANTS_PTS = 2

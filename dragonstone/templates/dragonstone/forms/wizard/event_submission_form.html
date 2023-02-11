@@ -32,6 +32,30 @@
     {% endif %}
     {{ wizard.form.donors }}
 
+    {# Type #}
+    <div class="flex flex-col flex-wrap justify-center mx-2 my-4 w-80">
+        {% if wizard.form.type.errors %}
+            <div class="flex justify-center">
+                {% include "main/forms/field_error_list.html" with errors=wizard.form.type.errors %}
+            </div>
+        {% endif %}
+        <label for="{{ wizard.form.type.id_for_label }}" class="text-sm font-medium text-gray-900">
+            Event Type
+            {% if wizard.form.type.field.required %}*{% endif %}
+        </label>
+        <select id="{{ wizard.form.type.id_for_label }}"
+                name="{{ wizard.form.prefix }}-{{ wizard.form.type.name }}"
+                {% if wizard.form.type.field.required %}required{% endif %}
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-full">
+            {% for choice in wizard.form.type.field.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+        <p class="text-sm text-gray-600">
+            {{ wizard.form.type.help_text }}
+        </p>
+    </div>
+
     {% textarea_input wizard.form.notes prefix=wizard.form.prefix %}
 
     {% file_input wizard.form.proof prefix=wizard.form.prefix %}
