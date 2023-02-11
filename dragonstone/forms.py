@@ -59,7 +59,7 @@ class EventSubmissionForm(forms.ModelForm):
 
     class Meta:
         model = models.EventSubmission
-        fields = ['hosts', 'participants', 'donators', 'type', 'proof', 'notes']
+        fields = ['hosts', 'participants', 'donors', 'type', 'proof', 'notes']
 
     def __init__(self, *args, **kwargs):
         super(EventSubmissionForm, self).__init__(*args, **kwargs)
@@ -73,8 +73,8 @@ class EventSubmissionForm(forms.ModelForm):
             placeholder='Select all participants',
             label='Participants',
         )
-        self.fields['donators'].widget = widgets.AutocompleteSelectMultipleWidget(
+        self.fields['donors'].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
-            placeholder='Select all donators',
-            label='Donators',
+            placeholder='Select all donors',
+            label='Donors',
         )

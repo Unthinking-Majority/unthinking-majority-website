@@ -159,13 +159,13 @@ class EventSubmission(BaseSubmission):
     MINOR_PARTICIPANTS_PTS = 2
     MAJOR_HOSTS_PTS = 15
     MAJOR_PARTICIPANTS_PTS = 5
-    MAJOR_DONATORS_PTS = 2
+    MAJOR_DONORS_PTS = 2
     OTHER_HOSTS_PTS = 3
     OTHER_PARTICIPANTS_PTS = 1
 
     hosts = models.ManyToManyField('account.Account', related_name='events_hosted')
     participants = models.ManyToManyField('account.Account', related_name='events_participated')
-    donators = models.ManyToManyField('account.Account', related_name='events_donated')
+    donors = models.ManyToManyField('account.Account', related_name='events_donated')
     type = models.IntegerField(choices=EVENT_CHOICES)
 
     class Meta:
@@ -196,13 +196,13 @@ class EventSubmission(BaseSubmission):
             account=F('participants'),
         ).values('account', 'dragonstone_pts')
 
-        donators_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        donors_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
-                When(type=MAJOR, then=cls.MAJOR_DONATORS_PTS),
+                When(type=MAJOR, then=cls.MAJOR_DONORS_PTS),
             ),
-            account=F('donators'),
+            account=F('donors'),
         ).values('account', 'dragonstone_pts')
-        return list(hosts_pts) + list(participants_pts) + list(donators_pts)
+        return list(hosts_pts) + list(participants_pts) + list(donors_pts)
 
     def type_display(self):
         return 'Event Submission'

@@ -73,7 +73,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('basesubmission_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='main.basesubmission')),
                 ('type', models.IntegerField(choices=[(0, 'PVM'), (1, 'Skilling'), (2, 'Major Event'), (3, 'Other')])),
-                ('donators', models.ManyToManyField(related_name='events_donated', to='account.account')),
+                ('donors', models.ManyToManyField(related_name='events_donated', to='account.account')),
                 ('hosts', models.ManyToManyField(related_name='events_hosted', to='account.account')),
                 ('participants', models.ManyToManyField(related_name='events_participated', to='account.account')),
             ],

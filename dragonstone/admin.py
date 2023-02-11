@@ -116,23 +116,23 @@ class MentorAdmin(admin.ModelAdmin):
 
 @admin.register(models.EventSubmission)
 class EventAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['hosts', 'participants', 'donators']
+    autocomplete_fields = ['hosts', 'participants', 'donors']
     list_display = ['hosts_display', 'type', 'proof', 'date', 'accepted']
     list_editable = ['accepted']
     list_filter = [
         AutocompleteFilterFactory('Hosts', 'hosts'),
         AutocompleteFilterFactory('Participants', 'participants'),
-        AutocompleteFilterFactory('Donators', 'donators'),
+        AutocompleteFilterFactory('Donors', 'donors'),
         'type'
     ]
-    search_fields = ['hosts__name', 'participants__name', 'donators__name']
+    search_fields = ['hosts__name', 'participants__name', 'donors__name']
 
     fieldsets = (
         (None, {
             'fields': (
                 'hosts',
                 'participants',
-                'donators',
+                'donors',
                 'type',
                 'notes',
                 ('proof', 'date', 'accepted'),

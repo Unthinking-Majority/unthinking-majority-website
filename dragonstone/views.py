@@ -60,7 +60,7 @@ class DragonstoneSubmissionWizard(SessionWizardView):
         if 'pvm_split_submission_form' in form_dict.keys():
             form_dict['pvm_split_submission_form'].save()
         elif 'mentor_submission_form' in form_dict.keys():
-            form_dict['mentor_submission_form'].form_valid()
+            form_dict['mentor_submission_form'].save()
         elif 'event_submission_form' in form_dict.keys():
             form_dict['event_submission_form'].save()
 

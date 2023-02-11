@@ -24,13 +24,13 @@
     {% endif %}
     {{ wizard.form.participants }}
 
-    {# Donator(s) #}
-    {% if wizard.form.donators.errors %}
+    {# Donor(s) #}
+    {% if wizard.form.donors.errors %}
         <div class="flex justify-center mx-2 w-80">
-            {% include "main/forms/field_error_list.html" with errors=wizard.form.donators.errors %}
+            {% include "main/forms/field_error_list.html" with errors=wizard.form.donors.errors %}
         </div>
     {% endif %}
-    {{ wizard.form.donators }}
+    {{ wizard.form.donors }}
 
     {% textarea_input wizard.form.notes prefix=wizard.form.prefix %}
 
