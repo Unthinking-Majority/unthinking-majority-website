@@ -55,8 +55,15 @@ class DragonstoneSubmissionWizard(SessionWizardView):
         return super(DragonstoneSubmissionWizard, self).post(*args, **kwargs)
 
     def done(self, form_list, **kwargs):
-        for form in form_list:
-            form.save()
+        form_dict = kwargs.get('form_dict')
+
+        if 'pvm_split_submission_form' in form_dict.keys():
+            form_dict['pvm_split_submission_form'].save()
+        elif 'mentor_submission_form' in form_dict.keys():
+            form_dict['mentor_submission_form'].form_valid()
+        elif 'event_submission_form' in form_dict.keys():
+            form_dict['event_submission_form'].save()
+
         return redirect(reverse('form-success'))
 
     def get_template_names(self):

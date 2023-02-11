@@ -29,10 +29,10 @@ class RecruitmentSubmission(BaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        return list(cls.objects.filter(date__gte=three_months_ago).annotate(
+        return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Value(cls.RECRUITER_PTS),
             account=F('recruiter'),
-        ).values('recruiter', 'dragonstone_pts'))
+        ).values('account', 'dragonstone_pts'))
 
     def type_display(self):
         return 'Recruitment Submission'
@@ -60,7 +60,7 @@ class SotMSubmission(BaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        return list(cls.objects.filter(date__gte=three_months_ago).annotate(
+        return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(rank=1, then=cls.FIRST_PTS),
                 When(rank=2, then=cls.SECONDS_PTS),
@@ -99,7 +99,7 @@ class PVMSplitSubmission(BaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        return list(cls.objects.filter(date__gte=three_months_ago).annotate(
+        return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
                 When(content__difficulty=HARD, then=cls.HARD_PTS),
@@ -136,7 +136,7 @@ class MentorSubmission(BaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        return list(cls.objects.filter(date__gte=three_months_ago).annotate(
+        return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(content__difficulty=EASY, then=cls.EASY_PTS),
                 When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
@@ -178,7 +178,7 @@ class EventSubmission(BaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        hosts_pts = cls.objects.filter(date__gte=three_months_ago).annotate(
+        hosts_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_HOSTS_PTS),
                 When(type=MAJOR, then=cls.MAJOR_HOSTS_PTS),
@@ -187,7 +187,7 @@ class EventSubmission(BaseSubmission):
             account=F('hosts'),
         ).values('account', 'dragonstone_pts')
 
-        participants_pts = cls.objects.filter(date__gte=three_months_ago).annotate(
+        participants_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_PARTICIPANTS_PTS),
                 When(type=MAJOR, then=cls.MAJOR_PARTICIPANTS_PTS),
@@ -196,7 +196,7 @@ class EventSubmission(BaseSubmission):
             account=F('participants'),
         ).values('account', 'dragonstone_pts')
 
-        donators_pts = cls.objects.filter(date__gte=three_months_ago).annotate(
+        donators_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(type=MAJOR, then=cls.MAJOR_DONATORS_PTS),
             ),
