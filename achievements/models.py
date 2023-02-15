@@ -90,7 +90,7 @@ class RecordSubmission(BaseSubmission):
             )
 
     def type_display(self):
-        return 'Record'
+        return self.board.name
 
     def value_display(self):
         if self.board.content.metric == TIME:

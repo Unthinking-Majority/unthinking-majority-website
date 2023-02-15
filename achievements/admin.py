@@ -1,8 +1,29 @@
 from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.conf import settings
 from django.contrib import admin
+from django.urls import reverse_lazy
+from django.utils.safestring import mark_safe
 
 from achievements import models
+
+
+@admin.register(models.BaseSubmission)
+class BaseSubmissionAdmin(admin.ModelAdmin):
+    list_display = ['accounts', 'child_admin', 'value_display', 'date', 'child_admin', 'accepted']
+    list_editable = ['accepted']
+
+    @admin.display(description='Account(s)')
+    def accounts(self, obj):
+        child_instance = obj.get_child_instance()
+        if child_instance.__class__ is models.RecordSubmission:
+            return ', '.join(child_instance.accounts.values_list('name', flat=True))
+        else:
+            return child_instance.account.name
+
+    @admin.display(description='Child Admin')
+    def child_admin(self, obj):
+        url = reverse_lazy(f'admin:achievements_{obj.get_child_instance()._meta.model_name}_change', kwargs={'object_id': obj.id})
+        return mark_safe(f'<a target="_blank" href={url}>{obj.type_display()} ({obj.id})</a>')
 
 
 @admin.register(models.RecordSubmission)

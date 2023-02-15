@@ -65,7 +65,7 @@ def grandmasters_leaderboard():
 @register.inclusion_tag('main/landing_leaderboards/recent_achievements.html')
 def recent_submission_leaderboard():
     return {
-        'recent_submissions': [obj.get_child_instance() for obj in BaseSubmission.objects.all()[:5]]
+        'recent_submissions': [obj.get_child_instance() for obj in BaseSubmission.objects.filter(accepted=True)[:5]]
     }
 
 
