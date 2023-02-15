@@ -7,6 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('main', '0061_alter_content_options'),
+        ('achievements', '0002_migrate_submissions_20230214_1940'),
     ]
 
     operations = [
