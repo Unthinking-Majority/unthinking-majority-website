@@ -5,7 +5,9 @@ from django.conf import settings
 from django.db.models import Count, OuterRef
 
 from account.models import Account
-from main import models, GRANDMASTER
+from achievements import GRANDMASTER
+from achievements.models import BaseSubmission, PetSubmission, ColLogSubmission, CASubmission
+from main.models import Board
 
 register = template.Library()
 
@@ -13,7 +15,7 @@ register = template.Library()
 @register.inclusion_tag('main/landing_leaderboards/pets_leaderboard.html')
 def pets_leaderboard():
     # get accepted pet submissions
-    pet_submissions = models.PetSubmission.objects.accepted()
+    pet_submissions = PetSubmission.objects.accepted()
 
     # create sub query, to annotate the number of pets per account
     sub_query = pet_submissions.values('account').annotate(num_pets=Count('account')).filter(account__id=OuterRef('id'))
@@ -32,7 +34,7 @@ def pets_leaderboard():
 @register.inclusion_tag('main/landing_leaderboards/col_logs_leaderboard.html')
 def col_logs_leaderboard():
     # get accepted collection log submissions ; use empty order_by() to clear any ordering
-    col_logs_submissions = models.ColLogSubmission.objects.accepted().order_by().filter(account__active=True)
+    col_logs_submissions = ColLogSubmission.objects.accepted().order_by().filter(account__active=True)
 
     # create sub query, which grabs the Max col_log value for each account
     sub_query = col_logs_submissions.order_by('account', '-col_logs').distinct('account').filter(account__id=OuterRef('id'))
@@ -51,7 +53,7 @@ def col_logs_leaderboard():
 
 @register.inclusion_tag('main/landing_leaderboards/grandmasters_leaderboard.html')
 def grandmasters_leaderboard():
-    submissions = models.CASubmission.objects.accepted().filter(
+    submissions = CASubmission.objects.accepted().filter(
         ca_tier=GRANDMASTER,
         account__active=True
     ).order_by('date')
@@ -63,14 +65,14 @@ def grandmasters_leaderboard():
 @register.inclusion_tag('main/landing_leaderboards/recent_achievements.html')
 def recent_submission_leaderboard():
     return {
-        'recent_submissions': [obj.get_child_instance() for obj in models.BaseSubmission.objects.all()[:5]]
+        'recent_submissions': [obj.get_child_instance() for obj in BaseSubmission.objects.all()[:5]]
     }
 
 
 @register.inclusion_tag('main/landing_leaderboards/top_players_leaderboard.html')
 def top_players_leaderboard():
     accounts = []
-    for board in models.Board.objects.all():
+    for board in Board.objects.all():
         order = f'{board.content.ordering}value'
         try:
             first_place_accounts = board.submissions.order_by(order).first().accounts.filter(active=True)

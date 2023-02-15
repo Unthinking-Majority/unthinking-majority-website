@@ -149,7 +149,7 @@ class RecordSubmission(BaseSubmission):
             },
             {
                 'name': 'Rank',
-                'value': str(self.get_rank()),
+                'value': str(self.get_rank()) or '-',
                 'inline': True,
             },
         ]

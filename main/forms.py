@@ -4,8 +4,9 @@ from django.db.models import Q
 from django.urls import reverse_lazy
 
 from account.models import Account
-from main import SUBMISSION_TYPES
+from achievements import SUBMISSION_TYPES
 from main import models
+from achievements import models as achievements_models
 from main import widgets
 
 
@@ -47,7 +48,7 @@ class RecordSubmissionForm(forms.ModelForm):
     value = forms.DecimalField(required=False)
 
     class Meta:
-        model = models.RecordSubmission
+        model = achievements_models.RecordSubmission
         fields = ['board', 'accounts', 'notes', 'value', 'proof']
         widgets = {
             'board': forms.HiddenInput(),
@@ -117,7 +118,7 @@ class PetSubmissionForm(forms.Form):
         cleaned_data = super(PetSubmissionForm, self).clean()
 
         for pet in cleaned_data['pets']:
-            submission = models.PetSubmission.objects.accepted().filter(
+            submission = achievements_models.PetSubmission.objects.accepted().filter(
                 Q(account=cleaned_data['account']),
                 Q(pet=pet),
                 Q(accepted=None) | Q(accepted=True)
@@ -131,14 +132,14 @@ class PetSubmissionForm(forms.Form):
         return cleaned_data
 
     def form_valid(self):
-        first_submission = models.PetSubmission.objects.create(
+        first_submission = achievements_models.PetSubmission.objects.create(
             account=self.cleaned_data['account'],
             pet=self.cleaned_data['pets'][0],
             notes=self.cleaned_data['notes'],
             proof=self.cleaned_data['proof'],
         )
         for pet in self.cleaned_data['pets'][1:]:
-            models.PetSubmission.objects.create(
+            achievements_models.PetSubmission.objects.create(
                 account=self.cleaned_data['account'],
                 pet=pet,
                 notes=self.cleaned_data['notes'],
@@ -155,7 +156,7 @@ class ColLogSubmissionForm(forms.ModelForm):
     )
 
     class Meta:
-        model = models.ColLogSubmission
+        model = achievements_models.ColLogSubmission
         fields = ['account', 'col_logs', 'notes', 'proof']
 
     def __init__(self, *args, **kwargs):
@@ -199,7 +200,7 @@ class CASubmissionForm(forms.ModelForm):
     )
 
     class Meta:
-        model = models.CASubmission
+        model = achievements_models.CASubmission
         fields = ['account', 'ca_tier', 'notes', 'proof']
 
     def __init__(self, *args, **kwargs):

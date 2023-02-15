@@ -14,6 +14,7 @@ from formtools.wizard.views import SessionWizardView
 from account.models import Account
 from main import RECORD, PET, COL_LOG, CA
 from main import forms
+from achievements import models as achievements_models
 from main import models
 
 
@@ -55,7 +56,7 @@ class LeaderboardView(TemplateView):
             for submission in annotated_submissions:
                 if submission.accounts_str not in submissions.keys():
                     submissions[submission.accounts_str] = submission.id
-            submissions = models.RecordSubmission.objects.filter(
+            submissions = achievements_models.RecordSubmission.objects.filter(
                 id__in=submissions.values()
             ).order_by(f'{ordering}value', 'date')
 
@@ -76,7 +77,7 @@ class PetsLeaderboardView(ListView):
 
     def get_queryset(self):
         # get accepted pet submissions
-        pet_submissions = models.PetSubmission.objects.accepted()
+        pet_submissions = achievements_models.PetSubmission.objects.accepted()
 
         # create sub query, to annotate the number of pets per account
         sub_query = pet_submissions.values('account').annotate(num_pets=Count('account')).filter(account__id=OuterRef('id'))
@@ -97,13 +98,13 @@ class ColLogsLeaderboardView(ListView):
 
     def get_queryset(self):
         # get accepted collection log submissions ; use empty order_by() to clear any ordering
-        col_logs_submissions = models.ColLogSubmission.objects.accepted().order_by().filter(account__active=True)
+        col_logs_submissions = achievements_models.ColLogSubmission.objects.accepted().order_by().filter(account__active=True)
 
         # create sub query, which grabs the Max col_log value for each account
         sub_query = col_logs_submissions.order_by('account', '-col_logs').distinct('account')
 
         # filter for submissions which have a matching id from the above sub query ; order by value descending
-        submissions = models.ColLogSubmission.objects.filter(id__in=sub_query.values('id')).order_by('-col_logs', 'date')
+        submissions = achievements_models.ColLogSubmission.objects.filter(id__in=sub_query.values('id')).order_by('-col_logs', 'date')
 
         return submissions
 
@@ -120,13 +121,13 @@ class CALeaderboardView(ListView):
 
     def get_queryset(self):
         # get accepted combat achievement submissions ; use empty order_by() to clear any ordering
-        ca_submissions = models.CASubmission.objects.accepted().order_by().filter(account__active=True)
+        ca_submissions = achievements_models.CASubmission.objects.accepted().order_by().filter(account__active=True)
 
         # create sub query, which grabs the best ca tier value for each account
         sub_query = ca_submissions.order_by('account', 'ca_tier').distinct('account')
 
         # filter for submissions which have a matching id from the above sub query ; order by ca_tier descending
-        submissions = models.CASubmission.objects.filter(id__in=sub_query.values('id')).order_by('ca_tier', 'date')
+        submissions = achievements_models.CASubmission.objects.filter(id__in=sub_query.values('id')).order_by('ca_tier', 'date')
         return submissions
 
 
