@@ -1,17 +1,8 @@
-import json
-from datetime import datetime
-
-import requests
-from django.conf import settings
-from django.contrib.postgres.aggregates import StringAgg
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import Count, Q
-from django.db.models import F
 from django.urls import reverse
 
-from main import METRIC_CHOICES, DIFFICULTY_CHOICES, CA_CHOICES, TIME, INTEGER, EASY
-from main import managers
+from main import METRIC_CHOICES, DIFFICULTY_CHOICES, TIME, EASY
 from um.functions import get_file_path
 
 

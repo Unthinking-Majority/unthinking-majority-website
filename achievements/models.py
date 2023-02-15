@@ -63,8 +63,8 @@ class BaseSubmission(models.Model):
 
 
 class RecordSubmission(BaseSubmission):
-    accounts = models.ManyToManyField('account.Account', related_name='rsub_accounts')
-    board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='rsub_board')
+    accounts = models.ManyToManyField('account.Account')
+    board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions')
     value = models.DecimalField(max_digits=7, decimal_places=2)
 
     __original_accepted = None
@@ -175,8 +175,8 @@ class RecordSubmission(BaseSubmission):
 
 
 class PetSubmission(BaseSubmission):
-    account = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='psub_account')
-    pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE, related_name='psub_pet')
+    account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
+    pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Pet Submission'
@@ -190,7 +190,7 @@ class PetSubmission(BaseSubmission):
 
 
 class ColLogSubmission(BaseSubmission):
-    account = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='clogsub_account')
+    account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     col_logs = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(settings.MAX_COL_LOG)])
 
     class Meta:
@@ -205,7 +205,7 @@ class ColLogSubmission(BaseSubmission):
 
 
 class CASubmission(BaseSubmission):
-    account = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='casub_account')
+    account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     ca_tier = models.IntegerField(choices=CA_CHOICES, default=None, null=True, blank=True)
 
     class Meta:
