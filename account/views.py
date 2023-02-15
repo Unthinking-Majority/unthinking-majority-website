@@ -5,7 +5,7 @@ from django.views.generic.list import ListView
 from django.db.models import Q
 
 from account import forms
-from main.models import BaseSubmission, RecordSubmission, PetSubmission, ColLogSubmission, CASubmission
+from achievements.models import BaseSubmission, RecordSubmission, PetSubmission, ColLogSubmission, CASubmission
 
 
 class ProfileView(ListView):

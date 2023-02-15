@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models import Max, Min
 
-from main import CA_DICT
-from main.models import PetSubmission, ColLogSubmission, CASubmission
+from achievements import CA_DICT
+from achievements.models import PetSubmission, ColLogSubmission, CASubmission
 
 
 class Account(models.Model):
