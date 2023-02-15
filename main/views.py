@@ -12,7 +12,7 @@ from django.views.generic.list import ListView
 from formtools.wizard.views import SessionWizardView
 
 from account.models import Account
-from main import RECORD, PET, COL_LOG, CA
+from achievements import RECORD, PET, COL_LOG, CA
 from main import forms
 from achievements import models as achievements_models
 from main import models

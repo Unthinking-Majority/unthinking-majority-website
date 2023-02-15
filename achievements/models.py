@@ -9,7 +9,8 @@ from django.db import models
 from django.db.models import Count, Q
 from django.db.models import F
 
-from achievements import CA_CHOICES, TIME, INTEGER
+from achievements import CA_CHOICES
+from main import TIME, INTEGER
 from main import managers
 from um.functions import get_file_path
 
