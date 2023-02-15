@@ -5,8 +5,8 @@ from django.urls import reverse_lazy
 
 from account.models import Account
 from achievements import SUBMISSION_TYPES
-from main import models
 from achievements import models as achievements_models
+from main import models
 from main import widgets
 
 
