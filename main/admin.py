@@ -27,6 +27,7 @@ class ContentAdmin(admin.ModelAdmin):
                 'category',
                 'difficulty',
                 'icon',
+                'is_pb',
             ),
         }),
         ('Options', {

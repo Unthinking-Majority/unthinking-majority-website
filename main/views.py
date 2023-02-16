@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib.postgres.aggregates import StringAgg
 from django.core.paginator import Paginator, EmptyPage
-from django.db.models import Count, F, Q, OuterRef
+from django.db.models import Count, OuterRef
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -33,11 +33,7 @@ class LeaderboardView(TemplateView):
         num_objs_per_page = 10 if context['content'].boards.count() == 1 else 5
         for board in context['content'].boards.all():
 
-            # filter out submissions whose inactive accounts account for at least half of the accounts
-            active_accounts_submissions = board.submissions.accepted().annotate(
-                num_accounts=Count('accounts'),
-                num_active_accounts=Count('accounts', filter=Q(accounts__active=True))
-            ).filter(num_active_accounts__gt=F('num_accounts') / 2)
+            active_accounts_submissions = board.submissions.active_submissions().accepted()
 
             # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
             annotated_submissions = active_accounts_submissions.annotate(

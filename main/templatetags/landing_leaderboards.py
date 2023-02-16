@@ -75,7 +75,7 @@ def top_players_leaderboard():
     for board in Board.objects.all():
         order = f'{board.content.ordering}value'
         try:
-            first_place_accounts = board.submissions.order_by(order).first().accounts.filter(active=True)
+            first_place_accounts = board.submissions.active_submissions().order_by(order).first().accounts.filter(active=True)
         except AttributeError:
             continue
         accounts += list(first_place_accounts)
