@@ -5,10 +5,11 @@ DRAGONSTONE_SUBMISSION_TYPES = (
     (EVENT, 'Event'),
 )
 
-PVM, SKILLING, MAJOR, OTHER = range(4)
+PVM, SKILLING, MAJOR, OTHER, MENTOR = range(5)
 EVENT_CHOICES = (
     (PVM, 'PVM'),
     (SKILLING, 'Skilling'),
+    (MENTOR, 'Mentor'),
     (MAJOR, 'Major Event'),
     (OTHER, 'Other'),
 )

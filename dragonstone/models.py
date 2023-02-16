@@ -1,11 +1,10 @@
 from datetime import timedelta, datetime
 
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Value, Case, When, F, Q, Sum
 from django.utils import timezone
 
-from dragonstone import EVENT_CHOICES, PVM, SKILLING, MAJOR, OTHER
+from dragonstone import EVENT_CHOICES, PVM, SKILLING, MAJOR, OTHER, MENTOR
 from main import EASY, MEDIUM, HARD, VERY_HARD
 from main import managers
 from um.functions import get_file_path
@@ -82,14 +81,13 @@ class RecruitmentSubmission(DragonstoneBaseSubmission):
         If account is provided, return only the dragonstone points for that account.
         Only consider submission made within the last 3 months.
         """
-        if account:
-            return cls.objects.accepted().filter(date__gte=three_months_ago, recruiter=account).annotate(
-                dragonstone_pts=Value(cls.RECRUITER_PTS),
-            ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
-        return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Value(cls.RECRUITER_PTS),
             account=F('recruiter'),
-        ).values('account', 'dragonstone_pts'))
+        )
+        if account:
+            return dragonstone_pts.filter(recruiter=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
+        return list(dragonstone_pts.values('account', 'dragonstone_pts'))
 
     def type_display(self):
         return 'Recruitment Submission'
@@ -117,23 +115,17 @@ class SotMSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        if account:
-            return cls.objects.accepted().filter(date__gte=three_months_ago, account=account).annotate(
-                dragonstone_pts=Case(
-                    When(rank=1, then=cls.FIRST_PTS),
-                    When(rank=2, then=cls.SECONDS_PTS),
-                    When(rank=3, then=cls.THIRD_PTS),
-                    default=Value(0),
-                )
-            ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
-        return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(rank=1, then=cls.FIRST_PTS),
                 When(rank=2, then=cls.SECONDS_PTS),
                 When(rank=3, then=cls.THIRD_PTS),
                 default=Value(0),
             )
-        ).values('account', 'dragonstone_pts'))
+        )
+        if account:
+            return dragonstone_pts.filter(account=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
+        return list(dragonstone_pts.values('account', 'dragonstone_pts'))
 
     def type_display(self):
         return 'Skill of the Month Submission'
@@ -161,16 +153,7 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        if account:
-            return cls.objects.accepted().filter(date__gte=three_months_ago, accounts=account).annotate(
-                dragonstone_pts=Case(
-                    When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
-                    When(content__difficulty=HARD, then=cls.HARD_PTS),
-                    When(content__difficulty=VERY_HARD, then=cls.VERY_HARD_PTS),
-                    default=Value(0),
-                ),
-            ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
-        return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
                 When(content__difficulty=HARD, then=cls.HARD_PTS),
@@ -178,7 +161,10 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
                 default=Value(0),
             ),
             account=F('accounts'),
-        ).values('account', 'dragonstone_pts'))
+        )
+        if account:
+            return dragonstone_pts.filter(accounts=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
+        return list(dragonstone_pts.values('account', 'dragonstone_pts'))
 
     def type_display(self):
         return 'PVM Split Submission'
@@ -208,17 +194,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        if account:
-            return cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
-                dragonstone_pts=Case(
-                    When(content__difficulty=EASY, then=cls.EASY_PTS),
-                    When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
-                    When(content__difficulty=HARD, then=cls.HARD_PTS),
-                    When(content__difficulty=VERY_HARD, then=cls.VERY_HARD_PTS),
-                    default=Value(0),
-                ),
-            ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
-        return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        dragonsone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(content__difficulty=EASY, then=cls.EASY_PTS),
                 When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
@@ -227,7 +203,10 @@ class MentorSubmission(DragonstoneBaseSubmission):
                 default=Value(0),
             ),
             account=F('mentors'),
-        ).values('account', 'dragonstone_pts'))
+        )
+        if account:
+            return dragonsone_pts.filter(mentors=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
+        return list(dragonsone_pts.values('account', 'dragonstone_pts'))
 
     def type_display(self):
         return 'Mentor Submission'
@@ -240,6 +219,8 @@ class EventSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/event/proof/'
     MINOR_HOSTS_PTS = 5
     MINOR_PARTICIPANTS_PTS = 2
+    MENTOR_HOSTS_PTS = 3
+    MENTOR_PARTICIPANTS_PTS = 2
     MAJOR_HOSTS_PTS = 15
     MAJOR_PARTICIPANTS_PTS = 5
     MAJOR_DONORS_PTS = 2
@@ -247,8 +228,8 @@ class EventSubmission(DragonstoneBaseSubmission):
     OTHER_PARTICIPANTS_PTS = 1
 
     hosts = models.ManyToManyField('account.Account', related_name='events_hosted')
-    participants = models.ManyToManyField('account.Account', related_name='events_participated')
-    donors = models.ManyToManyField('account.Account', related_name='events_donated')
+    participants = models.ManyToManyField('account.Account', related_name='events_participated', blank=True)
+    donors = models.ManyToManyField('account.Account', related_name='events_donated', blank=True)
     type = models.IntegerField(choices=EVENT_CHOICES)
 
     class Meta:
@@ -261,59 +242,45 @@ class EventSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
+        hosts_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+            dragonstone_pts=Case(
+                When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_HOSTS_PTS),
+                When(type=MENTOR, then=cls.MENTOR_HOSTS_PTS),
+                When(type=MAJOR, then=cls.MAJOR_HOSTS_PTS),
+                When(type=OTHER, then=cls.OTHER_HOSTS_PTS),
+                default=Value(0),
+            ),
+            account=F('hosts'),
+        )
+
+        participants_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+            dragonstone_pts=Case(
+                When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_PARTICIPANTS_PTS),
+                When(type=MENTOR, then=cls.MENTOR_PARTICIPANTS_PTS),
+                When(type=MAJOR, then=cls.MAJOR_PARTICIPANTS_PTS),
+                When(type=OTHER, then=cls.OTHER_PARTICIPANTS_PTS),
+                default=Value(0),
+            ),
+            account=F('participants'),
+        )
+
+        donors_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+            dragonstone_pts=Case(
+                When(type=MAJOR, then=cls.MAJOR_DONORS_PTS),
+                default=Value(0),
+            ),
+            account=F('donors'),
+        )
+
         if account:
-            hosts_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
-                dragonstone_pts=Case(
-                    When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_HOSTS_PTS),
-                    When(type=MAJOR, then=cls.MAJOR_HOSTS_PTS),
-                    When(type=OTHER, then=cls.OTHER_HOSTS_PTS),
-                    default=Value(0),
-                ),
-            ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
-
-            participants_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
-                dragonstone_pts=Case(
-                    When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_PARTICIPANTS_PTS),
-                    When(type=MAJOR, then=cls.MAJOR_PARTICIPANTS_PTS),
-                    When(type=OTHER, then=cls.OTHER_PARTICIPANTS_PTS),
-                    default=Value(0),
-                ),
-            ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
-
-            donors_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
-                dragonstone_pts=Case(
-                    When(type=MAJOR, then=cls.MAJOR_DONORS_PTS),
-                    default=Value(0),
-                ),
-            ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
+            hosts_pts = hosts_pts.filter(hosts=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
+            participants_pts = participants_pts.filter(participants=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
+            donors_pts = donors_pts.filter(donors=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
         else:
-            hosts_pts = list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
-                dragonstone_pts=Case(
-                    When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_HOSTS_PTS),
-                    When(type=MAJOR, then=cls.MAJOR_HOSTS_PTS),
-                    When(type=OTHER, then=cls.OTHER_HOSTS_PTS),
-                    default=Value(0),
-                ),
-                account=F('hosts'),
-            ).values('account', 'dragonstone_pts'))
+            hosts_pts = list(hosts_pts.values('account', 'dragonstone_pts'))
+            participants_pts = list(participants_pts.values('account', 'dragonstone_pts'))
+            donors_pts = list(donors_pts.values('account', 'dragonstone_pts'))
 
-            participants_pts = list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
-                dragonstone_pts=Case(
-                    When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_PARTICIPANTS_PTS),
-                    When(type=MAJOR, then=cls.MAJOR_PARTICIPANTS_PTS),
-                    When(type=OTHER, then=cls.OTHER_PARTICIPANTS_PTS),
-                    default=Value(0),
-                ),
-                account=F('participants'),
-            ).values('account', 'dragonstone_pts'))
-
-            donors_pts = list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
-                dragonstone_pts=Case(
-                    When(type=MAJOR, then=cls.MAJOR_DONORS_PTS),
-                    default=Value(0),
-                ),
-                account=F('donors'),
-            ).values('account', 'dragonstone_pts'))
         return hosts_pts + participants_pts + donors_pts
 
     def type_display(self):
