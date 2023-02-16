@@ -105,7 +105,7 @@ class SotMSubmission(DragonstoneBaseSubmission):
     THIRD_PTS = 1
 
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
-    rank = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(3)])
+    rank = models.PositiveIntegerField(choices=((1, '1st'), (2, '2nd'), (3, '3rd')))
 
     class Meta:
         verbose_name = 'Skill of the Month Submission'
@@ -139,12 +139,7 @@ class SotMSubmission(DragonstoneBaseSubmission):
         return 'Skill of the Month Submission'
 
     def value_display(self):
-        nth = {
-            1: '1st',
-            2: '2nd',
-            3: '3rd',
-        }
-        return f'{self.account.name} - {nth[self.rank]}'
+        return f'{self.account.name} - {self.get_rank_display()}'
 
 
 class PVMSplitSubmission(DragonstoneBaseSubmission):

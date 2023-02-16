@@ -8,27 +8,32 @@ from dragonstone import models
 
 @admin.register(models.DragonstoneBaseSubmission)
 class DragonstoneBaseSubmissionAdmin(admin.ModelAdmin):
-    list_display = ['value_display', 'date', 'accepted']
+    list_display = ['accounts', 'child_admin_link', '_value_display', 'proof', 'date', 'accepted']
     list_editable = ['accepted']
-    # list_display = ['accounts', 'child_admin', 'value_display', 'date', 'child_admin', 'accepted']
-    # list_editable = ['accepted']
+    list_filter = ['accepted', 'date']
 
-    # @admin.display(description='Account(s)')
-    # def accounts(self, obj):
-    #     child_instance = obj.get_child_instance()
-    #     if child_instance.__class__ is models.PVMSplitSubmission:
-    #         return ', '.join(child_instance.accounts.values_list('name', flat=True))
-    #     elif child_instance.__class__ is models.MentorSubmission:
-    #         return ', '.join(child_instance.mentors.values_list('name', flat=True))
-    #     elif child_instance.__class__ is models.EventSubmission:
-    #         return ', '.join(child_instance.hosts.values_list('name', flat=True))
-    #     else:
-    #         return child_instance.account.name
-    #
-    # @admin.display(description='Child Admin')
-    # def child_admin(self, obj):
-    #     url = reverse_lazy(f'admin:dragonstone_{obj.get_child_instance()._meta.model_name}_change', kwargs={'object_id': obj.id})
-    #     return mark_safe(f'<a target="_blank" href={url}>{obj.type_display()} ({obj.id})</a>')
+    @admin.display(description='Account(s)')
+    def accounts(self, obj):
+        child_instance = obj.get_child_instance()
+        if child_instance.__class__ is models.PVMSplitSubmission:
+            return ', '.join(child_instance.accounts.values_list('name', flat=True))
+        elif child_instance.__class__ is models.MentorSubmission:
+            return ', '.join(child_instance.mentors.values_list('name', flat=True))
+        elif child_instance.__class__ is models.EventSubmission:
+            return ', '.join(child_instance.hosts.values_list('name', flat=True))
+        elif child_instance.__class__ is models.RecruitmentSubmission:
+            return child_instance.recruiter.name
+        else:
+            return None
+
+    @admin.display(description='Submission Link')
+    def child_admin_link(self, obj):
+        url = reverse_lazy(f'admin:dragonstone_{obj.get_child_instance()._meta.model_name}_change', kwargs={'object_id': obj.id})
+        return mark_safe(f'<a target="_blank" href={url}>{obj.type_display()}</a>')
+
+    @admin.display(description='Type')
+    def _value_display(self, obj):
+        return obj.value_display()
 
 
 @admin.register(models.RecruitmentSubmission)
@@ -61,6 +66,7 @@ class SotMAdmin(admin.ModelAdmin):
     list_editable = ['accepted']
     list_filter = [
         AutocompleteFilterFactory('Account', 'account'),
+        'rank',
     ]
     search_fields = ['account__name']
 
@@ -77,12 +83,7 @@ class SotMAdmin(admin.ModelAdmin):
 
     @admin.display(description='Rank')
     def rank_display(self, obj):
-        nth = {
-            1: '1st',
-            2: '2nd',
-            3: '3rd'
-        }
-        return nth[obj.rank]
+        return obj.get_rank_display()
 
 
 @admin.register(models.PVMSplitSubmission)
