@@ -18,5 +18,8 @@ class ContentAutocomplete(View):
 class PetAutocomplete(View):
 
     def get(self, request, *args, **kwargs):
-        pets = models.Pet.objects.annotate(text=F('name')).values('id', 'text')
+        filters = {}
+        for key, val in self.request.GET.items():
+            filters[key] = val
+        pets = models.Pet.objects.filter(**filters).annotate(text=F('name')).values('id', 'text')
         return JsonResponse(list(pets), safe=False)

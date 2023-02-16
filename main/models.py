@@ -71,3 +71,12 @@ class Pet(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Settings(models.Model):
+    name = models.CharField(max_length=256)
+    value = models.CharField(max_length=256)
+
+    class Meta:
+        verbose_name = 'Settings'
+        verbose_name_plural = 'Settings'

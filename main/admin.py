@@ -69,3 +69,18 @@ class BoardAdmin(admin.ModelAdmin):
 @admin.register(models.Pet)
 class PetAdmin(admin.ModelAdmin):
     search_fields = ['name']
+
+
+@admin.register(models.Settings)
+class SettingsAdmin(admin.ModelAdmin):
+    readonly_fields = ['name']
+    list_display = ['name', 'value']
+    list_editable = ['value']
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                ('name', 'value'),
+            ),
+        }),
+    )
