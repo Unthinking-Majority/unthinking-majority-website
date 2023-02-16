@@ -121,6 +121,7 @@ class SotMSubmission(DragonstoneBaseSubmission):
                     When(rank=1, then=cls.FIRST_PTS),
                     When(rank=2, then=cls.SECONDS_PTS),
                     When(rank=3, then=cls.THIRD_PTS),
+                    default=Value(0),
                 )
             ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
         return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
@@ -128,6 +129,7 @@ class SotMSubmission(DragonstoneBaseSubmission):
                 When(rank=1, then=cls.FIRST_PTS),
                 When(rank=2, then=cls.SECONDS_PTS),
                 When(rank=3, then=cls.THIRD_PTS),
+                default=Value(0),
             )
         ).values('account', 'dragonstone_pts'))
 
@@ -168,6 +170,7 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
                     When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
                     When(content__difficulty=HARD, then=cls.HARD_PTS),
                     When(content__difficulty=VERY_HARD, then=cls.VERY_HARD_PTS),
+                    default=Value(0),
                 ),
             ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
         return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
@@ -175,6 +178,7 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
                 When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
                 When(content__difficulty=HARD, then=cls.HARD_PTS),
                 When(content__difficulty=VERY_HARD, then=cls.VERY_HARD_PTS),
+                default=Value(0),
             ),
             account=F('accounts'),
         ).values('account', 'dragonstone_pts'))
@@ -214,6 +218,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
                     When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
                     When(content__difficulty=HARD, then=cls.HARD_PTS),
                     When(content__difficulty=VERY_HARD, then=cls.VERY_HARD_PTS),
+                    default=Value(0),
                 ),
             ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
         return list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
@@ -222,6 +227,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
                 When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
                 When(content__difficulty=HARD, then=cls.HARD_PTS),
                 When(content__difficulty=VERY_HARD, then=cls.VERY_HARD_PTS),
+                default=Value(0),
             ),
             account=F('mentors'),
         ).values('account', 'dragonstone_pts'))
@@ -264,6 +270,7 @@ class EventSubmission(DragonstoneBaseSubmission):
                     When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_HOSTS_PTS),
                     When(type=MAJOR, then=cls.MAJOR_HOSTS_PTS),
                     When(type=OTHER, then=cls.OTHER_HOSTS_PTS),
+                    default=Value(0),
                 ),
             ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
 
@@ -272,12 +279,14 @@ class EventSubmission(DragonstoneBaseSubmission):
                     When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_PARTICIPANTS_PTS),
                     When(type=MAJOR, then=cls.MAJOR_PARTICIPANTS_PTS),
                     When(type=OTHER, then=cls.OTHER_PARTICIPANTS_PTS),
+                    default=Value(0),
                 ),
             ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
 
             donors_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
                 dragonstone_pts=Case(
                     When(type=MAJOR, then=cls.MAJOR_DONORS_PTS),
+                    default=Value(0),
                 ),
             ).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
         else:
@@ -286,6 +295,7 @@ class EventSubmission(DragonstoneBaseSubmission):
                     When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_HOSTS_PTS),
                     When(type=MAJOR, then=cls.MAJOR_HOSTS_PTS),
                     When(type=OTHER, then=cls.OTHER_HOSTS_PTS),
+                    default=Value(0),
                 ),
                 account=F('hosts'),
             ).values('account', 'dragonstone_pts'))
@@ -295,6 +305,7 @@ class EventSubmission(DragonstoneBaseSubmission):
                     When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_PARTICIPANTS_PTS),
                     When(type=MAJOR, then=cls.MAJOR_PARTICIPANTS_PTS),
                     When(type=OTHER, then=cls.OTHER_PARTICIPANTS_PTS),
+                    default=Value(0),
                 ),
                 account=F('participants'),
             ).values('account', 'dragonstone_pts'))
@@ -302,6 +313,7 @@ class EventSubmission(DragonstoneBaseSubmission):
             donors_pts = list(cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
                 dragonstone_pts=Case(
                     When(type=MAJOR, then=cls.MAJOR_DONORS_PTS),
+                    default=Value(0),
                 ),
                 account=F('donors'),
             ).values('account', 'dragonstone_pts'))
