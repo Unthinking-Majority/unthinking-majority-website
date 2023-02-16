@@ -14,8 +14,8 @@ class ContentCategoryAdmin(admin.ModelAdmin):
 class ContentAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['name']
-    list_display = ['name', 'category', 'metric', 'metric_name', 'order']
-    list_editable = ['order']
+    list_display = ['name', 'category', 'metric', 'metric_name', 'is_pb']
+    list_editable = ['is_pb']
     list_filter = [
         AutocompleteFilterFactory('Content Category', 'category'),
     ]

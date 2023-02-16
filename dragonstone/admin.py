@@ -23,6 +23,8 @@ class DragonstoneBaseSubmissionAdmin(admin.ModelAdmin):
             return ', '.join(child_instance.hosts.values_list('name', flat=True))
         elif child_instance.__class__ is models.RecruitmentSubmission:
             return child_instance.recruiter.name
+        elif child_instance.__class__ is models.SotMSubmission:
+            return child_instance.account.name
         else:
             return None
 

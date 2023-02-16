@@ -15,12 +15,12 @@ class SelectSubmissionTypeForm(forms.Form):
 
 
 class SelectContentForm(forms.Form):
-    content = forms.ModelChoiceField(queryset=models.Content.objects.all())
+    content = forms.ModelChoiceField(queryset=models.Content.objects.filter(is_pb=True))
 
     def __init__(self, *args, **kwargs):
         super(SelectContentForm, self).__init__(*args, **kwargs)
         self.fields['content'].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=reverse_lazy('content-autocomplete'),
+            autocomplete_url=f'{reverse_lazy("content-autocomplete")}?is_pb=True',
             placeholder='Select a board',
             label='Board',
         )

@@ -25,9 +25,10 @@ class Content(models.Model):
 
     name = models.CharField(max_length=256, unique=True)
     category = models.ForeignKey('main.ContentCategory', on_delete=models.CASCADE, related_name='content_types')
+    difficulty = models.PositiveIntegerField(choices=DIFFICULTY_CHOICES, default=EASY)
+    is_pb = models.BooleanField(default=False, verbose_name='Display on PB Leaderboards?')
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default='Time')
-    difficulty = models.PositiveIntegerField(choices=DIFFICULTY_CHOICES, default=EASY)
     slug = models.SlugField(unique=True)
     icon = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     ordering = models.CharField(choices=(('-', 'Descending'), ('', 'Ascending')), default='', max_length=1, blank=True,
@@ -57,6 +58,9 @@ class ContentCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+    def pb_content(self):
+        return self.content_types.filter(is_pb=True)
 
 
 class Pet(models.Model):
