@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ValidationError
 from django.urls import reverse_lazy
+from django.utils.http import urlencode
 
 from account import models
 from main import widgets
@@ -32,7 +33,7 @@ class CreateAccountForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(CreateAccountForm, self).__init__(*args, **kwargs)
         self.fields['account'].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='',
             label='In Game Name',
             help_text='If your in game name is not listed, please contact an admin through discord.',

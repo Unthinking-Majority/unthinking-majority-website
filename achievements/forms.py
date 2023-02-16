@@ -2,6 +2,7 @@ from django import forms
 from django.conf import settings
 from django.db.models import Q
 from django.urls import reverse_lazy
+from django.utils.http import urlencode
 
 from account.models import Account
 from achievements import SUBMISSION_TYPES
@@ -20,7 +21,7 @@ class SelectContentForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(SelectContentForm, self).__init__(*args, **kwargs)
         self.fields['content'].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=f'{reverse_lazy("content-autocomplete")}?is_pb=True',
+            autocomplete_url=f"{reverse_lazy('content-autocomplete')}?{urlencode({'is_pb': True})}",
             placeholder='Select a board',
             label='Board',
         )
@@ -61,7 +62,7 @@ class RecordSubmissionForm(forms.ModelForm):
 
         self.fields['board'].initial = board
         self.fields['accounts'].widget = widgets.AutocompleteSelectMultipleWidget(
-            autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select all accounts',
             label='Accounts',
         )
@@ -104,7 +105,7 @@ class PetSubmissionForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(PetSubmissionForm, self).__init__(*args, **kwargs)
         self.fields['account'].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select an account',
             label='Account',
         )
@@ -162,7 +163,7 @@ class ColLogSubmissionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ColLogSubmissionForm, self).__init__(*args, **kwargs)
         self.fields['account'].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select an account',
             label='Account',
         )
@@ -206,7 +207,7 @@ class CASubmissionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CASubmissionForm, self).__init__(*args, **kwargs)
         self.fields['account'].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=reverse_lazy('accounts:account-autocomplete'),
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select an account',
             label='Account',
         )

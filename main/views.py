@@ -74,7 +74,7 @@ class PetsLeaderboardView(ListView):
         # annotate num_pets per account using sub query ; filter out null values ; order by number of pets descending
         accounts = Account.objects.annotate(num_pets=sub_query.values('num_pets')[:1]).filter(
             num_pets__isnull=False,
-            active=True
+            is_active=True
         ).order_by('-num_pets')
 
         return accounts
@@ -87,7 +87,7 @@ class ColLogsLeaderboardView(ListView):
 
     def get_queryset(self):
         # get accepted collection log submissions ; use empty order_by() to clear any ordering
-        col_logs_submissions = achievements_models.ColLogSubmission.objects.accepted().order_by().filter(account__active=True)
+        col_logs_submissions = achievements_models.ColLogSubmission.objects.accepted().order_by().filter(account__is_active=True)
 
         # create sub query, which grabs the Max col_log value for each account
         sub_query = col_logs_submissions.order_by('account', '-col_logs').distinct('account')
@@ -110,7 +110,7 @@ class CALeaderboardView(ListView):
 
     def get_queryset(self):
         # get accepted combat achievement submissions ; use empty order_by() to clear any ordering
-        ca_submissions = achievements_models.CASubmission.objects.accepted().order_by().filter(account__active=True)
+        ca_submissions = achievements_models.CASubmission.objects.accepted().order_by().filter(account__is_active=True)
 
         # create sub query, which grabs the best ca tier value for each account
         sub_query = ca_submissions.order_by('account', 'ca_tier').distinct('account')

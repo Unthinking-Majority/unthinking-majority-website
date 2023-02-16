@@ -23,7 +23,7 @@ def pets_leaderboard():
     # annotate num_pets per account using sub query ; filter out null values ; order by number of pets descending
     accounts = Account.objects.annotate(num_pets=sub_query.values('num_pets')[:1]).filter(
         num_pets__isnull=False,
-        active=True
+        is_active=True
     ).order_by('-num_pets')
 
     return {
@@ -34,7 +34,7 @@ def pets_leaderboard():
 @register.inclusion_tag('main/landing_leaderboards/col_logs_leaderboard.html')
 def col_logs_leaderboard():
     # get accepted collection log submissions ; use empty order_by() to clear any ordering
-    col_logs_submissions = ColLogSubmission.objects.accepted().order_by().filter(account__active=True)
+    col_logs_submissions = ColLogSubmission.objects.accepted().order_by().filter(account__is_active=True)
 
     # create sub query, which grabs the Max col_log value for each account
     sub_query = col_logs_submissions.order_by('account', '-col_logs').distinct('account').filter(account__id=OuterRef('id'))
@@ -55,7 +55,7 @@ def col_logs_leaderboard():
 def grandmasters_leaderboard():
     submissions = CASubmission.objects.accepted().filter(
         ca_tier=GRANDMASTER,
-        account__active=True
+        account__is_active=True
     ).order_by('date')
     return {
         'submissions': submissions
@@ -75,7 +75,7 @@ def top_players_leaderboard():
     for board in Board.objects.all():
         order = f'{board.content.ordering}value'
         try:
-            first_place_accounts = board.submissions.active_submissions().order_by(order).first().accounts.filter(active=True)
+            first_place_accounts = board.submissions.active_submissions().order_by(order).first().accounts.filter(is_active=True)
         except AttributeError:
             continue
         accounts += list(first_place_accounts)

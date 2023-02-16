@@ -13,5 +13,5 @@ class SubmissionQueryset(models.query.QuerySet):
     def active_submissions(self):
         return self.annotate(
             num_accounts=Count('accounts'),
-            num_active_accounts=Count('accounts', filter=Q(accounts__active=True)),
+            num_active_accounts=Count('accounts', filter=Q(accounts__is_active=True)),
         ).filter(num_active_accounts__gte=F('num_accounts') / float(2))

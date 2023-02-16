@@ -30,7 +30,7 @@
             <td class="py-4 max-w-xs text-center md:px-2">
                 {% for account in submission.accounts.all %}
                     <span class="m-1 text-sm whitespace-nowrap md:px-2 md:text-lg">
-                        {% if not account.active %}
+                        {% if not account.is_active %}
                             <s class="text-gray-700">
                                 {{ account.name }}
                             </s>

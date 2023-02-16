@@ -8,8 +8,9 @@ from dragonstone.models import RecruitmentSubmission, SotMSubmission, PVMSplitSu
 @admin.register(models.Account)
 class AccountAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user']
-    list_display = ['name', 'dragonstone_pts', 'active']
-    list_filter = ['active']
+    list_display = ['name', 'rank', 'dragonstone_pts', 'is_active']
+    list_editable = ['rank']
+    list_filter = ['is_active', 'rank']
     search_fields = ['name']
 
     def get_queryset(self, request):

@@ -22,7 +22,7 @@
                     try {
                         document.getElementById("autocomplete_{{ widget.attrs.id }}").setAttribute("placeholder", "Loading...");
 
-                        const source = await fetch("{{ autocomplete_url }}");
+                        const source = await fetch("{{ autocomplete_url|safe }}");
                         const data = await source.json();
 
                         document.getElementById("autocomplete_{{ widget.attrs.id }}").setAttribute("placeholder", autoCompleteJS.placeHolder);
