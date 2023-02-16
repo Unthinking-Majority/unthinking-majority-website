@@ -33,6 +33,8 @@ class DragonstoneBaseSubmission(models.Model):
 
     class Meta:
         ordering = [F('date').desc(nulls_last=True)]
+        verbose_name = 'Dragonstone Base Submission'
+        verbose_name_plural = 'All Dragonstone Submissions'
 
     def type_display(self):
         """

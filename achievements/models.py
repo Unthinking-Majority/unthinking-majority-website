@@ -34,6 +34,8 @@ class BaseSubmission(models.Model):
 
     class Meta:
         ordering = [F('date').desc(nulls_last=True)]
+        verbose_name = 'Base Submission'
+        verbose_name_plural = 'All Submissions'
 
     def type_display(self):
         """
