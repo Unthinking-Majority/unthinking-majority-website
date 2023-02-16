@@ -9,8 +9,9 @@ from achievements import models
 
 @admin.register(models.BaseSubmission)
 class BaseSubmissionAdmin(admin.ModelAdmin):
-    list_display = ['accounts', 'child_admin', 'value_display', 'date', 'child_admin', 'accepted']
+    list_display = ['accounts', 'child_admin', 'value_display', 'date', 'accepted']
     list_editable = ['accepted']
+    list_filter = ['accepted', 'date']
 
     @admin.display(description='Account(s)')
     def accounts(self, obj):
@@ -20,7 +21,7 @@ class BaseSubmissionAdmin(admin.ModelAdmin):
         else:
             return child_instance.account.name
 
-    @admin.display(description='Child Admin')
+    @admin.display(description='Child Object Admin')
     def child_admin(self, obj):
         url = reverse_lazy(f'admin:achievements_{obj.get_child_instance()._meta.model_name}_change', kwargs={'object_id': obj.id})
         return mark_safe(f'<a target="_blank" href={url}>{obj.type_display()} ({obj.id})</a>')
