@@ -4,7 +4,6 @@ from django.db import migrations
 
 data = {
     "RECRUITER_PTS": "2",
-    "RECRUITED_PTS": "0",
     "SOTM_FIRST_PTS": "3",
     "SOTM_SECOND_PTS": "2",
     "SOTM_THIRD_PTS": "1",

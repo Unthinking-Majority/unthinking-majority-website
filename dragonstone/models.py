@@ -7,6 +7,7 @@ from django.utils import timezone
 from dragonstone import EVENT_CHOICES, PVM, SKILLING, MAJOR, OTHER, MENTOR
 from main import EASY, MEDIUM, HARD, VERY_HARD
 from main import managers
+from main.models import Settings
 from um.functions import get_file_path
 
 three_months_ago = timezone.now().date() - timedelta(days=90)
@@ -65,7 +66,6 @@ class DragonstoneBaseSubmission(models.Model):
 
 class RecruitmentSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/recruitment/proof/'
-    RECRUITER_PTS = 2
 
     recruiter = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='recruited')
     recruited = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='recruited_by')
@@ -82,7 +82,7 @@ class RecruitmentSubmission(DragonstoneBaseSubmission):
         Only consider submission made within the last 3 months.
         """
         dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
-            dragonstone_pts=Value(cls.RECRUITER_PTS),
+            dragonstone_pts=Value(int(Settings.objects.get(name='RECRUITER_PTS').value)),
             account=F('recruiter'),
         )
         if account:
@@ -98,9 +98,6 @@ class RecruitmentSubmission(DragonstoneBaseSubmission):
 
 class SotMSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/sotm/proof/'
-    FIRST_PTS = 3
-    SECONDS_PTS = 2
-    THIRD_PTS = 1
 
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
     rank = models.PositiveIntegerField(choices=((1, '1st'), (2, '2nd'), (3, '3rd')))
@@ -117,9 +114,9 @@ class SotMSubmission(DragonstoneBaseSubmission):
         """
         dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
-                When(rank=1, then=cls.FIRST_PTS),
-                When(rank=2, then=cls.SECONDS_PTS),
-                When(rank=3, then=cls.THIRD_PTS),
+                When(rank=1, then=int(Settings.objects.get(name='SOTM_FIRST_PTS').value)),
+                When(rank=2, then=int(Settings.objects.get(name='SOTM_SECOND_PTS').value)),
+                When(rank=3, then=int(Settings.objects.get(name='SOTM_THIRD_PTS').value)),
                 default=Value(0),
             )
         )
@@ -136,9 +133,6 @@ class SotMSubmission(DragonstoneBaseSubmission):
 
 class PVMSplitSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/pvm/proof/'
-    MEDIUM_PTS = 1
-    HARD_PTS = 1
-    VERY_HARD_PTS = 2
 
     accounts = models.ManyToManyField('account.Account')
     content = models.ForeignKey('main.Content', on_delete=models.CASCADE)
@@ -155,9 +149,10 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
         """
         dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
-                When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
-                When(content__difficulty=HARD, then=cls.HARD_PTS),
-                When(content__difficulty=VERY_HARD, then=cls.VERY_HARD_PTS),
+                When(content__difficulty=EASY, then=int(Settings.objects.get(name='PVM_SPLITS_EASY_PTS').value)),
+                When(content__difficulty=MEDIUM, then=int(Settings.objects.get(name='PVM_SPLITS_MEDIUM_PTS').value)),
+                When(content__difficulty=HARD, then=int(Settings.objects.get(name='PVM_SPLITS_HARD_PTS').value)),
+                When(content__difficulty=VERY_HARD, then=int(Settings.objects.get(name='PVM_SPLITS_VERY_HARD_PTS').value)),
                 default=Value(0),
             ),
             account=F('accounts'),
@@ -175,10 +170,6 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
 
 class MentorSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/mentor/proof/'
-    EASY_PTS = 1
-    MEDIUM_PTS = 2
-    HARD_PTS = 3
-    VERY_HARD_PTS = 4
 
     mentors = models.ManyToManyField('account.Account', related_name='mentored')
     learners = models.ManyToManyField('account.Account', related_name='mentor_learners')
@@ -196,10 +187,10 @@ class MentorSubmission(DragonstoneBaseSubmission):
         """
         dragonsone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
-                When(content__difficulty=EASY, then=cls.EASY_PTS),
-                When(content__difficulty=MEDIUM, then=cls.MEDIUM_PTS),
-                When(content__difficulty=HARD, then=cls.HARD_PTS),
-                When(content__difficulty=VERY_HARD, then=cls.VERY_HARD_PTS),
+                When(content__difficulty=EASY, then=int(Settings.objects.get(name='MENTOR_EASY_PTS').value)),
+                When(content__difficulty=MEDIUM, then=int(Settings.objects.get(name='MENTOR_MEDIUM_PTS').value)),
+                When(content__difficulty=HARD, then=int(Settings.objects.get(name='MENTOR_HARD_PTS').value)),
+                When(content__difficulty=VERY_HARD, then=int(Settings.objects.get(name='MENTOR_VERY_HARD_PTS').value)),
                 default=Value(0),
             ),
             account=F('mentors'),
@@ -217,15 +208,6 @@ class MentorSubmission(DragonstoneBaseSubmission):
 
 class EventSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/event/proof/'
-    MINOR_HOSTS_PTS = 5
-    MINOR_PARTICIPANTS_PTS = 2
-    MENTOR_HOSTS_PTS = 3
-    MENTOR_PARTICIPANTS_PTS = 2
-    MAJOR_HOSTS_PTS = 15
-    MAJOR_PARTICIPANTS_PTS = 5
-    MAJOR_DONORS_PTS = 2
-    OTHER_HOSTS_PTS = 3
-    OTHER_PARTICIPANTS_PTS = 1
 
     hosts = models.ManyToManyField('account.Account', related_name='events_hosted')
     participants = models.ManyToManyField('account.Account', related_name='events_participated', blank=True)
@@ -244,10 +226,10 @@ class EventSubmission(DragonstoneBaseSubmission):
         """
         hosts_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
-                When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_HOSTS_PTS),
-                When(type=MENTOR, then=cls.MENTOR_HOSTS_PTS),
-                When(type=MAJOR, then=cls.MAJOR_HOSTS_PTS),
-                When(type=OTHER, then=cls.OTHER_HOSTS_PTS),
+                When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_HOSTS_PTS').value)),
+                When(type=MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_HOSTS_PTS').value)),
+                When(type=MAJOR, then=int(Settings.objects.get(name='EVENT_MAJOR_HOSTS_PTS').value)),
+                When(type=OTHER, then=int(Settings.objects.get(name='EVENT_OTHER_HOSTS_PTS').value)),
                 default=Value(0),
             ),
             account=F('hosts'),
@@ -255,10 +237,10 @@ class EventSubmission(DragonstoneBaseSubmission):
 
         participants_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
-                When(Q(type=PVM) | Q(type=SKILLING), then=cls.MINOR_PARTICIPANTS_PTS),
-                When(type=MENTOR, then=cls.MENTOR_PARTICIPANTS_PTS),
-                When(type=MAJOR, then=cls.MAJOR_PARTICIPANTS_PTS),
-                When(type=OTHER, then=cls.OTHER_PARTICIPANTS_PTS),
+                When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_PARTICIPANTS_PTS').value)),
+                When(type=MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_PARTICIPANTS_PTS').value)),
+                When(type=MAJOR, then=int(Settings.objects.get(name='EVENT_MAJOR_PARTICIPANTS_PTS').value)),
+                When(type=OTHER, then=int(Settings.objects.get(name='EVENT_OTHER_PARTICIPANTS_PTS').value)),
                 default=Value(0),
             ),
             account=F('participants'),
@@ -266,7 +248,10 @@ class EventSubmission(DragonstoneBaseSubmission):
 
         donors_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
-                When(type=MAJOR, then=cls.MAJOR_DONORS_PTS),
+                When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_DONORS_PTS').value)),
+                When(type=MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_DONORS_PTS').value)),
+                When(type=MAJOR, then=int(Settings.objects.get(name='EVENT_MAJOR_DONORS_PTS').value)),
+                When(type=OTHER, then=int(Settings.objects.get(name='EVENT_OTHER_DONORS_PTS').value)),
                 default=Value(0),
             ),
             account=F('donors'),
