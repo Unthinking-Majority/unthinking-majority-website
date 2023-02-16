@@ -46,6 +46,8 @@ class RecruitmentAdmin(admin.ModelAdmin):
     list_filter = [
         AutocompleteFilterFactory('Recruiter', 'recruiter'),
         AutocompleteFilterFactory('Recruited', 'recruited'),
+        'accepted',
+        'date',
     ]
     search_fields = ['recruiter__name', 'recruited__name']
 
@@ -69,6 +71,8 @@ class SotMAdmin(admin.ModelAdmin):
     list_filter = [
         AutocompleteFilterFactory('Account', 'account'),
         'rank',
+        'accepted',
+        'date',
     ]
     search_fields = ['account__name']
 
@@ -96,6 +100,9 @@ class PVMSplitAdmin(admin.ModelAdmin):
     list_filter = [
         AutocompleteFilterFactory('Accounts', 'accounts'),
         AutocompleteFilterFactory('Content', 'content'),
+        'content__difficulty',
+        'accepted',
+        'date',
     ]
     search_fields = ['accounts__name', 'content__name']
 
@@ -124,6 +131,8 @@ class MentorAdmin(admin.ModelAdmin):
         AutocompleteFilterFactory('Mentors', 'mentors'),
         AutocompleteFilterFactory('Learners', 'learners'),
         AutocompleteFilterFactory('Content', 'content'),
+        'accepted',
+        'date',
     ]
     search_fields = ['mentors__name', 'learners__name', 'content__name']
 
@@ -153,7 +162,9 @@ class EventAdmin(admin.ModelAdmin):
         AutocompleteFilterFactory('Hosts', 'hosts'),
         AutocompleteFilterFactory('Participants', 'participants'),
         AutocompleteFilterFactory('Donors', 'donors'),
-        'type'
+        'type',
+        'accepted',
+        'date',
     ]
     search_fields = ['hosts__name', 'participants__name', 'donors__name']
 

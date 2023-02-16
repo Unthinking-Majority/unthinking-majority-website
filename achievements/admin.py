@@ -38,7 +38,10 @@ class RecordSubmissionAdmin(admin.ModelAdmin):
     list_editable = ['accepted']
     list_filter = [
         AutocompleteFilterFactory('Accounts', 'accounts'),
+        AutocompleteFilterFactory('Content', 'board__content'),
         AutocompleteFilterFactory('Board', 'board'),
+        'accepted',
+        'date',
     ]
     search_fields = ['accounts__name', 'board__name']
 
@@ -67,6 +70,8 @@ class PetSubmissionAdmin(admin.ModelAdmin):
     list_filter = [
         AutocompleteFilterFactory('Account', 'account'),
         AutocompleteFilterFactory('Pet', 'pet'),
+        'accepted',
+        'date',
     ]
     search_fields = ['account__name', 'pet__name']
 
@@ -89,6 +94,8 @@ class ColLogSubmissionAdmin(admin.ModelAdmin):
     list_editable = ['accepted']
     list_filter = [
         AutocompleteFilterFactory('Account', 'account'),
+        'accepted',
+        'date',
     ]
     search_fields = ['account__name']
 
@@ -103,7 +110,7 @@ class ColLogSubmissionAdmin(admin.ModelAdmin):
         }),
     )
 
-    @admin.display(description='Collections Logged')
+    @admin.display(description='Collections Logged', ordering='col_logs')
     def col_logs_display(self, obj):
         return f'{obj.col_logs}/{settings.MAX_COL_LOG}'
 
@@ -115,6 +122,9 @@ class CASubmissionAdmin(admin.ModelAdmin):
     list_editable = ['accepted']
     list_filter = [
         AutocompleteFilterFactory('Account', 'account'),
+        'ca_tier',
+        'accepted',
+        'date',
     ]
     search_fields = ['account__name']
 

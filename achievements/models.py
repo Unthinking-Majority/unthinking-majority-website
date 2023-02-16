@@ -204,7 +204,7 @@ class ColLogSubmission(BaseSubmission):
 
 class CASubmission(BaseSubmission):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
-    ca_tier = models.IntegerField(choices=CA_CHOICES, default=None, null=True, blank=True)
+    ca_tier = models.IntegerField(choices=CA_CHOICES, default=None, null=True, blank=True, verbose_name='Combat Achievement Tier')
 
     class Meta:
         verbose_name = 'Combat Achievement Submission'
