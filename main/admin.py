@@ -74,13 +74,14 @@ class PetAdmin(admin.ModelAdmin):
 @admin.register(models.Settings)
 class SettingsAdmin(admin.ModelAdmin):
     readonly_fields = ['name']
-    list_display = ['name', 'value']
+    list_display = ['display_name', 'value']
     list_editable = ['value']
 
     fieldsets = (
         (None, {
             'fields': (
-                ('name', 'value'),
+                ('display_name', 'value'),
+                'name',
             ),
         }),
     )

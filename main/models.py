@@ -74,6 +74,7 @@ class Pet(models.Model):
 
 
 class Settings(models.Model):
+    display_name = models.CharField(max_length=256)
     name = models.CharField(max_length=256)
     value = models.CharField(max_length=256)
 
