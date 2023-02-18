@@ -10,7 +10,6 @@ from achievements import models
 @admin.register(models.BaseSubmission)
 class BaseSubmissionAdmin(admin.ModelAdmin):
     list_display = ['accounts', 'child_admin_link', '_value_display', 'proof', 'date', 'accepted']
-    list_editable = ['accepted']
     list_filter = ['accepted', 'date']
 
     @admin.display(description='Account(s)')
@@ -34,7 +33,7 @@ class BaseSubmissionAdmin(admin.ModelAdmin):
 @admin.register(models.RecordSubmission)
 class RecordSubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['accounts', 'board']
-    list_display = ['accounts_display', 'board', 'value', 'proof', 'date', 'accepted']
+    list_display = ['accounts_display', 'board', 'value_display', 'proof', 'date', 'accepted']
     list_editable = ['accepted']
     list_filter = [
         AutocompleteFilterFactory('Accounts', 'accounts'),
