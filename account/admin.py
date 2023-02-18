@@ -1,8 +1,9 @@
 from django.contrib import admin
-from django.urls import reverse_lazy
-from django.utils.safestring import mark_safe
 from django.db.models import When, Case, IntegerField, Value
+from django.templatetags.static import static
+from django.urls import reverse_lazy
 from django.utils.http import urlencode
+from django.utils.safestring import mark_safe
 
 from account import models
 from dragonstone.models import RecruitmentSubmission, SotMSubmission, PVMSplitSubmission, MentorSubmission, EventSubmission
@@ -63,6 +64,9 @@ class AccountAdmin(admin.ModelAdmin):
 
     @admin.display(description='Dragonstone Points', ordering='dragonstone_pts')
     def dragonstone_pts(self, obj):
+        if obj.dragonstone_pts >= 40:
+            dragonstone_icon_url = static('img/dragonstone.webp')
+            return mark_safe(f'{obj.dragonstone_pts} <img src="{dragonstone_icon_url}" style="height: 30px; width: 30px"/>')
         return obj.dragonstone_pts
 
     @admin.display(description='Recruitment Submissions')
