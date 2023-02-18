@@ -46,9 +46,10 @@
                     const info = document.createElement("p");
                     if (!data.results.length > 0) {
                         info.innerHTML = `
-                    <span class="flex px-2 py-2 text-sm text-gray-900 whitespace-nowrap bg-gray-50 hover:cursor-pointer hover:bg-gray-300 text-ellipsis">
-                        No matching results
-                    </span>`;
+                            <span class="flex px-2 py-2 text-sm text-gray-900 whitespace-nowrap bg-gray-50 hover:cursor-pointer hover:bg-gray-300 text-ellipsis">
+                                No matching results
+                            </span>
+                        `;
                     }
                     list.prepend(info);
                 },
@@ -59,7 +60,7 @@
             },
             resultItem: {
                 class:"flex group text-sm bg-gray-50 rounded-lg hover:cursor-pointer hover:bg-blue-100 text-ellipsis whitespace-nowrap overflow-hidden py-2 px-2 mx-1 aria-selected:bg-blue-100",
-                highlight: "text-zinc-900 font-semibold bg-gray-50 group-hover:bg-blue-100",
+                highlight: "text-zinc-900 font-semibold bg-gray-50 group-hover:bg-blue-100 group-aria-selected:bg-blue-100",
                 element: (item, data) => {
                     item.innerHTML = `
                         <span style="font-semibold bg-gray-50 group-hover:bg-gray-300">
