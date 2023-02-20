@@ -33,7 +33,7 @@ class BaseSubmissionAdmin(admin.ModelAdmin):
 @admin.register(models.RecordSubmission)
 class RecordSubmissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['accounts', 'board']
-    list_display = ['accounts_display', 'board', 'value_display', 'proof', 'date', 'accepted']
+    list_display = ['accounts_display', 'board', 'time_display', 'proof', 'date', 'accepted']
     list_editable = ['accepted']
     list_filter = [
         AutocompleteFilterFactory('Accounts', 'accounts'),
@@ -42,6 +42,7 @@ class RecordSubmissionAdmin(admin.ModelAdmin):
         'accepted',
         'date',
     ]
+    readonly_fields = ['time_display']
     search_fields = ['accounts__name', 'board__name']
 
     fieldsets = (
@@ -49,7 +50,7 @@ class RecordSubmissionAdmin(admin.ModelAdmin):
             'fields': (
                 'accounts',
                 'board',
-                'value',
+                ('value', 'time_display'),
                 'notes',
                 ('proof', 'date', 'accepted'),
             ),
@@ -59,6 +60,10 @@ class RecordSubmissionAdmin(admin.ModelAdmin):
     @admin.display(description='Accounts')
     def accounts_display(self, obj):
         return ", ".join(obj.accounts.values_list('name', flat=True))
+
+    @admin.display(description='Time Display')
+    def time_display(self, obj):
+        return obj.value_display()
 
 
 @admin.register(models.PetSubmission)
