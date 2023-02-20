@@ -121,6 +121,7 @@ class RecordSubmission(BaseSubmission):
         for rank, submission in enumerate(submissions):
             if submission.id == self.id:
                 return rank + 1
+        return None
 
     def create_embed(self):
         """
@@ -147,7 +148,7 @@ class RecordSubmission(BaseSubmission):
             },
             {
                 'name': 'Rank',
-                'value': str(self.get_rank()) or '-',
+                'value': self.get_rank() or '---',
                 'inline': True,
             },
         ]
