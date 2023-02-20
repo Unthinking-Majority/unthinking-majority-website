@@ -147,7 +147,7 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        dragonstone_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(content__difficulty=EASY, then=int(Settings.objects.get(name='PVM_SPLITS_EASY_PTS').value)),
                 When(content__difficulty=MEDIUM, then=int(Settings.objects.get(name='PVM_SPLITS_MEDIUM_PTS').value)),
@@ -158,8 +158,13 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
             account=F('accounts'),
         )
         if account:
-            return dragonstone_pts.filter(accounts=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
-        return list(dragonstone_pts.values('account', 'dragonstone_pts'))
+            dragonsone_qs = dragonstone_qs.values('accounts').order_by('accounts').annotate(
+                total_dragonstone_pts=Sum('dragonstone_pts')
+            ).filter(accounts=account).first()
+            if dragonsone_qs:
+                return dragonsone_qs['total_dragonstone_pts']
+            return 0
+        return list(dragonstone_qs.values('account', 'dragonstone_pts'))
 
     def type_display(self):
         return 'PVM Split Submission'
@@ -185,7 +190,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        dragonsone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        dragonsone_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(content__difficulty=EASY, then=int(Settings.objects.get(name='MENTOR_EASY_PTS').value)),
                 When(content__difficulty=MEDIUM, then=int(Settings.objects.get(name='MENTOR_MEDIUM_PTS').value)),
@@ -196,8 +201,13 @@ class MentorSubmission(DragonstoneBaseSubmission):
             account=F('mentors'),
         )
         if account:
-            return dragonsone_pts.filter(mentors=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
-        return list(dragonsone_pts.values('account', 'dragonstone_pts'))
+            dragonsone_qs = dragonsone_qs.values('mentors').order_by('mentors').annotate(
+                total_dragonstone_pts=Sum('dragonstone_pts')
+            ).filter(mentors=account).first()
+            if dragonsone_qs:
+                return dragonsone_qs['total_dragonstone_pts']
+            return 0
+        return list(dragonsone_qs.values('account', 'dragonstone_pts'))
 
     def type_display(self):
         return 'Mentor Submission'
@@ -224,7 +234,7 @@ class EventSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        hosts_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        hosts_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_HOSTS_PTS').value)),
                 When(type=MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_HOSTS_PTS').value)),
@@ -235,7 +245,7 @@ class EventSubmission(DragonstoneBaseSubmission):
             account=F('hosts'),
         )
 
-        participants_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        participants_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_PARTICIPANTS_PTS').value)),
                 When(type=MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_PARTICIPANTS_PTS').value)),
@@ -246,7 +256,7 @@ class EventSubmission(DragonstoneBaseSubmission):
             account=F('participants'),
         )
 
-        donors_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        donors_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_DONORS_PTS').value)),
                 When(type=MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_DONORS_PTS').value)),
@@ -258,13 +268,24 @@ class EventSubmission(DragonstoneBaseSubmission):
         )
 
         if account:
-            hosts_pts = hosts_pts.filter(hosts=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
-            participants_pts = participants_pts.filter(participants=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
-            donors_pts = donors_pts.filter(donors=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
+            hosts_qs = hosts_qs.values('hosts').order_by('hosts').annotate(
+                total_dragonstone_pts=Sum('dragonstone_pts')
+            ).filter(hosts=account).first()
+            hosts_pts = hosts_qs['total_dragonstone_pts'] if hosts_qs else 0
+
+            participants_qs = participants_qs.values('participants').order_by('participants').annotate(
+                total_dragonstone_pts=Sum('dragonstone_pts')
+            ).filter(participants=account).first()
+            participants_pts = participants_qs['total_dragonstone_pts'] if participants_qs else 0
+
+            donors_qs = donors_qs.values('donors').order_by('donors').annotate(
+                total_dragonstone_pts=Sum('dragonstone_pts')
+            ).filter(donors=account).first()
+            donors_pts = donors_qs['total_dragonstone_pts'] if donors_qs else 0
         else:
-            hosts_pts = list(hosts_pts.values('account', 'dragonstone_pts'))
-            participants_pts = list(participants_pts.values('account', 'dragonstone_pts'))
-            donors_pts = list(donors_pts.values('account', 'dragonstone_pts'))
+            hosts_pts = list(hosts_qs.values('account', 'dragonstone_pts'))
+            participants_pts = list(participants_qs.values('account', 'dragonstone_pts'))
+            donors_pts = list(donors_qs.values('account', 'dragonstone_pts'))
 
         return hosts_pts + participants_pts + donors_pts
 
