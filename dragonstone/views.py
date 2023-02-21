@@ -5,8 +5,8 @@ from django.core.files.storage import FileSystemStorage
 from django.shortcuts import redirect, reverse
 from formtools.wizard.views import SessionWizardView
 
+from dragonstone import PVM_SPLIT, MENTOR, EVENT
 from dragonstone import forms
-from dragonstone import DRAGONSTONE_SUBMISSION_TYPES, PVM_SPLIT, MENTOR, EVENT
 
 
 def pvm_split_form_condition(wizard):

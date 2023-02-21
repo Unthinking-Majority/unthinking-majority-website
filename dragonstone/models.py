@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models import Value, Case, When, F, Q, Sum
 from django.utils import timezone
 
-from dragonstone import EVENT_CHOICES, PVM, SKILLING, MAJOR, OTHER, MENTOR
+from dragonstone import EVENT_CHOICES, PVM, SKILLING, MAJOR, OTHER, EVENT_MENTOR
 from main import EASY, MEDIUM, HARD, VERY_HARD
 from main import managers
 from main.models import Settings
@@ -237,7 +237,7 @@ class EventSubmission(DragonstoneBaseSubmission):
         hosts_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_HOSTS_PTS').value)),
-                When(type=MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_HOSTS_PTS').value)),
+                When(type=EVENT_MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_HOSTS_PTS').value)),
                 When(type=MAJOR, then=int(Settings.objects.get(name='EVENT_MAJOR_HOSTS_PTS').value)),
                 When(type=OTHER, then=int(Settings.objects.get(name='EVENT_OTHER_HOSTS_PTS').value)),
                 default=Value(0),
@@ -248,7 +248,7 @@ class EventSubmission(DragonstoneBaseSubmission):
         participants_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_PARTICIPANTS_PTS').value)),
-                When(type=MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_PARTICIPANTS_PTS').value)),
+                When(type=EVENT_MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_PARTICIPANTS_PTS').value)),
                 When(type=MAJOR, then=int(Settings.objects.get(name='EVENT_MAJOR_PARTICIPANTS_PTS').value)),
                 When(type=OTHER, then=int(Settings.objects.get(name='EVENT_OTHER_PARTICIPANTS_PTS').value)),
                 default=Value(0),
@@ -259,7 +259,7 @@ class EventSubmission(DragonstoneBaseSubmission):
         donors_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_DONORS_PTS').value)),
-                When(type=MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_DONORS_PTS').value)),
+                When(type=EVENT_MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_DONORS_PTS').value)),
                 When(type=MAJOR, then=int(Settings.objects.get(name='EVENT_MAJOR_DONORS_PTS').value)),
                 When(type=OTHER, then=int(Settings.objects.get(name='EVENT_OTHER_DONORS_PTS').value)),
                 default=Value(0),
