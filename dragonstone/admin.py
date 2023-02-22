@@ -38,6 +38,31 @@ class DragonstoneBaseSubmissionAdmin(admin.ModelAdmin):
         return obj.value_display()
 
 
+@admin.register(models.FreeformSubmission)
+class FreeformSubmission(admin.ModelAdmin):
+    autocomplete_fields = ['account']
+    list_display = ['account', 'dragonstone_pts', 'accepted']
+    list_editable = ['accepted']
+    list_filter = [
+        AutocompleteFilterFactory('Account', 'account'),
+        AutocompleteFilterFactory('Created by', 'created_by'),
+    ]
+    fieldsets = (
+        (None, {
+            'fields': (
+                'account',
+                'dragonstone_pts',
+                'notes',
+                ('proof', 'date', 'accepted'),
+            ),
+        }),
+    )
+    
+    def save_model(self, request, obj, form, change):
+        obj.created_by = request.user
+        obj.save()
+
+
 @admin.register(models.RecruitmentSubmission)
 class RecruitmentAdmin(admin.ModelAdmin):
     autocomplete_fields = ['recruiter', 'recruited']

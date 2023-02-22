@@ -1,4 +1,5 @@
 from datetime import timedelta, datetime
+from django.core.validators import MinValueValidator
 
 from django.db import models
 from django.db.models import Value, Case, When, F, Q, Sum
@@ -62,6 +63,34 @@ class DragonstoneBaseSubmission(models.Model):
             child_obj = getattr(self, child_model, None)
             if child_obj:
                 return child_obj
+
+
+class FreeformSubmission(DragonstoneBaseSubmission):
+    account = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='freeform_dragonstone_pts')
+    created_by = models.ForeignKey('account.Account', on_delete=models.SET_NULL, null=True)
+    dragonstone_pts = models.PositiveIntegerField(validators=[MinValueValidator(1)])
+
+    class Meta:
+        verbose_name = 'Freeform Dragonstone Points (Staff Only)'
+        verbose_name_plural = 'Freeform Dragonstone Points (Staff Only)'
+
+    @classmethod
+    def annotate_dragonstone_pts(cls, account=None):
+        """
+        Return a list containing (account, dragonstone_pts) values.
+        If account is provided, return only the dragonstone points for that account.
+        Only consider submission made within the last 3 months.
+        """
+        dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago)
+        if account:
+            return dragonstone_pts.filter(account=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
+        return list(dragonstone_pts.values('account', 'dragonstone_pts'))
+
+    def type_display(self):
+        return 'Freeform Submission'
+
+    def value_display(self):
+        return f'{self.account} was given {self.dragonstone_pts} by {self.created_by}'
 
 
 class RecruitmentSubmission(DragonstoneBaseSubmission):
