@@ -6,7 +6,7 @@ from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
 from account import models
-from dragonstone.models import RecruitmentSubmission, SotMSubmission, PVMSplitSubmission, MentorSubmission, EventSubmission
+from dragonstone.models import RecruitmentSubmission, SotMSubmission, PVMSplitSubmission, MentorSubmission, EventSubmission, FreeformSubmission
 
 
 @admin.register(models.Account)
@@ -49,9 +49,10 @@ class AccountAdmin(admin.ModelAdmin):
         pvm_splits_pts = PVMSplitSubmission.annotate_dragonstone_pts()
         mentor_pts = MentorSubmission.annotate_dragonstone_pts()
         event_pts = EventSubmission.annotate_dragonstone_pts()
+        freeform_pts = FreeformSubmission.annotate_dragonstone_pts()
 
         dragonstone_pts = {}
-        for obj in recruitment_pts + sotm_pts + pvm_splits_pts + mentor_pts + event_pts:
+        for obj in recruitment_pts + sotm_pts + pvm_splits_pts + mentor_pts + event_pts + freeform_pts:
             if obj['account'] in dragonstone_pts.keys():
                 dragonstone_pts[obj['account']] += obj['dragonstone_pts']
             else:

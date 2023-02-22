@@ -4,7 +4,7 @@ from django.db.models import Max, Min
 from account import ACCOUNT_RANK_CHOICES
 from achievements import CA_DICT
 from achievements.models import PetSubmission, ColLogSubmission, CASubmission
-from dragonstone.models import RecruitmentSubmission, SotMSubmission, PVMSplitSubmission, MentorSubmission, EventSubmission
+from dragonstone.models import RecruitmentSubmission, SotMSubmission, PVMSplitSubmission, MentorSubmission, EventSubmission, FreeformSubmission
 
 
 class Account(models.Model):
@@ -32,5 +32,6 @@ class Account(models.Model):
         pvm_splits_pts = PVMSplitSubmission.annotate_dragonstone_pts(account=self)
         mentor_pts = MentorSubmission.annotate_dragonstone_pts(account=self)
         event_pts = EventSubmission.annotate_dragonstone_pts(account=self)
-        return recruitment_pts + sotm_pts + pvm_splits_pts + mentor_pts + event_pts
+        freeform_pts = FreeformSubmission.annotate_dragonstone_pts(account=self)
+        return recruitment_pts + sotm_pts + pvm_splits_pts + mentor_pts + event_pts + freeform_pts
 

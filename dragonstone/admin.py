@@ -8,7 +8,7 @@ from dragonstone import models
 
 @admin.register(models.DragonstoneBaseSubmission)
 class DragonstoneBaseSubmissionAdmin(admin.ModelAdmin):
-    list_display = ['accounts', 'child_admin_link', '_value_display', 'proof', 'date', 'accepted']
+    list_display = ['child_admin_link', '_value_display', 'proof', 'date', 'accepted']
     list_editable = ['accepted']
     list_filter = ['accepted', 'date']
 
@@ -24,6 +24,8 @@ class DragonstoneBaseSubmissionAdmin(admin.ModelAdmin):
         elif child_instance.__class__ is models.RecruitmentSubmission:
             return child_instance.recruiter.name
         elif child_instance.__class__ is models.SotMSubmission:
+            return child_instance.account.name
+        elif child_instance.__class__ is models.FreeformSubmission:
             return child_instance.account.name
         else:
             return None
@@ -47,11 +49,14 @@ class FreeformSubmission(admin.ModelAdmin):
         AutocompleteFilterFactory('Account', 'account'),
         AutocompleteFilterFactory('Created by', 'created_by'),
     ]
+    readonly_fields = ['created_by']
+
     fieldsets = (
         (None, {
             'fields': (
                 'account',
                 'dragonstone_pts',
+                'created_by',
                 'notes',
                 ('proof', 'date', 'accepted'),
             ),

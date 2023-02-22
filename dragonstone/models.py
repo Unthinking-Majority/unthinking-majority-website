@@ -30,6 +30,7 @@ class DragonstoneBaseSubmission(models.Model):
         'pvmsplitsubmission',
         'mentorsubmission',
         'eventsubmission',
+        'freeformsubmission',
     )
 
     class Meta:
@@ -67,7 +68,7 @@ class DragonstoneBaseSubmission(models.Model):
 
 class FreeformSubmission(DragonstoneBaseSubmission):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='freeform_dragonstone_pts')
-    created_by = models.ForeignKey('account.Account', on_delete=models.SET_NULL, null=True)
+    created_by = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True)
     dragonstone_pts = models.PositiveIntegerField(validators=[MinValueValidator(1)])
 
     class Meta:
@@ -90,7 +91,7 @@ class FreeformSubmission(DragonstoneBaseSubmission):
         return 'Freeform Submission'
 
     def value_display(self):
-        return f'{self.account} was given {self.dragonstone_pts} by {self.created_by}'
+        return f'{self.account} was given {self.dragonstone_pts} points by {self.created_by}'
 
 
 class RecruitmentSubmission(DragonstoneBaseSubmission):
