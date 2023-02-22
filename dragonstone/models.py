@@ -71,8 +71,8 @@ class RecruitmentSubmission(DragonstoneBaseSubmission):
     recruited = models.ForeignKey('account.Account', on_delete=models.CASCADE, related_name='recruited_by')
 
     class Meta:
-        verbose_name = 'Recruitment Submission'
-        verbose_name_plural = 'Recruitment Submissions'
+        verbose_name = 'Recruitment Submission (Staff Only)'
+        verbose_name_plural = 'Recruitment Submissions (Staff Only)'
 
     @classmethod
     def annotate_dragonstone_pts(cls, account=None):
@@ -103,8 +103,8 @@ class SotMSubmission(DragonstoneBaseSubmission):
     rank = models.PositiveIntegerField(choices=((1, '1st'), (2, '2nd'), (3, '3rd')))
 
     class Meta:
-        verbose_name = 'Skill of the Month Submission'
-        verbose_name_plural = 'Skill of the Month Submissions'
+        verbose_name = 'Skill of the Month Submission (Staff Only)'
+        verbose_name_plural = 'Skill of the Month Submissions (Staff Only)'
 
     @classmethod
     def annotate_dragonstone_pts(cls, account=None):
