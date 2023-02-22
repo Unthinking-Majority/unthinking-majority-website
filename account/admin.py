@@ -65,7 +65,7 @@ class AccountAdmin(admin.ModelAdmin):
     def dragonstone_pts(self, obj):
         if obj.dragonstone_pts >= 40:
             dragonstone_icon_url = static('img/dragonstone.webp')
-            return mark_safe(f'{obj.dragonstone_pts} <img src="{dragonstone_icon_url}" style="height: 30px; width: 30px"/>')
+            return mark_safe(f'{obj.dragonstone_pts} <img src="{dragonstone_icon_url}" style="height: 17px; width: 17px"/>')
         return obj.dragonstone_pts
 
     @admin.display(description='Recruitment Submissions')
