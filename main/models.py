@@ -27,6 +27,8 @@ class Content(models.Model):
     category = models.ForeignKey('main.ContentCategory', on_delete=models.CASCADE, related_name='content_types')
     difficulty = models.PositiveIntegerField(choices=DIFFICULTY_CHOICES, default=EASY)
     is_pb = models.BooleanField(default=False, verbose_name='Display on PB Leaderboards?')
+    can_be_mentored = models.BooleanField(default=False, verbose_name='Can this content be mentored?')
+    can_be_split = models.BooleanField(default=False, verbose_name='Can teams split drops from this content?')
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default='Time')
     slug = models.SlugField(unique=True)

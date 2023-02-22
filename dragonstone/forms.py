@@ -26,7 +26,7 @@ class PVMSplitSubmissionForm(forms.ModelForm):
             label='Account',
         )
         self.fields['content'].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=reverse_lazy('content-autocomplete'),
+            autocomplete_url=f"{reverse_lazy('content-autocomplete')}?{urlencode({'can_be_split': True})}",
             placeholder='Select content',
             label='Content',
         )
@@ -51,7 +51,7 @@ class MentorSubmissionForm(forms.ModelForm):
             label='Learners',
         )
         self.fields['content'].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=reverse_lazy('content-autocomplete'),
+            autocomplete_url=f"{reverse_lazy('content-autocomplete')}?{urlencode({'can_be_mentored': True})}",
             placeholder='Select content mentored',
             label='Content',
         )

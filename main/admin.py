@@ -27,10 +27,10 @@ class ContentAdmin(admin.ModelAdmin):
                 'category',
                 'difficulty',
                 'icon',
-                'is_pb',
+                ('is_pb', 'can_be_split', 'can_be_mentored'),
             ),
         }),
-        ('Options', {
+        ('Other Options', {
             'fields': (
                 'slug',
                 ('metric', 'metric_name'),
