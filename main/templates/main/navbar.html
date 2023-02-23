@@ -23,7 +23,7 @@
                                 <button class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                                     {{ bc.name }}
                                 </button>
-                                <ul class="flex hidden overflow-hidden absolute z-10 mt-2 w-min whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
+                                <ul class="flex hidden overflow-hidden absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
                                     tabindex="-1">
                                     {% for content in bc.pb_content %}
                                         <li>
@@ -39,7 +39,7 @@
                             <button class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                                 Other
                             </button>
-                            <ul class="hidden overflow-hidden absolute z-10 mt-2 w-min whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
+                            <ul class="hidden overflow-hidden absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
                                 tabindex="-1">
                                 <li>
                                     <a href="{% url "pets-leaderboard" %}"
@@ -63,7 +63,7 @@
                             <button class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                                 Submit
                             </button>
-                            <ul class="hidden overflow-hidden absolute z-10 mt-2 w-min whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
+                            <ul class="hidden overflow-hidden absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
                                 tabindex="-1">
                                 <li>
                                     <a href="{% url "submit-achievement" %}"
@@ -264,7 +264,7 @@
                             </div>
                         </div>
                     </button>
-                    <ul class="hidden overflow-hidden absolute z-10 mt-2 w-min whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg max-xl:right-0 group-focus-within:block focus:outline-none">
+                    <ul class="hidden overflow-hidden absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg max-xl:right-0 group-focus-within:block focus:outline-none">
                         <li>
                             <a href="{% url "accounts:login" %}"
                                class="block px-4 py-2 text-gray-700 hover:bg-gray-300">

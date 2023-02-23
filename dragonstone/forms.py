@@ -79,4 +79,5 @@ class EventSubmissionForm(forms.ModelForm):
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'rank__gte': DIAMOND})}",
             placeholder='Select all donors',
             label='Donors',
+            required=False
         )

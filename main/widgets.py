@@ -29,10 +29,11 @@ class AutocompleteSelectMultipleWidget(forms.SelectMultiple):
     label = ''
     template_name = 'main/widgets/autocomplete_select_multiple.html'
 
-    def __init__(self, autocomplete_url='', placeholder='', label=''):
+    def __init__(self, autocomplete_url='', placeholder='', label='', required=True):
         self.autocomplete_url = autocomplete_url
         self.placeholder = placeholder
         self.label = label
+        self.required = required
         super(AutocompleteSelectMultipleWidget, self).__init__()
 
     def get_context(self, name, value, attrs):
@@ -40,4 +41,5 @@ class AutocompleteSelectMultipleWidget(forms.SelectMultiple):
         context['autocomplete_url'] = self.autocomplete_url
         context['placeholder'] = self.placeholder
         context['label'] = self.label
+        context['required'] = self.required
         return context
