@@ -79,10 +79,10 @@
                     </div>
                 </div>
 
-                {# navbar items for less then meduim sized viewports #}
+                {# navbar items for less than medium sized viewports #}
                 <div class="relative group md:hidden">
                     <button type="button"
-                            class="px-2 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                            class="px-2 py-2 text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-6 h-6 font-bold text-gray-100">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -92,14 +92,14 @@
                     <ul class="hidden overflow-hidden overflow-y-auto absolute -left-2 z-10 mt-2 max-h-96 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg items-left max-md:group-focus-within:block">
                         <li>
                             <a href="/"
-                               class="block px-4 py-2 font-medium text-gray-900 hover:bg-gray-800 hover:text-white">
+                               class="block px-4 py-2 text-gray-900 hover:bg-gray-800 hover:text-white">
                                 Home
                             </a>
                         </li>
                         {% for bc in content_categories %}
                             <li>
                                 <div class="relative group/dropdown">
-                                    <button class="block px-4 py-2 w-full font-medium text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                                    <button class="block px-4 py-2 w-full text-left text-gray-900 hover:bg-gray-800 hover:text-white">
                                         {{ bc.name }}
                                     </button>
                                     <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
@@ -117,7 +117,7 @@
                         {% endfor %}
                         <li>
                             <div class="relative group/dropdown">
-                                <button class="block px-4 py-2 w-full font-medium text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                                <button class="block px-4 py-2 w-full text-left text-gray-900 hover:bg-gray-800 hover:text-white">
                                     Other
                                 </button>
                                 <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
@@ -142,7 +142,7 @@
                         </li>
                         <li>
                             <div class="relative group/dropdown">
-                                <button class="block px-4 py-2 w-full font-medium text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                                <button class="block px-4 py-2 w-full text-left text-gray-900 hover:bg-gray-800 hover:text-white">
                                     Submit
                                 </button>
                                 <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
@@ -199,7 +199,7 @@
             {# User Profile #}
             {% if request.user.is_authenticated %}
                 <div class="relative group">
-                    <button class="flex items-center py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                    <button class="flex items-center py-2 text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         <div class="mx-2">
                             <div class="flex">
                                 <svg fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -239,7 +239,7 @@
                 </div>
             {% else %}
                 <div class="relative group">
-                    <button class="flex items-center py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                    <button class="flex items-center py-2 text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         <div class="mx-2">
                             <div class="flex">
                                 <svg fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
