@@ -80,7 +80,7 @@
                 </div>
 
                 {# navbar items for less than medium sized viewports #}
-                <div class="relative group md:hidden">
+                <div class="relative group md:hidden" tabindex="0">
                     <button type="button"
                             class="px-2 py-2 text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -238,7 +238,7 @@
                     </ul>
                 </div>
             {% else %}
-                <div class="relative group">
+                <div class="relative group" tabindex="0">
                     <button class="flex items-center py-2 text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         <div class="mx-2">
                             <div class="flex">
