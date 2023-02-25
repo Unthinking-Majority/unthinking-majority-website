@@ -70,35 +70,56 @@ class AccountAdmin(admin.ModelAdmin):
 
     @admin.display(description='Recruitment Submissions')
     def recruitment_submissions(self, obj):
-        url = f"{reverse_lazy(f'admin:dragonstone_recruitmentsubmission_changelist')}?{urlencode({'recruiter': obj.id})}"
-        return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        if obj.id:
+            url = f"{reverse_lazy(f'admin:dragonstone_recruitmentsubmission_changelist')}?{urlencode({'recruiter': obj.id})}"
+            return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        else:
+            return '-'
 
     @admin.display(description='Skill of the Month Submissions')
     def sotm_submissions(self, obj):
-        url = f"{reverse_lazy(f'admin:dragonstone_sotmsubmission_changelist')}?{urlencode({'account': obj.id})}"
-        return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        if obj.id:
+            url = f"{reverse_lazy(f'admin:dragonstone_sotmsubmission_changelist')}?{urlencode({'account': obj.id})}"
+            return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        else:
+            return '-'
 
     @admin.display(description='PVM Split Submissions')
     def pvm_split_submissions(self, obj):
-        url = f"{reverse_lazy(f'admin:dragonstone_pvmsplitsubmission_changelist')}?{urlencode({'accounts': obj.id})}"
-        return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        if obj.id:
+            url = f"{reverse_lazy(f'admin:dragonstone_pvmsplitsubmission_changelist')}?{urlencode({'accounts': obj.id})}"
+            return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        else:
+            return '-'
 
     @admin.display(description='Mentor Submissions')
     def mentor_submissions(self, obj):
-        url = f"{reverse_lazy(f'admin:dragonstone_mentorsubmission_changelist')}?{urlencode({'mentors': obj.id})}"
-        return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        if obj.id:
+            url = f"{reverse_lazy(f'admin:dragonstone_mentorsubmission_changelist')}?{urlencode({'mentors': obj.id})}"
+            return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        else:
+            return '-'
 
     @admin.display(description='Event Hosts Submissions')
     def event_hosts_submissions(self, obj):
-        url = f"{reverse_lazy(f'admin:dragonstone_eventsubmission_changelist')}?{urlencode({'hosts': obj.id})}"
-        return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        if obj.id:
+            url = f"{reverse_lazy(f'admin:dragonstone_eventsubmission_changelist')}?{urlencode({'hosts': obj.id})}"
+            return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        else:
+            return '-'
 
     @admin.display(description='Event Participants Submissions')
     def event_participants_submissions(self, obj):
-        url = f"{reverse_lazy(f'admin:dragonstone_eventsubmission_changelist')}?{urlencode({'participants': obj.id})}"
-        return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        if obj.id:
+            url = f"{reverse_lazy(f'admin:dragonstone_eventsubmission_changelist')}?{urlencode({'participants': obj.id})}"
+            return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        else:
+            return '-'
 
     @admin.display(description='Event Donors Submissions')
     def event_donors_submissions(self, obj):
-        url = f"{reverse_lazy(f'admin:dragonstone_eventsubmission_changelist')}?{urlencode({'donors': obj.id})}"
-        return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        if obj.id:
+            url = f"{reverse_lazy(f'admin:dragonstone_eventsubmission_changelist')}?{urlencode({'donors': obj.id})}"
+            return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
+        else:
+            return '-'
