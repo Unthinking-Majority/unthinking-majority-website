@@ -31,10 +31,21 @@ class BaseSubmission(models.Model):
         'casubmission'
     )
 
+    __original_accepted = None
+
     class Meta:
         ordering = [F('date').desc(nulls_last=True)]
         verbose_name = 'Base Submission'
         verbose_name_plural = 'All Submissions'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__original_accepted = self.accepted
+
+    def save(self, *args, **kwargs):
+        super(BaseSubmission, self).save(*args, **kwargs)
+        if self.accepted and self.accepted != self.__original_accepted:
+            self.get_child_instance().on_accepted()
 
     def type_display(self):
         """
@@ -69,26 +80,9 @@ class RecordSubmission(BaseSubmission):
     board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions')
     value = models.DecimalField(max_digits=7, decimal_places=2)
 
-    __original_accepted = None
-
     class Meta:
         verbose_name = 'Record Submission'
         verbose_name_plural = 'Record Submissions'
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__original_accepted = self.accepted
-
-    def save(self, *args, **kwargs):
-        super(RecordSubmission, self).save(*args, **kwargs)
-        if self.accepted and self.accepted != self.__original_accepted:
-            # post to discord um pb webhook the newly accepted submission! only for record submissions
-            data = json.dumps({'embeds': [self.create_embed()]})
-            requests.post(
-                settings.UM_PB_DISCORD_WEBHOOK_URL,
-                data=data,
-                headers={'Content-Type': 'application/json'}
-            )
 
     def type_display(self):
         return self.board.name
@@ -100,6 +94,15 @@ class RecordSubmission(BaseSubmission):
             return f'{minutes}:{seconds:05}'
         else:
             return int(self.value) if self.board.content.metric == INTEGER else self.value
+
+    def on_accepted(self):
+        # post to discord um pb webhook the newly accepted submission!
+        data = json.dumps({'embeds': [self.create_embed()]})
+        requests.post(
+            settings.UM_PB_DISCORD_WEBHOOK_URL,
+            data=data,
+            headers={'Content-Type': 'application/json'}
+        )
 
     def get_rank(self):
         ordering = self.board.content.ordering
@@ -187,6 +190,9 @@ class PetSubmission(BaseSubmission):
     def value_display(self):
         return self.pet.name
 
+    def on_accepted(self):
+        return
+
 
 class ColLogSubmission(BaseSubmission):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
@@ -202,6 +208,9 @@ class ColLogSubmission(BaseSubmission):
     def value_display(self):
         return f'{self.col_logs}/{settings.MAX_COL_LOG}'
 
+    def on_accepted(self):
+        return
+
 
 class CASubmission(BaseSubmission):
     account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
@@ -216,3 +225,6 @@ class CASubmission(BaseSubmission):
 
     def value_display(self):
         return self.get_ca_tier_display()
+
+    def on_accepted(self):
+        return
