@@ -9,7 +9,7 @@ from achievements import models
 
 @admin.register(models.BaseSubmission)
 class BaseSubmissionAdmin(admin.ModelAdmin):
-    list_display = ['accounts', 'child_admin_link', '_value_display', 'proof', 'date', 'accepted']
+    list_display = ['accounts', 'child_admin_link', '_value_display', 'proof', 'date', 'accepted', '_accepted_display']
     list_editable = ['accepted']
     list_filter = ['accepted', 'date']
 
@@ -29,6 +29,10 @@ class BaseSubmissionAdmin(admin.ModelAdmin):
     @admin.display(description='Value')
     def _value_display(self, obj):
         return obj.value_display()
+
+    @admin.display(description='', ordering='accepted', boolean=True)
+    def _accepted_display(self, obj):
+        return obj.accepted
 
 
 @admin.register(models.RecordSubmission)
