@@ -190,7 +190,7 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
         if account:
             dragonsone_qs = dragonstone_qs.values('accounts').order_by('accounts').annotate(
                 total_dragonstone_pts=Sum('dragonstone_pts')
-            ).filter(accounts=account).first()
+            ).filter(account=account.id).first()
             if dragonsone_qs:
                 return dragonsone_qs['total_dragonstone_pts']
             return 0
@@ -233,7 +233,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
         if account:
             dragonsone_qs = dragonsone_qs.values('mentors').order_by('mentors').annotate(
                 total_dragonstone_pts=Sum('dragonstone_pts')
-            ).filter(mentors=account).first()
+            ).filter(account=account.id).first()
             if dragonsone_qs:
                 return dragonsone_qs['total_dragonstone_pts']
             return 0
@@ -300,17 +300,17 @@ class EventSubmission(DragonstoneBaseSubmission):
         if account:
             hosts_qs = hosts_qs.values('hosts').order_by('hosts').annotate(
                 total_dragonstone_pts=Sum('dragonstone_pts')
-            ).filter(hosts=account).first()
+            ).filter(account=account.id).first()
             hosts_pts = hosts_qs['total_dragonstone_pts'] if hosts_qs else 0
 
             participants_qs = participants_qs.values('participants').order_by('participants').annotate(
                 total_dragonstone_pts=Sum('dragonstone_pts')
-            ).filter(participants=account).first()
+            ).filter(account=account.id).first()
             participants_pts = participants_qs['total_dragonstone_pts'] if participants_qs else 0
 
             donors_qs = donors_qs.values('donors').order_by('donors').annotate(
                 total_dragonstone_pts=Sum('dragonstone_pts')
-            ).filter(donors=account).first()
+            ).filter(account=account.id).first()
             donors_pts = donors_qs['total_dragonstone_pts'] if donors_qs else 0
         else:
             hosts_pts = list(hosts_qs.values('account', 'dragonstone_pts'))
