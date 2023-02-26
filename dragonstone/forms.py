@@ -46,7 +46,7 @@ class MentorSubmissionForm(forms.ModelForm):
             label='Mentors',
         )
         self.fields['learners'].widget = widgets.AutocompleteSelectMultipleWidget(
-            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'rank__gte': DIAMOND})}",
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select all learners',
             label='Learners',
         )
