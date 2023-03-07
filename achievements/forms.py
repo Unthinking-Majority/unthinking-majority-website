@@ -47,6 +47,8 @@ class RecordSubmissionForm(forms.ModelForm):
     minutes = forms.IntegerField(required=False)
     seconds = forms.DecimalField(required=False)
     value = forms.DecimalField(required=False)
+    accounts = forms.ModelMultipleChoiceField(queryset=Account.objects.all(), required=False)
+    account = forms.ModelChoiceField(queryset=Account.objects.all(), required=False)
 
     class Meta:
         model = achievements_models.RecordSubmission
@@ -60,11 +62,18 @@ class RecordSubmissionForm(forms.ModelForm):
 
         super(RecordSubmissionForm, self).__init__(*args, **kwargs)
 
+        # set board value on form so we can grab it back when it's submitted!
         self.fields['board'].initial = board
+
         self.fields['accounts'].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select all accounts',
             label='Accounts',
+        )
+        self.fields['account'].widget = widgets.AutocompleteSelectWidget(
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
+            placeholder='Select account',
+            label='Account',
         )
 
     def clean(self):
@@ -85,6 +94,10 @@ class RecordSubmissionForm(forms.ModelForm):
                     'team_size': cleaned_data['board'].team_size
                 }
             )
+
+        if cleaned_data['board'].team_size == 1:
+            cleaned_data['accounts'] = [cleaned_data['account']]
+
         return cleaned_data
 
     def clean_minutes(self):
