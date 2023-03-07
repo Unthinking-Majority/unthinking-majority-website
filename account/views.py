@@ -20,8 +20,7 @@ class ProfileView(ListView):
 
         # dragonstone submissions
         dragonstone_submissions = DragonstoneBaseSubmission.filter_all_submissions_by_account(self.request.user.account)
-
-        return list(merge(achievement_submissions, dragonstone_submissions, key=lambda x: x.date, reverse=True))
+        return list(merge(achievement_submissions, dragonstone_submissions, key=lambda x: (x.date is None, x.date), reverse=True))
 
 
 class CreateAccountView(FormView):
