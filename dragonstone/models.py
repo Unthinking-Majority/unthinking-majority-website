@@ -19,6 +19,7 @@ class DragonstoneBaseSubmission(models.Model):
 
     proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     notes = models.TextField(blank=True)
+    denial_notes = models.TextField(blank=True, help_text='Only need to fill out if submission is denied.')
     accepted = models.BooleanField(null=True)
     date = models.DateTimeField(default=datetime.now, null=True, blank=True)
 

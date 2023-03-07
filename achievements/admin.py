@@ -9,7 +9,7 @@ from achievements import models
 
 @admin.register(models.BaseSubmission)
 class BaseSubmissionAdmin(admin.ModelAdmin):
-    list_display = ['accounts', 'child_admin_link', '_value_display', 'proof', 'date', 'accepted', '_accepted_display']
+    list_display = ['child_admin_link', 'accounts', '_value_display', 'proof', 'date', 'accepted', '_accepted_display']
     list_editable = ['accepted']
     list_filter = ['accepted', 'date']
 
@@ -56,7 +56,7 @@ class RecordSubmissionAdmin(admin.ModelAdmin):
                 'accounts',
                 'board',
                 ('value', 'time_display'),
-                'notes',
+                ('notes', 'denial_notes'),
                 ('proof', 'date', 'accepted'),
             ),
         }),
@@ -89,7 +89,7 @@ class PetSubmissionAdmin(admin.ModelAdmin):
             'fields': (
                 'account',
                 'pet',
-                'notes',
+                ('notes', 'denial_notes'),
                 ('proof', 'date', 'accepted'),
             ),
         }),
@@ -113,7 +113,7 @@ class ColLogSubmissionAdmin(admin.ModelAdmin):
             'fields': (
                 'account',
                 'col_logs',
-                'notes',
+                ('notes', 'denial_notes'),
                 ('proof', 'date', 'accepted'),
             ),
         }),
@@ -142,7 +142,7 @@ class CASubmissionAdmin(admin.ModelAdmin):
             'fields': (
                 'account',
                 'ca_tier',
-                'notes',
+                ('notes', 'denial_notes'),
                 ('proof', 'date', 'accepted'),
             ),
         }),
