@@ -1,11 +1,13 @@
+from heapq import merge
+
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from django.db.models import Q
 
 from account import forms
-from achievements.models import BaseSubmission, RecordSubmission, PetSubmission, ColLogSubmission, CASubmission
+from achievements.models import BaseSubmission
+from dragonstone.models import DragonstoneBaseSubmission
 
 
 class ProfileView(ListView):
@@ -13,19 +15,13 @@ class ProfileView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        record_submissions = RecordSubmission.objects.filter(accounts=self.request.user.account).values('pk')
-        pet_submissions = PetSubmission.objects.filter(account=self.request.user.account).values('pk')
-        col_logs_submissions = ColLogSubmission.objects.filter(account=self.request.user.account).values('pk')
-        ca_submissions = CASubmission.objects.filter(account=self.request.user.account).values('pk')
+        # achievements submissions
+        achievement_submissions = BaseSubmission.filter_all_submissions_by_account(self.request.user.account)
 
-        submissions = BaseSubmission.objects.filter(
-            Q(pk__in=record_submissions) |
-            Q(pk__in=pet_submissions) |
-            Q(pk__in=col_logs_submissions) |
-            Q(pk__in=ca_submissions)
-        )
+        # dragonstone submissions
+        dragonstone_submissions = DragonstoneBaseSubmission.filter_all_submissions_by_account(self.request.user.account)
 
-        return [obj.get_child_instance() for obj in submissions]
+        return list(merge(achievement_submissions, dragonstone_submissions, key=lambda x: x.date, reverse=True))
 
 
 class CreateAccountView(FormView):

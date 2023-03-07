@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.postgres.aggregates import StringAgg
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import F
+from django.db.models import F, Q
 
 from achievements import CA_CHOICES
 from main import TIME, INTEGER
@@ -46,6 +46,20 @@ class BaseSubmission(models.Model):
         super(BaseSubmission, self).save(*args, **kwargs)
         if self.accepted and self.accepted != self.__original_accepted:
             self.get_child_instance().on_accepted()
+
+    @classmethod
+    def filter_all_submissions_by_account(cls, account):
+        # filter for all submission objects inheriting from BaseSubmission which the given account was a part of
+        record_subs = RecordSubmission.objects.filter(accounts=account).values('pk')
+        pet_subs = PetSubmission.objects.filter(account=account).values('pk')
+        col_logs_subs = ColLogSubmission.objects.filter(account=account).values('pk')
+        ca_subs = CASubmission.objects.filter(account=account).values('pk')
+        return cls.objects.filter(
+            Q(pk__in=record_subs) |
+            Q(pk__in=pet_subs) |
+            Q(pk__in=col_logs_subs) |
+            Q(pk__in=ca_subs)
+        )
 
     def type_display(self):
         """

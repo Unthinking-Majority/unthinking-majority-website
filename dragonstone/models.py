@@ -38,6 +38,24 @@ class DragonstoneBaseSubmission(models.Model):
         verbose_name = 'Dragonstone Base Submission'
         verbose_name_plural = 'All Dragonstone Submissions'
 
+    @classmethod
+    def filter_all_submissions_by_account(cls, account):
+        # filter for all submission objects inheriting from BaseSubmission which the given account was a part of
+        freeform_subs = FreeformSubmission.objects.filter(account=account).values('pk')
+        recruitment_subs = RecruitmentSubmission.objects.filter(recruiter=account).values('pk')
+        sotm_subs = SotMSubmission.objects.filter(account=account).values('pk')
+        pvm_split_subs = PVMSplitSubmission.objects.filter(accounts=account).values('pk')
+        mentor_subs = MentorSubmission.objects.filter(Q(mentors=account) | Q(learners=account))
+        event_subs = EventSubmission.objects.filter(Q(hosts=account) | Q(participants=account) | Q(donors=account))
+        return cls.objects.filter(
+            Q(pk__in=freeform_subs) |
+            Q(pk__in=recruitment_subs) |
+            Q(pk__in=sotm_subs) |
+            Q(pk__in=pvm_split_subs) |
+            Q(pk__in=mentor_subs) |
+            Q(pk__in=event_subs)
+        )
+
     def type_display(self):
         """
         Call the type_display() method from the corresponding child instance of this base submission
