@@ -61,7 +61,7 @@ class EventSubmissionForm(forms.ModelForm):
 
     class Meta:
         model = models.EventSubmission
-        fields = ['hosts', 'participants', 'donors', 'type', 'proof', 'notes']
+        fields = ['name', 'hosts', 'participants', 'donors', 'type', 'proof', 'notes']
 
     def __init__(self, *args, **kwargs):
         super(EventSubmissionForm, self).__init__(*args, **kwargs)

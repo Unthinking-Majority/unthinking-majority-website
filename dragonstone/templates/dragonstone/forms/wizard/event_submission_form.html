@@ -8,6 +8,8 @@
 
 {% block form_content %}
 
+    {% simple_input wizard.form.name label="Event Name" prefix=wizard.form.prefix %}
+
     {# Host(s) #}
     {% if wizard.form.hosts.errors %}
         <div class="flex justify-center mx-2 w-80">

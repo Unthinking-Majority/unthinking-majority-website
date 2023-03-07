@@ -267,6 +267,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
 class EventSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/event/proof/'
 
+    name = models.CharField(max_length=256)
     hosts = models.ManyToManyField('account.Account', related_name='events_hosted')
     participants = models.ManyToManyField('account.Account', related_name='events_participated', blank=True)
     donors = models.ManyToManyField('account.Account', related_name='events_donated', blank=True)
@@ -341,4 +342,4 @@ class EventSubmission(DragonstoneBaseSubmission):
         return 'Event Submission'
 
     def value_display(self):
-        return f'Event hosted by {", ".join(self.hosts.values_list("name", flat=True))}'
+        return f'{self.name} hosted by {", ".join(self.hosts.values_list("name", flat=True))}'
