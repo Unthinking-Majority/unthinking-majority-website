@@ -269,7 +269,7 @@ class EventSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = 'dragonstone/event/proof/'
 
     name = models.CharField(max_length=256)
-    hosts = models.ManyToManyField('account.Account', related_name='events_hosted')
+    hosts = models.ManyToManyField('account.Account', related_name='events_hosted', blank=True)
     participants = models.ManyToManyField('account.Account', related_name='events_participated', blank=True)
     donors = models.ManyToManyField('account.Account', related_name='events_donated', blank=True)
     type = models.IntegerField(choices=EVENT_CHOICES)
@@ -343,4 +343,4 @@ class EventSubmission(DragonstoneBaseSubmission):
         return 'Event Submission'
 
     def value_display(self):
-        return f'{self.name} hosted by {", ".join(self.hosts.values_list("name", flat=True))}'
+        return f'{self.name}'
