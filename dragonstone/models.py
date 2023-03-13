@@ -11,7 +11,7 @@ from main import managers
 from main.models import Settings
 from um.functions import get_file_path
 
-three_months_ago = timezone.now().date() - timedelta(days=90)
+six_months_ago = timezone.now().date() - timedelta(days=180)
 
 
 class DragonstoneBaseSubmission(models.Model):
@@ -101,7 +101,7 @@ class FreeformSubmission(DragonstoneBaseSubmission):
         If account is provided, return only the dragonstone points for that account.
         Only consider submission made within the last 3 months.
         """
-        dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago)
+        dragonstone_pts = cls.objects.accepted().filter(date__gte=six_months_ago)
         if account:
             return dragonstone_pts.filter(account=account).aggregate(total_dragonstone_pts=Sum('dragonstone_pts'))['total_dragonstone_pts'] or 0
         return list(dragonstone_pts.values('account', 'dragonstone_pts'))
@@ -130,7 +130,7 @@ class RecruitmentSubmission(DragonstoneBaseSubmission):
         If account is provided, return only the dragonstone points for that account.
         Only consider submission made within the last 3 months.
         """
-        dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        dragonstone_pts = cls.objects.accepted().filter(date__gte=six_months_ago).annotate(
             dragonstone_pts=Value(int(Settings.objects.get(name='RECRUITER_PTS').value)),
             account=F('recruiter'),
         )
@@ -161,7 +161,7 @@ class SotMSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        dragonstone_pts = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        dragonstone_pts = cls.objects.accepted().filter(date__gte=six_months_ago).annotate(
             dragonstone_pts=Case(
                 When(rank=1, then=int(Settings.objects.get(name='SOTM_FIRST_PTS').value)),
                 When(rank=2, then=int(Settings.objects.get(name='SOTM_SECOND_PTS').value)),
@@ -196,7 +196,7 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        dragonstone_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        dragonstone_qs = cls.objects.accepted().filter(date__gte=six_months_ago).annotate(
             dragonstone_pts=Case(
                 When(content__difficulty=EASY, then=int(Settings.objects.get(name='PVM_SPLITS_EASY_PTS').value)),
                 When(content__difficulty=MEDIUM, then=int(Settings.objects.get(name='PVM_SPLITS_MEDIUM_PTS').value)),
@@ -239,7 +239,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        dragonsone_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        dragonsone_qs = cls.objects.accepted().filter(date__gte=six_months_ago).annotate(
             dragonstone_pts=Case(
                 When(content__difficulty=EASY, then=int(Settings.objects.get(name='MENTOR_EASY_PTS').value)),
                 When(content__difficulty=MEDIUM, then=int(Settings.objects.get(name='MENTOR_MEDIUM_PTS').value)),
@@ -284,7 +284,7 @@ class EventSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submission made within the last 3 months.
         """
-        hosts_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        hosts_qs = cls.objects.accepted().filter(date__gte=six_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_HOSTS_PTS').value)),
                 When(type=EVENT_MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_HOSTS_PTS').value)),
@@ -295,7 +295,7 @@ class EventSubmission(DragonstoneBaseSubmission):
             account=F('hosts'),
         )
 
-        participants_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        participants_qs = cls.objects.accepted().filter(date__gte=six_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_PARTICIPANTS_PTS').value)),
                 When(type=EVENT_MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_PARTICIPANTS_PTS').value)),
@@ -306,7 +306,7 @@ class EventSubmission(DragonstoneBaseSubmission):
             account=F('participants'),
         )
 
-        donors_qs = cls.objects.accepted().filter(date__gte=three_months_ago).annotate(
+        donors_qs = cls.objects.accepted().filter(date__gte=six_months_ago).annotate(
             dragonstone_pts=Case(
                 When(Q(type=PVM) | Q(type=SKILLING), then=int(Settings.objects.get(name='EVENT_MINOR_DONORS_PTS').value)),
                 When(type=EVENT_MENTOR, then=int(Settings.objects.get(name='EVENT_MENTOR_DONORS_PTS').value)),
