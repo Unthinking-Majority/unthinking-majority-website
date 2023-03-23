@@ -71,7 +71,7 @@
                         </div>
                     </td>
                     <td class="py-4 text-lg text-center whitespace-nowrap md:px-2 md:text-2xl font-runescape">
-                        <p class="pr-2 text-center">{{ submission.value|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</p>
+                        <p class="pr-2 text-center">{{ submission.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</p>
                     </td>
                 </tr>
             {% endfor %}
