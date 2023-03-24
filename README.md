@@ -1,1 +1,1 @@
-UM PB Leaderboard
+<h1 align="center">Unthinking Majority</h1>
