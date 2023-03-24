@@ -112,13 +112,10 @@
                                     </svg>
                                 {% elif submission.accepted == False %}
                                     <div class="static m-auto w-min group" tabindex="0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="1.5"
-                                             stroke="currentColor" class="w-6 h-6 text-red-800 transition ease-in-out hover:scale-125 hover:text-gray-900 hover:cursor-pointer">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M6 18L18 6M6 6l12 12"></path>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-red-800 hover:cursor-pointer">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                                         </svg>
-                                        <span class="hidden absolute z-10 p-2 w-72 font-runescape text-base text-center text-gray-50 bg-gray-600 rounded-lg translate-y-2 max-lg:right-0 max-lg:left-0 max-lg:m-auto lg:-translate-x-1/2 lg:w-96 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default"
+                                        <span class="hidden absolute z-10 p-2 w-72 text-base text-center text-gray-50 bg-gray-600 rounded-lg translate-y-2 font-runescape max-lg:right-0 max-lg:left-0 max-lg:m-auto lg:-translate-x-1/2 lg:w-96 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default"
                                               tabindex="-1">
                                             {% if submission.denial_notes %}
                                                 {{ submission.denial_notes }}
