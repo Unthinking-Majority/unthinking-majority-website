@@ -29,10 +29,12 @@
                 </a>
             {% endfor %}
         </div>
-        <p class="text-center sm:py-2">
-            <span class="font-medium align-middle">Dragonstone Points:</span>
-            <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.dragonstone_pts }}</span>
-        </p>
+        {% if user.account.rank >= 3 %}  {# 3 == DIAMOND rank #}
+            <p class="text-center sm:py-2">
+                <span class="font-medium align-middle">Dragonstone Points:</span>
+                <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.dragonstone_pts }}</span>
+            </p>
+        {% endif %}
         <div class="flex justify-center">
         <span class="mx-1 basis-full xl:basis-9/12">
             <h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
