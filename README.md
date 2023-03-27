@@ -11,7 +11,6 @@
 * Add notification system
 * Add dragonstone points breakdown in admin
 * Add dragonstone points breakdown on profile page
-* Add pet count to profile
 * Refactor widgets
 * Improve mobile styling
 * Make styling more consistent

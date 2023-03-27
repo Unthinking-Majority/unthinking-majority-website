@@ -20,7 +20,7 @@
             <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
         </p>
         <div class="flex flex-wrap gap-1 justify-center py-1 sm:py-2 sm:mx-4">
-            <span class="font-medium">Pets:</span>
+            <p class="font-medium">Pets: <span class="text-2xl align-middle font-runescape">({{ user.account.pets.count }})</span></p>
             {% for pet_submission in user.account.pets %}
                 <a href="{{ pet_submission.proof.url }}" target="_blank">
                     <img src="{{ pet_submission.pet.icon.url }}"
