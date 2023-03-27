@@ -21,7 +21,7 @@ class PVMSplitSubmissionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PVMSplitSubmissionForm, self).__init__(*args, **kwargs)
         self.fields['accounts'].widget = widgets.AutocompleteSelectMultipleWidget(
-            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'rank__gte': DIAMOND})}",
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select all accounts',
             label='Account',
         )
@@ -41,7 +41,7 @@ class MentorSubmissionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MentorSubmissionForm, self).__init__(*args, **kwargs)
         self.fields['mentors'].widget = widgets.AutocompleteSelectMultipleWidget(
-            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'rank__gte': DIAMOND})}",
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select all mentors',
             label='Mentors',
         )
@@ -66,17 +66,17 @@ class EventSubmissionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventSubmissionForm, self).__init__(*args, **kwargs)
         self.fields['hosts'].widget = widgets.AutocompleteSelectMultipleWidget(
-            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'rank__gte': DIAMOND})}",
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select all hosts',
             label='Hosts',
         )
         self.fields['participants'].widget = widgets.AutocompleteSelectMultipleWidget(
-            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'rank__gte': DIAMOND})}",
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select all participants',
             label='Participants',
         )
         self.fields['donors'].widget = widgets.AutocompleteSelectMultipleWidget(
-            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'rank__gte': DIAMOND})}",
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder='Select all donors',
             label='Donors',
             required=False

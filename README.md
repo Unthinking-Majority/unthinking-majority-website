@@ -1,7 +1,5 @@
 <h1 align="center">Unthinking Majority</h1>
 
-***
-
 #### TODO
 
 * Setup Webpack
@@ -13,7 +11,6 @@
 * Add notification system
 * Add dragonstone points breakdown in admin
 * Add dragonstone points breakdown on profile page
-* Ruby+ for dragonstone submissions
 * Add pet count to profile
 * Refactor widgets
 * Improve mobile styling
