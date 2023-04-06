@@ -111,7 +111,9 @@ class RecordSubmission(BaseSubmission):
             return int(self.value) if self.board.content.metric == INTEGER else self.value
 
     def on_accepted(self):
-        # post to discord um pb webhook the newly accepted submission!
+        """
+        Post to discord um pb webhook the newly accepted submission!
+        """
         data = json.dumps({'embeds': [self.create_embed()]})
         requests.post(
             settings.UM_PB_DISCORD_WEBHOOK_URL,
@@ -185,7 +187,7 @@ class RecordSubmission(BaseSubmission):
             'url': f'https://{settings.DOMAIN}{self.board.content.leaderboard_url()}',
         }
 
-        if not settings.DEBUG:
+        if not settings.DEBUG and self.proof:
             embed['image'] = {'url': self.proof.url}
 
         return embed
