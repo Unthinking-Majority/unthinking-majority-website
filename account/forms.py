@@ -1,3 +1,5 @@
+import random
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ValidationError
@@ -29,8 +31,14 @@ class CreateAccountForm(forms.Form):
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
     )
+    proof = forms.ImageField(help_text='Upload a screenshot of your account with the provided phrase in chat to prove you are the owner of the account.')
+    phrase = forms.CharField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
+        if not hasattr(kwargs, 'data'):
+            kwargs.update(initial={
+                'phrase': self.generate_phrase()
+            })
         super(CreateAccountForm, self).__init__(*args, **kwargs)
         self.fields['account'].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'user__isnull': True})}",
@@ -38,6 +46,12 @@ class CreateAccountForm(forms.Form):
             label='In Game Name',
             help_text='If your in game name is not listed, please contact an admin through discord.',
         )
+
+    @staticmethod
+    def generate_phrase():
+        adjectives = ['scrawny', 'buff', 'happy', 'hungry', 'spiffy', 'snobbish', 'royal', 'gigantic', 'small', 'tiresome', 'super']
+        nouns = ['cat', 'moose', 'dog', 'zebra', 'hamster', 'bird', 'lion', 'turtle', 'fish', 'whale', 'deer', 'ant', 'butterfly']
+        return ' '.join([random.choice(l) for l in [adjectives, nouns]])
 
     def clean_account(self):
         if self.cleaned_data['account'].user:
@@ -57,11 +71,10 @@ class CreateAccountForm(forms.Form):
         return cleaned_data
 
     def form_valid(self):
-        user_form = UserCreationForm(self.cleaned_data)
-        user = user_form.save(commit=True)
-
-        account = self.cleaned_data['account']
-        account.user = user
-        account.save()
-
-        return account
+        models.AccountCreationSubmission.objects.create(
+            account=self.cleaned_data['account'],
+            username=self.cleaned_data['username'],
+            password=self.cleaned_data['password1'],
+            proof=self.cleaned_data['proof'],
+            phrase=self.cleaned_data['phrase'],
+        )

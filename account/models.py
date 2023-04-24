@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.db import models
 from django.db.models import Max, Min
 
@@ -5,6 +6,7 @@ from account import ACCOUNT_RANK_CHOICES
 from achievements import CA_DICT
 from achievements.models import PetSubmission, ColLogSubmission, CASubmission
 from dragonstone.models import RecruitmentSubmission, SotMSubmission, PVMSplitSubmission, MentorSubmission, EventSubmission, FreeformSubmission
+from um.functions import get_file_path
 
 
 class Account(models.Model):
@@ -35,3 +37,31 @@ class Account(models.Model):
         freeform_pts = FreeformSubmission.annotate_dragonstone_pts(account=self)
         return recruitment_pts + sotm_pts + pvm_splits_pts + mentor_pts + event_pts + freeform_pts
 
+
+class AccountCreationSubmission(models.Model):
+    """
+    Used to moderate account creation.
+    """
+    UPLOAD_TO = 'submission/proof/'
+
+    account = models.OneToOneField('account.Account', on_delete=models.CASCADE)
+    username = models.CharField(max_length=256)
+    password = models.CharField(max_length=128)
+    accepted = models.BooleanField(null=True)
+    proof = models.ImageField(upload_to=get_file_path)
+    phrase = models.CharField(max_length=128)
+
+    def save(self, *args, **kwargs):
+        super(AccountCreationSubmission, self).save(*args, **kwargs)
+        if self.accepted is not None:
+            if self.accepted:
+                user_form = UserCreationForm({
+                    'username': self.username,
+                    'password1': self.password,
+                    'password2': self.password,
+                })
+                user = user_form.save(commit=True)
+
+                self.account.user = user
+                self.account.save()
+            self.delete()

@@ -123,3 +123,21 @@ class AccountAdmin(admin.ModelAdmin):
             return mark_safe(f'<a target="_blank" href={url}>Click Here</a>')
         else:
             return '-'
+
+
+@admin.register(models.AccountCreationSubmission)
+class AccountCreationSubmissionAdmin(admin.ModelAdmin):
+    list_display = ['username', 'account', 'phrase', 'proof', 'accepted']
+    list_editable = ['accepted']
+    list_filter = ['accepted']
+    readonly_fields = ['username', 'account', 'phrase']
+    fieldsets = (
+        (None, {
+            'fields': (
+                'username',
+                'account',
+                ('proof', 'phrase'),
+                'accepted'
+            ),
+        }),
+    )
