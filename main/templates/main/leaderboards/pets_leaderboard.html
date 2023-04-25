@@ -47,9 +47,13 @@
                         <div class="flex flex-row flex-wrap gap-1 max-md:ml-4">
                             {% for pet_submission in account.pets %}
                                 <div class="group" tabindex="0">
-                                    <a href="{{ pet_submission.proof.url }}" target="_blank">
+                                    {% if request.user.is_authenticated %}
+                                        <a href="{{ pet_submission.proof.url }}" target="_blank">
+                                            <img src="{{ pet_submission.pet.icon.url }}" class="inline-block object-scale-down">
+                                        </a>
+                                    {% else %}
                                         <img src="{{ pet_submission.pet.icon.url }}" class="inline-block object-scale-down">
-                                    </a>
+                                    {% endif %}
                                     <span class="hidden absolute z-10 p-2 w-72 text-base text-center text-gray-50 bg-gray-600 rounded-lg translate-y-2 max-md:right-0 max-md:left-0 max-md:m-auto md:-translate-x-1/2 md:w-96 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default"
                                           tabindex="-1">
                                         <p>{{ pet_submission.pet.name }}</p>

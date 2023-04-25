@@ -12,8 +12,8 @@ from main.models import Board
 register = template.Library()
 
 
-@register.inclusion_tag('main/landing_leaderboards/pets_leaderboard.html')
-def pets_leaderboard():
+@register.inclusion_tag('main/landing_leaderboards/pets_leaderboard.html', takes_context=True)
+def pets_leaderboard(context):
     # get accepted pet submissions
     pet_submissions = PetSubmission.objects.accepted()
 
@@ -27,6 +27,7 @@ def pets_leaderboard():
     ).order_by('-num_pets')
 
     return {
+        'request': context['request'],
         'accounts': accounts[:5]
     }
 
@@ -51,20 +52,22 @@ def col_logs_leaderboard():
     }
 
 
-@register.inclusion_tag('main/landing_leaderboards/grandmasters_leaderboard.html')
-def grandmasters_leaderboard():
+@register.inclusion_tag('main/landing_leaderboards/grandmasters_leaderboard.html', takes_context=True)
+def grandmasters_leaderboard(context):
     submissions = CASubmission.objects.accepted().filter(
         ca_tier=GRANDMASTER,
         account__is_active=True
     ).order_by('date')
     return {
+        'request': context['request'],
         'submissions': submissions
     }
 
 
-@register.inclusion_tag('main/landing_leaderboards/recent_achievements.html')
-def recent_submission_leaderboard():
+@register.inclusion_tag('main/landing_leaderboards/recent_submissions_leaderboard.html', takes_context=True)
+def recent_submission_leaderboard(context):
     return {
+        'request': context['request'],
         'recent_submissions': [obj.get_child_instance() for obj in BaseSubmission.objects.filter(accepted=True)[:5]]
     }
 
