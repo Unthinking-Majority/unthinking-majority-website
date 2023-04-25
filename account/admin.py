@@ -125,8 +125,8 @@ class AccountAdmin(admin.ModelAdmin):
             return '-'
 
 
-@admin.register(models.AccountCreationSubmission)
-class AccountCreationSubmissionAdmin(admin.ModelAdmin):
+@admin.register(models.UserCreationSubmission)
+class UserCreationSubmissionAdmin(admin.ModelAdmin):
     list_display = ['username', 'account', 'phrase', 'proof', 'accepted']
     list_editable = ['accepted']
     list_filter = ['accepted']

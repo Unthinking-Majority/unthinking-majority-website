@@ -71,7 +71,7 @@ class CreateAccountForm(forms.Form):
         return cleaned_data
 
     def form_valid(self):
-        models.AccountCreationSubmission.objects.create(
+        models.UserCreationSubmission.objects.create(
             account=self.cleaned_data['account'],
             username=self.cleaned_data['username'],
             password=self.cleaned_data['password1'],

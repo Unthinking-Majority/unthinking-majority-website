@@ -38,7 +38,7 @@ class Account(models.Model):
         return recruitment_pts + sotm_pts + pvm_splits_pts + mentor_pts + event_pts + freeform_pts
 
 
-class AccountCreationSubmission(models.Model):
+class UserCreationSubmission(models.Model):
     """
     Used to moderate account creation.
     """
@@ -52,7 +52,7 @@ class AccountCreationSubmission(models.Model):
     phrase = models.CharField(max_length=128)
 
     def save(self, *args, **kwargs):
-        super(AccountCreationSubmission, self).save(*args, **kwargs)
+        super(UserCreationSubmission, self).save(*args, **kwargs)
         if self.accepted is not None:
             if self.accepted:
                 user_form = UserCreationForm({
