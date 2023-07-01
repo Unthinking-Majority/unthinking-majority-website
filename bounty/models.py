@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 
 
@@ -8,8 +9,13 @@ class Bounty(models.Model):
     image = models.ImageField(upload_to='bounty/image/')
 
     @classmethod
-    def current_bounty():
-        raise NotImplementedError
+    def get_current_bounty(cls):
+        today = timezone.now()
+        try:
+            current_bounty = cls.objects.get(start_date__lt=today, end_date__gt=today)
+        except cls.DoesNotExist:
+            return None
+        return current_bounty
 
     def get_submissions(self):
         # return self.board.submissions.filter()
