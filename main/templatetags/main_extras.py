@@ -1,6 +1,7 @@
 from django import template
 from django.conf import settings
 
+from bounty.models import Bounty
 from main.models import ContentCategory
 from main.models import UMNotification
 
@@ -19,6 +20,7 @@ def navbar(context):
         "request": context["request"],
         "board": context.get("board", None),
         "notifications": notifications,
+        "bounty": Bounty.get_current_bounty(),
         "content_categories": ContentCategory.objects.all(),
     }
 

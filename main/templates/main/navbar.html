@@ -112,6 +112,13 @@
                                 </li>
                             </ul>
                         </div>
+                        {% if bounty %}
+                        <div class="relative group">
+                            <a href="{% url "bounty" %}" class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                                Bounty
+                            </a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 {# navbar items for less than medium sized viewports #}
@@ -192,6 +199,15 @@
                                 </ul>
                             </div>
                         </li>
+                        {% if bounty %}
+                        <li>
+                            <div class="relative group/dropdown" tabindex="0">
+                                <a href="{% url "bounty" %}" class="block px-4 py-2 w-full text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                                    Bounty
+                                </a>
+                            </div>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
                 {# Discord icon #}
