@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     "storages",
     "tailwind",
     "theme",
-    'bounty',
+    "bounty",
     "notifications",
 ]
 

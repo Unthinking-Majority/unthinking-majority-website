@@ -8,27 +8,25 @@ from bounty import forms
 @admin.register(models.Bounty)
 class BountyAdmin(admin.ModelAdmin):
     form = forms.BountyAdminForm
-    autocomplete_fields = ['board']
-    list_display = ['bounty_name', 'start_date', 'end_date']
+    autocomplete_fields = ["board"]
+    list_display = ["bounty_name", "start_date", "end_date"]
     list_filter = [
-        AutocompleteFilterFactory('Board', 'board'),
-        'start_date',
-        'end_date',
+        AutocompleteFilterFactory("Board", "board"),
+        "start_date",
+        "end_date",
     ]
-    readonly_fields = ['bounty_name']
-    search_fields = ['board__name']
+    readonly_fields = ["bounty_name"]
+    search_fields = ["board__name"]
 
     fieldsets = (
-        (None, {
-            'fields': (
-                'board',
-                ('start_date', 'end_date'),
-                'image'
-            ),
-        }),
+        (
+            None,
+            {
+                "fields": ("board", ("start_date", "end_date"), "image"),
+            },
+        ),
     )
 
-
-    @admin.display(description='Bounty Name')
+    @admin.display(description="Bounty Name")
     def bounty_name(self, obj):
         return obj.board.name

@@ -5,8 +5,8 @@ from django.db import models
 class Bounty(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    board = models.ForeignKey('main.Board', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='bounty/image/')
+    board = models.ForeignKey("main.Board", on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="bounty/image/")
 
     @classmethod
     def get_current_bounty(cls):
@@ -18,11 +18,14 @@ class Bounty(models.Model):
         return current_bounty
 
     def get_submissions(self):
-        # return self.board.submissions.filter()
-        raise NotImplementedError
+        return (
+            self.board.submissions.active_submissions()
+            .accepted()
+            .filter(date__gte=self.start_date, date__lte=self.end_date)
+        )
 
     def get_most_improved(self):
         raise NotImplementedError
-    
+
     def get_most_submissions(self):
         raise NotImplementedError
