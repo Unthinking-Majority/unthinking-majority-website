@@ -29,9 +29,10 @@
                             <td class="hidden py-4 text-sm font-light text-center whitespace-nowrap md:table-cell">
                                 {{ bounty.end_date|date:"M d, Y" }}
                             </td>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </span>
-        </div>
-    {% endblock content %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </span>
+    </div>
+{% endblock content %}

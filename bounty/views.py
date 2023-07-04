@@ -57,7 +57,7 @@ class CurrentBountyView(ListView):
         return context
 
 
-class BountyIndex(TemplateView):
+class BountyIndexView(TemplateView):
     template_name = "bounty/bounty_index.html"
 
     def get_context_data(self, **kwargs):
@@ -105,3 +105,7 @@ class BountyView(ListView):
         context["bounty"] = bounty
         context["content"] = bounty.board.content
         return context
+
+
+class BountyRulesView(TemplateView):
+    template_name = "bounty/bounty_rules.html"

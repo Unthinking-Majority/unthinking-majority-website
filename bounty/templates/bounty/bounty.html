@@ -1,7 +1,7 @@
 {% extends "main/site_base.html" %}
 
 {% block content %}
-    <div class="flex justify-center">
+{% comment %}     <div class="flex justify-center">
         <div class="flex justify-center items-center px-2 mx-2 my-2 bg-gray-800 rounded-lg basis-full md:my-6 md:mx-0 max-sm:flex-col md:basis-9/12">
             {% if content.icon %}
                 <img src="{{ content.icon.url }}" class="mx-4 my-2 h-16">
@@ -10,9 +10,18 @@
                 Bounty: {{ content.name}}
             </h1>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     <div class="flex flex-wrap gap-1 justify-around">
+        <img src="{{ bounty.image.url }}" class="">
+    </div>
+
+    <div class="flex flex-wrap gap-3 justify-evenly">
+        <a href="{% url "bounty:bounty-index" %}" class="text-4xl text-center align-middle whitespace-nowrap font-runescape">Previous Bounties</a>
+        <a href="{% url "bounty:bounty-rules" %}" class="text-4xl text-center align-middle whitespace-nowrap font-runescape">Rules</a>
+    </div>
+
+    <div class="flex flex-wrap gap-1 justify-center">
         <span class="basis-full xl:basis-7/12">
             {% include "main/board.html" %}
         </span>
