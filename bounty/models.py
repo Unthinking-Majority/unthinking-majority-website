@@ -1,5 +1,5 @@
-from django.utils import timezone
 from django.db import models
+from django.utils import timezone
 
 
 class Bounty(models.Model):
@@ -7,6 +7,9 @@ class Bounty(models.Model):
     end_date = models.DateTimeField()
     board = models.ForeignKey("main.Board", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="bounty/image/")
+
+    class Meta:
+        ordering = ["-start_date"]
 
     @classmethod
     def get_current_bounty(cls):

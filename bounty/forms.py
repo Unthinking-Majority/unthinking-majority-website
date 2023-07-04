@@ -28,4 +28,11 @@ class BountyAdminForm(forms.ModelForm):
                     "A Bounty event is already scheduled within this time range."
                 )
 
+            if models.Bounty.objects.filter(
+                start_date__lte=start_date, end_date__gte=end_date
+            ).exists():
+                raise ValidationError(
+                    "A Bounty event is already scheduled within this time range."
+                )
+
         return cleaned_data
