@@ -172,3 +172,5 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 MAX_COL_LOG = int(os.environ.get('MAX_COL_LOG'))
 
 UM_PB_DISCORD_WEBHOOK_URL = os.environ.get('UM_PB_DISCORD_WEBHOOK_URL')  # for posting discord embeds to the #um-pb-leaderboards channel!
+
+WOM_API_KEY = os.environ.get('WOM_API_KEY')
