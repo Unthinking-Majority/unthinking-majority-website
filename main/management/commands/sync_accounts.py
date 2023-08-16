@@ -40,7 +40,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         account_names = [
-            name.lower() for name in Account.objects.all().values_list("name", flat=True)
+            name.lower()
+            for name in Account.objects.all().values_list("name", flat=True)
         ]
 
         loop = asyncio.get_event_loop()

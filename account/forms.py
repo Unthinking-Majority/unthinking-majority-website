@@ -12,56 +12,78 @@ from main import widgets
 
 class CreateAccountForm(forms.Form):
     username = forms.CharField(
-        label='Username',
+        label="Username",
         max_length=150,
         error_messages={
-            'unique': 'A user with that username already exists.',
+            "unique": "A user with that username already exists.",
         },
     )
-    account = forms.ModelChoiceField(
-        queryset=models.Account.objects.all()
-    )
+    account = forms.ModelChoiceField(queryset=models.Account.objects.all())
     password1 = forms.CharField(
-        label='Password',
+        label="Password",
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
     )
     password2 = forms.CharField(
-        label='Password confirmation',
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        label="Password confirmation",
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
         strip=False,
     )
-    proof = forms.ImageField(help_text='Upload a screenshot of your account with the provided phrase in chat to prove you are the owner of the account.')
+    proof = forms.ImageField(
+        help_text="Upload a screenshot of your account with the provided phrase in chat to prove you are the owner of the account."
+    )
     phrase = forms.CharField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
-        if not hasattr(kwargs, 'data'):
-            kwargs.update(initial={
-                'phrase': self.generate_phrase()
-            })
+        if not hasattr(kwargs, "data"):
+            kwargs.update(initial={"phrase": self.generate_phrase()})
         super(CreateAccountForm, self).__init__(*args, **kwargs)
-        self.fields['account'].widget = widgets.AutocompleteSelectWidget(
+        self.fields["account"].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'user__isnull': True})}",
-            placeholder='',
-            label='In Game Name',
-            help_text='If your in game name is not listed, please contact an admin through discord.',
+            placeholder="",
+            label="In Game Name",
+            help_text="If your in game name is not listed, please contact an admin through discord.",
         )
 
     @staticmethod
     def generate_phrase():
-        adjectives = ['scrawny', 'buff', 'happy', 'hungry', 'spiffy', 'snobbish', 'royal', 'gigantic', 'small', 'tiresome', 'super']
-        nouns = ['cat', 'moose', 'dog', 'zebra', 'hamster', 'bird', 'lion', 'turtle', 'fish', 'whale', 'deer', 'ant', 'butterfly']
-        return ' '.join([random.choice(l) for l in [adjectives, nouns]])
+        adjectives = [
+            "scrawny",
+            "buff",
+            "happy",
+            "hungry",
+            "spiffy",
+            "snobbish",
+            "royal",
+            "gigantic",
+            "small",
+            "tiresome",
+            "super",
+        ]
+        nouns = [
+            "cat",
+            "moose",
+            "dog",
+            "zebra",
+            "hamster",
+            "bird",
+            "lion",
+            "turtle",
+            "fish",
+            "whale",
+            "deer",
+            "ant",
+            "butterfly",
+        ]
+        return " ".join([random.choice(l) for l in [adjectives, nouns]])
 
     def clean_account(self):
-        if self.cleaned_data['account'].user:
+        if self.cleaned_data["account"].user:
             raise ValidationError(
-                'The account %(ign)s has already been assigned to a user',
-                params={
-                    'ign': self.cleaned_data['account'].name
-                }
+                "The account %(ign)s has already been assigned to a user",
+                params={"ign": self.cleaned_data["account"].name},
             )
-        return self.cleaned_data['account']
+        return self.cleaned_data["account"]
 
     def clean(self):
         cleaned_data = super(CreateAccountForm, self).clean()
@@ -72,9 +94,9 @@ class CreateAccountForm(forms.Form):
 
     def form_valid(self):
         models.UserCreationSubmission.objects.create(
-            account=self.cleaned_data['account'],
-            username=self.cleaned_data['username'],
-            password=self.cleaned_data['password1'],
-            proof=self.cleaned_data['proof'],
-            phrase=self.cleaned_data['phrase'],
+            account=self.cleaned_data["account"],
+            username=self.cleaned_data["username"],
+            password=self.cleaned_data["password1"],
+            proof=self.cleaned_data["proof"],
+            phrase=self.cleaned_data["phrase"],
         )
