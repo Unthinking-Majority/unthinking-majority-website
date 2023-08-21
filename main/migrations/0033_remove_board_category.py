@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0032_populate_parentboard_20230112_0406'),
+        ("main", "0032_populate_parentboard_20230112_0406"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='board',
-            name='category',
+            model_name="board",
+            name="category",
         ),
     ]

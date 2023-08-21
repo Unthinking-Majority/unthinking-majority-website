@@ -5,16 +5,20 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0037_rename_max_team_size_board_team_size'),
+        ("main", "0037_rename_max_team_size_board_team_size"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='board',
-            name='parent',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='boards', to='main.parentboard'),
+            model_name="board",
+            name="parent",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="boards",
+                to="main.parentboard",
+            ),
             preserve_default=False,
         ),
     ]

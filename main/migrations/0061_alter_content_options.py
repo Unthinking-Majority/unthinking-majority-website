@@ -4,14 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0060_content_difficulty'),
+        ("main", "0060_content_difficulty"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='content',
-            options={'ordering': ['order', 'name'], 'verbose_name': 'Content', 'verbose_name_plural': 'Content'},
+            name="content",
+            options={
+                "ordering": ["order", "name"],
+                "verbose_name": "Content",
+                "verbose_name_plural": "Content",
+            },
         ),
     ]

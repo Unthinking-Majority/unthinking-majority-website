@@ -4,14 +4,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0046_alter_submission_date'),
+        ("main", "0046_alter_submission_date"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='submission',
-            options={'ordering': [models.OrderBy(models.F('date'), descending=True, nulls_last=True)]},
+            name="submission",
+            options={
+                "ordering": [
+                    models.OrderBy(models.F("date"), descending=True, nulls_last=True)
+                ]
+            },
         ),
     ]

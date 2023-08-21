@@ -8,79 +8,194 @@ import um.functions
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('main', '0061_alter_content_options'),
-        ('account', '0012_remove_account_col_logs_and_more'),
+        ("main", "0061_alter_content_options"),
+        ("account", "0012_remove_account_col_logs_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BaseSubmission',
+            name="BaseSubmission",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('proof', models.ImageField(blank=True, null=True, upload_to=um.functions.get_file_path)),
-                ('notes', models.TextField(blank=True)),
-                ('accepted', models.BooleanField(null=True)),
-                ('date', models.DateTimeField(blank=True, default=datetime.datetime.now, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "proof",
+                    models.ImageField(
+                        blank=True, null=True, upload_to=um.functions.get_file_path
+                    ),
+                ),
+                ("notes", models.TextField(blank=True)),
+                ("accepted", models.BooleanField(null=True)),
+                (
+                    "date",
+                    models.DateTimeField(
+                        blank=True, default=datetime.datetime.now, null=True
+                    ),
+                ),
             ],
             options={
-                'ordering': [models.OrderBy(models.F('date'), descending=True, nulls_last=True)],
+                "ordering": [
+                    models.OrderBy(models.F("date"), descending=True, nulls_last=True)
+                ],
             },
         ),
         migrations.CreateModel(
-            name='RecordSubmission',
+            name="RecordSubmission",
             fields=[
-                ('basesubmission_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='achievements.basesubmission')),
-                ('value', models.DecimalField(decimal_places=2, max_digits=7)),
-                ('accounts', models.ManyToManyField(related_name='rsub_accounts', to='account.account')),
-                ('board', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='rsub_board', to='main.board')),
+                (
+                    "basesubmission_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="achievements.basesubmission",
+                    ),
+                ),
+                ("value", models.DecimalField(decimal_places=2, max_digits=7)),
+                (
+                    "accounts",
+                    models.ManyToManyField(
+                        related_name="rsub_accounts", to="account.account"
+                    ),
+                ),
+                (
+                    "board",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="rsub_board",
+                        to="main.board",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Record Submission',
-                'verbose_name_plural': 'Record Submissions',
+                "verbose_name": "Record Submission",
+                "verbose_name_plural": "Record Submissions",
             },
-            bases=('achievements.basesubmission',),
+            bases=("achievements.basesubmission",),
         ),
         migrations.CreateModel(
-            name='PetSubmission',
+            name="PetSubmission",
             fields=[
-                ('basesubmission_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='achievements.basesubmission')),
-                ('account', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='psub_account', to='account.account')),
-                ('pet', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='psub_pet', to='main.pet')),
+                (
+                    "basesubmission_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="achievements.basesubmission",
+                    ),
+                ),
+                (
+                    "account",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="psub_account",
+                        to="account.account",
+                    ),
+                ),
+                (
+                    "pet",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="psub_pet",
+                        to="main.pet",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Pet Submission',
-                'verbose_name_plural': 'Pet Submissions',
+                "verbose_name": "Pet Submission",
+                "verbose_name_plural": "Pet Submissions",
             },
-            bases=('achievements.basesubmission',),
+            bases=("achievements.basesubmission",),
         ),
         migrations.CreateModel(
-            name='ColLogSubmission',
+            name="ColLogSubmission",
             fields=[
-                ('basesubmission_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='achievements.basesubmission')),
-                ('col_logs', models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(1436)])),
-                ('account', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='clogsub_account', to='account.account')),
+                (
+                    "basesubmission_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="achievements.basesubmission",
+                    ),
+                ),
+                (
+                    "col_logs",
+                    models.PositiveIntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(1),
+                            django.core.validators.MaxValueValidator(1436),
+                        ]
+                    ),
+                ),
+                (
+                    "account",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="clogsub_account",
+                        to="account.account",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Collection Log Submission',
-                'verbose_name_plural': 'Collection Log Submissions',
+                "verbose_name": "Collection Log Submission",
+                "verbose_name_plural": "Collection Log Submissions",
             },
-            bases=('achievements.basesubmission',),
+            bases=("achievements.basesubmission",),
         ),
         migrations.CreateModel(
-            name='CASubmission',
+            name="CASubmission",
             fields=[
-                ('basesubmission_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='achievements.basesubmission')),
-                ('ca_tier', models.IntegerField(blank=True, choices=[(0, 'Grandmaster'), (1, 'Master'), (2, 'Elite')], default=None, null=True)),
-                ('account', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='casub_account', to='account.account')),
+                (
+                    "basesubmission_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="achievements.basesubmission",
+                    ),
+                ),
+                (
+                    "ca_tier",
+                    models.IntegerField(
+                        blank=True,
+                        choices=[(0, "Grandmaster"), (1, "Master"), (2, "Elite")],
+                        default=None,
+                        null=True,
+                    ),
+                ),
+                (
+                    "account",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="casub_account",
+                        to="account.account",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Combat Achievement Submission',
-                'verbose_name_plural': 'Combat Achievement Submissions',
+                "verbose_name": "Combat Achievement Submission",
+                "verbose_name_plural": "Combat Achievement Submissions",
             },
-            bases=('achievements.basesubmission',),
+            bases=("achievements.basesubmission",),
         ),
     ]

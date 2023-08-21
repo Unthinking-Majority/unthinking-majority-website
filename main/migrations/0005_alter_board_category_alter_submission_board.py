@@ -5,20 +5,27 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0004_board_slug_boardcategory_slug'),
+        ("main", "0004_board_slug_boardcategory_slug"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='board',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='boards', to='main.boardcategory'),
+            model_name="board",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="boards",
+                to="main.boardcategory",
+            ),
         ),
         migrations.AlterField(
-            model_name='submission',
-            name='board',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='submissions', to='main.board'),
+            model_name="submission",
+            name="board",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="submissions",
+                to="main.board",
+            ),
         ),
     ]

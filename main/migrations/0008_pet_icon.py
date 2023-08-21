@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0007_board_icon_submission_proof'),
+        ("main", "0007_board_icon_submission_proof"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='pet',
-            name='icon',
-            field=models.ImageField(blank=True, null=True, upload_to='pet/icons/'),
+            model_name="pet",
+            name="icon",
+            field=models.ImageField(blank=True, null=True, upload_to="pet/icons/"),
         ),
     ]

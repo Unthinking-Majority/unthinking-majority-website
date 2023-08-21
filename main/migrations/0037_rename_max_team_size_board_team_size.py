@@ -4,15 +4,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0036_remove_board_icon'),
+        ("main", "0036_remove_board_icon"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='board',
-            old_name='max_team_size',
-            new_name='team_size',
+            model_name="board",
+            old_name="max_team_size",
+            new_name="team_size",
         ),
     ]

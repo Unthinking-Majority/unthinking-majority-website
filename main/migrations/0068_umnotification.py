@@ -6,24 +6,33 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('notifications', '0009_alter_notification_options_and_more'),
-        ('main', '0067_content_can_be_mentored_content_can_be_split'),
+        ("notifications", "0009_alter_notification_options_and_more"),
+        ("main", "0067_content_can_be_mentored_content_can_be_split"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='UMNotification',
+            name="UMNotification",
             fields=[
-                ('notification_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to=settings.NOTIFICATIONS_NOTIFICATION_MODEL)),
-                ('custom_url', models.URLField(blank=True, null=True)),
+                (
+                    "notification_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to=settings.NOTIFICATIONS_NOTIFICATION_MODEL,
+                    ),
+                ),
+                ("custom_url", models.URLField(blank=True, null=True)),
             ],
             options={
-                'verbose_name': 'Notification',
-                'verbose_name_plural': 'Notifications',
-                'ordering': ('-timestamp',),
+                "verbose_name": "Notification",
+                "verbose_name_plural": "Notifications",
+                "ordering": ("-timestamp",),
             },
-            bases=('notifications.notification',),
+            bases=("notifications.notification",),
         ),
     ]

@@ -5,15 +5,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0022_board_metric_name'),
+        ("main", "0022_board_metric_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='board',
-            name='max_team_size',
-            field=models.IntegerField(default=1, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(8)]),
+            model_name="board",
+            name="max_team_size",
+            field=models.IntegerField(
+                default=1,
+                validators=[
+                    django.core.validators.MinValueValidator(1),
+                    django.core.validators.MaxValueValidator(8),
+                ],
+            ),
         ),
     ]

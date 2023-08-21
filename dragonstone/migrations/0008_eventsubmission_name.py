@@ -4,16 +4,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('dragonstone', '0007_alter_freeformsubmission_created_by'),
+        ("dragonstone", "0007_alter_freeformsubmission_created_by"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='eventsubmission',
-            name='name',
-            field=models.CharField(default='Event', max_length=256),
+            model_name="eventsubmission",
+            name="name",
+            field=models.CharField(default="Event", max_length=256),
             preserve_default=False,
         ),
     ]

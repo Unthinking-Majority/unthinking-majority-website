@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,22 +14,57 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Board',
+            name="Board",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=256)),
-                ('type', models.IntegerField(choices=[(0, 'Boss'), (1, 'Minigame')], default=0)),
-                ('metric', models.IntegerField(choices=[(0, 'Time'), (1, 'Other')], default=0)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=256)),
+                (
+                    "type",
+                    models.IntegerField(
+                        choices=[(0, "Boss"), (1, "Minigame")], default=0
+                    ),
+                ),
+                (
+                    "metric",
+                    models.IntegerField(choices=[(0, "Time"), (1, "Other")], default=0),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Submission',
+            name="Submission",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('value', models.DecimalField(decimal_places=2, max_digits=6)),
-                ('date', models.DateField(auto_now_add=True)),
-                ('board', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.board')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("value", models.DecimalField(decimal_places=2, max_digits=6)),
+                ("date", models.DateField(auto_now_add=True)),
+                (
+                    "board",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="main.board"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

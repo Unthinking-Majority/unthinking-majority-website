@@ -4,15 +4,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0059_alter_casubmission_options_and_more'),
+        ("main", "0059_alter_casubmission_options_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='content',
-            name='difficulty',
-            field=models.PositiveIntegerField(choices=[(0, 'Easy'), (1, 'Medium'), (2, 'Hard'), (3, 'Very Hard')], default=0),
+            model_name="content",
+            name="difficulty",
+            field=models.PositiveIntegerField(
+                choices=[(0, "Easy"), (1, "Medium"), (2, "Hard"), (3, "Very Hard")],
+                default=0,
+            ),
         ),
     ]

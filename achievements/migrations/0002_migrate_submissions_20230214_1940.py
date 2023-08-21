@@ -4,21 +4,21 @@ from django.db import migrations
 
 
 def forwards(apps, schema_data):
-    record_submissions = apps.get_model('main', 'RecordSubmission')
-    pet_submissions = apps.get_model('main', 'PetSubmission')
-    col_logs_submissions = apps.get_model('main', 'ColLogSubmission')
-    ca_submissions = apps.get_model('main', 'CASubmission')
+    record_submissions = apps.get_model("main", "RecordSubmission")
+    pet_submissions = apps.get_model("main", "PetSubmission")
+    col_logs_submissions = apps.get_model("main", "ColLogSubmission")
+    ca_submissions = apps.get_model("main", "CASubmission")
 
-    new_record_submissions = apps.get_model('achievements', 'RecordSubmission')
-    new_pet_submissions = apps.get_model('achievements', 'PetSubmission')
-    new_col_logs_submissions = apps.get_model('achievements', 'ColLogSubmission')
-    new_ca_submissions = apps.get_model('achievements', 'CASubmission')
+    new_record_submissions = apps.get_model("achievements", "RecordSubmission")
+    new_pet_submissions = apps.get_model("achievements", "PetSubmission")
+    new_col_logs_submissions = apps.get_model("achievements", "ColLogSubmission")
+    new_ca_submissions = apps.get_model("achievements", "CASubmission")
 
     base_fields = [
-        'proof',
-        'notes',
-        'date',
-        'accepted',
+        "proof",
+        "notes",
+        "date",
+        "accepted",
     ]
 
     for submission in record_submissions.objects.all():
@@ -52,9 +52,8 @@ def forwards(apps, schema_data):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('achievements', '0001_initial'),
+        ("achievements", "0001_initial"),
     ]
 
     operations = [

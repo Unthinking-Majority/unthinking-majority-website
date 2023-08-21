@@ -6,31 +6,67 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('main', '0008_pet_icon'),
+        ("main", "0008_pet_icon"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Account',
+            name="Account",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='In game name.', max_length=256)),
-                ('user', models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(help_text="In game name.", max_length=256)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        blank=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='PetOwnership',
+            name="PetOwnership",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField()),
-                ('proof', models.ImageField(upload_to='account/pet/proof/')),
-                ('account', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='pets', to='account.account')),
-                ('pet', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='owned_by', to='main.pet')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField()),
+                ("proof", models.ImageField(upload_to="account/pet/proof/")),
+                (
+                    "account",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="pets",
+                        to="account.account",
+                    ),
+                ),
+                (
+                    "pet",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="owned_by",
+                        to="main.pet",
+                    ),
+                ),
             ],
         ),
     ]

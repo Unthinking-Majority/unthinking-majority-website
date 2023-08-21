@@ -5,19 +5,24 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0024_submission_type_alter_submission_board'),
+        ("main", "0024_submission_type_alter_submission_board"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='submission',
-            options={'ordering': ['-date']},
+            name="submission",
+            options={"ordering": ["-date"]},
         ),
         migrations.AddField(
-            model_name='submission',
-            name='pet',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='submissions', to='main.pet'),
+            model_name="submission",
+            name="pet",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="submissions",
+                to="main.pet",
+            ),
         ),
     ]

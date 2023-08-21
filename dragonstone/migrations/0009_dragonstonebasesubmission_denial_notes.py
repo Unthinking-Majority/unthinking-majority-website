@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('dragonstone', '0008_eventsubmission_name'),
+        ("dragonstone", "0008_eventsubmission_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='dragonstonebasesubmission',
-            name='denial_notes',
-            field=models.TextField(blank=True, help_text='Only need to fill out if submission is denied.'),
+            model_name="dragonstonebasesubmission",
+            name="denial_notes",
+            field=models.TextField(
+                blank=True, help_text="Only need to fill out if submission is denied."
+            ),
         ),
     ]

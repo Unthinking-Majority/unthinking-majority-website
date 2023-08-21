@@ -5,20 +5,26 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0023_board_max_team_size'),
+        ("main", "0023_board_max_team_size"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='submission',
-            name='type',
-            field=models.IntegerField(choices=[(0, 'Record'), (1, 'Pet'), (2, 'Collection Log')], default=0),
+            model_name="submission",
+            name="type",
+            field=models.IntegerField(
+                choices=[(0, "Record"), (1, "Pet"), (2, "Collection Log")], default=0
+            ),
         ),
         migrations.AlterField(
-            model_name='submission',
-            name='board',
-            field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, related_name='submissions', to='main.board'),
+            model_name="submission",
+            name="board",
+            field=models.ForeignKey(
+                blank=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="submissions",
+                to="main.board",
+            ),
         ),
     ]

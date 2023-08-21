@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0007_alter_petownership_date'),
-        ('main', '0018_alter_board_metric'),
+        ("account", "0007_alter_petownership_date"),
+        ("main", "0018_alter_board_metric"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='submission',
-            name='account',
+            model_name="submission",
+            name="account",
         ),
         migrations.AddField(
-            model_name='submission',
-            name='accounts',
-            field=models.ManyToManyField(to='account.account'),
+            model_name="submission",
+            name="accounts",
+            field=models.ManyToManyField(to="account.account"),
         ),
     ]

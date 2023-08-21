@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('achievements', '0005_alter_casubmission_ca_tier'),
+        ("achievements", "0005_alter_casubmission_ca_tier"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='basesubmission',
-            name='denial_notes',
-            field=models.TextField(blank=True, help_text='Only need to fill out if submission is denied.'),
+            model_name="basesubmission",
+            name="denial_notes",
+            field=models.TextField(
+                blank=True, help_text="Only need to fill out if submission is denied."
+            ),
         ),
     ]

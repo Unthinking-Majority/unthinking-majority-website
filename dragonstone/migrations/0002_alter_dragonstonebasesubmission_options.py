@@ -4,14 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('dragonstone', '0001_initial'),
+        ("dragonstone", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='dragonstonebasesubmission',
-            options={'ordering': [models.OrderBy(models.F('date'), descending=True, nulls_last=True)], 'verbose_name': 'Dragonstone Base Submission', 'verbose_name_plural': 'All Dragonstone Submissions'},
+            name="dragonstonebasesubmission",
+            options={
+                "ordering": [
+                    models.OrderBy(models.F("date"), descending=True, nulls_last=True)
+                ],
+                "verbose_name": "Dragonstone Base Submission",
+                "verbose_name_plural": "All Dragonstone Submissions",
+            },
         ),
     ]

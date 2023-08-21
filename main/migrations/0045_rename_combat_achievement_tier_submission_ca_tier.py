@@ -4,15 +4,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0044_submission_combat_achievement_tier'),
+        ("main", "0044_submission_combat_achievement_tier"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='submission',
-            old_name='combat_achievement_tier',
-            new_name='ca_tier',
+            model_name="submission",
+            old_name="combat_achievement_tier",
+            new_name="ca_tier",
         ),
     ]

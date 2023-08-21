@@ -4,15 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0042_alter_parentboard_icon_alter_pet_icon_and_more'),
+        ("main", "0042_alter_parentboard_icon_alter_pet_icon_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='submission',
-            name='type',
-            field=models.IntegerField(choices=[(0, 'Record'), (1, 'Pet'), (2, 'Collection Log'), (3, 'Combat Achievement')], default=0),
+            model_name="submission",
+            name="type",
+            field=models.IntegerField(
+                choices=[
+                    (0, "Record"),
+                    (1, "Pet"),
+                    (2, "Collection Log"),
+                    (3, "Combat Achievement"),
+                ],
+                default=0,
+            ),
         ),
     ]

@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0043_alter_submission_type'),
+        ("main", "0043_alter_submission_type"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='submission',
-            name='combat_achievement_tier',
-            field=models.IntegerField(blank=True, choices=[(0, 'GrandMaster'), (1, 'Master'), (2, 'Elite')], default=None, null=True),
+            model_name="submission",
+            name="combat_achievement_tier",
+            field=models.IntegerField(
+                blank=True,
+                choices=[(0, "GrandMaster"), (1, "Master"), (2, "Elite")],
+                default=None,
+                null=True,
+            ),
         ),
     ]

@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0013_submission_accepted'),
+        ("main", "0013_submission_accepted"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='board',
-            name='slug',
+            model_name="board",
+            name="slug",
             field=models.SlugField(unique=True),
         ),
         migrations.AlterField(
-            model_name='boardcategory',
-            name='slug',
+            model_name="boardcategory",
+            name="slug",
             field=models.SlugField(unique=True),
         ),
     ]

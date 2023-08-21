@@ -5,18 +5,21 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0057_auto_20230208_0106'),
+        ("main", "0057_auto_20230208_0106"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='recordsubmission',
-            name='board',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='submissions', to='main.board'),
+            model_name="recordsubmission",
+            name="board",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="submissions",
+                to="main.board",
+            ),
         ),
         migrations.DeleteModel(
-            name='Submission',
+            name="Submission",
         ),
     ]

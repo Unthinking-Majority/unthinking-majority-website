@@ -5,42 +5,53 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0012_remove_account_col_logs_and_more'),
-        ('main', '0062_remove_casubmission_account_and_more'),
-        ('achievements', '0002_migrate_submissions_20230214_1940'),
+        ("account", "0012_remove_account_col_logs_and_more"),
+        ("main", "0062_remove_casubmission_account_and_more"),
+        ("achievements", "0002_migrate_submissions_20230214_1940"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='casubmission',
-            name='account',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='account.account'),
+            model_name="casubmission",
+            name="account",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="account.account"
+            ),
         ),
         migrations.AlterField(
-            model_name='collogsubmission',
-            name='account',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='account.account'),
+            model_name="collogsubmission",
+            name="account",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="account.account"
+            ),
         ),
         migrations.AlterField(
-            model_name='petsubmission',
-            name='account',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='account.account'),
+            model_name="petsubmission",
+            name="account",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="account.account"
+            ),
         ),
         migrations.AlterField(
-            model_name='petsubmission',
-            name='pet',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.pet'),
+            model_name="petsubmission",
+            name="pet",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="main.pet"
+            ),
         ),
         migrations.AlterField(
-            model_name='recordsubmission',
-            name='accounts',
-            field=models.ManyToManyField(to='account.account'),
+            model_name="recordsubmission",
+            name="accounts",
+            field=models.ManyToManyField(to="account.account"),
         ),
         migrations.AlterField(
-            model_name='recordsubmission',
-            name='board',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='submissions', to='main.board'),
+            model_name="recordsubmission",
+            name="board",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="submissions",
+                to="main.board",
+            ),
         ),
     ]

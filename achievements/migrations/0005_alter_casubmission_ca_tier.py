@@ -4,15 +4,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('achievements', '0004_alter_basesubmission_options'),
+        ("achievements", "0004_alter_basesubmission_options"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='casubmission',
-            name='ca_tier',
-            field=models.IntegerField(blank=True, choices=[(0, 'Grandmaster'), (1, 'Master'), (2, 'Elite')], default=None, null=True, verbose_name='Combat Achievement Tier'),
+            model_name="casubmission",
+            name="ca_tier",
+            field=models.IntegerField(
+                blank=True,
+                choices=[(0, "Grandmaster"), (1, "Master"), (2, "Elite")],
+                default=None,
+                null=True,
+                verbose_name="Combat Achievement Tier",
+            ),
         ),
     ]

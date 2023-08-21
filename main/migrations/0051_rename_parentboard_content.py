@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0050_alter_parentboard_options_alter_board_flex_order_and_more'),
+        ("main", "0050_alter_parentboard_options_alter_board_flex_order_and_more"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='ParentBoard',
-            new_name='Content',
+            old_name="ParentBoard",
+            new_name="Content",
         ),
     ]

@@ -29,20 +29,20 @@ data = {
     "EVENT_OTHER_DONORS_PTS": "0",
 }
 
+
 def forwards(apps, schema_data):
-    settings_model = apps.get_model('main', 'Settings')
+    settings_model = apps.get_model("main", "Settings")
     for key, val in data.items():
         settings_model.objects.create(
-            display_name=" ".join([x.title() for x in key.lower().split('_')]),
+            display_name=" ".join([x.title() for x in key.lower().split("_")]),
             name=key,
             value=val,
         )
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0065_alter_settings_options_settings_display_name'),
+        ("main", "0065_alter_settings_options_settings_display_name"),
     ]
 
     operations = [

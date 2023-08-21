@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('dragonstone', '0002_alter_dragonstonebasesubmission_options'),
+        ("dragonstone", "0002_alter_dragonstonebasesubmission_options"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='sotmsubmission',
-            name='rank',
-            field=models.PositiveIntegerField(choices=[(1, '1st'), (2, '2nd'), (3, '3rd')]),
+            model_name="sotmsubmission",
+            name="rank",
+            field=models.PositiveIntegerField(
+                choices=[(1, "1st"), (2, "2nd"), (3, "3rd")]
+            ),
         ),
     ]

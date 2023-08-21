@@ -5,15 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('achievements', '0006_basesubmission_denial_notes'),
+        ("achievements", "0006_basesubmission_denial_notes"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='collogsubmission',
-            name='col_logs',
-            field=models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(1443)]),
+            model_name="collogsubmission",
+            name="col_logs",
+            field=models.PositiveIntegerField(
+                validators=[
+                    django.core.validators.MinValueValidator(1),
+                    django.core.validators.MaxValueValidator(1443),
+                ]
+            ),
         ),
     ]

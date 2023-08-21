@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0021_alter_board_metric'),
+        ("main", "0021_alter_board_metric"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='board',
-            name='metric_name',
-            field=models.CharField(default='Time', max_length=128),
+            model_name="board",
+            name="metric_name",
+            field=models.CharField(default="Time", max_length=128),
         ),
     ]

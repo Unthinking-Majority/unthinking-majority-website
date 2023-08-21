@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0020_remove_board_type'),
+        ("main", "0020_remove_board_type"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='board',
-            name='metric',
-            field=models.IntegerField(choices=[(0, 'Time'), (1, 'Integer'), (2, 'Decimal')], default=0),
+            model_name="board",
+            name="metric",
+            field=models.IntegerField(
+                choices=[(0, "Time"), (1, "Integer"), (2, "Decimal")], default=0
+            ),
         ),
     ]

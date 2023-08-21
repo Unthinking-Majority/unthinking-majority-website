@@ -13,71 +13,68 @@ class SelectDragonstoneSubmissionTypeForm(forms.Form):
 
 
 class PVMSplitSubmissionForm(forms.ModelForm):
-
     class Meta:
         model = models.PVMSplitSubmission
-        fields = ['accounts', 'content', 'proof', 'notes']
+        fields = ["accounts", "content", "proof", "notes"]
 
     def __init__(self, *args, **kwargs):
         super(PVMSplitSubmissionForm, self).__init__(*args, **kwargs)
-        self.fields['accounts'].widget = widgets.AutocompleteSelectMultipleWidget(
+        self.fields["accounts"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
-            placeholder='Select all accounts',
-            label='Account',
+            placeholder="Select all accounts",
+            label="Account",
         )
-        self.fields['content'].widget = widgets.AutocompleteSelectWidget(
+        self.fields["content"].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('content-autocomplete')}?{urlencode({'can_be_split': True})}",
-            placeholder='Select content',
-            label='Content',
+            placeholder="Select content",
+            label="Content",
         )
 
 
 class MentorSubmissionForm(forms.ModelForm):
-
     class Meta:
         model = models.MentorSubmission
-        fields = ['mentors', 'learners', 'content', 'proof', 'notes']
+        fields = ["mentors", "learners", "content", "proof", "notes"]
 
     def __init__(self, *args, **kwargs):
         super(MentorSubmissionForm, self).__init__(*args, **kwargs)
-        self.fields['mentors'].widget = widgets.AutocompleteSelectMultipleWidget(
+        self.fields["mentors"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
-            placeholder='Select all mentors',
-            label='Mentors',
+            placeholder="Select all mentors",
+            label="Mentors",
         )
-        self.fields['learners'].widget = widgets.AutocompleteSelectMultipleWidget(
+        self.fields["learners"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
-            placeholder='Select all learners',
-            label='Learners',
+            placeholder="Select all learners",
+            label="Learners",
         )
-        self.fields['content'].widget = widgets.AutocompleteSelectWidget(
+        self.fields["content"].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('content-autocomplete')}?{urlencode({'can_be_mentored': True})}",
-            placeholder='Select content mentored',
-            label='Content',
+            placeholder="Select content mentored",
+            label="Content",
         )
 
 
 class EventSubmissionForm(forms.ModelForm):
-
     class Meta:
         model = models.EventSubmission
-        fields = ['name', 'hosts', 'participants', 'donors', 'type', 'proof', 'notes']
+        fields = ["name", "hosts", "participants", "donors", "type", "proof", "notes"]
 
     def __init__(self, *args, **kwargs):
         super(EventSubmissionForm, self).__init__(*args, **kwargs)
-        self.fields['hosts'].widget = widgets.AutocompleteSelectMultipleWidget(
+        self.fields["hosts"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
-            placeholder='Select all hosts',
-            label='Hosts',
+            placeholder="Select all hosts",
+            label="Hosts",
         )
-        self.fields['participants'].widget = widgets.AutocompleteSelectMultipleWidget(
+        self.fields["participants"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
-            placeholder='Select all participants',
-            label='Participants',
+            placeholder="Select all participants",
+            label="Participants",
         )
-        self.fields['donors'].widget = widgets.AutocompleteSelectMultipleWidget(
+        self.fields["donors"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
-            placeholder='Select all donors',
-            label='Donors',
-            required=False
+            placeholder="Select all donors",
+            label="Donors",
+            required=False,
         )

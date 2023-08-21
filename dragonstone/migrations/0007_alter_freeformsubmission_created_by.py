@@ -6,16 +6,19 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('dragonstone', '0006_freeformsubmission'),
+        ("dragonstone", "0006_freeformsubmission"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='freeformsubmission',
-            name='created_by',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL),
+            model_name="freeformsubmission",
+            name="created_by",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

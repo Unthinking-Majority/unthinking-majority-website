@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0064_settings'),
+        ("main", "0064_settings"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='settings',
-            options={'verbose_name': 'Settings', 'verbose_name_plural': 'Settings'},
+            name="settings",
+            options={"verbose_name": "Settings", "verbose_name_plural": "Settings"},
         ),
         migrations.AddField(
-            model_name='settings',
-            name='display_name',
-            field=models.CharField(default='', max_length=256),
+            model_name="settings",
+            name="display_name",
+            field=models.CharField(default="", max_length=256),
             preserve_default=False,
         ),
     ]

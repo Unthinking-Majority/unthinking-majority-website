@@ -8,94 +8,236 @@ import um.functions
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('account', '0012_remove_account_col_logs_and_more'),
-        ('main', '0061_alter_content_options'),
+        ("account", "0012_remove_account_col_logs_and_more"),
+        ("main", "0061_alter_content_options"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DragonstoneBaseSubmission',
+            name="DragonstoneBaseSubmission",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('proof', models.ImageField(blank=True, null=True, upload_to=um.functions.get_file_path)),
-                ('notes', models.TextField(blank=True)),
-                ('accepted', models.BooleanField(null=True)),
-                ('date', models.DateTimeField(blank=True, default=datetime.datetime.now, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "proof",
+                    models.ImageField(
+                        blank=True, null=True, upload_to=um.functions.get_file_path
+                    ),
+                ),
+                ("notes", models.TextField(blank=True)),
+                ("accepted", models.BooleanField(null=True)),
+                (
+                    "date",
+                    models.DateTimeField(
+                        blank=True, default=datetime.datetime.now, null=True
+                    ),
+                ),
             ],
             options={
-                'ordering': [models.OrderBy(models.F('date'), descending=True, nulls_last=True)],
+                "ordering": [
+                    models.OrderBy(models.F("date"), descending=True, nulls_last=True)
+                ],
             },
         ),
         migrations.CreateModel(
-            name='SotMSubmission',
+            name="SotMSubmission",
             fields=[
-                ('dragonstonebasesubmission_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='dragonstone.dragonstonebasesubmission')),
-                ('rank', models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(3)])),
-                ('account', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='account.account')),
+                (
+                    "dragonstonebasesubmission_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="dragonstone.dragonstonebasesubmission",
+                    ),
+                ),
+                (
+                    "rank",
+                    models.PositiveIntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(1),
+                            django.core.validators.MaxValueValidator(3),
+                        ]
+                    ),
+                ),
+                (
+                    "account",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="account.account",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Skill of the Month Submission',
-                'verbose_name_plural': 'Skill of the Month Submissions',
+                "verbose_name": "Skill of the Month Submission",
+                "verbose_name_plural": "Skill of the Month Submissions",
             },
-            bases=('dragonstone.dragonstonebasesubmission',),
+            bases=("dragonstone.dragonstonebasesubmission",),
         ),
         migrations.CreateModel(
-            name='RecruitmentSubmission',
+            name="RecruitmentSubmission",
             fields=[
-                ('dragonstonebasesubmission_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='dragonstone.dragonstonebasesubmission')),
-                ('recruited', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='recruited_by', to='account.account')),
-                ('recruiter', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='recruited', to='account.account')),
+                (
+                    "dragonstonebasesubmission_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="dragonstone.dragonstonebasesubmission",
+                    ),
+                ),
+                (
+                    "recruited",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="recruited_by",
+                        to="account.account",
+                    ),
+                ),
+                (
+                    "recruiter",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="recruited",
+                        to="account.account",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Recruitment Submission',
-                'verbose_name_plural': 'Recruitment Submissions',
+                "verbose_name": "Recruitment Submission",
+                "verbose_name_plural": "Recruitment Submissions",
             },
-            bases=('dragonstone.dragonstonebasesubmission',),
+            bases=("dragonstone.dragonstonebasesubmission",),
         ),
         migrations.CreateModel(
-            name='PVMSplitSubmission',
+            name="PVMSplitSubmission",
             fields=[
-                ('dragonstonebasesubmission_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='dragonstone.dragonstonebasesubmission')),
-                ('accounts', models.ManyToManyField(to='account.account')),
-                ('content', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.content')),
+                (
+                    "dragonstonebasesubmission_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="dragonstone.dragonstonebasesubmission",
+                    ),
+                ),
+                ("accounts", models.ManyToManyField(to="account.account")),
+                (
+                    "content",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="main.content"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'PVM Split Submission',
-                'verbose_name_plural': 'PVM Split Submissions',
+                "verbose_name": "PVM Split Submission",
+                "verbose_name_plural": "PVM Split Submissions",
             },
-            bases=('dragonstone.dragonstonebasesubmission',),
+            bases=("dragonstone.dragonstonebasesubmission",),
         ),
         migrations.CreateModel(
-            name='MentorSubmission',
+            name="MentorSubmission",
             fields=[
-                ('dragonstonebasesubmission_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='dragonstone.dragonstonebasesubmission')),
-                ('content', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.content')),
-                ('learners', models.ManyToManyField(related_name='mentor_learners', to='account.account')),
-                ('mentors', models.ManyToManyField(related_name='mentored', to='account.account')),
+                (
+                    "dragonstonebasesubmission_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="dragonstone.dragonstonebasesubmission",
+                    ),
+                ),
+                (
+                    "content",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="main.content"
+                    ),
+                ),
+                (
+                    "learners",
+                    models.ManyToManyField(
+                        related_name="mentor_learners", to="account.account"
+                    ),
+                ),
+                (
+                    "mentors",
+                    models.ManyToManyField(
+                        related_name="mentored", to="account.account"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Mentor Submission',
-                'verbose_name_plural': 'Mentor Submissions',
+                "verbose_name": "Mentor Submission",
+                "verbose_name_plural": "Mentor Submissions",
             },
-            bases=('dragonstone.dragonstonebasesubmission',),
+            bases=("dragonstone.dragonstonebasesubmission",),
         ),
         migrations.CreateModel(
-            name='EventSubmission',
+            name="EventSubmission",
             fields=[
-                ('dragonstonebasesubmission_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='dragonstone.dragonstonebasesubmission')),
-                ('type', models.IntegerField(choices=[(0, 'PVM'), (1, 'Skilling'), (2, 'Major Event'), (3, 'Other')])),
-                ('donors', models.ManyToManyField(related_name='events_donated', to='account.account')),
-                ('hosts', models.ManyToManyField(related_name='events_hosted', to='account.account')),
-                ('participants', models.ManyToManyField(related_name='events_participated', to='account.account')),
+                (
+                    "dragonstonebasesubmission_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="dragonstone.dragonstonebasesubmission",
+                    ),
+                ),
+                (
+                    "type",
+                    models.IntegerField(
+                        choices=[
+                            (0, "PVM"),
+                            (1, "Skilling"),
+                            (2, "Major Event"),
+                            (3, "Other"),
+                        ]
+                    ),
+                ),
+                (
+                    "donors",
+                    models.ManyToManyField(
+                        related_name="events_donated", to="account.account"
+                    ),
+                ),
+                (
+                    "hosts",
+                    models.ManyToManyField(
+                        related_name="events_hosted", to="account.account"
+                    ),
+                ),
+                (
+                    "participants",
+                    models.ManyToManyField(
+                        related_name="events_participated", to="account.account"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Event Submission',
-                'verbose_name_plural': 'Event Submissions',
+                "verbose_name": "Event Submission",
+                "verbose_name_plural": "Event Submissions",
             },
-            bases=('dragonstone.dragonstonebasesubmission',),
+            bases=("dragonstone.dragonstonebasesubmission",),
         ),
     ]

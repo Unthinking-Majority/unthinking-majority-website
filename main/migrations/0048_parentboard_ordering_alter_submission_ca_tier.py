@@ -4,20 +4,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0047_alter_submission_options'),
+        ("main", "0047_alter_submission_options"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='parentboard',
-            name='ordering',
-            field=models.CharField(choices=[('-', 'Descending'), ('', 'Ascending')], default='', max_length=1),
+            model_name="parentboard",
+            name="ordering",
+            field=models.CharField(
+                choices=[("-", "Descending"), ("", "Ascending")],
+                default="",
+                max_length=1,
+            ),
         ),
         migrations.AlterField(
-            model_name='submission',
-            name='ca_tier',
-            field=models.IntegerField(blank=True, choices=[(0, 'Grandmaster'), (1, 'Master'), (2, 'Elite')], default=None, null=True),
+            model_name="submission",
+            name="ca_tier",
+            field=models.IntegerField(
+                blank=True,
+                choices=[(0, "Grandmaster"), (1, "Master"), (2, "Elite")],
+                default=None,
+                null=True,
+            ),
         ),
     ]

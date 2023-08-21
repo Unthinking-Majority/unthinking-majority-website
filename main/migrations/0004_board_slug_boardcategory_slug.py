@@ -4,16 +4,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0003_alter_boardcategory_options_board_category'),
+        ("main", "0003_alter_boardcategory_options_board_category"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='board',
-            name='slug',
-            field=models.SlugField(default='temp'),
+            model_name="board",
+            name="slug",
+            field=models.SlugField(default="temp"),
             preserve_default=False,
         ),
     ]

@@ -4,15 +4,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0012_remove_account_col_logs_and_more'),
+        ("account", "0012_remove_account_col_logs_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='account',
-            name='rank',
-            field=models.PositiveIntegerField(blank=True, choices=[(0, 'Sapphire'), (1, 'Emerald'), (2, 'Ruby'), (3, 'Diamond'), (4, 'Dragonstone'), (5, 'Vanguard'), (6, 'Bronze'), (7, 'Silver'), (8, 'Gold')], null=True),
+            model_name="account",
+            name="rank",
+            field=models.PositiveIntegerField(
+                blank=True,
+                choices=[
+                    (0, "Sapphire"),
+                    (1, "Emerald"),
+                    (2, "Ruby"),
+                    (3, "Diamond"),
+                    (4, "Dragonstone"),
+                    (5, "Vanguard"),
+                    (6, "Bronze"),
+                    (7, "Silver"),
+                    (8, "Gold"),
+                ],
+                null=True,
+            ),
         ),
     ]

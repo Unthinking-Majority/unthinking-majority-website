@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0027_submission_notes'),
+        ("main", "0027_submission_notes"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='submission',
-            name='value',
-            field=models.DecimalField(blank=True, decimal_places=2, max_digits=7, null=True),
+            model_name="submission",
+            name="value",
+            field=models.DecimalField(
+                blank=True, decimal_places=2, max_digits=7, null=True
+            ),
         ),
     ]

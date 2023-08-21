@@ -4,15 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0017_remove_board_metric_name'),
+        ("main", "0017_remove_board_metric_name"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='board',
-            name='metric',
-            field=models.IntegerField(choices=[(0, 'Time'), (1, 'Other'), (2, 'Tears'), (3, 'Overall Time'), (4, 'Challenge Time')], default=0),
+            model_name="board",
+            name="metric",
+            field=models.IntegerField(
+                choices=[
+                    (0, "Time"),
+                    (1, "Other"),
+                    (2, "Tears"),
+                    (3, "Overall Time"),
+                    (4, "Challenge Time"),
+                ],
+                default=0,
+            ),
         ),
     ]

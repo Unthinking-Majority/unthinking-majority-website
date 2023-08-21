@@ -4,24 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0038_alter_board_parent'),
+        ("main", "0038_alter_board_parent"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='board',
-            options={'ordering': ['team_size', 'name']},
+            name="board",
+            options={"ordering": ["team_size", "name"]},
         ),
         migrations.AlterField(
-            model_name='board',
-            name='name',
+            model_name="board",
+            name="name",
             field=models.CharField(max_length=256, unique=True),
         ),
         migrations.AlterField(
-            model_name='parentboard',
-            name='name',
+            model_name="parentboard",
+            name="name",
             field=models.CharField(max_length=256, unique=True),
         ),
     ]

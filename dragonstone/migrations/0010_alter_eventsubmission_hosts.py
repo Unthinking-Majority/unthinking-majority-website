@@ -4,16 +4,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0014_rename_active_account_is_active'),
-        ('dragonstone', '0009_dragonstonebasesubmission_denial_notes'),
+        ("account", "0014_rename_active_account_is_active"),
+        ("dragonstone", "0009_dragonstonebasesubmission_denial_notes"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='eventsubmission',
-            name='hosts',
-            field=models.ManyToManyField(blank=True, related_name='events_hosted', to='account.account'),
+            model_name="eventsubmission",
+            name="hosts",
+            field=models.ManyToManyField(
+                blank=True, related_name="events_hosted", to="account.account"
+            ),
         ),
     ]

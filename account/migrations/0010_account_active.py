@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0009_account_col_logs'),
+        ("account", "0009_account_col_logs"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='account',
-            name='active',
+            model_name="account",
+            name="active",
             field=models.BooleanField(default=True),
         ),
     ]

@@ -5,19 +5,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0028_alter_submission_value'),
+        ("main", "0028_alter_submission_value"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='board',
-            options={'ordering': ['name']},
+            name="board",
+            options={"ordering": ["name"]},
         ),
         migrations.AlterField(
-            model_name='submission',
-            name='date',
+            model_name="submission",
+            name="date",
             field=models.DateField(default=datetime.date.today),
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0012_alter_pet_name'),
+        ("main", "0012_alter_pet_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='submission',
-            name='accepted',
+            model_name="submission",
+            name="accepted",
             field=models.BooleanField(default=False),
         ),
     ]

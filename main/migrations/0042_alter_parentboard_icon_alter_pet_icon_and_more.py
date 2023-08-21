@@ -6,30 +6,35 @@ import main.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0041_alter_submission_date'),
+        ("main", "0041_alter_submission_date"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='parentboard',
-            name='icon',
-            field=models.ImageField(blank=True, null=True, upload_to=main.models.get_file_path),
+            model_name="parentboard",
+            name="icon",
+            field=models.ImageField(
+                blank=True, null=True, upload_to=main.models.get_file_path
+            ),
         ),
         migrations.AlterField(
-            model_name='pet',
-            name='icon',
-            field=models.ImageField(blank=True, null=True, upload_to=main.models.get_file_path),
+            model_name="pet",
+            name="icon",
+            field=models.ImageField(
+                blank=True, null=True, upload_to=main.models.get_file_path
+            ),
         ),
         migrations.AlterField(
-            model_name='submission',
-            name='date',
+            model_name="submission",
+            name="date",
             field=models.DateTimeField(default=datetime.datetime.now),
         ),
         migrations.AlterField(
-            model_name='submission',
-            name='proof',
-            field=models.ImageField(blank=True, null=True, upload_to=main.models.get_file_path),
+            model_name="submission",
+            name="proof",
+            field=models.ImageField(
+                blank=True, null=True, upload_to=main.models.get_file_path
+            ),
         ),
     ]

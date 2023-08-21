@@ -5,60 +5,56 @@ from django.db import migrations
 
 RECORD, PET, COL_LOG, CA = range(4)
 SUBMISSION_TYPES = (
-    (RECORD, 'Record'),
-    (PET, 'Pet'),
-    (COL_LOG, 'Collection Log'),
-    (CA, 'Combat Achievement'),
+    (RECORD, "Record"),
+    (PET, "Pet"),
+    (COL_LOG, "Collection Log"),
+    (CA, "Combat Achievement"),
 )
+
 
 def forwards(apps, schema_data):
     # migrate each submission to its new, appropriate submission model!
-    submission_model = apps.get_model('main', 'Submission')
-    record_submission_model = apps.get_model('main', 'RecordSubmission')
-    pet_submission_model = apps.get_model('main', 'PetSubmission')
-    col_log_submission_model = apps.get_model('main', 'ColLogSubmission')
-    ca_submission_model = apps.get_model('main', 'CASubmission')
+    submission_model = apps.get_model("main", "Submission")
+    record_submission_model = apps.get_model("main", "RecordSubmission")
+    pet_submission_model = apps.get_model("main", "PetSubmission")
+    col_log_submission_model = apps.get_model("main", "ColLogSubmission")
+    ca_submission_model = apps.get_model("main", "CASubmission")
 
     for submission in submission_model.objects.all():
         base_fields = {
-            'proof': submission.proof,
-            'notes': submission.notes,
-            'accepted': submission.accepted,
-            'date': submission.date,
+            "proof": submission.proof,
+            "notes": submission.notes,
+            "accepted": submission.accepted,
+            "date": submission.date,
         }
         if submission.type == RECORD:
             obj = record_submission_model.objects.create(
-                **base_fields,
-                board=submission.board,
-                value=submission.value
+                **base_fields, board=submission.board, value=submission.value
             )
             for account in submission.accounts.all():
                 obj.accounts.add(account)
         elif submission.type == PET:
             obj = pet_submission_model.objects.create(
-                **base_fields,
-                account=submission.accounts.first(),
-                pet=submission.pet
+                **base_fields, account=submission.accounts.first(), pet=submission.pet
             )
         elif submission.type == COL_LOG:
             obj = col_log_submission_model.objects.create(
                 **base_fields,
                 account=submission.accounts.first(),
-                col_logs=int(submission.value)
+                col_logs=int(submission.value),
             )
         elif submission.type == CA:
             obj = ca_submission_model.objects.create(
                 **base_fields,
                 account=submission.accounts.first(),
-                ca_tier=submission.ca_tier
+                ca_tier=submission.ca_tier,
             )
-        print(f'created obj {obj.id}')
+        print(f"created obj {obj.id}")
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0056_basesubmission_recordsubmission_petsubmission_and_more'),
+        ("main", "0056_basesubmission_recordsubmission_petsubmission_and_more"),
     ]
 
     operations = [

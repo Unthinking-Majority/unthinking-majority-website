@@ -4,18 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0011_account_combat_achievement_tier'),
+        ("account", "0011_account_combat_achievement_tier"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='account',
-            name='col_logs',
+            model_name="account",
+            name="col_logs",
         ),
         migrations.RemoveField(
-            model_name='account',
-            name='combat_achievement_tier',
+            model_name="account",
+            name="combat_achievement_tier",
         ),
     ]

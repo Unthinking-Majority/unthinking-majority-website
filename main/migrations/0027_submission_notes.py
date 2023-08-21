@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0026_alter_submission_board_alter_submission_value'),
+        ("main", "0026_alter_submission_board_alter_submission_value"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='submission',
-            name='notes',
+            model_name="submission",
+            name="notes",
             field=models.TextField(blank=True),
         ),
     ]

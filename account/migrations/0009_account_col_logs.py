@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0008_delete_petownership'),
+        ("account", "0008_delete_petownership"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='account',
-            name='col_logs',
+            model_name="account",
+            name="col_logs",
             field=models.PositiveIntegerField(default=0),
         ),
     ]

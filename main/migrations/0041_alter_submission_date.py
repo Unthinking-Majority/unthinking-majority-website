@@ -5,15 +5,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0040_remove_board_metric_remove_board_metric_name'),
+        ("main", "0040_remove_board_metric_remove_board_metric_name"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='submission',
-            name='date',
+            model_name="submission",
+            name="date",
             field=models.DateTimeField(default=datetime.date.today),
         ),
     ]

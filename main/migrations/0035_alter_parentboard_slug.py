@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0034_alter_parentboard_options_remove_board_slug_and_more'),
+        ("main", "0034_alter_parentboard_options_remove_board_slug_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='parentboard',
-            name='slug',
+            model_name="parentboard",
+            name="slug",
             field=models.SlugField(unique=True),
         ),
     ]

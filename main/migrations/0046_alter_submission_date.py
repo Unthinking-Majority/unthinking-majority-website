@@ -5,15 +5,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0045_rename_combat_achievement_tier_submission_ca_tier'),
+        ("main", "0045_rename_combat_achievement_tier_submission_ca_tier"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='submission',
-            name='date',
-            field=models.DateTimeField(blank=True, default=datetime.datetime.now, null=True),
+            model_name="submission",
+            name="date",
+            field=models.DateTimeField(
+                blank=True, default=datetime.datetime.now, null=True
+            ),
         ),
     ]

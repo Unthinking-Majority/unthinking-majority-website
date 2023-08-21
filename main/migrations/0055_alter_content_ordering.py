@@ -4,15 +4,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0054_rename_boardcategory_contentcategory_and_more'),
+        ("main", "0054_rename_boardcategory_contentcategory_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='content',
-            name='ordering',
-            field=models.CharField(blank=True, choices=[('-', 'Descending'), ('', 'Ascending')], default='', help_text='Order of values when showing submission from child boards.', max_length=1),
+            model_name="content",
+            name="ordering",
+            field=models.CharField(
+                blank=True,
+                choices=[("-", "Descending"), ("", "Ascending")],
+                default="",
+                help_text="Order of values when showing submission from child boards.",
+                max_length=1,
+            ),
         ),
     ]

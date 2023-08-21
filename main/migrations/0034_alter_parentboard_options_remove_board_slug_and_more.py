@@ -4,24 +4,27 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0033_remove_board_category'),
+        ("main", "0033_remove_board_category"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='parentboard',
-            options={'ordering': ['name'], 'verbose_name': 'Parent Board', 'verbose_name_plural': 'Parent Boards'},
+            name="parentboard",
+            options={
+                "ordering": ["name"],
+                "verbose_name": "Parent Board",
+                "verbose_name_plural": "Parent Boards",
+            },
         ),
         migrations.RemoveField(
-            model_name='board',
-            name='slug',
+            model_name="board",
+            name="slug",
         ),
         migrations.AddField(
-            model_name='parentboard',
-            name='slug',
-            field=models.SlugField(default=''),
+            model_name="parentboard",
+            name="slug",
+            field=models.SlugField(default=""),
             preserve_default=False,
         ),
     ]

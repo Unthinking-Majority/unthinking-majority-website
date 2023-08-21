@@ -5,16 +5,17 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0002_account_icon'),
-        ('main', '0008_pet_icon'),
+        ("account", "0002_account_icon"),
+        ("main", "0008_pet_icon"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='submission',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='account.account'),
+            model_name="submission",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="account.account"
+            ),
         ),
     ]

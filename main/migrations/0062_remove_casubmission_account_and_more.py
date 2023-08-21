@@ -4,66 +4,65 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0061_alter_content_options'),
-        ('achievements', '0002_migrate_submissions_20230214_1940'),
+        ("main", "0061_alter_content_options"),
+        ("achievements", "0002_migrate_submissions_20230214_1940"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='casubmission',
-            name='account',
+            model_name="casubmission",
+            name="account",
         ),
         migrations.RemoveField(
-            model_name='casubmission',
-            name='basesubmission_ptr',
+            model_name="casubmission",
+            name="basesubmission_ptr",
         ),
         migrations.RemoveField(
-            model_name='collogsubmission',
-            name='account',
+            model_name="collogsubmission",
+            name="account",
         ),
         migrations.RemoveField(
-            model_name='collogsubmission',
-            name='basesubmission_ptr',
+            model_name="collogsubmission",
+            name="basesubmission_ptr",
         ),
         migrations.RemoveField(
-            model_name='petsubmission',
-            name='account',
+            model_name="petsubmission",
+            name="account",
         ),
         migrations.RemoveField(
-            model_name='petsubmission',
-            name='basesubmission_ptr',
+            model_name="petsubmission",
+            name="basesubmission_ptr",
         ),
         migrations.RemoveField(
-            model_name='petsubmission',
-            name='pet',
+            model_name="petsubmission",
+            name="pet",
         ),
         migrations.RemoveField(
-            model_name='recordsubmission',
-            name='accounts',
+            model_name="recordsubmission",
+            name="accounts",
         ),
         migrations.RemoveField(
-            model_name='recordsubmission',
-            name='basesubmission_ptr',
+            model_name="recordsubmission",
+            name="basesubmission_ptr",
         ),
         migrations.RemoveField(
-            model_name='recordsubmission',
-            name='board',
+            model_name="recordsubmission",
+            name="board",
         ),
         migrations.DeleteModel(
-            name='BaseSubmission',
+            name="BaseSubmission",
         ),
         migrations.DeleteModel(
-            name='CASubmission',
+            name="CASubmission",
         ),
         migrations.DeleteModel(
-            name='ColLogSubmission',
+            name="ColLogSubmission",
         ),
         migrations.DeleteModel(
-            name='PetSubmission',
+            name="PetSubmission",
         ),
         migrations.DeleteModel(
-            name='RecordSubmission',
+            name="RecordSubmission",
         ),
     ]

@@ -15,29 +15,31 @@ from um.functions import get_file_path
 
 
 class BaseSubmission(models.Model):
-    UPLOAD_TO = 'submission/proof/'
+    UPLOAD_TO = "submission/proof/"
 
     proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     notes = models.TextField(blank=True)
-    denial_notes = models.TextField(blank=True, help_text='Only need to fill out if submission is denied.')
+    denial_notes = models.TextField(
+        blank=True, help_text="Only need to fill out if submission is denied."
+    )
     accepted = models.BooleanField(null=True)
     date = models.DateTimeField(default=datetime.now, null=True, blank=True)
 
     objects = managers.SubmissionQueryset.as_manager()
 
     child_models = (
-        'recordsubmission',
-        'petsubmission',
-        'collogsubmission',
-        'casubmission'
+        "recordsubmission",
+        "petsubmission",
+        "collogsubmission",
+        "casubmission",
     )
 
     __original_accepted = None
 
     class Meta:
-        ordering = [F('date').desc(nulls_last=True)]
-        verbose_name = 'Base Submission'
-        verbose_name_plural = 'All Submissions'
+        ordering = [F("date").desc(nulls_last=True)]
+        verbose_name = "Base Submission"
+        verbose_name_plural = "All Submissions"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,15 +53,15 @@ class BaseSubmission(models.Model):
     @classmethod
     def filter_all_submissions_by_account(cls, account):
         # filter for all submission objects inheriting from BaseSubmission which the given account was a part of
-        record_subs = RecordSubmission.objects.filter(accounts=account).values('pk')
-        pet_subs = PetSubmission.objects.filter(account=account).values('pk')
-        col_logs_subs = ColLogSubmission.objects.filter(account=account).values('pk')
-        ca_subs = CASubmission.objects.filter(account=account).values('pk')
+        record_subs = RecordSubmission.objects.filter(accounts=account).values("pk")
+        pet_subs = PetSubmission.objects.filter(account=account).values("pk")
+        col_logs_subs = ColLogSubmission.objects.filter(account=account).values("pk")
+        ca_subs = CASubmission.objects.filter(account=account).values("pk")
         return cls.objects.filter(
-            Q(pk__in=record_subs) |
-            Q(pk__in=pet_subs) |
-            Q(pk__in=col_logs_subs) |
-            Q(pk__in=ca_subs)
+            Q(pk__in=record_subs)
+            | Q(pk__in=pet_subs)
+            | Q(pk__in=col_logs_subs)
+            | Q(pk__in=ca_subs)
         )
 
     def type_display(self):
@@ -91,13 +93,15 @@ class BaseSubmission(models.Model):
 
 
 class RecordSubmission(BaseSubmission):
-    accounts = models.ManyToManyField('account.Account')
-    board = models.ForeignKey('main.Board', on_delete=models.CASCADE, related_name='submissions')
+    accounts = models.ManyToManyField("account.Account")
+    board = models.ForeignKey(
+        "main.Board", on_delete=models.CASCADE, related_name="submissions"
+    )
     value = models.DecimalField(max_digits=7, decimal_places=2)
 
     class Meta:
-        verbose_name = 'Record Submission'
-        verbose_name_plural = 'Record Submissions'
+        verbose_name = "Record Submission"
+        verbose_name_plural = "Record Submissions"
 
     def type_display(self):
         return self.board.name
@@ -106,37 +110,45 @@ class RecordSubmission(BaseSubmission):
         if self.board.content.metric == TIME:
             minutes = int(self.value // 60)
             seconds = self.value % 60
-            return f'{minutes}:{seconds:05}'
+            return f"{minutes}:{seconds:05}"
         else:
-            return int(self.value) if self.board.content.metric == INTEGER else self.value
+            return (
+                int(self.value) if self.board.content.metric == INTEGER else self.value
+            )
 
     def on_accepted(self):
         """
         Post to discord um pb webhook the newly accepted submission!
         """
-        data = json.dumps({'embeds': [self.create_embed()]})
+        data = json.dumps({"embeds": [self.create_embed()]})
         requests.post(
             settings.UM_PB_DISCORD_WEBHOOK_URL,
             data=data,
-            headers={'Content-Type': 'application/json'}
+            headers={"Content-Type": "application/json"},
         )
 
     def get_rank(self):
         ordering = self.board.content.ordering
 
-        active_accounts_submissions = self.board.submissions.active_submissions().accepted()
+        active_accounts_submissions = (
+            self.board.submissions.active_submissions().accepted()
+        )
 
         # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
         annotated_submissions = active_accounts_submissions.annotate(
-            accounts_str=StringAgg('accounts__name', delimiter=',', ordering='accounts__name')
-        ).order_by('accounts_str', f'{ordering}value')
+            accounts_str=StringAgg(
+                "accounts__name", delimiter=",", ordering="accounts__name"
+            )
+        ).order_by("accounts_str", f"{ordering}value")
 
         # grab the first submission for each team (which is the best, since we ordered by value above)
         submissions = {}
         for submission in annotated_submissions:
             if submission.accounts_str not in submissions.keys():
                 submissions[submission.accounts_str] = submission.id
-        submissions = self.__class__.objects.filter(id__in=submissions.values()).order_by(f'{ordering}value', 'date')
+        submissions = self.__class__.objects.filter(
+            id__in=submissions.values()
+        ).order_by(f"{ordering}value", "date")
 
         for rank, submission in enumerate(submissions):
             if submission.id == self.id:
@@ -149,60 +161,60 @@ class RecordSubmission(BaseSubmission):
         """
         fields = [
             {
-                'name': 'Board',
-                'value': self.board.name,
+                "name": "Board",
+                "value": self.board.name,
             },
             {
-                'name': 'User(s)',
-                'value': ', '.join(self.accounts.values_list('name', flat=True)),
+                "name": "User(s)",
+                "value": ", ".join(self.accounts.values_list("name", flat=True)),
             },
             {
-                'name': self.board.content.metric_name,
-                'value': self.value_display(),
-                'inline': True,
+                "name": self.board.content.metric_name,
+                "value": self.value_display(),
+                "inline": True,
             },
             {
-                'name': 'Date',
-                'value': f'{self.date:%b %d, %Y}',
-                'inline': True,
+                "name": "Date",
+                "value": f"{self.date:%b %d, %Y}",
+                "inline": True,
             },
             {
-                'name': 'Rank',
-                'value': self.get_rank() or '---',
-                'inline': True,
+                "name": "Rank",
+                "value": self.get_rank() or "---",
+                "inline": True,
             },
         ]
         if self.notes:
             fields.append(
                 {
-                    'name': 'Notes',
-                    'value': self.notes,
+                    "name": "Notes",
+                    "value": self.notes,
                 }
             )
 
         embed = {
-            'color': 0x0099FF,
-            'title': 'New Submission',
-            'fields': fields,
-            'url': f'https://{settings.DOMAIN}{self.board.content.leaderboard_url()}',
+            "color": 0x0099FF,
+            "title": "New Submission",
+            "fields": fields,
+            "url": f"https://{settings.DOMAIN}{self.board.content.leaderboard_url()}",
         }
 
         if not settings.DEBUG and self.proof:
-            embed['image'] = {'url': self.proof.url}
+            embed["image"] = {"url": self.proof.url}
 
         return embed
 
 
 class PetSubmission(BaseSubmission):
-    account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
-    pet = models.ForeignKey('main.Pet', on_delete=models.CASCADE)
+    account = models.ForeignKey("account.Account", on_delete=models.CASCADE)
+    pet = models.ForeignKey("main.Pet", on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'Pet Submission'
-        verbose_name_plural = 'Pet Submissions'
+        verbose_name = "Pet Submission"
+        verbose_name_plural = "Pet Submissions"
 
     def type_display(self):
-        return 'Pet'
+        return "Pet"
 
     def value_display(self):
         return self.pet.name
@@ -212,33 +224,41 @@ class PetSubmission(BaseSubmission):
 
 
 class ColLogSubmission(BaseSubmission):
-    account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
-    col_logs = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(settings.MAX_COL_LOG)])
+    account = models.ForeignKey("account.Account", on_delete=models.CASCADE)
+    col_logs = models.PositiveIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(settings.MAX_COL_LOG)]
+    )
 
     class Meta:
-        verbose_name = 'Collection Log Submission'
-        verbose_name_plural = 'Collection Log Submissions'
+        verbose_name = "Collection Log Submission"
+        verbose_name_plural = "Collection Log Submissions"
 
     def type_display(self):
-        return 'Collection Logs'
+        return "Collection Logs"
 
     def value_display(self):
-        return f'{self.col_logs}/{settings.MAX_COL_LOG}'
+        return f"{self.col_logs}/{settings.MAX_COL_LOG}"
 
     def on_accepted(self):
         return
 
 
 class CASubmission(BaseSubmission):
-    account = models.ForeignKey('account.Account', on_delete=models.CASCADE)
-    ca_tier = models.IntegerField(choices=CA_CHOICES, default=None, null=True, blank=True, verbose_name='Combat Achievement Tier')
+    account = models.ForeignKey("account.Account", on_delete=models.CASCADE)
+    ca_tier = models.IntegerField(
+        choices=CA_CHOICES,
+        default=None,
+        null=True,
+        blank=True,
+        verbose_name="Combat Achievement Tier",
+    )
 
     class Meta:
-        verbose_name = 'Combat Achievement Submission'
-        verbose_name_plural = 'Combat Achievement Submissions'
+        verbose_name = "Combat Achievement Submission"
+        verbose_name_plural = "Combat Achievement Submissions"
 
     def type_display(self):
-        return 'Combat Achievement'
+        return "Combat Achievement"
 
     def value_display(self):
         return self.get_ca_tier_display()

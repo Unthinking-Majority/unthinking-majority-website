@@ -4,20 +4,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0006_pet'),
+        ("main", "0006_pet"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='board',
-            name='icon',
-            field=models.ImageField(blank=True, null=True, upload_to='board/icons/'),
+            model_name="board",
+            name="icon",
+            field=models.ImageField(blank=True, null=True, upload_to="board/icons/"),
         ),
         migrations.AddField(
-            model_name='submission',
-            name='proof',
-            field=models.ImageField(blank=True, null=True, upload_to='submission/proof/'),
+            model_name="submission",
+            name="proof",
+            field=models.ImageField(
+                blank=True, null=True, upload_to="submission/proof/"
+            ),
         ),
     ]

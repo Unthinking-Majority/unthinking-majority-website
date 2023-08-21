@@ -5,23 +5,29 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0053_rename_parent_board_content'),
+        ("main", "0053_rename_parent_board_content"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='content',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='content_types', to='main.boardcategory'),
+            model_name="content",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="content_types",
+                to="main.boardcategory",
+            ),
         ),
         migrations.RenameModel(
-            old_name='BoardCategory',
-            new_name='ContentCategory',
+            old_name="BoardCategory",
+            new_name="ContentCategory",
         ),
         migrations.AlterModelOptions(
-            name='contentcategory',
-            options={'verbose_name': 'Content Category', 'verbose_name_plural': 'Content Categories'},
+            name="contentcategory",
+            options={
+                "verbose_name": "Content Category",
+                "verbose_name_plural": "Content Categories",
+            },
         ),
     ]

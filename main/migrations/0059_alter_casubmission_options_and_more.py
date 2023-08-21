@@ -4,26 +4,37 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0058_alter_recordsubmission_board_delete_submission'),
+        ("main", "0058_alter_recordsubmission_board_delete_submission"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='casubmission',
-            options={'verbose_name': 'Combat Achievement Submission', 'verbose_name_plural': 'Combat Achievement Submissions'},
+            name="casubmission",
+            options={
+                "verbose_name": "Combat Achievement Submission",
+                "verbose_name_plural": "Combat Achievement Submissions",
+            },
         ),
         migrations.AlterModelOptions(
-            name='collogsubmission',
-            options={'verbose_name': 'Collection Log Submission', 'verbose_name_plural': 'Collection Log Submissions'},
+            name="collogsubmission",
+            options={
+                "verbose_name": "Collection Log Submission",
+                "verbose_name_plural": "Collection Log Submissions",
+            },
         ),
         migrations.AlterModelOptions(
-            name='petsubmission',
-            options={'verbose_name': 'Pet Submission', 'verbose_name_plural': 'Pet Submissions'},
+            name="petsubmission",
+            options={
+                "verbose_name": "Pet Submission",
+                "verbose_name_plural": "Pet Submissions",
+            },
         ),
         migrations.AlterModelOptions(
-            name='recordsubmission',
-            options={'verbose_name': 'Record Submission', 'verbose_name_plural': 'Record Submissions'},
+            name="recordsubmission",
+            options={
+                "verbose_name": "Record Submission",
+                "verbose_name_plural": "Record Submissions",
+            },
         ),
     ]

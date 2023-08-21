@@ -5,24 +5,43 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0049_alter_parentboard_options_board_flex_order_and_more'),
+        ("main", "0049_alter_parentboard_options_board_flex_order_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='parentboard',
-            options={'ordering': ['order', 'name'], 'verbose_name': 'Parent Board', 'verbose_name_plural': 'Parent Boards'},
+            name="parentboard",
+            options={
+                "ordering": ["order", "name"],
+                "verbose_name": "Parent Board",
+                "verbose_name_plural": "Parent Boards",
+            },
         ),
         migrations.AlterField(
-            model_name='board',
-            name='flex_order',
-            field=models.PositiveIntegerField(blank=True, help_text='Order on leaderboard page. Empty values will appear last (order is then defined by team size). Allowed numbers are 1 - 12.', null=True, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(12)]),
+            model_name="board",
+            name="flex_order",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Order on leaderboard page. Empty values will appear last (order is then defined by team size). Allowed numbers are 1 - 12.",
+                null=True,
+                validators=[
+                    django.core.validators.MinValueValidator(1),
+                    django.core.validators.MaxValueValidator(12),
+                ],
+            ),
         ),
         migrations.AlterField(
-            model_name='parentboard',
-            name='order',
-            field=models.PositiveIntegerField(blank=True, help_text='Order in navbar. Empty values will appear last (order is then defined by alphabetical order of name). Allowed numbers are 1 - 12.', null=True, validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(12)]),
+            model_name="parentboard",
+            name="order",
+            field=models.PositiveIntegerField(
+                blank=True,
+                help_text="Order in navbar. Empty values will appear last (order is then defined by alphabetical order of name). Allowed numbers are 1 - 12.",
+                null=True,
+                validators=[
+                    django.core.validators.MinValueValidator(1),
+                    django.core.validators.MaxValueValidator(12),
+                ],
+            ),
         ),
     ]

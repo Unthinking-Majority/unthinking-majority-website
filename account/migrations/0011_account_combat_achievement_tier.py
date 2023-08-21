@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0010_account_active'),
+        ("account", "0010_account_active"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='account',
-            name='combat_achievement_tier',
-            field=models.IntegerField(blank=True, choices=[(0, 'GrandMaster'), (1, 'Master'), (2, 'Elite')], default=None, null=True),
+            model_name="account",
+            name="combat_achievement_tier",
+            field=models.IntegerField(
+                blank=True,
+                choices=[(0, "GrandMaster"), (1, "Master"), (2, "Elite")],
+                default=None,
+                null=True,
+            ),
         ),
     ]

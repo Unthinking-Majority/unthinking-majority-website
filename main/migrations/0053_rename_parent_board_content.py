@@ -4,15 +4,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0052_alter_content_options_alter_content_category'),
+        ("main", "0052_alter_content_options_alter_content_category"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='board',
-            old_name='parent',
-            new_name='content',
+            model_name="board",
+            old_name="parent",
+            new_name="content",
         ),
     ]

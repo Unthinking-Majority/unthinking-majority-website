@@ -4,20 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('main', '0066_populate_settings_20230216_2212'),
+        ("main", "0066_populate_settings_20230216_2212"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='content',
-            name='can_be_mentored',
-            field=models.BooleanField(default=False, verbose_name='Can this content be mentored?'),
+            model_name="content",
+            name="can_be_mentored",
+            field=models.BooleanField(
+                default=False, verbose_name="Can this content be mentored?"
+            ),
         ),
         migrations.AddField(
-            model_name='content',
-            name='can_be_split',
-            field=models.BooleanField(default=False, verbose_name='Can teams split drops from this content?'),
+            model_name="content",
+            name="can_be_split",
+            field=models.BooleanField(
+                default=False, verbose_name="Can teams split drops from this content?"
+            ),
         ),
     ]

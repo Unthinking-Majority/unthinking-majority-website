@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0006_remove_account_icon'),
+        ("account", "0006_remove_account_icon"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='petownership',
-            name='date',
+            model_name="petownership",
+            name="date",
             field=models.DateField(auto_now_add=True),
         ),
     ]

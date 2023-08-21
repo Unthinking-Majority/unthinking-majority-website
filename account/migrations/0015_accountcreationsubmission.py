@@ -6,22 +6,35 @@ import um.functions
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0014_rename_active_account_is_active'),
+        ("account", "0014_rename_active_account_is_active"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='AccountCreationSubmission',
+            name="AccountCreationSubmission",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('username', models.CharField(max_length=256)),
-                ('password', models.CharField(max_length=128)),
-                ('accepted', models.BooleanField(null=True)),
-                ('proof', models.ImageField(upload_to=um.functions.get_file_path)),
-                ('phrase', models.CharField(max_length=128)),
-                ('account', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='account.account')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("username", models.CharField(max_length=256)),
+                ("password", models.CharField(max_length=128)),
+                ("accepted", models.BooleanField(null=True)),
+                ("proof", models.ImageField(upload_to=um.functions.get_file_path)),
+                ("phrase", models.CharField(max_length=128)),
+                (
+                    "account",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="account.account",
+                    ),
+                ),
             ],
         ),
     ]

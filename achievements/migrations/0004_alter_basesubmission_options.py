@@ -4,14 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('achievements', '0003_alter_casubmission_account_and_more'),
+        ("achievements", "0003_alter_casubmission_account_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='basesubmission',
-            options={'ordering': [models.OrderBy(models.F('date'), descending=True, nulls_last=True)], 'verbose_name': 'Base Submission', 'verbose_name_plural': 'All Submissions'},
+            name="basesubmission",
+            options={
+                "ordering": [
+                    models.OrderBy(models.F("date"), descending=True, nulls_last=True)
+                ],
+                "verbose_name": "Base Submission",
+                "verbose_name_plural": "All Submissions",
+            },
         ),
     ]
