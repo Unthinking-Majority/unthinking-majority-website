@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "storages",
     "tailwind",
     "theme",
+    "notifications",
 ]
 
 if DEBUG:

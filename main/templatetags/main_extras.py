@@ -2,16 +2,20 @@ from django import template
 from django.conf import settings
 
 from main.models import ContentCategory
+from main.models import UMNotification
 
 register = template.Library()
 
 
-@register.inclusion_tag('main/navbar.html', takes_context=True)
+@register.inclusion_tag("main/navbar.html", takes_context=True)
 def navbar(context):
     return {
-        'request': context['request'],
-        'board': context.get('board', None),
-        'content_categories': ContentCategory.objects.all(),
+        "request": context["request"],
+        "board": context.get("board", None),
+        "notifications": UMNotification.objects.filter(
+            recipient=context["request"].user
+        ).unread(),
+        "content_categories": ContentCategory.objects.all(),
     }
 
 
