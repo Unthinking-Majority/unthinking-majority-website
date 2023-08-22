@@ -39,7 +39,7 @@ class AccountAdmin(admin.ModelAdmin):
                 "fields": (
                     "name",
                     "rank",
-                    "is_active",
+                    ("is_active", "is_alt"),
                     "sotm_submissions",
                     "pvm_split_submissions",
                     "mentor_submissions",
