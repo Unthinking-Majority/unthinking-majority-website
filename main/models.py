@@ -122,9 +122,7 @@ class UMNotification(Notification):
                 ),
                 args=(self.action_object_object_id,),
             )
-            return format_html(
-                "<a href='{url}'>{id}</a>", url=url, id=self.action_object_object_id
-            )
+            return url
         except NoReverseMatch:
             return self.action_object_object_id
 

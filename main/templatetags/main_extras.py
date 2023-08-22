@@ -9,12 +9,16 @@ register = template.Library()
 
 @register.inclusion_tag("main/navbar.html", takes_context=True)
 def navbar(context):
+    if context["request"].user.is_authenticated:
+        notifications = UMNotification.objects.filter(
+            recipient=context["request"].user
+        ).unread()
+    else:
+        notifications = None
     return {
         "request": context["request"],
         "board": context.get("board", None),
-        "notifications": UMNotification.objects.filter(
-            recipient=context["request"].user
-        ).unread(),
+        "notifications": notifications,
         "content_categories": ContentCategory.objects.all(),
     }
 

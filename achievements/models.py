@@ -3,14 +3,15 @@ from datetime import datetime
 
 import requests
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.aggregates import StringAgg
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import F, Q
 
 from achievements import CA_CHOICES
-from main import TIME, INTEGER
-from main import managers
+from main import INTEGER, TIME, managers
+from main.models import UMNotification
 from um.functions import get_file_path
 
 
@@ -48,6 +49,8 @@ class BaseSubmission(models.Model):
     def save(self, *args, **kwargs):
         super(BaseSubmission, self).save(*args, **kwargs)
         if self.accepted and self.accepted != self.__original_accepted:
+            # get_child_instance seems to return self if there is no child. This works out
+            # because this code still runs successfully when a child instance is saved!
             self.get_child_instance().on_accepted()
 
     @classmethod
@@ -63,6 +66,9 @@ class BaseSubmission(models.Model):
             | Q(pk__in=col_logs_subs)
             | Q(pk__in=ca_subs)
         )
+
+    def send_notifications(self, request):
+        self.get_child_instance().send_notifications(request)
 
     def type_display(self):
         """
@@ -102,6 +108,22 @@ class RecordSubmission(BaseSubmission):
     class Meta:
         verbose_name = "Record Submission"
         verbose_name_plural = "Record Submissions"
+
+    def __str__(self):
+        return self.board.name
+
+    def send_notifications(self, request):
+        verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
+        for account in self.accounts.all():
+            if account.user:
+                UMNotification.objects.create(
+                    actor_object_id=request.user.id,
+                    actor_content_type=ContentType.objects.get_for_model(request.user),
+                    verb=verb,
+                    recipient=account.user,
+                    action_object_object_id=self.id,
+                    action_object_content_type=ContentType.objects.get_for_model(self),
+                )
 
     def type_display(self):
         return self.board.name
@@ -213,6 +235,18 @@ class PetSubmission(BaseSubmission):
         verbose_name = "Pet Submission"
         verbose_name_plural = "Pet Submissions"
 
+    def send_notifications(self, request):
+        verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
+        if self.account.user:
+            UMNotification.objects.create(
+                actor_object_id=request.user.id,
+                actor_content_type=ContentType.objects.get_for_model(request.user),
+                verb=verb,
+                recipient=self.account.user,
+                action_object_object_id=self.id,
+                action_object_content_type=ContentType.objects.get_for_model(self),
+            )
+
     def type_display(self):
         return "Pet"
 
@@ -232,6 +266,18 @@ class ColLogSubmission(BaseSubmission):
     class Meta:
         verbose_name = "Collection Log Submission"
         verbose_name_plural = "Collection Log Submissions"
+
+    def send_notifications(self, request):
+        verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
+        if self.account.user:
+            UMNotification.objects.create(
+                actor_object_id=request.user.id,
+                actor_content_type=ContentType.objects.get_for_model(request.user),
+                verb=verb,
+                recipient=self.account.user,
+                action_object_object_id=self.id,
+                action_object_content_type=ContentType.objects.get_for_model(self),
+            )
 
     def type_display(self):
         return "Collection Logs"
@@ -256,6 +302,18 @@ class CASubmission(BaseSubmission):
     class Meta:
         verbose_name = "Combat Achievement Submission"
         verbose_name_plural = "Combat Achievement Submissions"
+
+    def send_notifications(self, request):
+        verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
+        if self.account.user:
+            UMNotification.objects.create(
+                actor_object_id=request.user.id,
+                actor_content_type=ContentType.objects.get_for_model(request.user),
+                verb=verb,
+                recipient=self.account.user,
+                action_object_object_id=self.id,
+                action_object_content_type=ContentType.objects.get_for_model(self),
+            )
 
     def type_display(self):
         return "Combat Achievement"

@@ -32,5 +32,10 @@ urlpatterns = [
         views.MarkNotificationAsRead.as_view(),
         name="mark-notification-as-read",
     ),
+    path(
+        "mark-all-notification-as-read/<int:user_id>/",
+        views.MarkAllNotificationsAsRead.as_view(),
+        name="mark-all-notification-as-read",
+    ),
 ]
 urlpatterns += autocomplete_urlpatterns
