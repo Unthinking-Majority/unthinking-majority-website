@@ -23,9 +23,9 @@ class BaseSubmissionAdmin(admin.ModelAdmin):
     list_filter = ["accepted", "date"]
 
     def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
         if change and "accepted" in form.changed_data:
             obj.get_child_instance().send_notifications(request)
-        return super().save_model(request, obj, form, change)
 
     @admin.display(description="Account(s)")
     def accounts(self, obj):
@@ -198,3 +198,8 @@ class CASubmissionAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+    def save_model(self, request, obj, form, change):
+        if change and "accepted" in form.changed_data:
+            obj.send_notifications(request)
+        return super().save_model(request, obj, form, change)

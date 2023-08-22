@@ -154,7 +154,6 @@ class MarkNotificationAsRead(View):
 
 class MarkAllNotificationsAsRead(View):
     def get(self, request, *args, **kwargs):
-        print('do stuff?')
         models.UMNotification.objects.filter(
             recipient__id=self.kwargs["user_id"]
         ).mark_all_as_read()

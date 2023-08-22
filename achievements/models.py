@@ -8,6 +8,7 @@ from django.contrib.postgres.aggregates import StringAgg
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import F, Q
+from django.urls import reverse
 
 from achievements import CA_CHOICES
 from main import INTEGER, TIME, managers
@@ -113,17 +114,24 @@ class RecordSubmission(BaseSubmission):
         return self.board.name
 
     def send_notifications(self, request):
-        verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
-        for account in self.accounts.all():
-            if account.user:
-                UMNotification.objects.create(
-                    actor_object_id=request.user.id,
-                    actor_content_type=ContentType.objects.get_for_model(request.user),
-                    verb=verb,
-                    recipient=account.user,
-                    action_object_object_id=self.id,
-                    action_object_content_type=ContentType.objects.get_for_model(self),
-                )
+        if self.accepted is not None:
+            verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
+            custom_url = reverse("account:profile") if request.user.is_staff else None
+            for account in self.accounts.all():
+                if account.user:
+                    UMNotification.objects.create(
+                        actor_object_id=request.user.id,
+                        actor_content_type=ContentType.objects.get_for_model(
+                            request.user
+                        ),
+                        verb=verb,
+                        recipient=account.user,
+                        action_object_object_id=self.id,
+                        action_object_content_type=ContentType.objects.get_for_model(
+                            self
+                        ),
+                        custom_url=custom_url,
+                    )
 
     def type_display(self):
         return self.board.name
@@ -235,17 +243,23 @@ class PetSubmission(BaseSubmission):
         verbose_name = "Pet Submission"
         verbose_name_plural = "Pet Submissions"
 
+    def __str__(self):
+        return self.pet.name
+
     def send_notifications(self, request):
-        verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
-        if self.account.user:
-            UMNotification.objects.create(
-                actor_object_id=request.user.id,
-                actor_content_type=ContentType.objects.get_for_model(request.user),
-                verb=verb,
-                recipient=self.account.user,
-                action_object_object_id=self.id,
-                action_object_content_type=ContentType.objects.get_for_model(self),
-            )
+        if self.accepted is not None:
+            verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
+            custom_url = reverse("account:profile") if request.user.is_staff else None
+            if self.account.user:
+                UMNotification.objects.create(
+                    actor_object_id=request.user.id,
+                    actor_content_type=ContentType.objects.get_for_model(request.user),
+                    verb=verb,
+                    recipient=self.account.user,
+                    action_object_object_id=self.id,
+                    action_object_content_type=ContentType.objects.get_for_model(self),
+                    custom_url=custom_url,
+                )
 
     def type_display(self):
         return "Pet"
@@ -267,17 +281,23 @@ class ColLogSubmission(BaseSubmission):
         verbose_name = "Collection Log Submission"
         verbose_name_plural = "Collection Log Submissions"
 
+    def __str__(self):
+        return f"{self.col_logs}/{settings.MAX_COL_LOG} Collection Logs"
+
     def send_notifications(self, request):
-        verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
-        if self.account.user:
-            UMNotification.objects.create(
-                actor_object_id=request.user.id,
-                actor_content_type=ContentType.objects.get_for_model(request.user),
-                verb=verb,
-                recipient=self.account.user,
-                action_object_object_id=self.id,
-                action_object_content_type=ContentType.objects.get_for_model(self),
-            )
+        if self.accepted is not None:
+            verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
+            custom_url = reverse("account:profile") if request.user.is_staff else None
+            if self.account.user:
+                UMNotification.objects.create(
+                    actor_object_id=request.user.id,
+                    actor_content_type=ContentType.objects.get_for_model(request.user),
+                    verb=verb,
+                    recipient=self.account.user,
+                    action_object_object_id=self.id,
+                    action_object_content_type=ContentType.objects.get_for_model(self),
+                    custom_url=custom_url,
+                )
 
     def type_display(self):
         return "Collection Logs"
@@ -303,17 +323,23 @@ class CASubmission(BaseSubmission):
         verbose_name = "Combat Achievement Submission"
         verbose_name_plural = "Combat Achievement Submissions"
 
+    def __str__(self):
+        return f"{self.get_ca_tier_display()} tier"
+
     def send_notifications(self, request):
-        verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
-        if self.account.user:
-            UMNotification.objects.create(
-                actor_object_id=request.user.id,
-                actor_content_type=ContentType.objects.get_for_model(request.user),
-                verb=verb,
-                recipient=self.account.user,
-                action_object_object_id=self.id,
-                action_object_content_type=ContentType.objects.get_for_model(self),
-            )
+        if self.accepted is not None:
+            verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
+            custom_url = reverse("account:profile") if request.user.is_staff else None
+            if self.account.user:
+                UMNotification.objects.create(
+                    actor_object_id=request.user.id,
+                    actor_content_type=ContentType.objects.get_for_model(request.user),
+                    verb=verb,
+                    recipient=self.account.user,
+                    action_object_object_id=self.id,
+                    action_object_content_type=ContentType.objects.get_for_model(self),
+                    custom_url=custom_url,
+                )
 
     def type_display(self):
         return "Combat Achievement"

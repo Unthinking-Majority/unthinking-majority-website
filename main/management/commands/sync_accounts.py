@@ -72,6 +72,4 @@ class Command(BaseCommand):
         # close client
         loop.run_until_complete(client.close())
 
-        # account_names = accounts.values_list("name", flat=True)
         # print(member.player.display_name, member.membership.role)
-        # asyncio.run(sync_accounts())

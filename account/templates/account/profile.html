@@ -6,11 +6,16 @@
     {% page_header user.account.name %}
 
     <div class="flex flex-col justify-center m-auto rounded-lg lg:w-9/12">
-        <p class="py-1 text-center sm:py-2">
-            <a href="{% url "accounts:password_change" %}" class="text-gray-700">
-                Change Password
-            </a>
-        </p>
+        <div class="flex justify-evenly">
+            <p class="py-1 text-center sm:py-2 text-gray-700">
+                Username: {{ user.username }}
+            </p>
+            <p class="py-1 text-center sm:py-2">
+                <a href="{% url "accounts:password_change" %}" class="text-gray-700">
+                    Change Password
+                </a>
+            </p>
+        </div>
         <p class="text-center sm:py-2">
             <span class="font-medium align-middle">Highest Tier Combat Achievement: </span>
             <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.ca_tier }}</span>
