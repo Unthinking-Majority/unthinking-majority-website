@@ -1,12 +1,12 @@
 import os
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import redirect, reverse
+from django.shortcuts import redirect
 from formtools.wizard.views import SessionWizardView
 
-from dragonstone import PVM_SPLIT, MENTOR, EVENT
-from dragonstone import forms
+from dragonstone import EVENT, MENTOR, PVM_SPLIT, forms
 
 
 def pvm_split_form_condition(wizard):
@@ -73,7 +73,8 @@ class DragonstoneSubmissionWizard(SessionWizardView):
         elif "event_submission_form" in form_dict.keys():
             form_dict["event_submission_form"].save()
 
-        return redirect(reverse("form-success"))
+        messages.success(self.request, "Form successfully submitted.")
+        return redirect("/")
 
     def get_template_names(self):
         return [self.TEMPLATES[self.steps.current]]

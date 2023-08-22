@@ -1,12 +1,12 @@
 import os
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import redirect, reverse
+from django.shortcuts import redirect
 from formtools.wizard.views import SessionWizardView
 
-from achievements import RECORD, PET, COL_LOG, CA
-from achievements import forms
+from achievements import CA, COL_LOG, PET, RECORD, forms
 
 
 def pet_submission_form_condition(wizard):
@@ -92,7 +92,8 @@ class SubmissionWizard(SessionWizardView):
         elif "ca_submission_form" in form_dict.keys():
             form_dict["ca_submission_form"].save()
 
-        return redirect(reverse("form-success"))
+        messages.success(self.request, "Form successfully submitted.")
+        return redirect("/")
 
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)

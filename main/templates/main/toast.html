@@ -1,0 +1,29 @@
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".toast").forEach((toast) => {
+            setTimeout(() => {
+                toast.style.opacity = 1;
+            }, 100);
+            setTimeout(() => {
+                toast.style.opacity = 0;
+            }, 4000);
+        });
+    });
+</script>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="toast fixed top-20 inset-x-0 mx-auto w-fit ease-in-out duration-1000 opacity-0">
+            <div class="flex items-center w-full max-w-md p-4 rounded-lg shadow text-gray-400 bg-gray-900">
+                <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-lime-700 text-blue-200">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div class="ml-3 font-normal text-white text-center">
+                    {{ message }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

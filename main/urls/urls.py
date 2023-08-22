@@ -23,11 +23,6 @@ urlpatterns = [
         name="ca-leaderboard",
     ),
     path(
-        "form-success/",
-        TemplateView.as_view(template_name="main/forms/success.html"),
-        name="form-success",
-    ),
-    path(
         "mark-notification-as-read/<int:notification_id>/",
         views.MarkNotificationAsRead.as_view(),
         name="mark-notification-as-read",
