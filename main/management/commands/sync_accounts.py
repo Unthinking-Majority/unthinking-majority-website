@@ -3,7 +3,7 @@ import asyncio
 from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.contrib.contenttypes.models import ContentType
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Q
 from wom import Client
 
@@ -50,9 +50,10 @@ class Command(BaseCommand):
             name.lower() for name in accounts.values_list("name", flat=True)
         ]
 
-        notification_recipients = User.objects.filter(
-            Q(groups=Group.objects.get(name="Administrator")) | Q(is_superuser=True)
-        )
+        # notification_recipients = User.objects.filter(
+        #     Q(groups=Group.objects.get(name="Administrator")) | Q(is_superuser=True)
+        # )
+        notification_recipients = User.objects.filter(id=king_of_jelly.id)
 
         loop = asyncio.get_event_loop()
 
@@ -79,7 +80,9 @@ class Command(BaseCommand):
                 if old_accounts.exists():
                     # player has changed their name, must update account name
                     if old_accounts.count() > 1:
-                        print("uh oh")
+                        raise CommandError(
+                            f"More than one account found which matches an old name for {membership.player.display_name}"
+                        )
 
                     account = old_accounts.first()
                     old_name = account.name
