@@ -120,9 +120,9 @@ class RecordSubmission(BaseSubmission):
             for account in self.accounts.all():
                 if account.user:
                     UMNotification.objects.create(
-                        actor_object_id=request.user.id,
+                        actor_object_id=request.user.account.id,
                         actor_content_type=ContentType.objects.get_for_model(
-                            request.user
+                            request.user.account
                         ),
                         verb=verb,
                         recipient=account.user,
@@ -252,8 +252,10 @@ class PetSubmission(BaseSubmission):
             custom_url = reverse("account:profile") if request.user.is_staff else None
             if self.account.user:
                 UMNotification.objects.create(
-                    actor_object_id=request.user.id,
-                    actor_content_type=ContentType.objects.get_for_model(request.user),
+                    actor_object_id=request.user.account.id,
+                    actor_content_type=ContentType.objects.get_for_model(
+                        request.user.account
+                    ),
                     verb=verb,
                     recipient=self.account.user,
                     action_object_object_id=self.id,
@@ -290,8 +292,10 @@ class ColLogSubmission(BaseSubmission):
             custom_url = reverse("account:profile") if request.user.is_staff else None
             if self.account.user:
                 UMNotification.objects.create(
-                    actor_object_id=request.user.id,
-                    actor_content_type=ContentType.objects.get_for_model(request.user),
+                    actor_object_id=request.user.account.id,
+                    actor_content_type=ContentType.objects.get_for_model(
+                        request.user.account
+                    ),
                     verb=verb,
                     recipient=self.account.user,
                     action_object_object_id=self.id,
@@ -332,8 +336,10 @@ class CASubmission(BaseSubmission):
             custom_url = reverse("account:profile") if request.user.is_staff else None
             if self.account.user:
                 UMNotification.objects.create(
-                    actor_object_id=request.user.id,
-                    actor_content_type=ContentType.objects.get_for_model(request.user),
+                    actor_object_id=request.user.account.id,
+                    actor_content_type=ContentType.objects.get_for_model(
+                        request.user.account
+                    ),
                     verb=verb,
                     recipient=self.account.user,
                     action_object_object_id=self.id,
