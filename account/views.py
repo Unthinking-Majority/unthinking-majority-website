@@ -1,5 +1,6 @@
 from heapq import merge
 
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
@@ -43,6 +44,10 @@ class CreateAccountView(FormView):
 
     def form_valid(self, form):
         form.form_valid()
+        messages.success(
+            self.request,
+            "Account creation form successfully submitted. An admin will review your submission shortly.",
+        )
         return super(CreateAccountView, self).form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
