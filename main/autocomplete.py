@@ -12,7 +12,7 @@ class ContentAutocomplete(View):
         for key, val in self.request.GET.items():
             filters[key] = prepare_lookup_value(key, val)
         boards = (
-            models.Content.objects.filter(**filters).annotate(text=F("name")).values()
+            models.Content.objects.filter(**filters).annotate(text=F("name")).order_by("name").values()
         )
         return JsonResponse(list(boards), safe=False)
 
