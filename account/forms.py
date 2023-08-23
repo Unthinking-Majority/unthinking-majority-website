@@ -87,9 +87,18 @@ class CreateAccountForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(CreateAccountForm, self).clean()
+
         user_form = UserCreationForm(cleaned_data)
         if not user_form.is_valid():
             raise ValidationError(user_form.errors)
+
+        if models.UserCreationSubmission.objects.filter(
+            account=cleaned_data["account"]
+        ).exists():
+            raise ValidationError(
+                f"A submission has already been created for the account {cleaned_data['account']}"
+            )
+
         return cleaned_data
 
     def form_valid(self):
