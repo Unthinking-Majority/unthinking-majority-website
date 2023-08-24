@@ -50,10 +50,9 @@ class Command(BaseCommand):
             name.lower() for name in accounts.values_list("name", flat=True)
         ]
 
-        notification_recipients = User.objects.filter(id=king_of_jelly.id)
-        # notification_recipients = User.objects.filter(
-        #     Q(groups=Group.objects.get(name="Administrator")) | Q(is_superuser=True)
-        # )
+        notification_recipients = User.objects.filter(
+            Q(groups=Group.objects.get(name="Administrator")) | Q(is_superuser=True)
+        )
 
         loop = asyncio.get_event_loop()
 
