@@ -61,6 +61,34 @@ class Command(BaseCommand):
 
         memberships = loop.run_until_complete(get_memberships())
 
+        # set users not on WOM to inactive TODO TODO TODO
+        # TODO to get this working, we would need to prob do some more manual review
+        # of all the current usernames on the site, since there are sometimes slight
+        # descrepensies in the names
+        # Plus, we need to make sure we are starting to ignore case everywhere!
+        # for a in Account.objects.filter(
+        #         ~Q(
+        #             name__in=[
+        #                 membership.player.display_name for membership in memberships
+        #             ]
+        #         ),
+        #         Q(is_active=True),
+        #     ):
+        #     print(a)
+        # print(
+        #     Account.objects.filter(
+        #         ~Q(
+        #             name__in=[
+        #                 membership.player.display_name for membership in memberships
+        #             ]
+        #         ),
+        #         Q(is_active=True),
+        #     ).count()
+        # )
+        # Account.objects.filter(
+        #     ~Q(name__in=[membership.player.display_name for membership in memberships])
+        # ).update(is_active=False)
+
         for membership in memberships:
             # get rank
             try:
@@ -99,7 +127,6 @@ class Command(BaseCommand):
                                 account
                             ),
                         )
-                    print(f"updated {old_name} to {membership.player.display_name}")
                 else:
                     # player was never added, must create new account object
                     account = Account.objects.create(
@@ -118,14 +145,13 @@ class Command(BaseCommand):
                                 account
                             ),
                         )
-                    print(f"created {account}")
             else:
                 # player has account already
                 account = accounts.get(
                     name__iexact=membership.player.display_name.lower()
                 )
 
-            if rank:
+            if rank and account.rank != rank:
                 account.rank = rank
                 for recipient in notification_recipients:
                     UMNotification.objects.create(
@@ -140,11 +166,8 @@ class Command(BaseCommand):
                             account
                         ),
                     )
-                print(f"updated rank for {account} to {rank}")
 
             account.save()
 
         # close client
         loop.run_until_complete(client.close())
-
-        # print(member.player.display_name, member.membership.role)
