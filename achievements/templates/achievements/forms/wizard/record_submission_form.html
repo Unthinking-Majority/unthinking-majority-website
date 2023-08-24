@@ -1,7 +1,5 @@
 {% extends "main/forms/wizard/base.html" %}
-
 {% load main_extras um_components %}
-
 {% block extra_head %}
     {{ block.super }}
     {{ wizard.form.media }}
@@ -26,16 +24,12 @@
             ).mask(seconds_selector);
         });
     </script>
-{% endblock %}
-
+{% endblock extra_head %}
 {% block header %}
     {% page_header "Submit Record for "|addstr:board.name %}
-{% endblock %}
-
+{% endblock header %}
 {% block form_content %}
-
     {{ wizard.form.board }}
-
     {% if board.team_size == 1 %}
         {# Account #}
         {# only rendered for records with team size equal to 1 #}
@@ -55,7 +49,6 @@
         {% endif %}
         {{ wizard.form.accounts }}
     {% endif %}
-
     {# Value #}
     {% if board.content.get_metric_display == 'Time' %}
         <div class="mx-2 my-4">
@@ -64,9 +57,8 @@
                     {% include "main/forms/field_error_list.html" with errors=wizard.form.value.errors %}
                 </div>
             {% endif %}
-            <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
-                {{ board.content.metric_name }} *
-            </label>
+            <label for="{{ wizard.form.value.id_for_label }}"
+                   class="text-sm font-medium text-gray-900">{{ board.content.metric_name }} *</label>
             <div class="flex justify-start w-80 items-center">
                 <input id="{{ wizard.form.minutes.id_for_label }}"
                        name="{{ wizard.form.prefix }}-{{ wizard.form.minutes.name }}"
@@ -74,9 +66,7 @@
                        maxlength="{{ wizard.form.minutes.field.max_length }}"
                        placeholder="Minutes"
                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 inline-block">
-                <span class="font-bold px-2">
-                :
-            </span>
+                <span class="font-bold px-2">:</span>
                 <input id="{{ wizard.form.seconds.id_for_label }}"
                        name="{{ wizard.form.prefix }}-{{ wizard.form.seconds.name }}"
                        type="text"
@@ -92,22 +82,16 @@
                     {% include "main/forms/field_error_list.html" with errors=wizard.form.value.errors %}
                 </div>
             {% endif %}
-            <label for="{{ wizard.form.value.id_for_label }}" class="text-sm font-medium text-gray-900">
-                {{ board.content.metric_name }} *
-            </label>
+            <label for="{{ wizard.form.value.id_for_label }}"
+                   class="text-sm font-medium text-gray-900">{{ board.content.metric_name }} *</label>
             <input id="{{ wizard.form.value.id_for_label }}"
                    name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
                    type="number"
                    required
                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-full">
-            <p class="text-sm text-gray-600">
-                {{ wizard.form.value.help_text }}
-            </p>
+            <p class="text-sm text-gray-600">{{ wizard.form.value.help_text }}</p>
         </div>
     {% endif %}
-
     {% textarea_input wizard.form.notes prefix=wizard.form.prefix %}
-
     {% file_input wizard.form.proof prefix=wizard.form.prefix %}
-
-{% endblock %}
+{% endblock form_content %}
