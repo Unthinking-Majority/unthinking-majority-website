@@ -64,7 +64,7 @@ class Command(BaseCommand):
         for membership in memberships:
             # get rank
             try:
-                rank = WOM_ROLE_MAPPINGS[membership.membership.role]
+                rank = WOM_ROLE_MAPPINGS[str(membership.membership.role)]
             except KeyError:
                 rank = None
 
