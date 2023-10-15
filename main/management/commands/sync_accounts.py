@@ -40,7 +40,7 @@ async def get_name_changes(username):
 
 
 class Command(BaseCommand):
-    help = "Sync current members in clan (+ their ranks) using wise old mands api."
+    help = "Sync current members in clan (+ their ranks) using wise old mans api."
 
     def handle(self, *args, **options):
         king_of_jelly = User.objects.get(username="stinky")
@@ -64,7 +64,7 @@ class Command(BaseCommand):
         # set users not on WOM to inactive TODO TODO TODO
         # TODO to get this working, we would need to prob do some more manual review
         # of all the current usernames on the site, since there are sometimes slight
-        # descrepensies in the names
+        # discrepancies in the names
         # Plus, we need to make sure we are starting to ignore case everywhere!
         # for a in Account.objects.filter(
         #         ~Q(

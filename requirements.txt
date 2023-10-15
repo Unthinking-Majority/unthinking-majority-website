@@ -14,4 +14,4 @@ requests>=2.28,<2.29
 sentry-sdk
 wheel==0.38.4
 whitenoise>=6.2,<6.3
-wom-py>=0.6,<0.7
+wom-py
