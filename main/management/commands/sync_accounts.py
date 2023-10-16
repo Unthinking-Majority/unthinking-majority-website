@@ -108,7 +108,7 @@ class Command(BaseCommand):
                     # player has changed their name, must update account name
                     if old_accounts.count() > 1:
                         raise CommandError(
-                            f"More than one account found which matches an old name for {membership.player.display_name}"
+                            f"More than one account found which matches an old name for {membership.player.display_name}: {', '.join(list(old_accounts.values_list('name', flat=True)))}"
                         )
 
                     account = old_accounts.first()
