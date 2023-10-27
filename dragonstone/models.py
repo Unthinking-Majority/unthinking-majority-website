@@ -1,9 +1,10 @@
 from datetime import timedelta, datetime
-from django.core.validators import MinValueValidator
 
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Value, Case, When, F, Q, Sum
 from django.utils import timezone
+from polymorphic.models import PolymorphicModel
 
 from dragonstone import EVENT_CHOICES, PVM, SKILLING, MAJOR, OTHER, EVENT_MENTOR
 from main import EASY, MEDIUM, HARD, VERY_HARD
@@ -14,7 +15,7 @@ from um.functions import get_file_path
 expiration_period = timezone.now().date() - timedelta(days=180)
 
 
-class DragonstoneBaseSubmission(models.Model):
+class DragonstoneBaseSubmission(PolymorphicModel):
     UPLOAD_TO = "dragonstone/submission/proof/"
 
     proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
@@ -25,7 +26,7 @@ class DragonstoneBaseSubmission(models.Model):
     accepted = models.BooleanField(null=True)
     date = models.DateTimeField(default=datetime.now, null=True, blank=True)
 
-    objects = managers.SubmissionQueryset.as_manager()
+    objects = managers.SubmissionQueryset().as_manager()
 
     child_models = (
         "recruitmentsubmission",
@@ -71,28 +72,19 @@ class DragonstoneBaseSubmission(models.Model):
         """
         Call the type_display() method from the corresponding child instance of this base submission
         """
-        for child_model in self.child_models:
-            child_obj = getattr(self, child_model, None)
-            if child_obj:
-                return child_obj.type_display()
+        return self.get_real_instance().type_display()
 
     def value_display(self):
         """
         Call the value_display() method from the corresponding child instance of this base submission
         """
-        for child_model in self.child_models:
-            child_obj = getattr(self, child_model, None)
-            if child_obj:
-                return child_obj.value_display()
+        return self.get_real_instance().value_display()
 
-    def get_child_instance(self):
+    def accounts_display(self):
         """
-        Return the corresponding child instance of this base submission
+        Call the accounts_display() method from the corresponding child instance of this base submission
         """
-        for child_model in self.child_models:
-            child_obj = getattr(self, child_model, None)
-            if child_obj:
-                return child_obj
+        return self.get_real_instance().accounts_display()
 
 
 class FreeformSubmission(DragonstoneBaseSubmission):
@@ -130,6 +122,9 @@ class FreeformSubmission(DragonstoneBaseSubmission):
 
     def value_display(self):
         return f"{self.account} was given {self.dragonstone_pts} points by {self.created_by}"
+
+    def accounts_display(self):
+        return self.account.display_name
 
 
 class RecruitmentSubmission(DragonstoneBaseSubmission):
@@ -177,6 +172,9 @@ class RecruitmentSubmission(DragonstoneBaseSubmission):
 
     def value_display(self):
         return f"{self.recruiter} recruited {self.recruited}"
+
+    def accounts_display(self):
+        return self.recruiter.display_name
 
 
 class SotMSubmission(DragonstoneBaseSubmission):
@@ -230,6 +228,9 @@ class SotMSubmission(DragonstoneBaseSubmission):
 
     def value_display(self):
         return f"{self.account} - {self.get_rank_display()}"
+
+    def accounts_display(self):
+        return self.account.display_name
 
 
 class PVMSplitSubmission(DragonstoneBaseSubmission):
@@ -302,6 +303,9 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
         accounts = [account.display_name for account in self.accounts.all()]
         return f'{", ".join(accounts)} - {self.content.name}'
 
+    def accounts_display(self):
+        return ", ".join([account.display_name for account in self.accounts.all()])
+
 
 class MentorSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = "dragonstone/mentor/proof/"
@@ -367,6 +371,9 @@ class MentorSubmission(DragonstoneBaseSubmission):
     def value_display(self):
         mentors = [mentor.display_name for mentor in self.mentors.all()]
         return f'Mentorship by {", ".join(mentors)} for {self.content.name}'
+
+    def accounts_display(self):
+        return ", ".join([mentor.display_name for mentor in self.mentors.all()])
 
 
 class EventSubmission(DragonstoneBaseSubmission):
@@ -550,3 +557,6 @@ class EventSubmission(DragonstoneBaseSubmission):
 
     def value_display(self):
         return f"{self.name}"
+
+    def accounts_display(self):
+        return ", ".join([host.display_name for host in self.hosts.all()])

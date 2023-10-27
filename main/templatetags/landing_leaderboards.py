@@ -86,7 +86,7 @@ def recent_submission_leaderboard(context):
     return {
         "request": context["request"],
         "recent_submissions": [
-            obj.get_child_instance()
+            obj.get_real_instance()
             for obj in BaseSubmission.objects.filter(accepted=True)[:5]
         ],
     }

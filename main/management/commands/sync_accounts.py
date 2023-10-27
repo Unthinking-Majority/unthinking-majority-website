@@ -154,19 +154,6 @@ class Command(BaseCommand):
 
             if rank and account.rank != rank:
                 account.rank = rank
-                for recipient in notification_recipients:
-                    UMNotification.objects.create(
-                        actor_object_id=king_of_jelly.account.id,
-                        actor_content_type=ContentType.objects.get_for_model(
-                            king_of_jelly.account
-                        ),
-                        verb=f"updated rank for",
-                        recipient=recipient,
-                        action_object_object_id=account.id,
-                        action_object_content_type=ContentType.objects.get_for_model(
-                            account
-                        ),
-                    )
 
             account.save()
 

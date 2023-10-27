@@ -2,60 +2,57 @@ from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
+from polymorphic.admin import (
+    PolymorphicParentModelAdmin,
+    PolymorphicChildModelAdmin,
+    PolymorphicChildModelFilter,
+)
 
 from dragonstone import models
 
 
 @admin.register(models.DragonstoneBaseSubmission)
-class DragonstoneBaseSubmissionAdmin(admin.ModelAdmin):
+class DragonstoneBaseSubmissionAdmin(PolymorphicParentModelAdmin):
+    base_model = models.DragonstoneBaseSubmission
+    child_models = (
+        models.FreeformSubmission,
+        models.RecruitmentSubmission,
+        models.SotMSubmission,
+        models.PVMSplitSubmission,
+        models.MentorSubmission,
+        models.EventSubmission,
+    )
     list_display = [
-        "child_admin_link",
         "_value_display",
+        "_accounts_display",
         "proof",
         "date",
         "accepted",
         "_accepted_display",
     ]
     list_editable = ["accepted"]
-    list_filter = ["accepted", "date"]
+    list_filter = ["accepted", "date", PolymorphicChildModelFilter]
 
     @admin.display(description="Account(s)")
-    def accounts(self, obj):
-        child_instance = obj.get_child_instance()
-        if child_instance.__class__ is models.PVMSplitSubmission:
-            return ", ".join(child_instance.accounts.values_list("name", flat=True))
-        elif child_instance.__class__ is models.MentorSubmission:
-            return ", ".join(child_instance.mentors.values_list("name", flat=True))
-        elif child_instance.__class__ is models.EventSubmission:
-            return ", ".join(child_instance.hosts.values_list("name", flat=True))
-        elif child_instance.__class__ is models.RecruitmentSubmission:
-            return child_instance.recruiter.name
-        elif child_instance.__class__ is models.SotMSubmission:
-            return child_instance.account.name
-        elif child_instance.__class__ is models.FreeformSubmission:
-            return child_instance.account.name
-        else:
-            return None
-
-    @admin.display(description="Submission Link")
-    def child_admin_link(self, obj):
-        url = reverse_lazy(
-            f"admin:dragonstone_{obj.get_child_instance()._meta.model_name}_change",
-            kwargs={"object_id": obj.id},
-        )
-        return mark_safe(f'<a target="_blank" href={url}>{obj.type_display()}</a>')
+    def _accounts_display(self, obj):
+        return obj.accounts_display()
 
     @admin.display(description="Type")
     def _value_display(self, obj):
-        return obj.value_display()
+        return obj.type_display()
 
     @admin.display(description="", ordering="accepted", boolean=True)
     def _accepted_display(self, obj):
         return obj.accepted
 
 
+class DragonstoneBaseSubmissionChildAdmin(PolymorphicChildModelAdmin):
+    base_model = models.DragonstoneBaseSubmission
+
+
 @admin.register(models.FreeformSubmission)
-class FreeformSubmission(admin.ModelAdmin):
+class FreeformSubmission(PolymorphicChildModelAdmin):
+    base_model = models.FreeformSubmission
     autocomplete_fields = ["account"]
     list_display = ["account", "dragonstone_pts", "accepted"]
     list_editable = ["accepted"]
@@ -86,7 +83,8 @@ class FreeformSubmission(admin.ModelAdmin):
 
 
 @admin.register(models.RecruitmentSubmission)
-class RecruitmentAdmin(admin.ModelAdmin):
+class RecruitmentAdmin(PolymorphicChildModelAdmin):
+    base_model = models.RecruitmentSubmission
     autocomplete_fields = ["recruiter", "recruited"]
     list_display = ["recruiter", "recruited", "proof", "date", "accepted"]
     list_editable = ["accepted"]
@@ -114,7 +112,8 @@ class RecruitmentAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.SotMSubmission)
-class SotMAdmin(admin.ModelAdmin):
+class SotMAdmin(PolymorphicChildModelAdmin):
+    base_model = models.SotMSubmission
     autocomplete_fields = ["account"]
     list_display = ["account", "rank_display", "proof", "date", "accepted"]
     list_editable = ["accepted"]
@@ -146,7 +145,8 @@ class SotMAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.PVMSplitSubmission)
-class PVMSplitAdmin(admin.ModelAdmin):
+class PVMSplitAdmin(PolymorphicChildModelAdmin):
+    base_model = models.PVMSplitSubmission
     autocomplete_fields = ["accounts", "content"]
     list_display = ["accounts_display", "content", "proof", "date", "accepted"]
     list_editable = ["accepted"]
@@ -179,7 +179,8 @@ class PVMSplitAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.MentorSubmission)
-class MentorAdmin(admin.ModelAdmin):
+class MentorAdmin(PolymorphicChildModelAdmin):
+    base_model = models.MentorSubmission
     autocomplete_fields = ["mentors", "learners", "content"]
     list_display = ["mentors_display", "content", "proof", "date", "accepted"]
     list_editable = ["accepted"]
@@ -213,7 +214,8 @@ class MentorAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.EventSubmission)
-class EventAdmin(admin.ModelAdmin):
+class EventAdmin(PolymorphicChildModelAdmin):
+    base_model = models.EventSubmission
     autocomplete_fields = ["hosts", "participants", "donors"]
     list_display = ["name", "hosts_display", "type", "proof", "date", "accepted"]
     list_editable = ["accepted"]

@@ -53,7 +53,7 @@ class BaseSubmission(PolymorphicModel):
         if self.accepted and self.accepted != self.__original_accepted:
             # get_child_instance seems to return self if there is no child. This works out
             # because this code still runs successfully when a child instance is saved!
-            self.get_child_instance().on_accepted()
+            self.get_real_instance().on_accepted()
 
     @classmethod
     def filter_all_submissions_by_account(cls, account):
@@ -70,7 +70,7 @@ class BaseSubmission(PolymorphicModel):
         )
 
     def send_notifications(self, request):
-        self.get_child_instance().send_notifications(request)
+        self.get_real_instance().send_notifications(request)
 
     def type_display(self):
         """
@@ -89,15 +89,6 @@ class BaseSubmission(PolymorphicModel):
         Call the acounts_display() method from the corresponding child instance of this base submission
         """
         return self.get_real_instance().accounts_display()
-
-    def get_child_instance(self):
-        """
-        Return the corresponding child instance of this base submission
-        """
-        for child_model in self.child_models:
-            child_obj = getattr(self, child_model, None)
-            if child_obj:
-                return child_obj
 
 
 class RecordSubmission(BaseSubmission):
@@ -148,8 +139,7 @@ class RecordSubmission(BaseSubmission):
             )
 
     def accounts_display(self):
-        accounts = [account.display_name for account in self.accounts.all()]
-        return ", ".join(accounts)
+        return ", ".join([account.display_name for account in self.accounts.all()])
 
     def on_accepted(self):
         """
