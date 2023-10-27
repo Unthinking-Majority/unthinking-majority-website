@@ -31,7 +31,7 @@ else:
     ALLOWED_HOSTS = [DOMAIN]
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
+    "um.admin.UMAdminConfig",
     "django.contrib.auth",
     "polymorphic",
     "django.contrib.contenttypes",
