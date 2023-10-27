@@ -33,6 +33,7 @@ else:
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
+    "polymorphic",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
@@ -100,7 +101,6 @@ if DEBUG:
     }
 else:
     DATABASES = {"default": dj_database_url.config(conn_max_age=600)}
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {

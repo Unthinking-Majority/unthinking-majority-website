@@ -9,6 +9,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import F, Q
 from django.urls import reverse
+from polymorphic.models import PolymorphicModel
 
 from achievements import CA_CHOICES
 from main import INTEGER, TIME, managers
@@ -16,7 +17,7 @@ from main.models import UMNotification
 from um.functions import get_file_path
 
 
-class BaseSubmission(models.Model):
+class BaseSubmission(PolymorphicModel):
     UPLOAD_TO = "submission/proof/"
 
     proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
@@ -27,7 +28,7 @@ class BaseSubmission(models.Model):
     accepted = models.BooleanField(null=True)
     date = models.DateTimeField(default=datetime.now, null=True, blank=True)
 
-    objects = managers.SubmissionQueryset.as_manager()
+    objects = managers.SubmissionQueryset().as_manager()
 
     child_models = (
         "recordsubmission",
@@ -75,19 +76,19 @@ class BaseSubmission(models.Model):
         """
         Call the type_display() method from the corresponding child instance of this base submission
         """
-        for child_model in self.child_models:
-            child_obj = getattr(self, child_model, None)
-            if child_obj:
-                return child_obj.type_display()
+        return self.get_real_instance().type_display()
 
     def value_display(self):
         """
         Call the value_display() method from the corresponding child instance of this base submission
         """
-        for child_model in self.child_models:
-            child_obj = getattr(self, child_model, None)
-            if child_obj:
-                return child_obj.value_display()
+        return self.get_real_instance().value_display()
+
+    def accounts_display(self):
+        """
+        Call the acounts_display() method from the corresponding child instance of this base submission
+        """
+        return self.get_real_instance().accounts_display()
 
     def get_child_instance(self):
         """
@@ -145,6 +146,10 @@ class RecordSubmission(BaseSubmission):
             return (
                 int(self.value) if self.board.content.metric == INTEGER else self.value
             )
+
+    def accounts_display(self):
+        accounts = [account.display_name for account in self.accounts.all()]
+        return ", ".join(accounts)
 
     def on_accepted(self):
         """
@@ -269,6 +274,9 @@ class PetSubmission(BaseSubmission):
     def value_display(self):
         return self.pet.name
 
+    def accounts_display(self):
+        return self.account.display_name
+
     def on_accepted(self):
         return
 
@@ -308,6 +316,9 @@ class ColLogSubmission(BaseSubmission):
 
     def value_display(self):
         return f"{self.col_logs}/{settings.MAX_COL_LOG}"
+
+    def accounts_display(self):
+        return self.account.display_name
 
     def on_accepted(self):
         return
@@ -352,6 +363,9 @@ class CASubmission(BaseSubmission):
 
     def value_display(self):
         return self.get_ca_tier_display()
+
+    def accounts_display(self):
+        return self.account.display_name
 
     def on_accepted(self):
         return

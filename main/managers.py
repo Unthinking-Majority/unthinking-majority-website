@@ -1,8 +1,8 @@
-from django.db import models
 from django.db.models import Count, F, Q
+from polymorphic.managers import PolymorphicQuerySet
 
 
-class SubmissionQueryset(models.query.QuerySet):
+class SubmissionQueryset(PolymorphicQuerySet):
     def accepted(self):
         return self.filter(accepted=True)
 
