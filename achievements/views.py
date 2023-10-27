@@ -134,5 +134,11 @@ class SubmissionWizard(SessionWizardView):
             kwargs.update({"board": board})
         return kwargs
 
+    def get_form_initial(self, step):
+        initial = super().get_form_initial(step)
+        if hasattr(self.request, "user"):
+            initial.update({"account": getattr(self.request.user, "account", None)})
+        return initial
+
     def get_template_names(self):
         return [self.TEMPLATES[self.steps.current]]

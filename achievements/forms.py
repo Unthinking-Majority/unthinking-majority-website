@@ -68,16 +68,16 @@ class RecordSubmissionForm(forms.ModelForm):
 
         # set board value on form so we can grab it back when it's submitted!
         self.fields["board"].initial = board
-
+        if "account" not in kwargs.get("initial").keys():
+            self.fields["account"].widget = widgets.AutocompleteSelectWidget(
+                autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
+                placeholder="Select account",
+                label="Account",
+            )
         self.fields["accounts"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder="Select all accounts",
             label="Accounts",
-        )
-        self.fields["account"].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
-            placeholder="Select account",
-            label="Account",
         )
 
     def clean(self):

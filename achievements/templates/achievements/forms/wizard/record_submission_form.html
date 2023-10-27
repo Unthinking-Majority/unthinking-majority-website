@@ -30,15 +30,17 @@
 {% endblock header %}
 {% block form_content %}
     {{ wizard.form.board }}
-    {% if board.team_size == 1 %}
+    {% if board.team_size == 1  %}
         {# Account #}
         {# only rendered for records with team size equal to 1 #}
-        {% if wizard.form.account.errors %}
-            <div class="flex justify-center mx-2 w-80">
-                {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}
-            </div>
-        {% endif %}
-        {{ wizard.form.account }}
+        <div class="{% if wizard.form.account.initial %}hidden{% endif %}">  {# hide input if initial value was provided #}
+            {% if wizard.form.account.errors %}
+                <div class="flex justify-center mx-2 w-80">
+                    {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}
+                </div>
+            {% endif %}
+            {{ wizard.form.account }}
+        </div>
     {% else %}
         {# Accounts #}
         {# only rendered for records with team size greater than 1 #}
