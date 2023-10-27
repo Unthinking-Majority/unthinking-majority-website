@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group, User
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models import Q
+from django.db.models.functions import Lower
 from wom import Client
 
 from account import WOM_ROLE_MAPPINGS
@@ -66,28 +67,28 @@ class Command(BaseCommand):
         # of all the current usernames on the site, since there are sometimes slight
         # discrepancies in the names
         # Plus, we need to make sure we are starting to ignore case everywhere!
-        # for a in Account.objects.filter(
-        #         ~Q(
-        #             name__in=[
-        #                 membership.player.display_name for membership in memberships
-        #             ]
-        #         ),
-        #         Q(is_active=True),
-        #     ):
-        #     print(a)
-        # print(
-        #     Account.objects.filter(
-        #         ~Q(
-        #             name__in=[
-        #                 membership.player.display_name for membership in memberships
-        #             ]
-        #         ),
-        #         Q(is_active=True),
-        #     ).count()
-        # )
-        # Account.objects.filter(
-        #     ~Q(name__in=[membership.player.display_name for membership in memberships])
-        # ).update(is_active=False)
+        inactive_accounts = Account.objects.annotate(name_lower=Lower("name")).filter(
+            ~Q(
+                name_lower__in=[
+                    membership.player.display_name.lower() for membership in memberships
+                ]
+            )
+        )
+        inactive_accounts.update(is_active=False)
+        for account in inactive_accounts:
+            for recipient in notification_recipients:
+                UMNotification.objects.create(
+                    actor_object_id=king_of_jelly.account.id,
+                    actor_content_type=ContentType.objects.get_for_model(
+                        king_of_jelly.account
+                    ),
+                    verb=f"set account to inactive",
+                    recipient=recipient,
+                    action_object_object_id=account.id,
+                    action_object_content_type=ContentType.objects.get_for_model(
+                        account
+                    ),
+                )
 
         for membership in memberships:
             # get rank

@@ -15,3 +15,4 @@ sentry-sdk
 wheel==0.38.4
 whitenoise>=6.2,<6.3
 wom-py>=0.7
+markdown==3.5

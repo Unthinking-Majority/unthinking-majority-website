@@ -109,3 +109,13 @@ class CreateAccountForm(forms.Form):
             proof=self.cleaned_data["proof"],
             phrase=self.cleaned_data["phrase"],
         )
+
+
+class ChangePreferredNameForm(forms.Form):
+    preferred_name = forms.CharField(
+        help_text="Your preferred name will be used for display everywhere on the website."
+    )
+
+    def set_preferred_name(self, account):
+        account.preferred_name = self.cleaned_data["preferred_name"]
+        account.save()

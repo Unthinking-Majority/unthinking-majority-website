@@ -1,0 +1,28 @@
+{% extends "main/site_base.html" %}
+
+{% load um_components %}
+
+{% block content %}
+    {% page_header "Change Password" %}
+    {% if form.errors %}
+        <div class="flex justify-center pb-4">
+            <p class="p-4 text-lg text-center text-red-700 rounded-lg border border-red-700 basis-7/12">
+                Please fix the errors below.
+            </p>
+        </div>
+    {% endif %}
+    <div class="flex justify-center">
+        <form method="post">
+            {% csrf_token %}
+
+            {% simple_input form.preferred_name %}
+
+            <div class="flex justify-center">
+                <button type="submit" tabindex="0" class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
+                    Change Preferred Name
+                </button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

@@ -21,6 +21,11 @@ class Account(models.Model):
         "auth.User", on_delete=models.CASCADE, blank=True, null=True
     )
     name = models.CharField(max_length=256, help_text="In game name.", unique=True)
+    preferred_name = models.CharField(
+        max_length=256,
+        help_text="Preferred name to display on website.",
+        blank=True,
+    )
     is_active = models.BooleanField(default=True)
     is_alt = models.BooleanField(
         default=False,
@@ -31,7 +36,11 @@ class Account(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.display_name
+
+    @property
+    def display_name(self):
+        return self.preferred_name or self.name
 
     def pets(self):
         return PetSubmission.objects.accepted().filter(account=self.id)

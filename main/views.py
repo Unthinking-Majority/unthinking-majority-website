@@ -1,7 +1,9 @@
+import markdown
 from django.conf import settings
 from django.contrib.postgres.aggregates import StringAgg
 from django.core.paginator import EmptyPage, Paginator
 from django.db.models import Count, OuterRef
+from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.views import View
@@ -18,6 +20,11 @@ def landing(request):
         request,
         "main/landing.html",
     )
+
+
+def view_change_log(request):
+    with open("./CHANGELOG.md", "r") as file:
+        return HttpResponse(markdown.markdown(file.read()))
 
 
 class LeaderboardView(TemplateView):

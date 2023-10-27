@@ -34,10 +34,10 @@
                     <span class="m-1 text-sm whitespace-nowrap md:px-2 md:text-lg">
                         {% if not account.is_active %}
                             <s class="text-gray-700">
-                                {{ account.name }}
+                                {{ account.display_name }}
                             </s>
                         {% else %}
-                            {{ account.name }}
+                            {{ account.display_name }}
                         {% endif %}
                     </span>
                 {% endfor %}

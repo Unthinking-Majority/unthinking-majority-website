@@ -40,7 +40,7 @@
                     {% endif %}
                 </td>
                 <td class="py-4 text-center whitespace-nowrap md:px-2">
-                    {{ account.name }}
+                    {{ account.display_name }}
                 </td>
                 <td class="py-4 text-2xl whitespace-nowrap md:px-2 font-runescape">
                     <p class="pr-2 text-center">{{ account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</p>

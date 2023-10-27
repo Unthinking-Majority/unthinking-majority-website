@@ -32,10 +32,10 @@
                     <td class="py-4 max-w-xs text-center md:px-2">
                         {% if not account.is_active %}
                             <s class="text-gray-700">
-                                {{ account.name }}
+                                {{ account.display_name }}
                             </s>
                         {% else %}
-                            {{ account.name }}
+                            {{ account.display_name }}
                         {% endif %}
                     </td>
                     <td class="hidden py-2 text-center whitespace-nowrap md:table-cell">

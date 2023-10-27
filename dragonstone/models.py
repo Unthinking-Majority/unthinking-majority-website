@@ -229,7 +229,7 @@ class SotMSubmission(DragonstoneBaseSubmission):
         return "Skill of the Month Submission"
 
     def value_display(self):
-        return f"{self.account.name} - {self.get_rank_display()}"
+        return f"{self.account} - {self.get_rank_display()}"
 
 
 class PVMSplitSubmission(DragonstoneBaseSubmission):
@@ -299,7 +299,8 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
         return "PVM Split Submission"
 
     def value_display(self):
-        return f'{", ".join(self.accounts.values_list("name", flat=True))} - {self.content.name}'
+        accounts = [account.display_name for account in self.accounts.all()]
+        return f'{", ".join(accounts)} - {self.content.name}'
 
 
 class MentorSubmission(DragonstoneBaseSubmission):
@@ -364,7 +365,8 @@ class MentorSubmission(DragonstoneBaseSubmission):
         return "Mentor Submission"
 
     def value_display(self):
-        return f'Mentorship by {", ".join(self.mentors.values_list("name", flat=True))} for {self.content.name}'
+        mentors = [mentor.display_name for mentor in self.mentors.all()]
+        return f'Mentorship by {", ".join(mentors)} for {self.content.name}'
 
 
 class EventSubmission(DragonstoneBaseSubmission):

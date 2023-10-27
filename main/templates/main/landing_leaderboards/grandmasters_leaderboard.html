@@ -22,7 +22,7 @@
     {% for submission in submissions %}
         <tr class="even:bg-gray-100 odd:bg-gray-50">
             <td class="py-4 text-center whitespace-nowrap md:px-2">
-                {{ submission.account.name }}
+                {{ submission.account.display_name }}
             </td>
             {% if request.user.is_authenticated %}
                 <td class="py-4 font-light text-center text-gray-900 underline whitespace-nowrap md:px-2 hover:text-gray-600">

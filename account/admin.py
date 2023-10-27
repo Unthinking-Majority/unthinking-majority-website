@@ -37,7 +37,7 @@ class AccountAdmin(admin.ModelAdmin):
             None,
             {
                 "fields": (
-                    "name",
+                    ("name", "preferred_name"),
                     "rank",
                     ("is_active", "is_alt"),
                     "sotm_submissions",

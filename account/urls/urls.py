@@ -10,6 +10,11 @@ app_name = "accounts"
 urlpatterns = [
     path("profile/", login_required(views.ProfileView.as_view()), name="profile"),
     path("create-account/", views.CreateAccountView.as_view(), name="create-account"),
+    path(
+        "change-preferred-name/",
+        login_required(views.ChangePreferredName.as_view()),
+        name="change-preferred-name",
+    ),
     # Django registration views
     path(
         "login/",
@@ -32,7 +37,7 @@ urlpatterns = [
             template_name="account/registration/password_change_form.html",
             success_url=reverse_lazy("accounts:password_change_done"),
         ),
-        name="password_change",
+        name="password_change",  # TODO can we change this to password-change ? or will that make Django unhappy
     ),
     path(
         "password_change/done/",

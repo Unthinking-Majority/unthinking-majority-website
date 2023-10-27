@@ -55,3 +55,17 @@ class CreateAccountView(FormView):
             return redirect("accounts:profile")
         else:
             return super(CreateAccountView, self).dispatch(request, *args, **kwargs)
+
+
+class ChangePreferredName(FormView):
+    template_name = "account/change_preferred_name.html"
+    form_class = forms.ChangePreferredNameForm
+    success_url = reverse_lazy("accounts:profile")
+
+    def form_valid(self, form):
+        form.set_preferred_name(self.request.user.account)
+        messages.success(
+            self.request,
+            f"Preferred name successfully set to: {self.request.user.account.preferred_name}",
+        )
+        return super(ChangePreferredName, self).form_valid(form)

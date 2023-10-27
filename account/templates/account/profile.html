@@ -3,16 +3,31 @@
 {% load um_components main_extras %}
 
 {% block content %}
-    {% page_header user.account.name %}
+    {% page_header user.account.display_name %}
 
     <div class="flex flex-col justify-center m-auto rounded-lg lg:w-9/12">
-        <div class="flex justify-evenly">
-            <p class="py-1 text-center sm:py-2 text-gray-700">
+        <div class="flex justify-center space-x-4 font-medium">
+            <p class="py-1 text-center sm:py-2">
                 Username: {{ user.username }}
             </p>
             <p class="py-1 text-center sm:py-2">
-                <a href="{% url "accounts:password_change" %}" class="text-gray-700">
+                <a href="{% url "accounts:password_change" %}" class="text-sky-700 hover:text-sky-900">
                     Change Password
+                </a>
+            </p>
+        </div>
+        <div class="flex justify-center space-x-4 font-medium">
+            <p class="py-1 text-center sm:py-2">
+                In game name: {{ user.account.name }}
+            </p>
+            {% if user.account.preferred_name %}
+                <p class="py-1 text-center sm:py-2">
+                    Preferred name: {{ user.account.preferred_name }}
+                </p>
+            {% endif %}
+            <p class="py-1 text-center sm:py-2">
+                <a href="{% url "accounts:change-preferred-name" %}" class="text-sky-700 hover:text-sky-900">
+                    {% if user.account.preferred_name %}Change{% else %}Add{% endif %} Preferred Name
                 </a>
             </p>
         </div>
@@ -41,7 +56,7 @@
             </p>
         {% endif %}
         <div class="flex justify-center">
-        <span class="mx-1 basis-full xl:basis-9/12">
+        <span class="mx-1 basis-full xl:basis-full">
             <h3 class="mb-2 text-5xl text-center font-runescape text-yellow-runescape text-border">
                 Submissions
             </h3>
