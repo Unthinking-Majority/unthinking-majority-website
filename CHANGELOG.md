@@ -9,6 +9,8 @@ The format of this document is loosely based on [Keep a Changelog](https://keepa
 ### Changed
 
 * Authenticated users no longer need to fill out user field for solo submissions
+* Achievements and Dragonstone models now utilize django polymorhpic
+    * Admin interfaces for both should look much cleaner now!
 
 ### Added
 
