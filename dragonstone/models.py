@@ -12,8 +12,6 @@ from main import managers
 from main.models import Settings
 from um.functions import get_file_path
 
-expiration_period = timezone.now().date() - timedelta(days=180)
-
 
 class DragonstoneBaseSubmission(PolymorphicModel):
     UPLOAD_TO = "dragonstone/submission/proof/"
@@ -68,6 +66,12 @@ class DragonstoneBaseSubmission(PolymorphicModel):
             | Q(pk__in=event_subs)
         )
 
+    @classmethod
+    def expiration_period(cls):
+        return timezone.now().date() - timedelta(
+            days=int(Settings.objects.get(name="DRAGONSTONE_EXPIRATION_PERIOD").value)
+        )
+
     def type_display(self):
         """
         Call the type_display() method from the corresponding child instance of this base submission
@@ -107,7 +111,9 @@ class FreeformSubmission(DragonstoneBaseSubmission):
         If account is provided, return only the dragonstone points for that account.
         Only consider submission made within the last 3 months.
         """
-        dragonstone_pts = cls.objects.accepted().filter(date__gte=expiration_period)
+        dragonstone_pts = cls.objects.accepted().filter(
+            date__gte=cls.expiration_period()
+        )
         if account:
             return (
                 dragonstone_pts.filter(account=account).aggregate(
@@ -150,7 +156,7 @@ class RecruitmentSubmission(DragonstoneBaseSubmission):
         """
         dragonstone_pts = (
             cls.objects.accepted()
-            .filter(date__gte=expiration_period)
+            .filter(date__gte=cls.expiration_period())
             .annotate(
                 dragonstone_pts=Value(
                     int(Settings.objects.get(name="RECRUITER_PTS").value)
@@ -195,7 +201,7 @@ class SotMSubmission(DragonstoneBaseSubmission):
         """
         dragonstone_pts = (
             cls.objects.accepted()
-            .filter(date__gte=expiration_period)
+            .filter(date__gte=cls.expiration_period())
             .annotate(
                 dragonstone_pts=Case(
                     When(
@@ -251,7 +257,7 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
         """
         dragonstone_qs = (
             cls.objects.accepted()
-            .filter(date__gte=expiration_period)
+            .filter(date__gte=cls.expiration_period())
             .annotate(
                 dragonstone_pts=Case(
                     When(
@@ -326,7 +332,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
         """
         dragonsone_qs = (
             cls.objects.accepted()
-            .filter(date__gte=expiration_period)
+            .filter(date__gte=cls.expiration_period())
             .annotate(
                 dragonstone_pts=Case(
                     When(
@@ -403,7 +409,7 @@ class EventSubmission(DragonstoneBaseSubmission):
         """
         hosts_qs = (
             cls.objects.accepted()
-            .filter(date__gte=expiration_period)
+            .filter(date__gte=cls.expiration_period())
             .annotate(
                 dragonstone_pts=Case(
                     When(
@@ -438,7 +444,7 @@ class EventSubmission(DragonstoneBaseSubmission):
 
         participants_qs = (
             cls.objects.accepted()
-            .filter(date__gte=expiration_period)
+            .filter(date__gte=cls.expiration_period())
             .annotate(
                 dragonstone_pts=Case(
                     When(
@@ -481,7 +487,7 @@ class EventSubmission(DragonstoneBaseSubmission):
 
         donors_qs = (
             cls.objects.accepted()
-            .filter(date__gte=expiration_period)
+            .filter(date__gte=cls.expiration_period())
             .annotate(
                 dragonstone_pts=Case(
                     When(
