@@ -83,7 +83,7 @@ class PetAdmin(admin.ModelAdmin):
 
 @admin.register(models.Settings)
 class SettingsAdmin(admin.ModelAdmin):
-    readonly_fields = ["name"]
+    readonly_fields = ["name", "display_name"]
     list_display = ["display_name", "value"]
     list_editable = ["value"]
 
@@ -92,12 +92,18 @@ class SettingsAdmin(admin.ModelAdmin):
             None,
             {
                 "fields": (
-                    ("display_name", "value"),
-                    "name",
+                    ("display_name", "name"),
+                    "value",
                 ),
             },
         ),
     )
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
 
 
 @admin.register(models.UMNotification)
