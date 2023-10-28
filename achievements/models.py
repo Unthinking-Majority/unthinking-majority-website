@@ -30,13 +30,6 @@ class BaseSubmission(PolymorphicModel):
 
     objects = managers.SubmissionQueryset().as_manager()
 
-    child_models = (
-        "recordsubmission",
-        "petsubmission",
-        "collogsubmission",
-        "casubmission",
-    )
-
     __original_accepted = None
 
     class Meta:

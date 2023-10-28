@@ -26,15 +26,6 @@ class DragonstoneBaseSubmission(PolymorphicModel):
 
     objects = managers.SubmissionQueryset().as_manager()
 
-    child_models = (
-        "recruitmentsubmission",
-        "sotmsubmission",
-        "pvmsplitsubmission",
-        "mentorsubmission",
-        "eventsubmission",
-        "freeformsubmission",
-    )
-
     class Meta:
         ordering = [F("date").desc(nulls_last=True)]
         verbose_name = "Dragonstone Base Submission"
@@ -109,7 +100,7 @@ class FreeformSubmission(DragonstoneBaseSubmission):
         """
         Return a list containing (account, dragonstone_pts) values.
         If account is provided, return only the dragonstone points for that account.
-        Only consider submission made within the last 3 months.
+        Only consider submissions made within the set dragonstone expiration period (via the Settings admin).
         """
         dragonstone_pts = cls.objects.accepted().filter(
             date__gte=cls.expiration_period()
@@ -152,7 +143,7 @@ class RecruitmentSubmission(DragonstoneBaseSubmission):
         """
         Return a list containing (account, dragonstone_pts) values.
         If account is provided, return only the dragonstone points for that account.
-        Only consider submission made within the last 3 months.
+        Only consider submissions made within the set dragonstone expiration period (via the Settings admin).
         """
         dragonstone_pts = (
             cls.objects.accepted()
@@ -197,7 +188,7 @@ class SotMSubmission(DragonstoneBaseSubmission):
     def annotate_dragonstone_pts(cls, account=None):
         """
         Return a list containing (account, dragonstone_pts) values.
-        Only consider submission made within the last 3 months.
+        Only consider submissions made within the set dragonstone expiration period (via the Settings admin).
         """
         dragonstone_pts = (
             cls.objects.accepted()
@@ -253,7 +244,7 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
     def annotate_dragonstone_pts(cls, account=None):
         """
         Return a list containing (account, dragonstone_pts) values.
-        Only consider submission made within the last 3 months.
+        Only consider submissions made within the set dragonstone expiration period (via the Settings admin).
         """
         dragonstone_qs = (
             cls.objects.accepted()
@@ -328,7 +319,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
     def annotate_dragonstone_pts(cls, account=None):
         """
         Return a list containing (account, dragonstone_pts) values.
-        Only consider submission made within the last 3 months.
+        Only consider submissions made within the set dragonstone expiration period (via the Settings admin).
         """
         dragonsone_qs = (
             cls.objects.accepted()
@@ -405,7 +396,7 @@ class EventSubmission(DragonstoneBaseSubmission):
     def annotate_dragonstone_pts(cls, account=None):
         """
         Return a list containing (account, dragonstone_pts) values.
-        Only consider submission made within the last 3 months.
+        Only consider submissions made within the set dragonstone expiration period (via the Settings admin).
         """
         hosts_qs = (
             cls.objects.accepted()
