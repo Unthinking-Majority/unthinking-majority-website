@@ -67,28 +67,28 @@ class Command(BaseCommand):
         # of all the current usernames on the site, since there are sometimes slight
         # discrepancies in the names
         # Plus, we need to make sure we are starting to ignore case everywhere!
-        inactive_accounts = Account.objects.annotate(name_lower=Lower("name")).filter(
-            ~Q(
-                name_lower__in=[
-                    membership.player.display_name.lower() for membership in memberships
-                ]
-            )
-        )
-        inactive_accounts.update(is_active=False)
-        for account in inactive_accounts:
-            for recipient in notification_recipients:
-                UMNotification.objects.create(
-                    actor_object_id=king_of_jelly.account.id,
-                    actor_content_type=ContentType.objects.get_for_model(
-                        king_of_jelly.account
-                    ),
-                    verb=f"set account to inactive",
-                    recipient=recipient,
-                    action_object_object_id=account.id,
-                    action_object_content_type=ContentType.objects.get_for_model(
-                        account
-                    ),
-                )
+        # inactive_accounts = Account.objects.annotate(name_lower=Lower("name")).filter(
+        #     ~Q(
+        #         name_lower__in=[
+        #             membership.player.display_name.lower() for membership in memberships
+        #         ]
+        #     )
+        # )
+        # inactive_accounts.update(is_active=False)
+        # for account in inactive_accounts:
+        #     for recipient in notification_recipients:
+        #         UMNotification.objects.create(
+        #             actor_object_id=king_of_jelly.account.id,
+        #             actor_content_type=ContentType.objects.get_for_model(
+        #                 king_of_jelly.account
+        #             ),
+        #             verb=f"set account to inactive",
+        #             recipient=recipient,
+        #             action_object_object_id=account.id,
+        #             action_object_content_type=ContentType.objects.get_for_model(
+        #                 account
+        #             ),
+        #         )
 
         for membership in memberships:
             # get rank
