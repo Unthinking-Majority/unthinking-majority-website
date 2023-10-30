@@ -249,7 +249,7 @@
                         </div>
                         <div class="hidden mx-2 font-bold text-gray-300 lg:block">{{ request.user.account.display_name }}</div>
                     </button>
-                    <ul class="hidden overflow-hidden overflow-y-auto max-h-96 absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg right-0 group-focus-within:block focus:outline-none">
+                    <ul class="hidden w-64 overflow-hidden overflow-y-auto max-h-96 absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg right-0 group-focus-within:block focus:outline-none">
                         <li>
                             <a href="{% url "accounts:profile" %}"
                                class="block px-4 py-2 text-gray-700 hover:bg-gray-300">Profile</a>
@@ -273,7 +273,7 @@
                             </li>
                         {% endif %}
                         {% for notification in notifications %}
-                            <li class="notification-list-item flex items-center whitespace-normal w-64 2xl:w-auto 2xl:whitespace-nowrap">
+                            <li class="notification-list-item flex items-center whitespace-normal w-64 2xl:w-auto ">
                                 <button class="notificationMarkReadButton"
                                         data-url="{% url 'mark-notification-as-read' notification.id %}">
                                     <svg fill="none"

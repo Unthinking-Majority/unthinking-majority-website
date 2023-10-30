@@ -11,7 +11,7 @@
                 Username: {{ user.username }}
             </p>
             <p class="py-1 text-center sm:py-2">
-                <a href="{% url "accounts:password_change" %}" class="text-sky-700 hover:text-sky-900">
+                <a href="{% url "accounts:password_change" %}" class="font-bold text-cyan-500 hover:text-gray-300">
                     Change Password
                 </a>
             </p>
@@ -26,7 +26,7 @@
                 </p>
             {% endif %}
             <p class="py-1 text-center sm:py-2">
-                <a href="{% url "accounts:change-preferred-name" %}" class="text-sky-700 hover:text-sky-900">
+                <a href="{% url "accounts:change-preferred-name" %}" class="font-bold text-cyan-500 hover:text-gray-300">
                     {% if user.account.preferred_name %}Change{% else %}Add{% endif %} Preferred Name
                 </a>
             </p>
