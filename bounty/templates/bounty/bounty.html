@@ -30,6 +30,10 @@
 {% endblock extra_head %}
 
 {% block content %}
+    <div class="flex flex-wrap gap-1 justify-around mb-6">
+        <img src="{{ bounty.image.url }}" class="">
+    </div>
+
     <div class="flex flex-wrap justify-evenly mb-6">
         <div class="relative flex">
             <img src="{% static "bounty/img/coin_stack.webp" %}" class="h-24 w-24">
@@ -40,10 +44,7 @@
         <div id="countdown-timer" class="text-5xl font-bold text-center align-middle self-center whitespace-nowrap font-runescape">
             00 : 00 : 00
         </div>
-    </div>
-
-    <div class="flex flex-wrap gap-1 justify-around mb-6">
-        <img src="{{ bounty.image.url }}" class="">
+        <a href="{% url "bounty:bounty-rules" %}" class="text-5xl text-center align-middle self-center whitespace-nowrap font-runescape">Rules</a>
     </div>
 
     <div class="flex flex-wrap gap-1 justify-center">
@@ -54,7 +55,7 @@
 
     <div class="flex flex-wrap gap-3 justify-evenly">
         <a href="{% url "bounty:bounty-index" %}" class="text-4xl text-center align-middle whitespace-nowrap font-runescape">Previous Bounties</a>
-        <a href="{% url "bounty:bounty-rules" %}" class="text-4xl text-center align-middle whitespace-nowrap font-runescape">Rules</a>
+{#        <a href="{% url "bounty:bounty-rules" %}" class="text-4xl text-center align-middle whitespace-nowrap font-runescape">Rules</a>#}
     </div>
 
 {% endblock content %}

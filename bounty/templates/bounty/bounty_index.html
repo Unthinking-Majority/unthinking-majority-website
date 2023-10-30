@@ -20,7 +20,9 @@
                     {% for bounty in bounties %}
                         <tr class="even:bg-gray-100 odd:bg-gray-50">
                             <td class="py-4 text-center whitespace-nowrap md:px-2">
-                                <a href="{% url "bounty:bounty-view" bounty.id %}">{{ bounty.board.name }}</a>
+                                <a href="{% url "bounty:bounty-view" bounty.id %}" class="font-bold text-cyan-500 hover:text-gray-300">
+                                    {{ bounty.board.name }}
+                                </a>
                             </td>
                             <td class="hidden py-4 text-sm font-light text-center whitespace-nowrap md:table-cell">
                                 {{ bounty.start_date|date:"M d, Y" }}
