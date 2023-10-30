@@ -281,15 +281,15 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
             )
         )
         if account:
-            dragonsone_qs = (
+            dragonstone_qs = (
                 dragonstone_qs.values("accounts")
                 .order_by("accounts")
                 .annotate(total_dragonstone_pts=Sum("dragonstone_pts"))
                 .filter(account=account.id)
                 .first()
             )
-            if dragonsone_qs:
-                return dragonsone_qs["total_dragonstone_pts"]
+            if dragonstone_qs:
+                return dragonstone_qs["total_dragonstone_pts"]
             return 0
         return list(dragonstone_qs.values("account", "dragonstone_pts"))
 
@@ -321,7 +321,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
         Return a list containing (account, dragonstone_pts) values.
         Only consider submissions made within the set dragonstone expiration period (via the Settings admin).
         """
-        dragonsone_qs = (
+        dragonstone_qs = (
             cls.objects.accepted()
             .filter(date__gte=cls.expiration_period())
             .annotate(
@@ -350,17 +350,17 @@ class MentorSubmission(DragonstoneBaseSubmission):
             )
         )
         if account:
-            dragonsone_qs = (
-                dragonsone_qs.values("mentors")
+            dragonstone_qs = (
+                dragonstone_qs.values("mentors")
                 .order_by("mentors")
                 .annotate(total_dragonstone_pts=Sum("dragonstone_pts"))
                 .filter(account=account.id)
                 .first()
             )
-            if dragonsone_qs:
-                return dragonsone_qs["total_dragonstone_pts"]
+            if dragonstone_qs:
+                return dragonstone_qs["total_dragonstone_pts"]
             return 0
-        return list(dragonsone_qs.values("account", "dragonstone_pts"))
+        return list(dragonstone_qs.values("account", "dragonstone_pts"))
 
     def type_display(self):
         return "Mentor Submission"
