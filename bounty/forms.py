@@ -8,6 +8,9 @@ from bounty import models
 class BountyAdminForm(forms.ModelForm):
     model = models.Bounty
 
+    class Meta:
+        widgets = {"prize_pool": forms.TextInput()}
+
     def clean(self):
         cleaned_data = super().clean()
         start_date = cleaned_data.get("start_date")

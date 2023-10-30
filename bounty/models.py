@@ -7,6 +7,9 @@ class Bounty(models.Model):
     end_date = models.DateTimeField()
     board = models.ForeignKey("main.Board", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="bounty/image/")
+    prize_pool = models.PositiveIntegerField(
+        default=0, help_text="Total amount of gp in the prize pool."
+    )
 
     class Meta:
         ordering = ["-start_date"]

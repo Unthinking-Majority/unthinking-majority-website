@@ -22,7 +22,11 @@ class BountyAdmin(admin.ModelAdmin):
         (
             None,
             {
-                "fields": ("board", ("start_date", "end_date"), "image"),
+                "fields": (
+                    ("board", "prize_pool"),
+                    ("start_date", "end_date"),
+                    "image",
+                ),
             },
         ),
     )

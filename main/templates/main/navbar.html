@@ -1,6 +1,7 @@
 {% load static main_extras %}
 <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // TODO Technically causes an error if the button is rendered when there are no notifications, we can figure this one out later
             document.getElementById("markAllAsReadButton").addEventListener("click", (event) => {
                 let element = event.target.closest("button"),
                     url = element.getAttribute("data-url");

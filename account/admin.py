@@ -88,7 +88,7 @@ class AccountAdmin(admin.ModelAdmin):
         if obj.dragonstone_pts >= int(
             Settings.objects.get(name="DRAGONSTONE_POINTS_THRESHOLD").value
         ):
-            dragonstone_icon_url = static("img/dragonstone.webp")
+            dragonstone_icon_url = static("dragonstone/img/dragonstone.webp")
             return mark_safe(
                 f'{obj.dragonstone_pts} <img src="{dragonstone_icon_url}" style="height: 17px; width: 17px"/>'
             )

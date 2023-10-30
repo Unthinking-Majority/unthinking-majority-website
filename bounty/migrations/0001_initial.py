@@ -5,22 +5,34 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('main', '0067_content_can_be_mentored_content_can_be_split'),
+        ("main", "0067_content_can_be_mentored_content_can_be_split"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Bounty',
+            name="Bounty",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_date', models.DateTimeField()),
-                ('end_date', models.DateTimeField()),
-                ('image', models.ImageField(upload_to='bounty/image/')),
-                ('board', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.board')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("start_date", models.DateTimeField()),
+                ("end_date", models.DateTimeField()),
+                ("image", models.ImageField(upload_to="bounty/image/")),
+                (
+                    "board",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="main.board"
+                    ),
+                ),
             ],
         ),
     ]
