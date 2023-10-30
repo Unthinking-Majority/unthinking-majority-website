@@ -112,4 +112,6 @@ class UMNotificationAdmin(admin.ModelAdmin):
     search_fields = ["verb"]
 
 
-admin.site.unregister(Notification)  # unregister Notification model from admin, since we have our own UMNotification model + admin
+admin.site.unregister(
+    Notification
+)  # unregister Notification model from admin, since we have our own UMNotification model + admin
