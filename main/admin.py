@@ -2,6 +2,7 @@ from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
 
 from main import models
+from notifications.models import Notification
 
 
 @admin.register(models.ContentCategory)
@@ -109,3 +110,6 @@ class SettingsAdmin(admin.ModelAdmin):
 @admin.register(models.UMNotification)
 class UMNotificationAdmin(admin.ModelAdmin):
     search_fields = ["verb"]
+
+
+admin.site.unregister(Notification)  # unregister Notification model from admin, since we have our own UMNotification model + admin

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "admin_auto_filters",
     "django_browser_reload",
     "formtools",
+    "notifications",
     "main",
     "achievements",
     "dragonstone",
@@ -49,7 +50,6 @@ INSTALLED_APPS = [
     "tailwind",
     "theme",
     "bounty",
-    "notifications",
 ]
 
 if DEBUG:
