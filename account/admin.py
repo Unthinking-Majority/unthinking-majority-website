@@ -14,6 +14,7 @@ from dragonstone.models import (
     RecruitmentSubmission,
     SotMSubmission,
 )
+from main.models import Settings
 
 
 @admin.register(models.Account)
@@ -84,7 +85,9 @@ class AccountAdmin(admin.ModelAdmin):
 
     @admin.display(description="Dragonstone Points", ordering="dragonstone_pts")
     def dragonstone_pts(self, obj):
-        if obj.dragonstone_pts >= 40:
+        if obj.dragonstone_pts >= int(
+            Settings.objects.get(name="DRAGONSTONE_POINTS_THRESHOLD").value
+        ):
             dragonstone_icon_url = static("img/dragonstone.webp")
             return mark_safe(
                 f'{obj.dragonstone_pts} <img src="{dragonstone_icon_url}" style="height: 17px; width: 17px"/>'
