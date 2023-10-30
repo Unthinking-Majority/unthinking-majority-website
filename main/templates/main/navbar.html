@@ -1,6 +1,7 @@
 {% load static main_extras %}
 <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // TODO Technically causes an error if the button is rendered when there are no notifications, we can figure this one out later
             document.getElementById("markAllAsReadButton").addEventListener("click", (event) => {
                 let element = event.target.closest("button"),
                     url = element.getAttribute("data-url");
@@ -101,17 +102,24 @@
                             <ul class="hidden overflow-hidden absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
                                 tabindex="-1">
                                 <li>
-                                    <a href="{% url "submit-achievement" %}"
+                                    <a href="{% url "achievements:submit-achievement" %}"
                                        class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
                                        tabindex="-1">Achievement</a>
                                 </li>
                                 <li>
-                                    <a href="{% url "submit-dragonstone" %}"
+                                    <a href="{% url "dragonstone:submit-dragonstone" %}"
                                        class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
                                        tabindex="-1">Dragonstone</a>
                                 </li>
                             </ul>
                         </div>
+                    {% if request.user.is_superuser %}
+                        <div class="relative group">
+                            <a href="{% if bounty %}{% url "bounty:current-bounty" %}{% else %}{% url "bounty:bounty-index" %}{% endif %}" class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                                Bounty
+                            </a>
+                        </div>
+                    {% endif %}
                     </div>
                 </div>
                 {# navbar items for less than medium sized viewports #}
@@ -180,18 +188,27 @@
                                 <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
                                     tabindex="-1">
                                     <li>
-                                        <a href="{% url "submit-achievement" %}"
+                                        <a href="{% url "achievements:submit-achievement" %}"
                                            class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
                                            tabindex="-1">Achievement</a>
                                     </li>
                                     <li>
-                                        <a href="{% url "submit-dragonstone" %}"
+                                        <a href="{% url "dragonstone:submit-dragonstone" %}"
                                            class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
                                            tabindex="-1">Dragonstone</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
+                        {% if request.user.is_superuser %}
+                            <li>
+                                <div class="relative group/dropdown" tabindex="0">
+                                    <a href="{% if bounty %}{% url "bounty:current-bounty" %}{% else %}{% url "bounty:bounty-index" %}{% endif %}" class="block px-4 py-2 w-full text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                                        Bounty
+                                    </a>
+                                </div>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 {# Discord icon #}

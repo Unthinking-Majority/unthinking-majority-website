@@ -1,0 +1,21 @@
+
+{% extends "main/site_base.html" %}
+
+{% block content %}
+    <div class="flex justify-center">
+        <div class="flex justify-center items-center px-2 mx-2 my-2 bg-gray-800 rounded-lg basis-full md:my-6 md:mx-0 max-sm:flex-col md:basis-9/12">
+            {% if content.icon %}
+                <img src="{{ content.icon.url }}" class="mx-4 my-2 h-16">
+            {% endif %}
+            <h1 class="p-1 text-4xl tracking-wide text-center md:text-6xl font-runescape text-yellow-runescape text-border">
+                Bounty: {{ bounty.board.content.name}}
+            </h1>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap gap-1 justify-around">
+        <span class="basis-full xl:basis-7/12">
+            {% include "main/board.html" %}
+        </span>
+    </div>
+{% endblock content %}

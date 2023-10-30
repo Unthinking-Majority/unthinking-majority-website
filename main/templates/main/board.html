@@ -24,10 +24,10 @@
     </tr>
     </thead>
     <tbody>
-    {% for submission in page %}
+    {% for submission in page_obj %}
         <tr class="even:bg-gray-100 odd:bg-gray-50">
             <td class="py-4 text-center whitespace-nowrap md:px-2">
-                {{ forloop.counter0|add:page.start_index }}
+                {{ forloop.counter0|add:page_obj.start_index }}
             </td>
             <td class="py-4 max-w-xs text-center md:px-2">
                 {% for account in submission.accounts.all %}
@@ -83,8 +83,8 @@
 </table>
 
 <div class="flex justify-around py-2 mt-4 text-gray-800 border-t-2">
-    {% if page.has_previous %}
-        <a href="?{{ board.id }}__page={{ page.previous_page_number }}"
+    {% if page_obj.has_previous %}
+        <a href="?{{ board.id }}__page={{ page_obj.previous_page_number }}"
            class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
             Previous
         </a>
@@ -96,11 +96,11 @@
     {% endif %}
 
     <a class="px-3 py-2 my-4 font-medium rounded-md hover:cursor-default">
-        Page {{ page.number }} of {{ page.paginator.num_pages }}
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
     </a>
 
-    {% if page.has_next %}
-        <a href="?{{ board.id }}__page={{ page.next_page_number }}"
+    {% if page_obj.has_next %}
+        <a href="?{{ board.id }}__page={{ page_obj.next_page_number }}"
            class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
             Next
         </a>

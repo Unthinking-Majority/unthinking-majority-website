@@ -1,0 +1,60 @@
+{% extends "main/site_base.html" %}
+
+{% load static main_extras %}
+
+{% block extra_head %}
+    {{ block.super }}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            function setTimer(duration, element) {
+                let interval = setInterval(() => {
+                    let hours = Math.trunc(duration / 3600),
+                        minutes = Math.trunc(duration / 60) % 60,
+                        seconds = duration % 60;
+
+                    element.textContent = `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
+                    if (duration-- === 0) {
+                        clearInterval(interval);
+                    }
+
+                }, 1000);
+            }
+
+            let timer = document.getElementById("countdown-timer"),
+                today = new Date(),
+                end_date = new Date("{{ bounty.end_date.isoformat }}");
+
+            setTimer(Math.trunc((end_date - today) / 1000), timer);
+        });
+    </script>
+{% endblock extra_head %}
+
+{% block content %}
+    <div class="flex flex-wrap justify-evenly mb-6">
+        <div class="relative flex">
+            <img src="{% static "bounty/img/coin_stack.webp" %}" class="h-24 w-24">
+            <p class="absolute font-runescape text-4xl tracking-wide text-shadow text-green-500">
+                {{ bounty.prize_pool|gp_display }}
+            </p>
+        </div>
+        <div id="countdown-timer" class="text-5xl font-bold text-center align-middle self-center whitespace-nowrap font-runescape">
+            00 : 00 : 00
+        </div>
+    </div>
+
+    <div class="flex flex-wrap gap-1 justify-around mb-6">
+        <img src="{{ bounty.image.url }}" class="">
+    </div>
+
+    <div class="flex flex-wrap gap-1 justify-center">
+        <span class="basis-full xl:basis-7/12">
+            {% include "main/board.html" %}
+        </span>
+    </div>
+
+    <div class="flex flex-wrap gap-3 justify-evenly">
+        <a href="{% url "bounty:bounty-index" %}" class="text-4xl text-center align-middle whitespace-nowrap font-runescape">Previous Bounties</a>
+        <a href="{% url "bounty:bounty-rules" %}" class="text-4xl text-center align-middle whitespace-nowrap font-runescape">Rules</a>
+    </div>
+
+{% endblock content %}

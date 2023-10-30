@@ -1,0 +1,37 @@
+{% extends "main/site_base.html" %}
+
+{% load um_components %}
+
+{% block content %}
+
+    {% page_header "Previous Bounties" %}
+
+    <div class="flex flex-wrap gap-1 justify-around">
+        <span class="basis-full xl:basis-7/12">
+            <table class="overflow-hidden w-full rounded-lg shadow-lg">
+                <thead class="bg-gray-800 rounded-lg">
+                    <tr class="text-white">
+                        <th class="px-1 py-4 text-center md:py-4 md:text-md">Board</th>
+                        <th class="px-1 py-4 text-center md:py-4 md:text-md">Start Date</th>
+                        <th class="px-1 py-4 text-center md:py-4 md:text-md">End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bounty in bounties %}
+                        <tr class="even:bg-gray-100 odd:bg-gray-50">
+                            <td class="py-4 text-center whitespace-nowrap md:px-2">
+                                <a href="{% url "bounty:bounty-view" bounty.id %}">{{ bounty.board.name }}</a>
+                            </td>
+                            <td class="hidden py-4 text-sm font-light text-center whitespace-nowrap md:table-cell">
+                                {{ bounty.start_date|date:"M d, Y" }}
+                            </td>
+                            <td class="hidden py-4 text-sm font-light text-center whitespace-nowrap md:table-cell">
+                                {{ bounty.end_date|date:"M d, Y" }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </span>
+    </div>
+{% endblock content %}
