@@ -4,9 +4,11 @@ from polymorphic.admin import (
     PolymorphicParentModelAdmin,
     PolymorphicChildModelAdmin,
     PolymorphicChildModelFilter,
+    PolymorphicInlineSupportMixin,
 )
 
 from dragonstone import models
+from dragonstone.admin import inlines
 
 __all__ = [
     "DragonstoneBaseSubmissionAdmin",
@@ -54,8 +56,9 @@ class DragonstoneBaseSubmissionChildAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.PVMSplitSubmission)
-class PVMSplitAdmin(PolymorphicChildModelAdmin):
+class PVMSplitAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
     base_model = models.PVMSplitSubmission
+    inlines = [inlines.PVMSplitPointsAdminInline]
     autocomplete_fields = ["content"]
     list_display = ["accounts_display", "content", "proof", "date", "accepted"]
     list_editable = ["accepted"]
@@ -87,8 +90,9 @@ class PVMSplitAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.MentorSubmission)
-class MentorAdmin(PolymorphicChildModelAdmin):
+class MentorAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
     base_model = models.MentorSubmission
+    inlines = [inlines.MentorPointsAdminInline]
     autocomplete_fields = ["learners", "content"]
     list_display = ["mentors_display", "content", "proof", "date", "accepted"]
     list_editable = ["accepted"]
@@ -121,9 +125,13 @@ class MentorAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.EventSubmission)
-class EventAdmin(PolymorphicChildModelAdmin):
+class EventAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
     base_model = models.EventSubmission
-    # autocomplete_fields = ["hosts", "participants", "donors"]
+    inlines = [
+        inlines.EventHostPointsAdminInline,
+        inlines.EventParticipantPointsAdminInline,
+        inlines.EventDonorPointsAdminInline,
+    ]
     list_display = ["name", "hosts_display", "type", "proof", "date", "accepted"]
     list_editable = ["accepted"]
     list_filter = [
