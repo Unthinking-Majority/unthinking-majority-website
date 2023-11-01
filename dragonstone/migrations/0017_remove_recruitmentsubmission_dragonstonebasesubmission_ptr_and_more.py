@@ -5,7 +5,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("dragonstone", "0016_rename_temp_donors_eventsubmission_donors_and_more"),
+        ("dragonstone", "0016b_remove_polymorphic_objects_to_be_deleted_20231101_2308"),
     ]
 
     operations = [
