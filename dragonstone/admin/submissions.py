@@ -8,14 +8,19 @@ from polymorphic.admin import (
 
 from dragonstone import models
 
+__all__ = [
+    "DragonstoneBaseSubmissionAdmin",
+    "DragonstoneBaseSubmissionChildAdmin",
+    "PVMSplitAdmin",
+    "MentorAdmin",
+    "EventAdmin",
+]
+
 
 @admin.register(models.DragonstoneBaseSubmission)
 class DragonstoneBaseSubmissionAdmin(PolymorphicParentModelAdmin):
     base_model = models.DragonstoneBaseSubmission
     child_models = (
-        models.FreeformSubmission,
-        models.RecruitmentSubmission,
-        models.SotMSubmission,
         models.PVMSplitSubmission,
         models.MentorSubmission,
         models.EventSubmission,
@@ -46,100 +51,6 @@ class DragonstoneBaseSubmissionAdmin(PolymorphicParentModelAdmin):
 
 class DragonstoneBaseSubmissionChildAdmin(PolymorphicChildModelAdmin):
     base_model = models.DragonstoneBaseSubmission
-
-
-@admin.register(models.FreeformSubmission)
-class FreeformSubmission(PolymorphicChildModelAdmin):
-    base_model = models.FreeformSubmission
-    autocomplete_fields = ["account"]
-    list_display = ["account", "dragonstone_pts", "accepted"]
-    list_editable = ["accepted"]
-    list_filter = [
-        AutocompleteFilterFactory("Account", "account"),
-        AutocompleteFilterFactory("Created by", "created_by"),
-    ]
-    readonly_fields = ["created_by"]
-
-    fieldsets = (
-        (
-            None,
-            {
-                "fields": (
-                    "account",
-                    "dragonstone_pts",
-                    "created_by",
-                    ("notes", "denial_notes"),
-                    ("proof", "date", "accepted"),
-                ),
-            },
-        ),
-    )
-
-    def save_model(self, request, obj, form, change):
-        obj.created_by = request.user
-        obj.save()
-
-
-@admin.register(models.RecruitmentSubmission)
-class RecruitmentAdmin(PolymorphicChildModelAdmin):
-    base_model = models.RecruitmentSubmission
-    autocomplete_fields = ["recruiter", "recruited"]
-    list_display = ["recruiter", "recruited", "proof", "date", "accepted"]
-    list_editable = ["accepted"]
-    list_filter = [
-        AutocompleteFilterFactory("Recruiter", "recruiter"),
-        AutocompleteFilterFactory("Recruited", "recruited"),
-        "accepted",
-        "date",
-    ]
-    search_fields = ["recruiter__name", "recruited__name"]
-
-    fieldsets = (
-        (
-            None,
-            {
-                "fields": (
-                    "recruiter",
-                    "recruited",
-                    ("notes", "denial_notes"),
-                    ("proof", "date", "accepted"),
-                ),
-            },
-        ),
-    )
-
-
-@admin.register(models.SotMSubmission)
-class SotMAdmin(PolymorphicChildModelAdmin):
-    base_model = models.SotMSubmission
-    autocomplete_fields = ["account"]
-    list_display = ["account", "rank_display", "proof", "date", "accepted"]
-    list_editable = ["accepted"]
-    list_filter = [
-        AutocompleteFilterFactory("Account", "account"),
-        "rank",
-        "accepted",
-        "date",
-    ]
-    search_fields = ["account__name"]
-
-    fieldsets = (
-        (
-            None,
-            {
-                "fields": (
-                    "account",
-                    "rank",
-                    ("notes", "denial_notes"),
-                    ("proof", "date", "accepted"),
-                ),
-            },
-        ),
-    )
-
-    @admin.display(description="Rank")
-    def rank_display(self, obj):
-        return obj.get_rank_display()
 
 
 @admin.register(models.PVMSplitSubmission)
@@ -242,10 +153,3 @@ class EventAdmin(PolymorphicChildModelAdmin):
     @admin.display(description="Hosts")
     def hosts_display(self, obj):
         return ", ".join(obj.hosts.values_list("name", flat=True))
-
-
-# @admin.register(models.DragonstonePoints)
-# class DragonstonePointsAdmin(admin.ModelAdmin):
-#     model = models.DragonstonePoints
-#     autocomplete_fields = ["account"]
-#     raw_id_fields = ["submission"]

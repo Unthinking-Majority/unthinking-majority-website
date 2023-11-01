@@ -1,18 +1,10 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.db import models
-from django.db.models import Max, Min
+from django.db.models import Max, Min, Sum
 
 from account import ACCOUNT_RANK_CHOICES
 from achievements import CA_DICT
 from achievements.models import CASubmission, ColLogSubmission, PetSubmission
-from dragonstone.models import (
-    EventSubmission,
-    FreeformSubmission,
-    MentorSubmission,
-    PVMSplitSubmission,
-    RecruitmentSubmission,
-    SotMSubmission,
-)
 from um.functions import get_file_path
 
 
@@ -62,19 +54,10 @@ class Account(models.Model):
         return CA_DICT.get(ca_tier, "None")
 
     def dragonstone_pts(self):
-        recruitment_pts = RecruitmentSubmission.annotate_dragonstone_pts(account=self)
-        sotm_pts = SotMSubmission.annotate_dragonstone_pts(account=self)
-        pvm_splits_pts = PVMSplitSubmission.annotate_dragonstone_pts(account=self)
-        mentor_pts = MentorSubmission.annotate_dragonstone_pts(account=self)
-        event_pts = EventSubmission.annotate_dragonstone_pts(account=self)
-        freeform_pts = FreeformSubmission.annotate_dragonstone_pts(account=self)
         return (
-            recruitment_pts
-            + sotm_pts
-            + pvm_splits_pts
-            + mentor_pts
-            + event_pts
-            + freeform_pts
+            self.dragonstone_points.active()
+            .filter(account=self.pk)
+            .aggregate(Sum("points"))["points__sum"]
         )
 
 

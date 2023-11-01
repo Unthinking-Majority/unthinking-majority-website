@@ -1,6 +1,7 @@
 from heapq import merge
 
 from django.contrib import messages
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
@@ -22,11 +23,17 @@ class ProfileView(ListView):
         )
 
         # dragonstone submissions
-        dragonstone_submissions = (
-            DragonstoneBaseSubmission.filter_all_submissions_by_account(
-                self.request.user.account
+        dragonstone_submissions = DragonstoneBaseSubmission.objects.filter(
+            Q(
+                Q(pvmsplitsubmission__accounts=self.request.user.account)
+                | Q(mentorsubmission__mentors=self.request.user.account)
+                | Q(mentorsubmission__learners=self.request.user.account)
+                | Q(eventsubmission__hosts=self.request.user.account)
+                | Q(eventsubmission__participants=self.request.user.account)
+                | Q(eventsubmission__donors=self.request.user.account)
             )
         )
+
         return list(
             merge(
                 achievement_submissions,

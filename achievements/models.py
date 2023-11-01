@@ -11,8 +11,8 @@ from django.db.models import F, Q
 from django.urls import reverse
 from polymorphic.models import PolymorphicModel
 
-from achievements import CA_CHOICES
-from main import INTEGER, TIME, managers
+from achievements import managers, CA_CHOICES
+from main import INTEGER, TIME
 from main.models import UMNotification
 from um.functions import get_file_path
 

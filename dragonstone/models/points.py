@@ -1,7 +1,6 @@
-from datetime import timedelta, datetime
+from datetime import datetime
 
 from django.db import models
-from django.utils import timezone
 from polymorphic.models import PolymorphicModel
 
 from dragonstone import (
@@ -11,6 +10,7 @@ from dragonstone import (
     OTHER,
     EVENT_MENTOR,
 )
+from dragonstone import managers
 from main import EASY, MEDIUM, HARD, VERY_HARD
 from main.models import Settings
 
@@ -36,23 +36,27 @@ class DragonstonePoints(PolymorphicModel):
     points = models.PositiveIntegerField(default=0)
     date = models.DateTimeField(default=datetime.now)
 
+    objects = managers.DragonstonePointsQueryset.as_manager()
+
     class Meta:
         verbose_name = "Dragonstone Points"
         verbose_name_plural = "Dragonstone Points"
-
-    @classmethod
-    def expiration_period(cls):
-        return timezone.now().date() - timedelta(
-            days=int(Settings.objects.get(name="DRAGONSTONE_EXPIRATION_PERIOD").value)
-        )
 
 
 class FreeformPoints(DragonstonePoints):
     created_by = models.ForeignKey("auth.User", on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = "Freeform Points"
+        verbose_name_plural = "Freeform Points"
+
 
 class RecruitmentPoints(DragonstonePoints):
     recruited = models.ForeignKey("account.Account", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Recruitment Points"
+        verbose_name_plural = "Recruitment Points"
 
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
@@ -62,6 +66,10 @@ class RecruitmentPoints(DragonstonePoints):
 
 class SotMPoints(DragonstonePoints):
     rank = models.PositiveIntegerField(choices=((1, "1st"), (2, "2nd"), (3, "3rd")))
+
+    class Meta:
+        verbose_name = "Skill of the Month Points"
+        verbose_name_plural = "Skill of the Month Points"
 
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
@@ -79,6 +87,10 @@ class PVMSplitPoints(DragonstonePoints):
         "dragonstone.PVMSplitSubmission",
         on_delete=models.CASCADE,
     )
+
+    class Meta:
+        verbose_name = "PVM Split Points"
+        verbose_name_plural = "PVM Split Points"
 
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
@@ -108,6 +120,10 @@ class MentorPoints(DragonstonePoints):
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        verbose_name = "Mentor Points"
+        verbose_name_plural = "Mentor Points"
+
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
             if self.submission.content__difficulty == EASY:
@@ -129,6 +145,10 @@ class EventHostPoints(DragonstonePoints):
         "dragonstone.EventSubmission",
         on_delete=models.CASCADE,
     )
+
+    class Meta:
+        verbose_name = "Event Host Points"
+        verbose_name_plural = "Event Host Points"
 
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
@@ -158,6 +178,10 @@ class EventParticipantPoints(DragonstonePoints):
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        verbose_name = "Event Participant Points"
+        verbose_name_plural = "Event Participant Points"
+
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
             if self.submission.type == PVM or self.submission.type == SKILLING:
@@ -185,6 +209,10 @@ class EventDonorPoints(DragonstonePoints):
         "dragonstone.EventSubmission",
         on_delete=models.CASCADE,
     )
+
+    class Meta:
+        verbose_name = "Event Donor Points"
+        verbose_name_plural = "Event Donor Points"
 
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
