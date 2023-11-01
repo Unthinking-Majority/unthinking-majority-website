@@ -25,7 +25,7 @@ class Bounty(models.Model):
 
     def get_submissions(self):
         return (
-            self.board.submissions.active_submissions()
+            self.board.submissions.active()
             .accepted()
             .filter(date__gte=self.start_date, date__lte=self.end_date)
         )

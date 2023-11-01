@@ -9,7 +9,7 @@ class SubmissionQueryset(PolymorphicQuerySet):
     def denied(self):
         return self.filter(accepted=False)
 
-    def active_submissions(self):
+    def active(self):
         return self.annotate(
             num_accounts=Count("accounts"),
             num_active_accounts=Count("accounts", filter=Q(accounts__is_active=True)),

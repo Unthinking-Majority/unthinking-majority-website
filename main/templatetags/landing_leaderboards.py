@@ -99,7 +99,7 @@ def top_players_leaderboard():
         order = f"{board.content.ordering}value"
         try:
             first_place_accounts = (
-                board.submissions.active_submissions()
+                board.submissions.active()
                 .order_by(order)
                 .first()
                 .accounts.filter(is_active=True)

@@ -148,9 +148,7 @@ class RecordSubmission(BaseSubmission):
     def get_rank(self):
         ordering = self.board.content.ordering
 
-        active_accounts_submissions = (
-            self.board.submissions.active_submissions().accepted()
-        )
+        active_accounts_submissions = self.board.submissions.active().accepted()
 
         # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
         annotated_submissions = active_accounts_submissions.annotate(

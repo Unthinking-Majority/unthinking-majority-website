@@ -1,19 +1,15 @@
 from django.contrib import admin
-from django.db.models import Case, IntegerField, Value, When
+from django.db.models import F, Case, When, Sum, Q
+from django.db.models import IntegerField, Value
+from django.db.models.lookups import GreaterThanOrEqual
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
 from account import models
-from dragonstone.models import (
-    EventSubmission,
-    FreeformSubmission,
-    MentorSubmission,
-    PVMSplitSubmission,
-    RecruitmentSubmission,
-    SotMSubmission,
-)
+from dragonstone import PVM_SPLIT
+from dragonstone.models import DragonstonePoints
 from main.models import Settings
 
 
@@ -55,30 +51,34 @@ class AccountAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         queryset = super(AccountAdmin, self).get_queryset(request)
 
-        recruitment_pts = RecruitmentSubmission.annotate_dragonstone_pts()
-        sotm_pts = SotMSubmission.annotate_dragonstone_pts()
-        pvm_splits_pts = PVMSplitSubmission.annotate_dragonstone_pts()
-        mentor_pts = MentorSubmission.annotate_dragonstone_pts()
-        event_pts = EventSubmission.annotate_dragonstone_pts()
-        freeform_pts = FreeformSubmission.annotate_dragonstone_pts()
+        dstone_pts = (
+            DragonstonePoints.objects.filter(
+                submission__accepted=True,
+                submission__date__gte=DragonstonePoints.expiration_period(),
+            )
+            .values("account", "type")
+            .annotate(pts=Sum("points"))
+            .annotate(
+                pts=Case(
+                    When(
+                        Q(type=PVM_SPLIT) & Q(GreaterThanOrEqual(F("pts"), 25)),
+                        then=25,
+                    ),
+                    default=F("pts"),
+                    output_field=IntegerField(),
+                )
+            )
+            .order_by()
+        )
 
-        dragonstone_pts = {}
-        for obj in (
-            recruitment_pts
-            + sotm_pts
-            + pvm_splits_pts
-            + mentor_pts
-            + event_pts
-            + freeform_pts
-        ):
-            if obj["account"] in dragonstone_pts.keys():
-                dragonstone_pts[obj["account"]] += obj["dragonstone_pts"]
+        foo = {}
+        for obj in dstone_pts:
+            if obj["account"] not in foo.keys():
+                foo[obj["account"]] = obj["pts"]
             else:
-                dragonstone_pts[obj["account"]] = obj["dragonstone_pts"]
+                foo[obj["account"]] += obj["pts"]
 
-        whens = [
-            When(id=account, then=d_pts) for account, d_pts in dragonstone_pts.items()
-        ]
+        whens = [When(id=account, then=pts) for account, pts in foo.items()]
         return queryset.annotate(
             dragonstone_pts=Case(*whens, output_field=IntegerField(), default=Value(0))
         ).order_by("-dragonstone_pts", "name")

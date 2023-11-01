@@ -6,11 +6,28 @@ from django.db.models import Value, Case, When, F, Q, Sum
 from django.utils import timezone
 from polymorphic.models import PolymorphicModel
 
-from dragonstone import EVENT_CHOICES, PVM, SKILLING, MAJOR, OTHER, EVENT_MENTOR
+from dragonstone import (
+    EVENT_CHOICES,
+    PVM,
+    SKILLING,
+    MAJOR,
+    OTHER,
+    EVENT_MENTOR,
+)
 from main import EASY, MEDIUM, HARD, VERY_HARD
 from main import managers
 from main.models import Settings
 from um.functions import get_file_path
+
+__all__ = [
+    "DragonstoneBaseSubmission",
+    "FreeformSubmission",
+    "RecruitmentSubmission",
+    "SotMSubmission",
+    "PVMSplitSubmission",
+    "MentorSubmission",
+    "EventSubmission",
+]
 
 
 class DragonstoneBaseSubmission(PolymorphicModel):
@@ -19,7 +36,7 @@ class DragonstoneBaseSubmission(PolymorphicModel):
     proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     notes = models.TextField(blank=True)
     denial_notes = models.TextField(
-        blank=True, help_text="Only need to fill out if submission is denied."
+        blank=True, help_text="Only fill out if the submission is denied."
     )
     accepted = models.BooleanField(null=True)
     date = models.DateTimeField(default=datetime.now, null=True, blank=True)
@@ -233,7 +250,9 @@ class SotMSubmission(DragonstoneBaseSubmission):
 class PVMSplitSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = "dragonstone/pvm/proof/"
 
-    accounts = models.ManyToManyField("account.Account")
+    accounts = models.ManyToManyField(
+        "account.Account", through="dragonstone.PVMSplitPoints", related_name="temp"
+    )
     content = models.ForeignKey("main.Content", on_delete=models.CASCADE)
 
     class Meta:
@@ -307,8 +326,10 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
 class MentorSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = "dragonstone/mentor/proof/"
 
-    mentors = models.ManyToManyField("account.Account", related_name="mentored")
     learners = models.ManyToManyField("account.Account", related_name="mentor_learners")
+    mentors = models.ManyToManyField(
+        "account.Account", related_name="test4", through="dragonstone.MentorPoints"
+    )
     content = models.ForeignKey("main.Content", on_delete=models.CASCADE)
 
     class Meta:
@@ -378,13 +399,22 @@ class EventSubmission(DragonstoneBaseSubmission):
 
     name = models.CharField(max_length=256)
     hosts = models.ManyToManyField(
-        "account.Account", related_name="events_hosted", blank=True
+        "account.Account",
+        related_name="test1",
+        through="dragonstone.EventHostPoints",
+        blank=True,
     )
     participants = models.ManyToManyField(
-        "account.Account", related_name="events_participated", blank=True
+        "account.Account",
+        related_name="test2",
+        through="dragonstone.EventParticipantPoints",
+        blank=True,
     )
     donors = models.ManyToManyField(
-        "account.Account", related_name="events_donated", blank=True
+        "account.Account",
+        related_name="test3",
+        through="dragonstone.EventDonorPoints",
+        blank=True,
     )
     type = models.IntegerField(choices=EVENT_CHOICES)
 

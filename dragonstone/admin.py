@@ -1,7 +1,5 @@
 from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
-from django.urls import reverse_lazy
-from django.utils.safestring import mark_safe
 from polymorphic.admin import (
     PolymorphicParentModelAdmin,
     PolymorphicChildModelAdmin,
@@ -147,7 +145,7 @@ class SotMAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.PVMSplitSubmission)
 class PVMSplitAdmin(PolymorphicChildModelAdmin):
     base_model = models.PVMSplitSubmission
-    autocomplete_fields = ["accounts", "content"]
+    autocomplete_fields = ["content"]
     list_display = ["accounts_display", "content", "proof", "date", "accepted"]
     list_editable = ["accepted"]
     list_filter = [
@@ -164,7 +162,6 @@ class PVMSplitAdmin(PolymorphicChildModelAdmin):
             None,
             {
                 "fields": (
-                    "accounts",
                     "content",
                     ("notes", "denial_notes"),
                     ("proof", "date", "accepted"),
@@ -181,7 +178,7 @@ class PVMSplitAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.MentorSubmission)
 class MentorAdmin(PolymorphicChildModelAdmin):
     base_model = models.MentorSubmission
-    autocomplete_fields = ["mentors", "learners", "content"]
+    autocomplete_fields = ["learners", "content"]
     list_display = ["mentors_display", "content", "proof", "date", "accepted"]
     list_editable = ["accepted"]
     list_filter = [
@@ -198,7 +195,6 @@ class MentorAdmin(PolymorphicChildModelAdmin):
             None,
             {
                 "fields": (
-                    "mentors",
                     "learners",
                     "content",
                     ("notes", "denial_notes"),
@@ -216,7 +212,7 @@ class MentorAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.EventSubmission)
 class EventAdmin(PolymorphicChildModelAdmin):
     base_model = models.EventSubmission
-    autocomplete_fields = ["hosts", "participants", "donors"]
+    # autocomplete_fields = ["hosts", "participants", "donors"]
     list_display = ["name", "hosts_display", "type", "proof", "date", "accepted"]
     list_editable = ["accepted"]
     list_filter = [
@@ -235,9 +231,6 @@ class EventAdmin(PolymorphicChildModelAdmin):
             {
                 "fields": (
                     "name",
-                    "hosts",
-                    "participants",
-                    "donors",
                     "type",
                     ("notes", "denial_notes"),
                     ("proof", "date", "accepted"),
@@ -249,3 +242,10 @@ class EventAdmin(PolymorphicChildModelAdmin):
     @admin.display(description="Hosts")
     def hosts_display(self, obj):
         return ", ".join(obj.hosts.values_list("name", flat=True))
+
+
+# @admin.register(models.DragonstonePoints)
+# class DragonstonePointsAdmin(admin.ModelAdmin):
+#     model = models.DragonstonePoints
+#     autocomplete_fields = ["account"]
+#     raw_id_fields = ["submission"]

@@ -41,9 +41,7 @@ class LeaderboardView(TemplateView):
         ordering = context["content"].ordering
         num_objs_per_page = 10 if context["content"].boards.count() == 1 else 5
         for board in context["content"].boards.all():
-            active_accounts_submissions = (
-                board.submissions.active_submissions().accepted()
-            )
+            active_accounts_submissions = board.submissions.active().accepted()
 
             # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
             annotated_submissions = active_accounts_submissions.annotate(

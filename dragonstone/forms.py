@@ -2,7 +2,6 @@ from django import forms
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
 
-from account import DIAMOND
 from dragonstone import DRAGONSTONE_SUBMISSION_TYPES
 from dragonstone import models
 from main import widgets
