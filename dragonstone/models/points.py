@@ -94,19 +94,19 @@ class PVMSplitPoints(DragonstonePoints):
 
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
-            if self.submission.content__difficulty == EASY:
+            if self.submission.content.difficulty == EASY:
                 self.points = int(
                     Settings.objects.get(name="PVM_SPLITS_EASY_PTS").value
                 )
-            elif self.submission.content__difficulty == MEDIUM:
+            elif self.submission.content.difficulty == MEDIUM:
                 self.points = int(
                     Settings.objects.get(name="PVM_SPLITS_MEDIUM_PTS").value
                 )
-            elif self.submission.content__difficulty == HARD:
+            elif self.submission.content.difficulty == HARD:
                 self.points = int(
                     Settings.objects.get(name="PVM_SPLITS_HARD_PTS").value
                 )
-            elif self.submission.content__difficulty == VERY_HARD:
+            elif self.submission.content.difficulty == VERY_HARD:
                 self.points = int(
                     Settings.objects.get(name="PVM_SPLITS_VERY_HARD_PTS").value
                 )
@@ -126,13 +126,13 @@ class MentorPoints(DragonstonePoints):
 
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
-            if self.submission.content__difficulty == EASY:
+            if self.submission.content.difficulty == EASY:
                 self.points = int(Settings.objects.get(name="MENTOR_EASY_PTS").value)
-            elif self.submission.content__difficulty == MEDIUM:
+            elif self.submission.content.difficulty == MEDIUM:
                 self.points = int(Settings.objects.get(name="MENTOR_MEDIUM_PTS").value)
-            elif self.submission.content__difficulty == HARD:
+            elif self.submission.content.difficulty == HARD:
                 self.points = int(Settings.objects.get(name="MENTOR_HARD_PTS").value)
-            elif self.submission.content__difficulty == VERY_HARD:
+            elif self.submission.content.difficulty == VERY_HARD:
                 self.points = int(
                     Settings.objects.get(name="MENTOR_VERY_HARD_PTS").value
                 )

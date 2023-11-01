@@ -29,6 +29,24 @@ class PVMSplitSubmissionForm(forms.ModelForm):
             label="Content",
         )
 
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        def save_m2m():
+            for account in self.cleaned_data["accounts"]:
+                models.PVMSplitPoints.objects.create(
+                    account=account,
+                    submission=instance,
+                )
+
+        self.save_m2m = save_m2m
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance
+
 
 class MentorSubmissionForm(forms.ModelForm):
     class Meta:
@@ -52,6 +70,25 @@ class MentorSubmissionForm(forms.ModelForm):
             placeholder="Select content mentored",
             label="Content",
         )
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        def save_m2m():
+            instance.learners.add(*self.cleaned_data["learners"])
+            for mentor in self.cleaned_data["mentors"]:
+                models.MentorPoints.objects.create(
+                    account=mentor,
+                    submission=instance,
+                )
+
+        self.save_m2m = save_m2m
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance
 
 
 class EventSubmissionForm(forms.ModelForm):
@@ -77,3 +114,31 @@ class EventSubmissionForm(forms.ModelForm):
             label="Donors",
             required=False,
         )
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        def save_m2m():
+            for host in self.cleaned_data["hosts"]:
+                models.EventHostPoints.objects.create(
+                    account=host,
+                    submission=instance,
+                )
+            for participant in self.cleaned_data["participants"]:
+                models.EventParticipantPoints.objects.create(
+                    account=participant,
+                    submission=instance,
+                )
+            for donor in self.cleaned_data["donors"]:
+                models.EventDonorPoints.objects.create(
+                    account=donor,
+                    submission=instance,
+                )
+
+        self.save_m2m = save_m2m
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance
