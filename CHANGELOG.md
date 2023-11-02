@@ -10,6 +10,9 @@ The format of this document is loosely based on [Keep a Changelog](https://keepa
 
 * New PVM_SPLIT_POINTS_MAX setting under the `config` admin, which limits the amounts of dragonstone points earnable
   from pvm splits
+* New method of obtaining dragonstone points: New Member Raid
+    * Raid with a new member (rank Sapphire or Emerald) to obtain points
+    * Default is 2 points obtained for a raid with a new member
 
 ### Changed
 
