@@ -203,4 +203,5 @@ CONSTANCE_CONFIG = {
     "EVENT_MENTOR_DONORS_PTS": (0, "Event Mentor Donors Points"),
     "EVENT_MENTOR_HOSTS_PTS": (5, "Event Mentor Hosts Points"),
     "EVENT_MAJOR_HOSTS_PTS": (15, "Event Major Hosts Points"),
+    "NEW_MEMBER_RAID_PTS": (2, "New Member Raid Points"),
 }

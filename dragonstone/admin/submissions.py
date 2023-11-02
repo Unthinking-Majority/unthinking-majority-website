@@ -26,6 +26,7 @@ class DragonstoneBaseSubmissionAdmin(PolymorphicParentModelAdmin):
         models.PVMSplitSubmission,
         models.MentorSubmission,
         models.EventSubmission,
+        models.NewMemberRaidSubmission,
     )
     list_display = [
         "_value_display",
@@ -161,3 +162,40 @@ class EventAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
     @admin.display(description="Hosts")
     def hosts_display(self, obj):
         return ", ".join(obj.hosts.values_list("name", flat=True))
+
+
+@admin.register(models.NewMemberRaidSubmission)
+class NewMemberRaidAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
+    base_model = models.NewMemberRaidSubmission
+    inlines = [
+        inlines.NewMemberRaidPointsAdminInline,
+    ]
+    autocomplete_fields = ["new_members"]
+    list_display = ["accounts_display", "proof", "date", "accepted"]
+    list_editable = ["accepted"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "accounts"),
+        AutocompleteFilterFactory("New Member", "new_members"),
+        AutocompleteFilterFactory("Content", "content"),
+        "accepted",
+        "date",
+    ]
+    search_fields = ["name", "accounts__name", "new_members__name"]
+
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "content",
+                    "new_members",
+                    ("notes", "denial_notes"),
+                    ("proof", "date", "accepted"),
+                ),
+            },
+        ),
+    )
+
+    @admin.display(description="Accounts")
+    def accounts_display(self, obj):
+        return ", ".join(obj.accounts.values_list("name", flat=True))

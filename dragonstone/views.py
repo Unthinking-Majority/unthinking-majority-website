@@ -6,7 +6,7 @@ from django.core.files.storage import FileSystemStorage
 from django.shortcuts import redirect
 from formtools.wizard.views import SessionWizardView
 
-from dragonstone import EVENT, MENTOR, PVM_SPLIT, forms
+from dragonstone import EVENT, MENTOR, PVM_SPLIT, NEW_MEMBER_RAID, forms
 
 
 def pvm_split_form_condition(wizard):
@@ -30,6 +30,13 @@ def event_form_condition(wizard):
     return cleaned_data.get("type", None) == EVENT
 
 
+def new_member_raid_form_condition(wizard):
+    cleaned_data = (
+        wizard.get_cleaned_data_for_step("dragonstone_submission_type_form") or {}
+    )
+    return cleaned_data.get("type", None) == NEW_MEMBER_RAID
+
+
 class DragonstoneSubmissionWizard(SessionWizardView):
     """
     Main form wizard for dictating the submission process.
@@ -41,17 +48,20 @@ class DragonstoneSubmissionWizard(SessionWizardView):
         ("pvm_split_submission_form", forms.PVMSplitSubmissionForm),
         ("mentor_submission_form", forms.MentorSubmissionForm),
         ("event_submission_form", forms.EventSubmissionForm),
+        ("new_member_raid_submission_form", forms.NewMemberRaidSubmissionForm),
     ]
     TEMPLATES = {
         "dragonstone_submission_type_form": "dragonstone/forms/wizard/dragonstone_submission_type_form.html",
         "pvm_split_submission_form": "dragonstone/forms/wizard/pvm_split_submission_form.html",
         "mentor_submission_form": "dragonstone/forms/wizard/mentor_submission_form.html",
         "event_submission_form": "dragonstone/forms/wizard/event_submission_form.html",
+        "new_member_raid_submission_form": "dragonstone/forms/wizard/new_member_raid_submission_form.html",
     }
     condition_dict = {
         "pvm_split_submission_form": pvm_split_form_condition,
         "mentor_submission_form": mentor_form_condition,
         "event_submission_form": event_form_condition,
+        "new_member_raid_submission_form": new_member_raid_form_condition,
     }
     file_storage = FileSystemStorage(
         location=os.path.join(settings.MEDIA_ROOT, "temp_files")
@@ -72,6 +82,8 @@ class DragonstoneSubmissionWizard(SessionWizardView):
             form_dict["mentor_submission_form"].save()
         elif "event_submission_form" in form_dict.keys():
             form_dict["event_submission_form"].save()
+        elif "new_member_raid_submission_form" in form_dict.keys():
+            form_dict["new_member_raid_submission_form"].save()
 
         messages.success(self.request, "Form successfully submitted.")
         return redirect("/")

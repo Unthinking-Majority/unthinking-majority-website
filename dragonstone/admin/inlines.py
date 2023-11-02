@@ -6,6 +6,7 @@ from dragonstone.models import (
     EventHostPoints,
     EventParticipantPoints,
     EventDonorPoints,
+    NewMemberRaidPoints,
 )
 
 __all__ = [
@@ -51,6 +52,14 @@ class EventParticipantPointsAdminInline(admin.TabularInline):
 
 class EventDonorPointsAdminInline(admin.TabularInline):
     model = EventDonorPoints
+    extra = 0
+    autocomplete_fields = ["account"]
+    readonly_fields = ["dragonstonepoints_ptr", "points"]
+    exclude = ["date"]
+
+
+class NewMemberRaidPointsAdminInline(admin.TabularInline):
+    model = NewMemberRaidPoints
     extra = 0
     autocomplete_fields = ["account"]
     readonly_fields = ["dragonstonepoints_ptr", "points"]

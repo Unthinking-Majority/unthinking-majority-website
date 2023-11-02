@@ -2,6 +2,7 @@ from django import forms
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
 
+from account import EMERALD
 from dragonstone import DRAGONSTONE_SUBMISSION_TYPES
 from dragonstone import models
 from main import widgets
@@ -132,6 +133,49 @@ class EventSubmissionForm(forms.ModelForm):
             for donor in self.cleaned_data["donors"]:
                 models.EventDonorPoints.objects.create(
                     account=donor,
+                    submission=instance,
+                )
+
+        self.save_m2m = save_m2m
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance
+
+
+class NewMemberRaidSubmissionForm(forms.ModelForm):
+    class Meta:
+        model = models.NewMemberRaidSubmission
+        fields = ["accounts", "new_members", "content", "proof", "notes"]
+
+    def __init__(self, *args, **kwargs):
+        super(NewMemberRaidSubmissionForm, self).__init__(*args, **kwargs)
+        self.fields["accounts"].widget = widgets.AutocompleteSelectMultipleWidget(
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
+            placeholder="Select all accounts",
+            label="Account",
+        )
+        self.fields["new_members"].widget = widgets.AutocompleteSelectMultipleWidget(
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'rank__lte': EMERALD})}",
+            placeholder="Select all accounts",
+            label="New Members",
+        )
+        self.fields["content"].widget = widgets.AutocompleteSelectWidget(
+            autocomplete_url=f"{reverse_lazy('content-autocomplete')}?{urlencode({'can_be_split': True, 'category__name__iexact': 'Raids'})}",
+            placeholder="Select content",
+            label="Content",
+        )
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        def save_m2m():
+            instance.new_members.add(*self.cleaned_data["new_members"])
+            for account in self.cleaned_data["accounts"]:
+                models.NewMemberRaidPoints.objects.create(
+                    account=account,
                     submission=instance,
                 )
 

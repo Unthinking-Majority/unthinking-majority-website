@@ -21,6 +21,7 @@ class DragonstonePointsAdmin(PolymorphicParentModelAdmin):
         models.EventHostPoints,
         models.EventParticipantPoints,
         models.EventDonorPoints,
+        models.NewMemberRaidPoints,
     )
     autocomplete_fields = ["account"]
     list_display = ["account", "points", "date"]
@@ -179,6 +180,26 @@ class EventParticipantPointsAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.EventDonorPoints)
 class EventDonorPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.EventDonorPoints
+    autocomplete_fields = ["account"]
+    readonly_fields = ["date", "points"]
+    raw_id_fields = ["submission"]
+
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    ("account", "submission"),
+                    ("points", "date"),
+                ),
+            },
+        ),
+    )
+
+
+@admin.register(models.NewMemberRaidPoints)
+class NewMemberRaidPointsAdmin(PolymorphicChildModelAdmin):
+    base_model = models.NewMemberRaidPoints
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]

@@ -75,6 +75,7 @@ def constance_updated(sender, key, old_value, new_value, **kwargs):
         "EVENT_OTHER_DONORS_PTS": models.EventDonorPoints.objects.filter(
             submission__type=OTHER
         ),
+        "NEW_MEMBER_RAID_PTS": models.NewMemberRaidPoints.objects.all(),
     }
     if key in objects_mapping.keys():
         objects_mapping[key].update(points=new_value)

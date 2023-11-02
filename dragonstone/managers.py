@@ -25,6 +25,7 @@ class DragonstonePointsQueryset(PolymorphicQuerySet):
                 | Q(eventhostpoints__submission__accepted=True)
                 | Q(eventparticipantpoints__submission__accepted=True)
                 | Q(eventdonorpoints__submission__accepted=True)
+                | Q(newmemberraidpoints__submission__accepted=True)
             )
             & Q(date__gte=expiration_period)
         )

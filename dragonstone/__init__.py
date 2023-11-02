@@ -1,8 +1,9 @@
-PVM_SPLIT, MENTOR, EVENT = range(3)
+PVM_SPLIT, MENTOR, EVENT, NEW_MEMBER_RAID = range(4)
 DRAGONSTONE_SUBMISSION_TYPES = (
     (PVM_SPLIT, "PVM Split"),
     (MENTOR, "Mentor"),
     (EVENT, "Event"),
+    (NEW_MEMBER_RAID, "New Member Raid"),
 )
 
 PVM, SKILLING, MAJOR, OTHER, EVENT_MENTOR = range(5)

@@ -15,6 +15,7 @@ __all__ = [
     "PVMSplitSubmission",
     "MentorSubmission",
     "EventSubmission",
+    "NewMemberRaidSubmission",
 ]
 
 

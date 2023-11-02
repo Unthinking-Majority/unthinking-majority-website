@@ -24,6 +24,7 @@ __all__ = [
     "EventHostPoints",
     "EventParticipantPoints",
     "EventDonorPoints",
+    "NewMemberRaidPoints",
 ]
 
 
@@ -95,13 +96,13 @@ class PVMSplitPoints(DragonstonePoints):
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
             if self.submission.content.difficulty == EASY:
-                self.points = int(config.PVM_SPLIT_EASY_PTS)
+                self.points = config.PVM_SPLIT_EASY_PTS
             elif self.submission.content.difficulty == MEDIUM:
-                self.points = int(config.PVM_SPLIT_MEDIUM_PTS)
+                self.points = config.PVM_SPLIT_MEDIUM_PTS
             elif self.submission.content.difficulty == HARD:
-                self.points = int(config.PVM_SPLIT_HARD_PTS)
+                self.points = config.PVM_SPLIT_HARD_PTS
             elif self.submission.content.difficulty == VERY_HARD:
-                self.points = int(config.PVM_SPLIT_VERY_HARD_PTS)
+                self.points = config.PVM_SPLIT_VERY_HARD_PTS
             self.date = self.submission.date
         super().save(*args, **kwargs)
 
@@ -125,7 +126,7 @@ class MentorPoints(DragonstonePoints):
             elif self.submission.content.difficulty == HARD:
                 self.points = config.MENTOR_HARD_PTS
             elif self.submission.content.difficulty == VERY_HARD:
-                self.points = int(config.MENTOR_VERY_HARD_PTS)
+                self.points = config.MENTOR_VERY_HARD_PTS
             self.date = self.submission.date
         super().save(*args, **kwargs)
 
@@ -143,13 +144,13 @@ class EventHostPoints(DragonstonePoints):
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
             if self.submission.type == PVM or self.submission.type == SKILLING:
-                self.points = int()
+                self.points = config.EVENT_MINOR_PTS
             elif self.submission.type == EVENT_MENTOR:
-                self.points = int(config.EVENT_MENTOR_HOSTS_PTS)
+                self.points = config.EVENT_MENTOR_HOSTS_PTS
             elif self.submission.type == MAJOR:
-                self.points = int(config.EVENT_MAJOR_HOSTS_PTS)
+                self.points = config.EVENT_MAJOR_HOSTS_PTS
             elif self.submission.type == OTHER:
-                self.points = int(config.EVENT_OTHER_HOSTS_PTS)
+                self.points = config.EVENT_OTHER_HOSTS_PTS
         self.date = self.submission.date
         super().save(*args, **kwargs)
 
@@ -167,13 +168,13 @@ class EventParticipantPoints(DragonstonePoints):
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
             if self.submission.type == PVM or self.submission.type == SKILLING:
-                self.points = int(config.EVENT_MINOR_PARTICIPANTS_PTS)
+                self.points = config.EVENT_MINOR_PARTICIPANTS_PTS
             elif self.submission.type == EVENT_MENTOR:
-                self.points = int(config.EVENT_MENTOR_PARTICIPANTS_PTS)
+                self.points = config.EVENT_MENTOR_PARTICIPANTS_PTS
             elif self.submission.type == MAJOR:
-                self.points = int(config.EVENT_MAJOR_PARTICIPANTS_PTS)
+                self.points = config.EVENT_MAJOR_PARTICIPANTS_PTS
             elif self.submission.type == OTHER:
-                self.points = int(config.EVENT_OTHER_PARTICIPANTS_PTS)
+                self.points = config.EVENT_OTHER_PARTICIPANTS_PTS
         self.date = self.submission.date
         super().save(*args, **kwargs)
 
@@ -191,13 +192,13 @@ class EventDonorPoints(DragonstonePoints):
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
             if self.submission.type == PVM or self.submission.type == SKILLING:
-                self.points = int(config.EVENT_MINOR_DONORS_PTS)
+                self.points = config.EVENT_MINOR_DONORS_PTS
             elif self.submission.type == EVENT_MENTOR:
-                self.points = int(config.EVENT_MENTOR_DONORS_PTS)
+                self.points = config.EVENT_MENTOR_DONORS_PTS
             elif self.submission.type == MAJOR:
-                self.points = int(config.EVENT_MAJOR_DONORS_PTS)
+                self.points = config.EVENT_MAJOR_DONORS_PTS
             elif self.submission.type == OTHER:
-                self.points = int(config.EVENT_OTHER_DONORS_PTS)
+                self.points = config.EVENT_OTHER_DONORS_PTS
             self.date = self.submission.date
         super().save(*args, **kwargs)
 
@@ -214,13 +215,5 @@ class NewMemberRaidPoints(DragonstonePoints):
 
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
-            if self.submission.content.difficulty == EASY:
-                self.points = int(config.PVM_SPLIT_EASY_PTS)
-            elif self.submission.content.difficulty == MEDIUM:
-                self.points = int(config.PVM_SPLIT_MEDIUM_PTS)
-            elif self.submission.content.difficulty == HARD:
-                self.points = int(config.PVM_SPLIT_HARD_PTS)
-            elif self.submission.content.difficulty == VERY_HARD:
-                self.points = int(config.PVM_SPLIT_VERY_HARD_PTS)
-            self.date = self.submission.date
+            self.points = config.NEW_MEMBER_RAID_PTS
         super().save(*args, **kwargs)
