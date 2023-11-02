@@ -178,6 +178,7 @@ if DEBUG:
         "db": 0,
     }
 
+CONSTANCE_SUPERUSER_ONLY = False
 CONSTANCE_CONFIG = {
     "DRAGONSTONE_POINTS_THRESHOLD": (40, "Dragonstone Points Threshold"),
     "DRAGONSTONE_EXPIRATION_PERIOD": (180, "Dragonstone Expiration Period (in days)"),
