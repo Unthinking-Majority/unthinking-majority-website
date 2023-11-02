@@ -49,4 +49,4 @@ def gp_display(val):
     elif 100000 <= val <= 9999999:
         return f"{val // 1000}k"
     elif 10000000 <= val:
-        return f"{val // 100000}M"
+        return f"{val // 1000000}M"

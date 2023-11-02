@@ -23,6 +23,7 @@ class BountyAdmin(admin.ModelAdmin):
             None,
             {
                 "fields": (
+                    "title",
                     ("board", "prize_pool"),
                     ("start_date", "end_date"),
                     "image",

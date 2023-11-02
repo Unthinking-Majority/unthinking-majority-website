@@ -3,6 +3,7 @@ from django.utils import timezone
 
 
 class Bounty(models.Model):
+    title = models.CharField(max_length=128, default="")
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     board = models.ForeignKey("main.Board", on_delete=models.CASCADE)
