@@ -125,13 +125,3 @@ class UMNotification(Notification):
             return url
         except NoReverseMatch:
             return self.action_object_object_id
-
-
-class Settings(models.Model):
-    display_name = models.CharField(max_length=256)
-    name = models.CharField(max_length=256)
-    value = models.CharField(max_length=256)
-
-    class Meta:
-        verbose_name = "Settings"
-        verbose_name_plural = "Settings"

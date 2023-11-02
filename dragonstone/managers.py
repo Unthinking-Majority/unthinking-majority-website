@@ -1,11 +1,11 @@
 from datetime import timedelta
 
+from constance import config
 from django.db.models import Q
 from django.utils import timezone
 from polymorphic.managers import PolymorphicQuerySet
 
 from dragonstone import models
-from main.models import Settings
 
 __all__ = ["DragonstonePointsQueryset", "DragonstoneSubmissionQueryset"]
 
@@ -13,7 +13,7 @@ __all__ = ["DragonstonePointsQueryset", "DragonstoneSubmissionQueryset"]
 class DragonstonePointsQueryset(PolymorphicQuerySet):
     def active(self):
         expiration_period = timezone.now() - timedelta(
-            days=int(Settings.objects.get(name="DRAGONSTONE_EXPIRATION_PERIOD").value)
+            days=config.DRAGONSTONE_EXPIRATION_PERIOD
         )
         return self.filter(
             Q(
@@ -39,6 +39,6 @@ class DragonstoneSubmissionQueryset(PolymorphicQuerySet):
 
     def active(self):
         expiration_period = timezone.now() - timedelta(
-            days=int(Settings.objects.get(name="DRAGONSTONE_EXPIRATION_PERIOD").value)
+            days=config.DRAGONSTONE_EXPIRATION_PERIOD
         )
         return self.filter(date__gte=expiration_period)

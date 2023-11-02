@@ -1,8 +1,8 @@
 from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
+from notifications.models import Notification
 
 from main import models
-from notifications.models import Notification
 
 
 @admin.register(models.ContentCategory)
@@ -80,31 +80,6 @@ class BoardAdmin(admin.ModelAdmin):
 @admin.register(models.Pet)
 class PetAdmin(admin.ModelAdmin):
     search_fields = ["name"]
-
-
-@admin.register(models.Settings)
-class SettingsAdmin(admin.ModelAdmin):
-    readonly_fields = ["name", "display_name"]
-    list_display = ["display_name", "value"]
-    list_editable = ["value"]
-
-    fieldsets = (
-        (
-            None,
-            {
-                "fields": (
-                    ("display_name", "name"),
-                    "value",
-                ),
-            },
-        ),
-    )
-
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def has_add_permission(self, request):
-        return False
 
 
 @admin.register(models.UMNotification)

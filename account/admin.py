@@ -1,3 +1,4 @@
+from constance import config
 from django.contrib import admin
 from django.db.models import Case, When, Sum
 from django.db.models import IntegerField, Value
@@ -6,7 +7,6 @@ from django.utils.safestring import mark_safe
 
 from account import models
 from dragonstone.models import DragonstonePoints
-from main.models import Settings
 
 
 @admin.register(models.Account)
@@ -47,9 +47,7 @@ class AccountAdmin(admin.ModelAdmin):
 
     @admin.display(description="Dragonstone Points", ordering="dragonstone_pts")
     def dragonstone_pts(self, obj):
-        if obj.dragonstone_pts >= int(
-            Settings.objects.get(name="DRAGONSTONE_POINTS_THRESHOLD").value
-        ):
+        if obj.dragonstone_pts >= int(config.DRAGONSTONE_POINTS_THRESHOLD):
             dragonstone_icon_url = static("dragonstone/img/dragonstone.webp")
             return mark_safe(
                 f'{obj.dragonstone_pts} <img src="{dragonstone_icon_url}" style="height: 17px; width: 17px"/>'

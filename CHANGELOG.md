@@ -4,6 +4,15 @@ All notable changes to Unthinking Majority's website will be documented in this 
 
 The format of this document is loosely based on [Keep a Changelog](https://keepachangelog.com/).
 
+# 2023-11-1
+
+### Changes
+
+* Dragonstone system overhaul
+    * Introduction of DragonstonePoints models
+* Settings model has been removed, and replaced with the `django-constance` package
+    * Settings/configuration variables can now be found under Settings->Config in the admin
+
 # 2023-10-29
 
 ### Added
