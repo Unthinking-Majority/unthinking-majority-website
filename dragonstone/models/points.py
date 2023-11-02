@@ -200,3 +200,27 @@ class EventDonorPoints(DragonstonePoints):
                 self.points = int(config.EVENT_OTHER_DONORS_PTS)
             self.date = self.submission.date
         super().save(*args, **kwargs)
+
+
+class NewMemberRaidPoints(DragonstonePoints):
+    submission = models.ForeignKey(
+        "dragonstone.NewMemberRaidSubmission",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "New Member Raid Points"
+        verbose_name_plural = "New Member Raid Points"
+
+    def save(self, update_fields=None, *args, **kwargs):
+        if not self.pk:
+            if self.submission.content.difficulty == EASY:
+                self.points = int(config.PVM_SPLIT_EASY_PTS)
+            elif self.submission.content.difficulty == MEDIUM:
+                self.points = int(config.PVM_SPLIT_MEDIUM_PTS)
+            elif self.submission.content.difficulty == HARD:
+                self.points = int(config.PVM_SPLIT_HARD_PTS)
+            elif self.submission.content.difficulty == VERY_HARD:
+                self.points = int(config.PVM_SPLIT_VERY_HARD_PTS)
+            self.date = self.submission.date
+        super().save(*args, **kwargs)

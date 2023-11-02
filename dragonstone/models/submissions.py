@@ -59,7 +59,9 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = "dragonstone/pvm/proof/"
 
     accounts = models.ManyToManyField(
-        "account.Account", through="dragonstone.PVMSplitPoints", related_name="temp"
+        "account.Account",
+        through="dragonstone.PVMSplitPoints",
+        related_name="pvm_split_submissions",
     )
     content = models.ForeignKey("main.Content", on_delete=models.CASCADE)
 
@@ -81,9 +83,13 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
 class MentorSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = "dragonstone/mentor/proof/"
 
-    learners = models.ManyToManyField("account.Account", related_name="mentor_learners")
+    learners = models.ManyToManyField(
+        "account.Account", related_name="mentor_learner_submissions"
+    )
     mentors = models.ManyToManyField(
-        "account.Account", related_name="test4", through="dragonstone.MentorPoints"
+        "account.Account",
+        through="dragonstone.MentorPoints",
+        related_name="mentor_mentor_submissions",
     )
     content = models.ForeignKey("main.Content", on_delete=models.CASCADE)
 
@@ -108,20 +114,20 @@ class EventSubmission(DragonstoneBaseSubmission):
     name = models.CharField(max_length=256)
     hosts = models.ManyToManyField(
         "account.Account",
-        related_name="test1",
         through="dragonstone.EventHostPoints",
+        related_name="event_hosts_submissions",
         blank=True,
     )
     participants = models.ManyToManyField(
         "account.Account",
-        related_name="test2",
         through="dragonstone.EventParticipantPoints",
+        related_name="event_participants_submissions",
         blank=True,
     )
     donors = models.ManyToManyField(
         "account.Account",
-        related_name="test3",
         through="dragonstone.EventDonorPoints",
+        related_name="event_donors_submissions",
         blank=True,
     )
     type = models.IntegerField(choices=EVENT_CHOICES)
@@ -138,3 +144,31 @@ class EventSubmission(DragonstoneBaseSubmission):
 
     def accounts_display(self):
         return ", ".join([host.display_name for host in self.hosts.all()])
+
+
+class NewMemberRaidSubmission(DragonstoneBaseSubmission):
+    UPLOAD_TO = "dragonstone/new_member_raid/proof/"
+
+    accounts = models.ManyToManyField(
+        "account.Account",
+        through="dragonstone.NewMemberRaidPoints",
+        related_name="new_member_raid_submissions",
+    )
+    new_members = models.ManyToManyField(
+        "account.Account", related_name="new_member_raid_new_member_submissions"
+    )
+    content = models.ForeignKey("main.Content", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "New Member Raid"
+        verbose_name_plural = "New Member Raids"
+
+    def type_display(self):
+        return "New Member Raid"
+
+    def value_display(self):
+        accounts = [account.display_name for account in self.accounts.all()]
+        return f'{", ".join(accounts)} - {self.content.name}'
+
+    def accounts_display(self):
+        return ", ".join([account.display_name for account in self.accounts.all()])
