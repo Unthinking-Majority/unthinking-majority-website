@@ -171,13 +171,9 @@ UM_PB_DISCORD_WEBHOOK_URL = os.environ.get(
 )  # for posting discord embeds to the #um-pb-leaderboards channel!
 
 WOM_API_KEY = os.environ.get("WOM_API_KEY")
-if DEBUG:
-    CONSTANCE_REDIS_CONNECTION = {
-        "host": "localhost",
-        "port": 6379,
-        "db": 0,
-    }
 
+if not DEBUG:
+    CONSTANCE_REDIS_CONNECTION = os.environ.get("REDIS_URL")
 CONSTANCE_SUPERUSER_ONLY = False
 CONSTANCE_CONFIG = {
     "DRAGONSTONE_POINTS_THRESHOLD": (40, "Dragonstone Points Threshold"),
