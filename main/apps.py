@@ -1,6 +1,5 @@
-from django.apps import AppConfig
-
 from constance.apps import ConstanceConfig
+from django.apps import AppConfig
 
 
 class MainConfig(AppConfig):
@@ -11,3 +10,7 @@ class MainConfig(AppConfig):
 class CustomConstanceConfig(ConstanceConfig):
     verbose_name = "Settings"
     verbose_name_plural = "Settings"
+
+    def ready(self):
+        super().ready()
+        from main import signals
