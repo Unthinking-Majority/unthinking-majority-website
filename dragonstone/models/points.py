@@ -95,13 +95,13 @@ class PVMSplitPoints(DragonstonePoints):
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
             if self.submission.content.difficulty == EASY:
-                self.points = int(config.PVM_SPLITS_EASY_PTS)
+                self.points = int(config.PVM_SPLIT_EASY_PTS)
             elif self.submission.content.difficulty == MEDIUM:
-                self.points = int(config.PVM_SPLITS_MEDIUM_PTS)
+                self.points = int(config.PVM_SPLIT_MEDIUM_PTS)
             elif self.submission.content.difficulty == HARD:
-                self.points = int(config.PVM_SPLITS_HARD_PTS)
+                self.points = int(config.PVM_SPLIT_HARD_PTS)
             elif self.submission.content.difficulty == VERY_HARD:
-                self.points = int(config.PVM_SPLITS_VERY_HARD_PTS)
+                self.points = int(config.PVM_SPLIT_VERY_HARD_PTS)
             self.date = self.submission.date
         super().save(*args, **kwargs)
 

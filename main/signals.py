@@ -15,16 +15,16 @@ def constance_updated(sender, key, old_value, new_value, **kwargs):
         "SOTM_FIRST_PTS": models.SotMPoints.objects.filter(rank=1),
         "SOTM_SECOND_PTS": models.SotMPoints.objects.filter(rank=2),
         "SOTM_THIRD_PTS": models.SotMPoints.objects.filter(rank=3),
-        "PVM_SPLITS_EASY_PTS": models.PVMSplitPoints.objects.filter(
+        "PVM_SPLIT_EASY_PTS": models.PVMSplitPoints.objects.filter(
             submission__content__difficulty=EASY
         ),
-        "PVM_SPLITS_MEDIUM_PTS": models.PVMSplitPoints.objects.filter(
+        "PVM_SPLIT_MEDIUM_PTS": models.PVMSplitPoints.objects.filter(
             submission__content__difficulty=MEDIUM
         ),
-        "PVM_SPLITS_HARD_PTS": models.PVMSplitPoints.objects.filter(
+        "PVM_SPLIT_HARD_PTS": models.PVMSplitPoints.objects.filter(
             submission__content__difficulty=HARD
         ),
-        "PVM_SPLITS_VERY_HARD_PTS": models.PVMSplitPoints.objects.filter(
+        "PVM_SPLIT_VERY_HARD_PTS": models.PVMSplitPoints.objects.filter(
             submission__content__difficulty=VERY_HARD
         ),
         "MENTOR_EASY_PTS": models.MentorPoints.objects.filter(

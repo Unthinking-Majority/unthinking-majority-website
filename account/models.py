@@ -1,10 +1,15 @@
+from constance import config
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Case, When, F
 from django.db.models import Max, Min, Sum
+from django.db.models.functions import Least
 
 from account import ACCOUNT_RANK_CHOICES
 from achievements import CA_DICT
 from achievements.models import CASubmission, ColLogSubmission, PetSubmission
+from dragonstone.models import PVMSplitPoints
 from um.functions import get_file_path
 
 
@@ -54,11 +59,25 @@ class Account(models.Model):
         return CA_DICT.get(ca_tier, "None")
 
     def dragonstone_pts(self):
-        return (
+        dstone_pts = (
             self.dragonstone_points.active()
             .filter(account=self.pk)
-            .aggregate(Sum("points"))["points__sum"]
+            .values("polymorphic_ctype")
+            .annotate(_pts=Sum("points"))
+            .annotate(
+                pts=Case(
+                    When(
+                        polymorphic_ctype=ContentType.objects.get_for_model(
+                            PVMSplitPoints
+                        ),
+                        then=Least(F("_pts"), config.PVM_SPLIT_POINTS_MAX),
+                    ),
+                    default=F("_pts"),
+                )
+            )
+            .values_list("pts", flat=True)
         )
+        return sum(dstone_pts)
 
 
 class UserCreationSubmission(models.Model):
