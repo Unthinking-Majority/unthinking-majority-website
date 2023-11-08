@@ -4,6 +4,12 @@ All notable changes to Unthinking Majority's website will be documented in this 
 
 The format of this document is loosely based on [Keep a Changelog](https://keepachangelog.com/).
 
+# 2023-11-8
+
+### Changed
+
+* Split up achievement and dragonstone submissions on profile page into seperate tables
+
 # 2023-11-2
 
 ### Added

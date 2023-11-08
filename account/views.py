@@ -1,47 +1,57 @@
-from heapq import merge
-
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
-from django.views.generic.list import ListView
 
 from account import forms
 from achievements.models import BaseSubmission
 from dragonstone.models import DragonstoneBaseSubmission
 
 
-class ProfileView(ListView):
-    template_name = "account/profile.html"
-    paginate_by = 5
+class ProfileView(TemplateView):
+    template_name = "account/profile/profile.html"
 
-    def get_queryset(self):
-        # achievements submissions
-        achievement_submissions = BaseSubmission.filter_all_submissions_by_account(
-            self.request.user.account
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        per_page = 5
+
+        achievement_paginator = Paginator(
+            BaseSubmission.filter_all_submissions_by_account(self.request.user.account),
+            per_page,
         )
 
-        # dragonstone submissions
-        dragonstone_submissions = DragonstoneBaseSubmission.objects.filter(
-            Q(
-                Q(pvmsplitsubmission__accounts=self.request.user.account)
-                | Q(mentorsubmission__mentors=self.request.user.account)
-                | Q(mentorsubmission__learners=self.request.user.account)
-                | Q(eventsubmission__hosts=self.request.user.account)
-                | Q(eventsubmission__participants=self.request.user.account)
-                | Q(eventsubmission__donors=self.request.user.account)
+        dragonstone_paginator = Paginator(
+            DragonstoneBaseSubmission.objects.filter(
+                Q(
+                    Q(pvmsplitsubmission__accounts=self.request.user.account)
+                    | Q(mentorsubmission__mentors=self.request.user.account)
+                    | Q(mentorsubmission__learners=self.request.user.account)
+                    | Q(eventsubmission__hosts=self.request.user.account)
+                    | Q(eventsubmission__participants=self.request.user.account)
+                    | Q(eventsubmission__donors=self.request.user.account)
+                )
+            ),
+            per_page,
+        )
+        try:
+            context["achievement_page"] = achievement_paginator.page(
+                self.request.GET.get("achievement_page", 1)
             )
-        )
+        except EmptyPage:
+            context["achievement_page"] = achievement_paginator.page(1)
 
-        return list(
-            merge(
-                achievement_submissions,
-                dragonstone_submissions,
-                key=lambda x: (x.date is None, x.date),
-                reverse=True,
+        try:
+            context["dragonstone_page"] = dragonstone_paginator.page(
+                self.request.GET.get("dragonstone_page", 1)
             )
-        )
+        except EmptyPage:
+            context["dragonstone_submissions"] = dragonstone_paginator.page(1)
+
+        return context
 
 
 class CreateAccountView(FormView):
