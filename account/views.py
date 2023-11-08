@@ -1,3 +1,4 @@
+from constance import config
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
@@ -50,6 +51,8 @@ class ProfileView(TemplateView):
             )
         except EmptyPage:
             context["dragonstone_submissions"] = dragonstone_paginator.page(1)
+
+        context["config"] = config
 
         return context
 

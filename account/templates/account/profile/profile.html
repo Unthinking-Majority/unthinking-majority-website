@@ -1,6 +1,6 @@
 {% extends "main/site_base.html" %}
 
-{% load um_components main_extras %}
+{% load static um_components main_extras %}
 
 {% block content %}
     {% page_header user.account.display_name %}
@@ -26,7 +26,8 @@
                 </p>
             {% endif %}
             <p class="py-1 text-center sm:py-2">
-                <a href="{% url "accounts:change-preferred-name" %}" class="font-bold text-cyan-500 hover:text-gray-300">
+                <a href="{% url "accounts:change-preferred-name" %}"
+                   class="font-bold text-cyan-500 hover:text-gray-300">
                     {% if user.account.preferred_name %}Change{% else %}Add{% endif %} Preferred Name
                 </a>
             </p>
@@ -40,7 +41,8 @@
             <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
         </p>
         <div class="flex flex-wrap gap-1 justify-center py-1 sm:py-2 sm:mx-4">
-            <p class="font-medium">Pets: <span class="text-2xl align-middle font-runescape">({{ user.account.pets.count }})</span></p>
+            <p class="font-medium">Pets: <span
+                    class="text-2xl align-middle font-runescape">({{ user.account.pets.count }})</span></p>
             {% for pet_submission in user.account.pets %}
                 <a href="{{ pet_submission.proof.url }}" target="_blank">
                     <img src="{{ pet_submission.pet.icon.url }}"
@@ -50,16 +52,29 @@
             {% endfor %}
         </div>
         {% if user.account.rank >= 3 %}  {# 3 == DIAMOND rank #}
-            <p class="text-center sm:py-2">
-                <span class="font-medium align-middle">Dragonstone Points:</span>
-                <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.dragonstone_pts }}</span>
-            </p>
+            <div class="flex justify-center items-center sm:py-2 gap-1">
+                <div class="font-medium align-middle">Dragonstone Points:</div>
+                <div class="text-2xl text-center align-middle font-runescape">
+                    {{ user.account.dragonstone_pts }}
+                </div>
+                {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
+                    <img src="{% static "dragonstone/img/dragonstone.webp" %}" alt="" class="h-6 w-6">
+                {% endif %}
+                <div class="text-xl text-center align-middle font-runescape hidden sm:block">
+                    (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
+                </div>
+            </div>
+            <div class="text-xl text-center align-middle font-runescape sm:hidden">
+                (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
+            </div>
         {% endif %}
-        <div class="flex justify-center">
+
+        <div class="flex justify-center sm:mt-12">
             <div class="mx-1 basis-full xl:basis-full">
                 {% include "account/profile/achievement_submissions.html" %}
                 {% include "account/profile/dragonstone_submissions.html" %}
             </div>
         </div>
+
     </div>
 {% endblock %}

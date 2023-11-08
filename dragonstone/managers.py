@@ -15,6 +15,7 @@ class DragonstonePointsQueryset(PolymorphicQuerySet):
         expiration_period = timezone.now() - timedelta(
             days=config.DRAGONSTONE_EXPIRATION_PERIOD
         )
+
         return self.filter(
             Q(
                 Q(instance_of=models.FreeformPoints)

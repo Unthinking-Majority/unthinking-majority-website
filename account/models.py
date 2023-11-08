@@ -1,3 +1,4 @@
+from constance import config
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -58,9 +59,24 @@ class Account(models.Model):
         return CA_DICT.get(ca_tier, "None")
 
     def dragonstone_pts(self):
+        """
+        Return total amount of dragonstone points for this account.
+        """
         return (
             self.__class__.objects.dragonstone_points().get(id=self.id).dragonstone_pts
         )
+
+    def dragonstone_expiration_date(self):
+        """
+        Return date this account will lose the dragonstone rank with the current set of points they have.
+        """
+        pts = 0
+        expiration_date = None
+        for dstone_pts in self.dragonstone_points.active().order_by("-date"):
+            pts += dstone_pts.points
+            if pts >= config.DRAGONSTONE_POINTS_THRESHOLD:
+                expiration_date = dstone_pts.date
+        return expiration_date
 
 
 class UserCreationSubmission(models.Model):
