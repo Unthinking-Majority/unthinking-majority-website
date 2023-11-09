@@ -4,9 +4,7 @@ from django.db import models
 from django.db.models import F
 from polymorphic.models import PolymorphicModel
 
-from dragonstone import (
-    EVENT_CHOICES,
-)
+from dragonstone import EVENT_CHOICES
 from dragonstone import managers
 from um.functions import get_file_path
 
