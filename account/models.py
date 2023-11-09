@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from constance import config
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.contenttypes.models import ContentType
@@ -76,7 +78,8 @@ class Account(models.Model):
             pts += dstone_pts.points
             if pts >= config.DRAGONSTONE_POINTS_THRESHOLD:
                 expiration_date = dstone_pts.date
-        return expiration_date
+                break
+        return expiration_date + timedelta(days=config.DRAGONSTONE_EXPIRATION_PERIOD)
 
 
 class UserCreationSubmission(models.Model):
