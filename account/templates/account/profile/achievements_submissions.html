@@ -112,7 +112,7 @@
 
 <div class="flex justify-around py-2 mt-4 text-gray-800 border-t-2">
     {% if achievement_page.has_previous %}
-        <a href="?achievement_page={{ achievement_page.previous_page_number }}"
+        <a href="?achievement_page={{ achievement_page.previous_page_number }}&active_tab=achievements-tab"
            class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
             Previous
         </a>
@@ -128,7 +128,7 @@
     </a>
 
     {% if achievement_page.has_next %}
-        <a href="?achievement_page={{ achievement_page.next_page_number }}"
+        <a href="?achievement_page={{ achievement_page.next_page_number }}&active_tab=achievements-tab"
            class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
             Next
         </a>

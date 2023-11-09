@@ -54,6 +54,11 @@ class ProfileView(TemplateView):
 
         context["config"] = config
 
+        if "active_tab" not in self.request.GET.keys():
+            context["active_tab"] = "achievements-tab"
+        else:
+            context["active_tab"] = self.request.GET.get("active_tab")
+
         return context
 
 
