@@ -38,29 +38,29 @@
             });
         });
 </script>
-<nav class="mt-2 mb-6 bg-gray-900 rounded-lg">
-    <div class="px-2 mx-auto max-w-6xl">
-        <div class="flex justify-between items-center h-16">
-            <div class="flex justify-start items-center">
+<nav class="mt-2 mb-6 rounded-lg bg-gray-900">
+    <div class="mx-auto max-w-6xl px-2">
+        <div class="flex h-16 items-center justify-between">
+            <div class="flex items-center justify-start">
                 {# Logo #}
                 <a href="/" class="flex flex-shrink-0 items-center">
-                    <img class="hidden w-auto h-12 md:block" src="{% static "um_logos/logo_gradient.png" %}" alt="Unthinking Majority Logo">
+                    <img class="hidden h-12 w-auto md:block" src="{% static "um_logos/logo_gradient.png" %}" alt="Unthinking Majority Logo">
                 </a>
                 {# navbar items for medium+ viewports #}
-                <div class="hidden ml-6 md:block">
+                <div class="ml-6 hidden md:block">
                     <div class="flex items-center space-x-4">
                         <a tabindex="0"
                            href="/"
-                           class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white">
+                           class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white">
                             Home
                         </a>
                         {% for bc in content_categories %}
                             <div class="relative group">
-                                <button class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                                <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                                     {{ bc.name }}
                                 </button>
                                 <ul id="ciaran"
-                                    class="hidden overflow-hidden absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
+                                    class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                     tabindex="-1">
                                     {% for content in bc.pb_content %}
                                         <li>
@@ -73,10 +73,10 @@
                             </div>
                         {% endfor %}
                         <div class="relative group">
-                            <button class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                            <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                                 Other
                             </button>
-                            <ul class="hidden overflow-hidden absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
+                            <ul class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 tabindex="-1">
                                 <li>
                                     <a href="{% url "pets-leaderboard" %}"
@@ -96,10 +96,10 @@
                             </ul>
                         </div>
                         <div class="relative group">
-                            <button class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                            <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                                 Submit
                             </button>
-                            <ul class="hidden overflow-hidden absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg origin-top-right group-focus-within:block focus:outline-none"
+                            <ul class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 tabindex="-1">
                                 <li>
                                     <a href="{% url "achievements:submit-achievement" %}"
@@ -115,7 +115,7 @@
                         </div>
                     {% if request.user.is_superuser %}
                         <div class="relative group">
-                            <a href="{% if bounty %}{% url "bounty:current-bounty" %}{% else %}{% url "bounty:bounty-index" %}{% endif %}" class="px-3 py-2 font-medium text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                            <a href="{% if bounty %}{% url "bounty:current-bounty" %}{% else %}{% url "bounty:bounty-index" %}{% endif %}" class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                                 Bounty
                             </a>
                         </div>
@@ -125,17 +125,17 @@
                 {# navbar items for less than medium sized viewports #}
                 <div class="relative group md:hidden" tabindex="0">
                     <button type="button"
-                            class="px-2 py-2 text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                            class="rounded-md px-2 py-2 text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              fill="none"
                              viewBox="0 0 24 24"
                              stroke-width="1.5"
                              stroke="currentColor"
-                             class="w-6 h-6 font-bold text-gray-100">
+                             class="h-6 w-6 font-bold text-gray-100">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
                         </svg>
                     </button>
-                    <ul class="hidden overflow-hidden overflow-y-auto absolute -left-2 z-10 mt-2 max-h-96 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg items-left max-md:group-focus-within:block">
+                    <ul class="max-md:group-focus-within:block absolute -left-2 z-10 mt-2 hidden max-h-96 overflow-hidden overflow-y-auto whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 items-left">
                         <li>
                             <a href="/"
                                class="block px-4 py-2 text-gray-900 hover:bg-gray-800 hover:text-white">Home</a>
@@ -143,10 +143,10 @@
                         {% for bc in content_categories %}
                             <li>
                                 <div class="relative group/dropdown" tabindex="0">
-                                    <button class="block px-4 py-2 w-full text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                                    <button class="block w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-800 hover:text-white">
                                         {{ bc.name }}
                                     </button>
-                                    <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
+                                    <ul class="group-focus-within/dropdown:block hidden w-full overflow-hidden whitespace-nowrap bg-white text-sm focus:outline-none"
                                         tabindex="-1">
                                         {% for content in bc.pb_content %}
                                             <li>
@@ -161,8 +161,8 @@
                         {% endfor %}
                         <li>
                             <div class="relative group/dropdown" tabindex="0">
-                                <button class="block px-4 py-2 w-full text-left text-gray-900 hover:bg-gray-800 hover:text-white">Other</button>
-                                <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
+                                <button class="block w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-800 hover:text-white">Other</button>
+                                <ul class="group-focus-within/dropdown:block hidden w-full overflow-hidden whitespace-nowrap bg-white text-sm focus:outline-none"
                                     tabindex="-1">
                                     <li>
                                         <a href="{% url "pets-leaderboard" %}"
@@ -184,8 +184,8 @@
                         </li>
                         <li>
                             <div class="relative group/dropdown" tabindex="0">
-                                <button class="block px-4 py-2 w-full text-left text-gray-900 hover:bg-gray-800 hover:text-white">Submit</button>
-                                <ul class="hidden overflow-hidden w-full text-sm whitespace-nowrap bg-white group-focus-within/dropdown:block focus:outline-none"
+                                <button class="block w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-800 hover:text-white">Submit</button>
+                                <ul class="group-focus-within/dropdown:block hidden w-full overflow-hidden whitespace-nowrap bg-white text-sm focus:outline-none"
                                     tabindex="-1">
                                     <li>
                                         <a href="{% url "achievements:submit-achievement" %}"
@@ -203,7 +203,7 @@
                         {% if request.user.is_superuser %}
                             <li>
                                 <div class="relative group/dropdown" tabindex="0">
-                                    <a href="{% if bounty %}{% url "bounty:current-bounty" %}{% else %}{% url "bounty:bounty-index" %}{% endif %}" class="block px-4 py-2 w-full text-left text-gray-900 hover:bg-gray-800 hover:text-white">
+                                    <a href="{% if bounty %}{% url "bounty:current-bounty" %}{% else %}{% url "bounty:bounty-index" %}{% endif %}" class="block w-full px-4 py-2 text-left text-gray-900 hover:bg-gray-800 hover:text-white">
                                         Bounty
                                     </a>
                                 </div>
@@ -212,11 +212,11 @@
                     </ul>
                 </div>
                 {# Discord icon #}
-                <div class="hidden ml-6 lg:block">
+                <div class="ml-6 hidden lg:block">
                     <div class="flex items-center space-x-4">
                         <a href="https://discord.gg/umcc"
-                           class="px-3 py-2 text-gray-300 rounded-md hover:bg-gray-800 hover:text-white">
-                            <svg class="w-auto h-6 fill-current" viewBox="0 0 16 16">
+                           class="rounded-md px-3 py-2 text-gray-300 hover:bg-gray-800 hover:text-white">
+                            <svg class="h-6 w-auto fill-current" viewBox="0 0 16 16">
                                 <path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z" />
                             </svg>
                         </a>
@@ -224,13 +224,13 @@
                 </div>
                 {# Link to admin #}
                 {% if request.user.is_staff %}
-                    <div class="hidden ml-6 lg:block">
+                    <div class="ml-6 hidden lg:block">
                         <div class="flex items-center space-x-4">
                             <a href="{% url "admin:index" %}"
-                               class="px-3 py-2 text-gray-300 rounded-md hover:bg-gray-800 hover:text-white">
+                               class="rounded-md px-3 py-2 text-gray-300 hover:bg-gray-800 hover:text-white">
                                 <svg viewBox="0 0 24 24"
                                      fill="currentColor"
-                                     class="w-auto h-6 fill-current">
+                                     class="h-6 w-auto fill-current">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 00-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 00-2.282.819l-.922 1.597a1.875 1.875 0 00.432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 000 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 00-.432 2.385l.922 1.597a1.875 1.875 0 002.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 002.28-.819l.923-1.597a1.875 1.875 0 00-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 000-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 00-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 00-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 00-1.85-1.567h-1.843zM12 15.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z">
                                     </path>
                                 </svg>
@@ -240,33 +240,33 @@
                 {% endif %}
             </div>
             <a href="/" class="flex flex-shrink-0 items-center">
-                <img class="w-auto h-12 md:hidden" src="{% static "um_logos/logo_gradient.png" %}" alt="Unthinking Majority Logo">
+                <img class="h-12 w-auto md:hidden" src="{% static "um_logos/logo_gradient.png" %}" alt="Unthinking Majority Logo">
             </a>
             {# User Profile #}
             {% if request.user.is_authenticated %}
                 <div class="relative group" tabindex="0">
-                    <button class="flex items-center py-2 text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                    <button class="flex items-center rounded-md py-2 text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         <div class="mx-2">
                             <div class="relative flex">
                                 <svg fill="currentColor"
                                      viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor"
-                                     class="w-6 h-6">
+                                     class="h-6 w-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z">
                                     </path>
                                 </svg>
                                 {% if notifications.exists %}
                                     <div id="notifications-count"
-                                         class="absolute flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 rounded-full -top-3 -right-3 border-gray-800">
+                                         class="absolute -top-3 -right-3 flex h-6 w-6 items-center justify-center rounded-full border-2 border-gray-800 bg-red-500 text-xs font-bold text-white">
                                         {{ notifications.count }}
                                     </div>
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="hidden mx-2 font-bold text-gray-300 lg:block">{{ request.user.account.display_name }}</div>
+                        <div class="mx-2 hidden font-bold text-gray-300 lg:block">{{ request.user.account.display_name }}</div>
                     </button>
-                    <ul class="hidden w-64 overflow-hidden overflow-y-auto max-h-96 absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg right-0 group-focus-within:block focus:outline-none">
+                    <ul class="absolute right-0 z-10 mt-2 group-focus-within:block hidden max-h-96 w-64 overflow-hidden overflow-y-auto whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <li>
                             <a href="{% url "accounts:profile" %}"
                                class="block px-4 py-2 text-gray-700 hover:bg-gray-300">Profile</a>
@@ -283,25 +283,25 @@
                         </li>
                         {% if notifications.exists %}<hr id="notificationDivider">{% endif %}
                         {% if notifications.count > 0 %}
-                            <li class="text-center mt-2">
+                            <li class="mt-2 text-center">
                                 <button id="markAllAsReadButton"
                                         data-url="{% url 'mark-all-notification-as-read' request.user.id %}"
                                         class="font-bold text-cyan-500 hover:text-gray-300">Mark all as read</button>
                             </li>
                         {% endif %}
                         {% for notification in notifications %}
-                            <li class="notification-list-item flex items-center whitespace-normal w-64 2xl:w-auto ">
+                            <li class="flex w-64 items-center whitespace-normal notification-list-item 2xl:w-auto">
                                 <button class="notificationMarkReadButton"
                                         data-url="{% url 'mark-notification-as-read' notification.id %}">
                                     <svg fill="none"
                                          viewBox="0 0 24 24"
                                          stroke-width="1.5"
                                          stroke="currentColor"
-                                         class="mx-2 w-5 h-5 text-gray-600 hover:cursor-pointer hover:text-white hover:fill-gray-900">
+                                         class="mx-2 h-5 w-5 text-gray-600 hover:cursor-pointer hover:fill-gray-900 hover:text-white">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </button>
-                                <div class="pr-4 py-2 text-gray-700 justify-self-start">
+                                <div class="justify-self-start py-2 pr-4 text-gray-700">
                                     <span class="font-bold">{{ notification.actor }}</span>
                                     {{ notification.verb }}
                                     {% if notification.action_object %}
@@ -317,21 +317,21 @@
                 </div>
             {% else %}
                 <div class="relative group" tabindex="0">
-                    <button class="flex items-center py-2 text-gray-300 rounded-md hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                    <button class="flex items-center rounded-md py-2 text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         <div class="mx-2">
                             <div class="flex">
                                 <svg fill="currentColor"
                                      viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor"
-                                     class="w-6 h-6">
+                                     class="h-6 w-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z">
                                     </path>
                                 </svg>
                             </div>
                         </div>
                     </button>
-                    <ul class="hidden overflow-hidden absolute z-10 mt-2 whitespace-nowrap bg-white rounded-lg ring-1 ring-black ring-opacity-5 shadow-lg right-0 group-focus-within:block focus:outline-none">
+                    <ul class="absolute right-0 z-10 mt-2 group-focus-within:block hidden overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <li>
                             <a href="{% url "accounts:login" %}"
                                class="block px-4 py-2 text-gray-700 hover:bg-gray-300">Log in</a>

@@ -20,7 +20,7 @@
                 name="{{ wizard.form.prefix }}-{{ wizard.form.type.name }}"
                 autocomplete="{{ wizard.form.type.name }}"
                 required
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-80">
+                class="block w-80 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500">
             {% for choice in wizard.form.type.field.choices %}
                 <option value="{{ choice.0 }}">{{ choice.1 }}</option>
             {% endfor %}

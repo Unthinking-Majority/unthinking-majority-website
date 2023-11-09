@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-center mx-2 my-4 flex-wrap w-80">
+<div class="mx-2 my-4 flex w-80 flex-col flex-wrap justify-center">
     {% if field.errors %}
         <div class="flex justify-center">
             {% include "main/forms/field_error_list.html" with errors=field.errors %}
@@ -18,7 +18,7 @@
               maxlength="{{ field.field.max_length }}"
               placeholder="{{ field.field.widget.attrs.placeholder }}"
               {% if field.field.required %}required{% endif %}
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-80 h-40"></textarea>
+              class="block h-40 w-80 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500"></textarea>
     <p class="text-sm text-gray-600">
         {{ field.help_text }}
     </p>

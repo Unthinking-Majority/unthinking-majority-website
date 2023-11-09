@@ -13,14 +13,14 @@
 
 {% if messages %}
     {% for message in messages %}
-        <div class="toast absolute mx-2 right-0 md:my-2 md:top-5 md:right-5 w-fit ease-in-out duration-500 opacity-0">
-            <div class="flex items-center w-full max-w-md p-4 rounded-lg shadow text-gray-300 bg-gray-700">
-                <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-lime-700 text-white">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <div class="absolute right-0 mx-2 w-fit opacity-0 duration-500 ease-in-out toast md:top-5 md:right-5 md:my-2">
+            <div class="flex w-full max-w-md items-center rounded-lg bg-gray-700 p-4 text-gray-300 shadow">
+                <div class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-lime-700 text-white">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
                         <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-                <div class="ml-3 font-medium text-white text-center">
+                <div class="ml-3 text-center font-medium text-white">
                     Your form has been successfully submitted!
                 </div>
             </div>

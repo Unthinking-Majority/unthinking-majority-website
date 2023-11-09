@@ -1,4 +1,4 @@
-<div class="block mx-2 my-4">
+<div class="mx-2 my-4 block">
     <select id="{{ widget.attrs.id }}" name="{{ widget.name }}" class="hidden" multiple tabindex="-1"></select>
     <label for="autocomplete_{{ widget.attrs.id }}" class="text-sm font-medium text-gray-900">
         {% if label %}
@@ -9,8 +9,8 @@
         {% if required %}*{% endif %}
     </label>
     <input id="autocomplete_{{ widget.attrs.id }}" type="text" spellcheck="false" autocomplete="off" {% if required %}required{% endif %} tabindex="1"
-           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 w-80">
-    <ul id="autocomplete_button_list-{{ widget.attrs.id }}" class="flex flex-wrap w-80 list-none mt-1"></ul>
+           class="w-80 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500">
+    <ul id="autocomplete_button_list-{{ widget.attrs.id }}" class="mt-1 flex w-80 list-none flex-wrap"></ul>
 </div>
 
 <script>
@@ -43,7 +43,7 @@
                     const info = document.createElement("p");
                     if (!data.results.length > 0) {
                         info.innerHTML = `
-                            <span class="flex px-2 py-2 text-sm text-gray-900 whitespace-nowrap bg-gray-50 hover:cursor-pointer hover:bg-gray-300 text-ellipsis">
+                            <span class="flex text-ellipsis whitespace-nowrap bg-gray-50 px-2 py-2 text-sm text-gray-900 hover:cursor-pointer hover:bg-gray-300">
                                 No matching results
                             </span>
                         `;
@@ -86,13 +86,13 @@
                             let new_el = document.createElement("div");
                             new_el.innerHTML = `
                                 <button type="button" onclick="document.getElementById('${option_id}').remove() ; this.parentElement.remove()">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
                                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
                                     </svg>
                                 </button>
                                 ${event.detail.selection.value.text}
                             `;
-                            new_el.className = "flex justify-center gap-1 items-center px-2 py-1 mx-1 my-1 text-sm font-medium text-gray-100 bg-slate-600 rounded-full";
+                            new_el.className = "mx-1 my-1 flex items-center justify-center gap-1 rounded-full bg-slate-600 px-2 py-1 text-sm font-medium text-gray-100";
 
                             document.getElementById("autocomplete_button_list-{{ widget.attrs.id }}").appendChild(
                                 new_el

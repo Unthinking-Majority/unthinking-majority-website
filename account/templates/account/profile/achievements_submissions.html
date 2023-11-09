@@ -1,57 +1,57 @@
-<table class="overflow-hidden min-w-full rounded-lg shadow-lg">
-    <thead class="bg-gray-800 rounded-lg">
+<table class="min-w-full overflow-hidden rounded-lg shadow-lg">
+    <thead class="rounded-lg bg-gray-800">
     <tr class="text-white">
-        <th class="hidden lg:table-cell py-4 px-0.5 sm:px-2 text-sm text-center md:text-base">
+        <th class="hidden py-4 text-center text-sm px-0.5 sm:px-2 md:text-base lg:table-cell">
             Type
         </th>
         <th class="hidden text-center lg:table-cell lg:p-4 lg:text-base">
             Date
         </th>
-        <th class="py-4 px-0.5 sm:px-2 text-sm text-center lg:text-base">
+        <th class="py-4 text-center text-sm px-0.5 sm:px-2 lg:text-base">
             Notes
         </th>
-        <th class="py-4 px-0.5 sm:px-2 text-sm text-center lg:text-base">
+        <th class="py-4 text-center text-sm px-0.5 sm:px-2 lg:text-base">
             Proof
         </th>
-        <th class="py-4 px-0.5 sm:px-2 text-sm text-center lg:text-base">
+        <th class="py-4 text-center text-sm px-0.5 sm:px-2 lg:text-base">
             Accepted
         </th>
-        <th class="py-4 px-0.5 sm:px-2 text-sm py-4 text-center lg:text-base">
+        <th class="py-4 text-center text-sm px-0.5 sm:px-2 lg:text-base">
             Submission
         </th>
     </tr>
     </thead>
     <tbody>
     {% for submission in achievement_page %}
-        <tr class="even:bg-gray-100 odd:bg-gray-50">
-            <td class="hidden py-4 text-sm font-light text-center lg:table-cell sm:text-base sm:whitespace-nowrap lg:px-2 lg:py-4">
+        <tr class="odd:bg-gray-50 even:bg-gray-100">
+            <td class="hidden py-4 text-center text-sm font-light sm:whitespace-nowrap sm:text-base lg:table-cell lg:px-2 lg:py-4">
                 {{ submission.type_display }}
             </td>
-            <td class="hidden py-4 text-sm font-light text-center whitespace-nowrap lg:table-cell">
+            <td class="hidden whitespace-nowrap py-4 text-center text-sm font-light lg:table-cell">
                 {{ submission.date|date:"M d, Y" }}
             </td>
             <td class="py-4 font-runescape">
                 {% if submission.notes %}
                     <div class="static m-auto w-min group" tabindex="0">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                             class="w-6 h-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800 hover:cursor-pointer">
+                             class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:cursor-pointer hover:text-gray-800">
                             <path fill-rule="evenodd"
                                   d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
                                   clip-rule="evenodd"></path>
                         </svg>
-                        <span class="hidden absolute z-10 p-2 w-72 text-base text-center text-gray-50 bg-gray-600 rounded-lg translate-y-2 max-lg:right-0 max-lg:left-0 max-lg:m-auto lg:-translate-x-1/2 lg:w-96 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default"
+                        <span class="absolute max-lg:right-0 max-lg:left-0 z-10 max-lg:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-gray-600 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none lg:w-96 lg:-translate-x-1/2"
                               tabindex="-1">
                             {{ submission.notes }}
                         </span>
                     </div>
                 {% endif %}
             </td>
-            <td class="py-4 font-light text-center text-gray-900 underline whitespace-nowrap lg:px-2 lg:py-4 hover:text-gray-600">
+            <td class="whitespace-nowrap py-4 text-center font-light text-gray-900 underline hover:text-gray-600 lg:px-2 lg:py-4">
                 <div class="m-auto w-min">
                     {% if submission.proof %}
                         <a href="{{ submission.proof.url }}" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                 class="w-6 h-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
+                                 class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
                                 <path fill-rule="evenodd"
                                       d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
                                       clip-rule="evenodd"></path>
@@ -66,7 +66,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                              stroke-width="1.5"
                              stroke="currentColor"
-                             class="w-6 h-6 text-green-800">
+                             class="h-6 w-6 text-green-800">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="M4.5 12.75l6 6 9-13.5"></path>
                         </svg>
@@ -74,10 +74,10 @@
                         <div class="static m-auto w-min group" tabindex="0">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor"
-                                 class="w-6 h-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-red-800 hover:cursor-pointer">
+                                 class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:cursor-pointer hover:text-red-800">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
-                            <span class="hidden absolute z-10 p-2 w-72 text-base text-center text-gray-50 bg-gray-600 rounded-lg translate-y-2 font-runescape max-lg:right-0 max-lg:left-0 max-lg:m-auto lg:-translate-x-1/2 lg:w-96 group-hover:block group-focus-within:block focus:outline-none hover:cursor-default"
+                            <span class="absolute max-lg:right-0 max-lg:left-0 z-10 max-lg:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-gray-600 p-2 text-center text-base text-gray-50 font-runescape group-hover:block hover:cursor-default focus:outline-none lg:w-96 lg:-translate-x-1/2"
                                   tabindex="-1">
                                             {% if submission.denial_notes %}
                                                 {{ submission.denial_notes }}
@@ -90,17 +90,17 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                              stroke-width="1.5"
                              stroke="currentColor"
-                             class="w-6 h-6 text-gray-800">
+                             class="h-6 w-6 text-gray-800">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"></path>
                         </svg>
                     {% endif %}
                 </div>
             </td>
-            <td class="py-4 pr-1 text-xl text-center lg:px-2 lg:py-4 lg:text-2xl font-runescape">
+            <td class="py-4 pr-1 text-center text-xl font-runescape lg:px-2 lg:py-4 lg:text-2xl">
                 {{ submission.value_display }}
                 {% if submission.get_type_display != 'Pet' %}
-                    <p class="font-sans text-sm whitespace-normal lg:hidden">
+                    <p class="whitespace-normal font-sans text-sm lg:hidden">
                         {{ submission.type_display }}
                     </p>
                 {% endif %}
@@ -110,30 +110,30 @@
     </tbody>
 </table>
 
-<div class="flex justify-around py-2 mt-4 text-gray-800 border-t-2">
+<div class="mt-4 flex justify-around border-t-2 py-2 text-gray-800">
     {% if achievement_page.has_previous %}
         <a href="?achievement_page={{ achievement_page.previous_page_number }}&active_tab=achievements-tab"
-           class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
+           class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
             Previous
         </a>
     {% else %}
-        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md shadow-md hover:cursor-default"
+        <a class="mx-2 my-4 rounded-md bg-gray-200 px-3 py-2 font-medium text-gray-400 shadow-md hover:cursor-default"
            disabled>
             Previous
         </a>
     {% endif %}
 
-    <a class="px-3 py-2 my-4 font-medium rounded-md hover:cursor-default">
+    <a class="my-4 rounded-md px-3 py-2 font-medium hover:cursor-default">
         Page {{ achievement_page.number }} of {{ achievement_page.paginator.num_pages }}
     </a>
 
     {% if achievement_page.has_next %}
         <a href="?achievement_page={{ achievement_page.next_page_number }}&active_tab=achievements-tab"
-           class="px-3 py-2 mx-2 my-4 font-medium text-gray-800 bg-gray-300 rounded-md shadow-md transition ease-in-out hover:bg-gray-800 hover:text-white hover:scale-105">
+           class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
             Next
         </a>
     {% else %}
-        <a class="px-3 py-2 mx-2 my-4 font-medium text-gray-400 bg-gray-200 rounded-md shadow-md hover:cursor-default"
+        <a class="mx-2 my-4 rounded-md bg-gray-200 px-3 py-2 font-medium text-gray-400 shadow-md hover:cursor-default"
            disabled>
             Next
         </a>

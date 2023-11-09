@@ -8,7 +8,7 @@
 
 {% block form_content %}
     <div class="m-auto text-center">
-        <h2 class="py-2 font-medium text-xl text-gray-900">
+        <h2 class="py-2 text-xl font-medium text-gray-900">
             Please make sure your picture of proof clearly shows <i>all</i> the pets you are submitting for.
         </h2>
         <p class="font-medium text-gray-900">
@@ -18,7 +18,7 @@
 
     {# Account #}
     {% if wizard.form.account.errors %}
-        <div class="flex justify-center mx-2 w-80">
+        <div class="mx-2 flex w-80 justify-center">
             {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}
         </div>
     {% endif %}
@@ -26,7 +26,7 @@
 
     {# Pet #}
     {% if wizard.form.pets.errors %}
-        <div class="flex justify-center mx-2 w-80">
+        <div class="mx-2 flex w-80 justify-center">
             {% include "main/forms/field_error_list.html" with errors=wizard.form.pets.errors %}
         </div>
     {% endif %}

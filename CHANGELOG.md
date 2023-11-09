@@ -4,6 +4,12 @@ All notable changes to Unthinking Majority's website will be documented in this 
 
 The format of this document is loosely based on [Keep a Changelog](https://keepachangelog.com/).
 
+# 2023-11-9
+
+### Added
+
+* New drag and drop file upload widget
+
 # 2023-11-8
 
 ### Changed

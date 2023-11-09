@@ -34,14 +34,16 @@
     });
 </script>
 
-<div class="flex flex-col justify-center mx-2 my-4 flex-wrap w-80">
+<div class="mx-2 my-4 flex w-80 flex-col flex-wrap justify-center">
 
+    {# error #}
     {% if field.errors %}
         <div class="flex justify-center">
             {% include "main/forms/field_error_list.html" with errors=field.errors %}
         </div>
     {% endif %}
 
+    {# field label name #}
     <div class="text-sm font-medium text-gray-900">
         {% if label %}
             {{ label }}
@@ -51,28 +53,34 @@
         {% if field.field.required %}*{% endif %}
     </div>
 
+    {# dropzone #}
     <label id="{{ field.id_for_label }}_dropzone"
            for="{{ field.id_for_label }}"
-           class="flex flex-col items-center justify-center w-full h-32 border border-gray-300 rounded-lg text-slate-700 cursor-pointer transition duration-75 ease-in bg-gray-50 hover:bg-slate-600 hover:text-gray-200 hover:border-none">
+           class="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border border-gray-300 bg-gray-50 text-slate-700 transition duration-75 ease-in hover:border-none hover:bg-slate-600 hover:text-gray-200">
 
-        <span class="flex flex-col items-center justify-center pointer-events-none">
-            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mb-2 text-inherit">
+        <span class="pointer-events-none flex flex-col items-center justify-center">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                 class="mb-2 h-8 w-8 text-inherit">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"></path>
             </svg>
 
-            <span class="mb-2 text-sm text-inherit text-center select-none pointer-events-none"><span class="font-semibold">Click to upload</span> or drag and drop</span>
+            <span class="pointer-events-none mb-2 select-none text-center text-sm text-inherit">
+                <span class="font-semibold">Click to upload</span> or drag and drop
+            </span>
         </span>
-
-
     </label>
+
+    {# actual file input, hidden #}
     <input id="{{ field.id_for_label }}"
            name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
            type="file"
            {% if field.field.required %}required{% endif %}
-           class="opacity-0 pointer-events-none h-0 place-self-start"/>
+           class="pointer-events-none h-0 place-self-start opacity-0"/>
 
-    <p class="text-sm text-gray-600 mb-1">{{ field.help_text }}</p>
+    {# help text #}
+    <p class="mb-1 text-sm text-gray-600">{{ field.help_text }}</p>
 
-    <p id="{{ field.id_for_label }}_filename" class="font-medium text-gray-900 text-center mt-2"></p>
+    {# uploaded file name #}
+    <p id="{{ field.id_for_label }}_filename" class="mt-2 text-center font-medium text-gray-900"></p>
 
 </div>

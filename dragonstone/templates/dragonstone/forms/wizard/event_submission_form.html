@@ -12,7 +12,7 @@
 
     {# Host(s) #}
     {% if wizard.form.hosts.errors %}
-        <div class="flex justify-center mx-2 w-80">
+        <div class="mx-2 flex w-80 justify-center">
             {% include "main/forms/field_error_list.html" with errors=wizard.form.hosts.errors %}
         </div>
     {% endif %}
@@ -20,7 +20,7 @@
 
     {# Participant(s) #}
     {% if wizard.form.participants.errors %}
-        <div class="flex justify-center mx-2 w-80">
+        <div class="mx-2 flex w-80 justify-center">
             {% include "main/forms/field_error_list.html" with errors=wizard.form.participants.errors %}
         </div>
     {% endif %}
@@ -28,14 +28,14 @@
 
     {# Donor(s) #}
     {% if wizard.form.donors.errors %}
-        <div class="flex justify-center mx-2 w-80">
+        <div class="mx-2 flex w-80 justify-center">
             {% include "main/forms/field_error_list.html" with errors=wizard.form.donors.errors %}
         </div>
     {% endif %}
     {{ wizard.form.donors }}
 
     {# Type #}
-    <div class="flex flex-col flex-wrap justify-center mx-2 my-4 w-80">
+    <div class="mx-2 my-4 flex w-80 flex-col flex-wrap justify-center">
         {% if wizard.form.type.errors %}
             <div class="flex justify-center">
                 {% include "main/forms/field_error_list.html" with errors=wizard.form.type.errors %}
@@ -48,7 +48,7 @@
         <select id="{{ wizard.form.type.id_for_label }}"
                 name="{{ wizard.form.prefix }}-{{ wizard.form.type.name }}"
                 {% if wizard.form.type.field.required %}required{% endif %}
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 w-full">
+                class="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500">
             {% for choice in wizard.form.type.field.choices %}
                 <option value="{{ choice.0 }}">{{ choice.1 }}</option>
             {% endfor %}

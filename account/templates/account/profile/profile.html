@@ -29,8 +29,8 @@
 {% block content %}
     {% page_header user.account.display_name %}
 
-    <div class="flex flex-col justify-center m-auto rounded-lg lg:w-9/12">
-        <div class="flex justify-center space-x-4 font-medium">
+    <div class="m-auto flex flex-col justify-center rounded-lg lg:w-9/12">
+        <div class="flex justify-center font-medium space-x-4">
             <p class="py-1 text-center sm:py-2">
                 Username: {{ user.username }}
             </p>
@@ -40,7 +40,7 @@
                 </a>
             </p>
         </div>
-        <div class="flex justify-center space-x-4 font-medium">
+        <div class="flex justify-center font-medium space-x-4">
             <p class="py-1 text-center sm:py-2">
                 In game name: {{ user.account.name }}
             </p>
@@ -57,16 +57,16 @@
             </p>
         </div>
         <p class="text-center sm:py-2">
-            <span class="font-medium align-middle">Highest Tier Combat Achievement: </span>
-            <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.ca_tier }}</span>
+            <span class="align-middle font-medium">Highest Tier Combat Achievement: </span>
+            <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.ca_tier }}</span>
         </p>
         <p class="text-center sm:py-2">
-            <span class="font-medium align-middle">Collection Log Total: </span>
-            <span class="text-2xl text-center align-middle whitespace-nowrap font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
+            <span class="align-middle font-medium">Collection Log Total: </span>
+            <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
         </p>
-        <div class="flex flex-wrap gap-1 justify-center py-1 sm:py-2 sm:mx-4">
+        <div class="flex flex-wrap justify-center gap-1 py-1 sm:mx-4 sm:py-2">
             <p class="font-medium">Pets: <span
-                    class="text-2xl align-middle font-runescape">({{ user.account.pets.count }})</span></p>
+                    class="align-middle text-2xl font-runescape">({{ user.account.pets.count }})</span></p>
             {% for pet_submission in user.account.pets %}
                 <a href="{{ pet_submission.proof.url }}" target="_blank">
                     <img src="{{ pet_submission.pet.icon.url }}"
@@ -76,20 +76,20 @@
             {% endfor %}
         </div>
         {% if user.account.rank >= 3 %}  {# 3 == DIAMOND rank #}
-            <div class="flex justify-center items-center sm:py-2 gap-1">
-                <div class="font-medium align-middle">Dragonstone Points:</div>
-                <div class="text-2xl text-center align-middle font-runescape">
+            <div class="flex items-center justify-center gap-1 sm:py-2">
+                <div class="align-middle font-medium">Dragonstone Points:</div>
+                <div class="text-center align-middle text-2xl font-runescape">
                     {{ user.account.dragonstone_pts }}
                 </div>
                 {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
                     <img src="{% static "dragonstone/img/dragonstone.webp" %}" alt="" class="h-6 w-6">
-                    <div class="font-medium text-center align-middle hidden sm:block">
+                    <div class="hidden text-center align-middle font-medium sm:block">
                         (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
                     </div>
                 {% endif %}
             </div>
             {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
-                <div class="font-medium text-center align-middle sm:hidden">
+                <div class="text-center align-middle font-medium sm:hidden">
                     (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
                 </div>
             {% endif %}
@@ -98,11 +98,11 @@
         <div class="flex justify-center sm:mt-12">
             <div class="basis-full xl:basis-full">
 
-                <div id="tabs" class="flex justify-center md:justify-start flex-wrap space-x-4 mb-2">
-                    <button id="achievements-tab" data-table="achievements-table" onclick="changeTab(this)" class="tab-links p-3 text-lg font-medium text-gray-400 rounded-md hover:bg-slate-600 hover:text-white">
+                <div id="tabs" class="mb-2 flex flex-wrap justify-center space-x-4 md:justify-start">
+                    <button id="achievements-tab" data-table="achievements-table" onclick="changeTab(this)" class="rounded-md p-3 text-lg font-medium text-gray-400 tab-links hover:bg-slate-600 hover:text-white">
                         Achievements
                     </button>
-                    <button id="dragonstone-tab" data-table="dragonstone-table" onclick="changeTab(this)" class="tab-links p-3 text-lg font-medium text-gray-400 rounded-md hover:bg-slate-600 hover:text-white">
+                    <button id="dragonstone-tab" data-table="dragonstone-table" onclick="changeTab(this)" class="rounded-md p-3 text-lg font-medium text-gray-400 tab-links hover:bg-slate-600 hover:text-white">
                         Dragonstone
                     </button>
                 </div>

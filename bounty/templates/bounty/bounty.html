@@ -31,42 +31,42 @@
 
 {% block content %}
     <div class="text-center">
-        <div class="relative inline-block mx-auto">
+        <div class="relative mx-auto inline-block">
             <img src="{{ bounty.image.url }}">
-            <div class="absolute bottom-56 inset-x-0 mx-auto w-fit">
-                <div class="text-6xl font-bold text-center align-middle self-center whitespace-nowrap font-runescape">
+            <div class="absolute inset-x-0 bottom-56 mx-auto w-fit">
+                <div class="self-center whitespace-nowrap text-center align-middle text-6xl font-bold font-runescape">
                     {{ bounty.title }}
                 </div>
             </div>
-            <div class="absolute bottom-24 inset-x-0 mx-auto w-fit">
+            <div class="absolute inset-x-0 bottom-24 mx-auto w-fit">
                 <div class="relative flex">
                     <img src="{% static "bounty/img/coin_stack.webp" %}" class="h-24 w-24">
-                    <p class="absolute font-runescape text-4xl tracking-wide text-shadow text-green-500">
+                    <p class="absolute text-4xl tracking-wide text-green-500 font-runescape text-shadow">
                         {{ bounty.prize_pool|gp_display }}
                     </p>
                 </div>
             </div>
-            <div class="absolute bottom-4 inset-x-0 mx-auto w-fit">
-                <div id="countdown-timer" class="text-5xl font-bold text-center align-middle self-center whitespace-nowrap font-runescape">
+            <div class="absolute inset-x-0 bottom-4 mx-auto w-fit">
+                <div id="countdown-timer" class="self-center whitespace-nowrap text-center align-middle text-5xl font-bold font-runescape">
                     00 : 00 : 00
                 </div>
             </div>
-            <div class="absolute bottom-4 right-4">
-                <a href="{% url "bounty:bounty-rules" %}" class="text-4xl text-center align-middle self-center whitespace-nowrap font-runescape">Rules</a>
+            <div class="absolute right-4 bottom-4">
+                <a href="{% url "bounty:bounty-rules" %}" class="self-center whitespace-nowrap text-center align-middle text-4xl font-runescape">Rules</a>
             </div>
         </div>
 
     </div>
 
 
-    <div class="flex flex-wrap gap-1 justify-center">
+    <div class="flex flex-wrap justify-center gap-1">
         <span class="basis-full xl:basis-7/12">
             {% include "main/board.html" %}
         </span>
     </div>
 
-    <div class="flex flex-wrap gap-3 justify-evenly">
-        <a href="{% url "bounty:bounty-index" %}" class="text-4xl text-center align-middle whitespace-nowrap font-runescape">Previous Bounties</a>
+    <div class="flex flex-wrap justify-evenly gap-3">
+        <a href="{% url "bounty:bounty-index" %}" class="whitespace-nowrap text-center align-middle text-4xl font-runescape">Previous Bounties</a>
     </div>
 
 {% endblock content %}

@@ -3,15 +3,15 @@
 {% load static landing_leaderboards %}
 
 {% block content %}
-    <div class="flex flex-col justify-between items-center my-6">
-        <div class="overflow-hidden w-40 h-40 rounded-lg">
-            <img class="w-auto h-auto" src="{% static "um_logos/gifs/logo_animated_blue.gif" %}"
+    <div class="my-6 flex flex-col items-center justify-between">
+        <div class="h-40 w-40 overflow-hidden rounded-lg">
+            <img class="h-auto w-auto" src="{% static "um_logos/gifs/logo_animated_blue.gif" %}"
                  alt="Unthinking Majority Logo">
         </div>
-        <h1 class="py-2 text-5xl font-bold tracking-wide text-center text-gray-800 sm:text-6xl">
+        <h1 class="py-2 text-center text-5xl font-bold tracking-wide text-gray-800 sm:text-6xl">
             Unthinking Majority
         </h1>
-        <h2 class="hidden py-2 font-bold tracking-wide text-center text-gray-700 sm:text-5xl sm:block">
+        <h2 class="hidden py-2 text-center font-bold tracking-wide text-gray-700 sm:block sm:text-5xl">
             Leaderboards
         </h2>
     </div>
@@ -20,7 +20,7 @@
         <div class="mx-1 my-4 basis-full lg:basis-auto">
             {% col_logs_leaderboard %}
         </div>
-        <div class="order-first mx-1 my-4 lg:order-none basis-full lg:basis-auto">
+        <div class="order-first mx-1 my-4 basis-full lg:order-none lg:basis-auto">
             {% top_players_leaderboard %}
         </div>
         <div class="mx-1 my-4 basis-full lg:basis-auto">
