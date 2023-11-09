@@ -3,33 +3,47 @@
         let dropzone = document.getElementById("{{ field.id_for_label }}_dropzone"),
             file_input = document.getElementById("{{ field.id_for_label }}");
 
+        /* add dropped file to file input, and update styling */
         dropzone.addEventListener("drop", (e) => {
+            let file_input = document.getElementById("{{ field.id_for_label }}"),
+                filename_el = document.getElementById("{{ field.id_for_label }}" + "_filename");
+
             e.preventDefault();
 
             e.target.classList.add("text-slate-700");
             e.target.classList.remove("bg-slate-600", "text-gray-200");
 
-
-            let file_input = document.getElementById("{{ field.id_for_label }}"),
-                filename_el = document.getElementById("{{ field.id_for_label }}" + "_filename");
             file_input.files = e.dataTransfer.files;
             filename_el.textContent = e.dataTransfer.files[0].name;
         });
 
+        /* update styling while dragging */
         dropzone.addEventListener("dragover", (e) => {
             e.target.classList.remove("text-slate-700");
             e.target.classList.add("bg-slate-600", "text-gray-200");
             e.preventDefault();
         });
 
+        /* update styling when done dragging */
         dropzone.addEventListener("dragleave", (e) => {
             e.target.classList.add("text-slate-700");
             e.target.classList.remove("bg-slate-600", "text-gray-200");
         });
 
+        /* update displayed file name on change */
         file_input.addEventListener("change", (e) => {
             let filename_el = document.getElementById("{{ field.id_for_label }}" + "_filename");
             filename_el.textContent = e.target.files[0].name;
+        });
+
+        /* capture past event and insert files from clipboard if any are found */
+        window.addEventListener("paste", (e) => {
+            let file_input = document.getElementById("{{ field.id_for_label }}"),
+                filename_el = document.getElementById("{{ field.id_for_label }}" + "_filename");
+            if (e.clipboardData.files.length > 0) {
+                file_input.files = e.clipboardData.files;
+                filename_el.textContent = e.clipboardData.files[0].name;
+            }
         });
     });
 </script>
@@ -64,8 +78,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"></path>
             </svg>
 
-            <span class="pointer-events-none mb-2 select-none text-center text-sm text-inherit">
-                <span class="font-semibold">Click to upload</span> or drag and drop
+            <span class="pointer-events-none mb-2 w-64 select-none text-center text-sm text-inherit">
+                <span class="font-semibold">Drag & Drop, paste, or click to upload</span>
             </span>
         </span>
     </label>
