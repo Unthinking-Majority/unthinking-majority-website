@@ -47,8 +47,8 @@ class FreeformPointsAdmin(PolymorphicChildModelAdmin):
             None,
             {
                 "fields": (
-                    ("account", "points"),
-                    ("date", "created_by"),
+                    ("account", "created_by"),
+                    ("points", "date"),
                 ),
             },
         ),

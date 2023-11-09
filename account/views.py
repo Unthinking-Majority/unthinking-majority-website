@@ -21,7 +21,12 @@ class ProfileView(TemplateView):
         per_page = 5
 
         achievement_paginator = Paginator(
-            BaseSubmission.filter_all_submissions_by_account(self.request.user.account),
+            BaseSubmission.objects.filter(
+                Q(recordsubmission__accounts=self.request.user.account)
+                | Q(petsubmission__account=self.request.user.account)
+                | Q(collogsubmission__account=self.request.user.account)
+                | Q(casubmission__account=self.request.user.account)
+            ),
             per_page,
         )
 

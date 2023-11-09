@@ -1,10 +1,47 @@
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let dropzone = document.getElementById("{{ field.id_for_label }}_dropzone"),
+            file_input = document.getElementById("{{ field.id_for_label }}");
+
+        dropzone.addEventListener("drop", (e) => {
+            e.preventDefault();
+
+            e.target.classList.add("text-slate-700");
+            e.target.classList.remove("bg-slate-600", "text-gray-200");
+
+
+            let file_input = document.getElementById("{{ field.id_for_label }}"),
+                filename_el = document.getElementById("{{ field.id_for_label }}" + "_filename");
+            file_input.files = e.dataTransfer.files;
+            filename_el.textContent = e.dataTransfer.files[0].name;
+        });
+
+        dropzone.addEventListener("dragover", (e) => {
+            e.target.classList.remove("text-slate-700");
+            e.target.classList.add("bg-slate-600", "text-gray-200");
+            e.preventDefault();
+        });
+
+        dropzone.addEventListener("dragleave", (e) => {
+            e.target.classList.add("text-slate-700");
+            e.target.classList.remove("bg-slate-600", "text-gray-200");
+        });
+
+        file_input.addEventListener("change", (e) => {
+            let filename_el = document.getElementById("{{ field.id_for_label }}" + "_filename");
+            filename_el.textContent = e.target.files[0].name;
+        });
+    });
+</script>
+
 <div class="flex flex-col justify-center mx-2 my-4 flex-wrap w-80">
+
     {% if field.errors %}
         <div class="flex justify-center">
             {% include "main/forms/field_error_list.html" with errors=field.errors %}
         </div>
     {% endif %}
-    <label for="{{ field.id_for_label }}">
+
     <div class="text-sm font-medium text-gray-900">
         {% if label %}
             {{ label }}
@@ -13,13 +50,29 @@
         {% endif %}
         {% if field.field.required %}*{% endif %}
     </div>
-        <input id="{{ field.id_for_label }}"
-               name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
-               type="file"
-               {% if field.field.required %}required{% endif %}
-               class="focus:outline-none file:px-3 file:py-2 file:mx-2 file:my-4 file:font-medium file:border-none file:text-gray-800 file:bg-gray-300 file:rounded-md file:shadow-md file:transition file:ease-in-out file:hover:bg-gray-800 file:hover:text-white file:hover:scale-105"/>
-        <p class="text-sm text-gray-600">
-            {{ field.help_text }}
-        </p>
+
+    <label id="{{ field.id_for_label }}_dropzone"
+           for="{{ field.id_for_label }}"
+           class="flex flex-col items-center justify-center w-full h-32 border border-gray-300 rounded-lg text-slate-700 cursor-pointer transition duration-75 ease-in bg-gray-50 hover:bg-slate-600 hover:text-gray-200 hover:border-none">
+
+        <span class="flex flex-col items-center justify-center pointer-events-none">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mb-2 text-inherit">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"></path>
+            </svg>
+
+            <span class="mb-2 text-sm text-inherit text-center select-none pointer-events-none"><span class="font-semibold">Click to upload</span> or drag and drop</span>
+        </span>
+
+
     </label>
+    <input id="{{ field.id_for_label }}"
+           name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
+           type="file"
+           {% if field.field.required %}required{% endif %}
+           class="opacity-0 pointer-events-none h-0 place-self-start"/>
+
+    <p class="text-sm text-gray-600 mb-1">{{ field.help_text }}</p>
+
+    <p id="{{ field.id_for_label }}_filename" class="font-medium text-gray-900 text-center mt-2"></p>
+
 </div>

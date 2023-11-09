@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.aggregates import StringAgg
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import F, Q
+from django.db.models import F
 from django.urls import reverse
 from polymorphic.models import PolymorphicModel
 
@@ -47,20 +47,6 @@ class BaseSubmission(PolymorphicModel):
             # get_child_instance seems to return self if there is no child. This works out
             # because this code still runs successfully when a child instance is saved!
             self.get_real_instance().on_accepted()
-
-    @classmethod
-    def filter_all_submissions_by_account(cls, account):
-        # filter for all submission objects inheriting from BaseSubmission which the given account was a part of
-        record_subs = RecordSubmission.objects.filter(accounts=account).values("pk")
-        pet_subs = PetSubmission.objects.filter(account=account).values("pk")
-        col_logs_subs = ColLogSubmission.objects.filter(account=account).values("pk")
-        ca_subs = CASubmission.objects.filter(account=account).values("pk")
-        return cls.objects.filter(
-            Q(pk__in=record_subs)
-            | Q(pk__in=pet_subs)
-            | Q(pk__in=col_logs_subs)
-            | Q(pk__in=ca_subs)
-        )
 
     def send_notifications(self, request):
         self.get_real_instance().send_notifications(request)
@@ -309,9 +295,6 @@ class CASubmission(BaseSubmission):
     account = models.ForeignKey("account.Account", on_delete=models.CASCADE)
     ca_tier = models.IntegerField(
         choices=CA_CHOICES,
-        default=None,
-        null=True,
-        blank=True,
         verbose_name="Combat Achievement Tier",
     )
 

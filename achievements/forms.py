@@ -53,6 +53,7 @@ class RecordSubmissionForm(forms.ModelForm):
         queryset=Account.objects.all(), required=False
     )
     account = forms.ModelChoiceField(queryset=Account.objects.all(), required=False)
+    proof = forms.ImageField(required=True)
 
     class Meta:
         model = achievements_models.RecordSubmission
@@ -120,7 +121,7 @@ class PetSubmissionForm(forms.Form):
             attrs={"placeholder": "Tell us about this achievement!"}
         ),
     )
-    proof = forms.ImageField()
+    proof = forms.ImageField(required=True)
 
     def __init__(self, *args, **kwargs):
         super(PetSubmissionForm, self).__init__(*args, **kwargs)
@@ -178,6 +179,7 @@ class ColLogSubmissionForm(forms.ModelForm):
             attrs={"placeholder": "Tell us about this achievement!"}
         ),
     )
+    proof = forms.ImageField(required=True)
 
     class Meta:
         model = achievements_models.ColLogSubmission
@@ -222,6 +224,7 @@ class CASubmissionForm(forms.ModelForm):
             attrs={"placeholder": "Tell us about this achievement!"},
         ),
     )
+    proof = forms.ImageField(required=True)
 
     class Meta:
         model = achievements_models.CASubmission
