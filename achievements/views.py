@@ -136,7 +136,7 @@ class SubmissionWizard(SessionWizardView):
 
     def get_form_initial(self, step):
         initial = super().get_form_initial(step)
-        if hasattr(self.request, "user"):
+        if hasattr(self.request.user, "account"):
             initial.update({"account": getattr(self.request.user, "account", None)})
         return initial
 
