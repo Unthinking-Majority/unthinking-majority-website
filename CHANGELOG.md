@@ -10,6 +10,10 @@ The format of this document is loosely based on [Keep a Changelog](https://keepa
 
 * Split up achievement and dragonstone submissions on profile page into seperate tables
 
+### Added
+
+* Day of rank expiration for dragonstone is now shown on users profile page
+
 # 2023-11-2
 
 ### Added

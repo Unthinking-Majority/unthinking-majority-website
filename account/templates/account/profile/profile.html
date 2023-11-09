@@ -2,6 +2,25 @@
 
 {% load static um_components main_extras %}
 
+{% block extra_head %}
+    {{ block.super }}
+    <script>
+        function changeTab(element) {
+            Array.from(document.getElementsByClassName("tab-content")).forEach(el => {
+                el.classList.add("hidden");
+            });
+            Array.from(document.getElementsByClassName("tab-links")).forEach(el => {
+                el.classList.remove("bg-slate-600", "text-white");
+                el.classList.add("text-gray-400");
+            });
+
+            element.classList.add("bg-slate-600", "text-white");
+            element.classList.remove("text-gray-400");
+            document.getElementById(element.dataset.table).classList.remove("hidden");
+        }
+    </script>
+{% endblock extra_head %}
+
 {% block content %}
     {% page_header user.account.display_name %}
 
@@ -59,20 +78,40 @@
                 </div>
                 {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
                     <img src="{% static "dragonstone/img/dragonstone.webp" %}" alt="" class="h-6 w-6">
+                    <div class="font-medium text-center align-middle hidden sm:block">
+                        (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
+                    </div>
                 {% endif %}
-                <div class="text-xl text-center align-middle font-runescape hidden sm:block">
+            </div>
+            {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
+                <div class="font-medium text-center align-middle sm:hidden">
                     (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
                 </div>
-            </div>
-            <div class="text-xl text-center align-middle font-runescape sm:hidden">
-                (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
-            </div>
+            {% endif %}
         {% endif %}
 
         <div class="flex justify-center sm:mt-12">
-            <div class="mx-1 basis-full xl:basis-full">
-                {% include "account/profile/achievement_submissions.html" %}
-                {% include "account/profile/dragonstone_submissions.html" %}
+            <div class="basis-full xl:basis-full">
+
+                <div id="tabs" class="flex justify-center md:justify-start flex-wrap space-x-4 mb-2">
+                    <button data-table="achievements-table" onclick="changeTab(this)"
+                            class="tab-links p-3 text-lg font-medium bg-slate-600 text-white rounded-md hover:bg-slate-600 hover:text-white">
+                        Achievements
+                    </button>
+                    <button data-table="dragonstone-table" onclick="changeTab(this)"
+                            class="tab-links p-3 text-lg font-medium text-gray-400 rounded-md hover:bg-slate-600 hover:text-white">
+                        Dragonstone
+                    </button>
+                </div>
+
+                <div id="achievements-table" class="tab-content">
+                    {% include "account/profile/achievements_submissions.html" %}
+                </div>
+
+                <div id="dragonstone-table" class="tab-content hidden">
+                    {% include "account/profile/dragonstone_submissions.html" %}
+                </div>
+
             </div>
         </div>
 
