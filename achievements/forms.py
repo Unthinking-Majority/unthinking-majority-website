@@ -53,7 +53,6 @@ class RecordSubmissionForm(forms.ModelForm):
         queryset=Account.objects.all(), required=False
     )
     account = forms.ModelChoiceField(queryset=Account.objects.all(), required=False)
-    proof = forms.ImageField(required=True)
 
     class Meta:
         model = achievements_models.RecordSubmission
@@ -66,6 +65,8 @@ class RecordSubmissionForm(forms.ModelForm):
         board = kwargs.pop("board")
 
         super(RecordSubmissionForm, self).__init__(*args, **kwargs)
+
+        self.fields["proof"].required = True
 
         # set board value on form so we can grab it back when it's submitted!
         self.fields["board"].initial = board
@@ -121,10 +122,13 @@ class PetSubmissionForm(forms.Form):
             attrs={"placeholder": "Tell us about this achievement!"}
         ),
     )
-    proof = forms.ImageField(required=True)
+    proof = forms.ImageField(
+        required=True, help_text="Upload an image as proof for this submission."
+    )
 
     def __init__(self, *args, **kwargs):
         super(PetSubmissionForm, self).__init__(*args, **kwargs)
+
         self.fields["account"].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder="Select an account",
@@ -179,7 +183,6 @@ class ColLogSubmissionForm(forms.ModelForm):
             attrs={"placeholder": "Tell us about this achievement!"}
         ),
     )
-    proof = forms.ImageField(required=True)
 
     class Meta:
         model = achievements_models.ColLogSubmission
@@ -187,6 +190,9 @@ class ColLogSubmissionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ColLogSubmissionForm, self).__init__(*args, **kwargs)
+
+        self.fields["proof"].required = True
+
         self.fields["account"].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder="Select an account",
@@ -224,7 +230,6 @@ class CASubmissionForm(forms.ModelForm):
             attrs={"placeholder": "Tell us about this achievement!"},
         ),
     )
-    proof = forms.ImageField(required=True)
 
     class Meta:
         model = achievements_models.CASubmission
@@ -232,6 +237,9 @@ class CASubmissionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CASubmissionForm, self).__init__(*args, **kwargs)
+
+        self.fields["proof"].required = True
+
         self.fields["account"].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder="Select an account",

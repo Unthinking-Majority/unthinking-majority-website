@@ -6,15 +6,11 @@
     {% page_header "Submit New Pet(s)" %}
 {% endblock %}
 
+{% block sub-header %}
+    Please make sure your picture of proof clearly shows <i>all</i> the pets you are submitting for.
+{% endblock sub-header %}
+
 {% block form_content %}
-    <div class="m-auto text-center">
-        <h2 class="py-2 text-xl font-medium text-gray-900">
-            Please make sure your picture of proof clearly shows <i>all</i> the pets you are submitting for.
-        </h2>
-        <p class="font-medium text-gray-900">
-            Tip: If using RuneLite, use the !pets command to show every pet you own in your chatbox!
-        </p>
-    </div>
 
     {# Account #}
     {% if wizard.form.account.errors %}

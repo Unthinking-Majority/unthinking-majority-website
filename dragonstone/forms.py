@@ -13,16 +13,26 @@ class SelectDragonstoneSubmissionTypeForm(forms.Form):
 
 
 class PVMSplitSubmissionForm(forms.ModelForm):
+    notes = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={"placeholder": "Provide any relevant notes for this submission."}
+        ),
+    )
+
     class Meta:
         model = models.PVMSplitSubmission
         fields = ["accounts", "content", "proof", "notes"]
 
     def __init__(self, *args, **kwargs):
         super(PVMSplitSubmissionForm, self).__init__(*args, **kwargs)
+
+        self.fields["proof"].required = True
+
         self.fields["accounts"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder="Select all accounts",
-            label="Account",
+            label="Accounts",
         )
         self.fields["content"].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('content-autocomplete')}?{urlencode({'can_be_split': True})}",
@@ -50,12 +60,22 @@ class PVMSplitSubmissionForm(forms.ModelForm):
 
 
 class MentorSubmissionForm(forms.ModelForm):
+    notes = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={"placeholder": "Provide any relevant notes for this submission."}
+        ),
+    )
+
     class Meta:
         model = models.MentorSubmission
         fields = ["mentors", "learners", "content", "proof", "notes"]
 
     def __init__(self, *args, **kwargs):
         super(MentorSubmissionForm, self).__init__(*args, **kwargs)
+
+        self.fields["proof"].required = True
+
         self.fields["mentors"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder="Select all mentors",
@@ -93,12 +113,22 @@ class MentorSubmissionForm(forms.ModelForm):
 
 
 class EventSubmissionForm(forms.ModelForm):
+    notes = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={"placeholder": "Provide any relevant notes for this submission."}
+        ),
+    )
+
     class Meta:
         model = models.EventSubmission
         fields = ["name", "hosts", "participants", "donors", "type", "proof", "notes"]
 
     def __init__(self, *args, **kwargs):
         super(EventSubmissionForm, self).__init__(*args, **kwargs)
+
+        self.fields["proof"].required = True
+
         self.fields["hosts"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder="Select all hosts",
@@ -146,12 +176,22 @@ class EventSubmissionForm(forms.ModelForm):
 
 
 class NewMemberRaidSubmissionForm(forms.ModelForm):
+    notes = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={"placeholder": "Provide any relevant notes for this submission."}
+        ),
+    )
+
     class Meta:
         model = models.NewMemberRaidSubmission
         fields = ["accounts", "new_members", "content", "proof", "notes"]
 
     def __init__(self, *args, **kwargs):
         super(NewMemberRaidSubmissionForm, self).__init__(*args, **kwargs)
+
+        self.fields["proof"].required = True
+
         self.fields["accounts"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder="Select all accounts",

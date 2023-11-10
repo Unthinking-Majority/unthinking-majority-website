@@ -17,6 +17,7 @@ class CreateAccountForm(forms.Form):
         error_messages={
             "unique": "A user with that username already exists.",
         },
+        help_text="Username to login to the website.",
     )
     account = forms.ModelChoiceField(queryset=models.Account.objects.all())
     password1 = forms.CharField(
@@ -37,7 +38,9 @@ class CreateAccountForm(forms.Form):
     def __init__(self, *args, **kwargs):
         if not hasattr(kwargs, "data"):
             kwargs.update(initial={"phrase": self.generate_phrase()})
+
         super(CreateAccountForm, self).__init__(*args, **kwargs)
+
         self.fields["account"].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'user__isnull': True})}",
             placeholder="",

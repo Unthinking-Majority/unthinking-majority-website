@@ -28,12 +28,22 @@
 {% block header %}
     {% page_header "Submit Record for "|addstr:board.name %}
 {% endblock header %}
+
+{% block sub-header %}
+    {% if board.team_size == 1 %}
+        Submit a new personal best! Your screenshot must include your username, the time achieved, and the content.
+    {% else %}
+        Submit a new personal best! Your screenshot must include the usernames of everyone on the team, the time achieved, and the content.
+    {% endif %}
+{% endblock sub-header %}
+
 {% block form_content %}
     {{ wizard.form.board }}
-    {% if board.team_size == 1  %}
+    {% if board.team_size == 1 %}
         {# Account #}
         {# only rendered for records with team size equal to 1 #}
-        <div class="{% if wizard.form.account.initial %}hidden{% endif %}">  {# hide input if initial value was provided #}
+        <div class="{% if wizard.form.account.initial %}hidden{% endif %}">
+            {# hide input if initial value was provided #}
             {% if wizard.form.account.errors %}
                 <div class="mx-2 flex w-80 justify-center">
                     {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}

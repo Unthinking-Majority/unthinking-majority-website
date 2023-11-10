@@ -10,7 +10,7 @@
 
             e.preventDefault();
 
-            e.target.classList.add("text-slate-700");
+            e.target.classList.add("text-slate-700", "bg-gray-50");
             e.target.classList.remove("bg-slate-600", "text-gray-200");
 
             file_input.files = e.dataTransfer.files;
@@ -19,20 +19,21 @@
 
         /* update styling while dragging */
         dropzone.addEventListener("dragover", (e) => {
-            e.target.classList.remove("text-slate-700");
+            e.target.classList.remove("text-slate-700", "bg-gray-50");
             e.target.classList.add("bg-slate-600", "text-gray-200");
             e.preventDefault();
         });
 
         /* update styling when done dragging */
         dropzone.addEventListener("dragleave", (e) => {
-            e.target.classList.add("text-slate-700");
+            e.target.classList.add("text-slate-700", "bg-gray-50");
             e.target.classList.remove("bg-slate-600", "text-gray-200");
         });
 
         /* update displayed file name on change */
         file_input.addEventListener("change", (e) => {
             let filename_el = document.getElementById("{{ field.id_for_label }}" + "_filename");
+            console.log(filename_el);
             filename_el.textContent = e.target.files[0].name;
         });
 
@@ -89,7 +90,7 @@
            name="{% if prefix %}{{ prefix }}-{% endif %}{{ field.name }}"
            type="file"
            {% if field.field.required %}required{% endif %}
-           class="pointer-events-none h-0 place-self-start opacity-0"/>
+           class="pointer-events-none hidden"/>
 
     {# help text #}
     <p class="mb-1 text-sm text-gray-600">{{ field.help_text }}</p>

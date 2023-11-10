@@ -6,6 +6,10 @@
     {% page_header "Dragonstone: Submit Event" %}
 {% endblock %}
 
+{% block sub-header %}
+    Submit an event from UM for dragonstone points. Only one submission needs to be made for each event. Be sure to include all hosts/participants/donors!
+{% endblock sub-header %}
+
 {% block form_content %}
 
     {% simple_input wizard.form.name label="Event Name" prefix=wizard.form.prefix %}

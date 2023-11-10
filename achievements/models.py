@@ -20,7 +20,12 @@ from um.functions import get_file_path
 class BaseSubmission(PolymorphicModel):
     UPLOAD_TO = "submission/proof/"
 
-    proof = models.ImageField(upload_to=get_file_path, null=True, blank=True)
+    proof = models.ImageField(
+        upload_to=get_file_path,
+        null=True,
+        blank=True,
+        help_text="Upload an image as proof for this submission.",
+    )
     notes = models.TextField(blank=True)
     denial_notes = models.TextField(
         blank=True, help_text="Only need to fill out if submission is denied."

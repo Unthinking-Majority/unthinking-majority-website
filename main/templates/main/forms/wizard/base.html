@@ -46,6 +46,11 @@
         {{ wizard.management_form }}
 
         <div class="flex flex-col items-center justify-center">
+            <div class="ciaran m-auto text-center">
+                <p class="py-2 font-medium text-gray-900 max-w-lg">
+                    {% block sub-header %}{% endblock sub-header %}
+                </p>
+            </div>
             {% block form_content %}
             {% endblock %}
         </div>
@@ -59,7 +64,8 @@
                     {% trans "Previous" %}
                 </button>
             {% endif %}
-            <button type="submit" class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
+            <button type="submit"
+                    class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
                 {% block submit_text %}{% trans "Submit" %}{% endblock %}
             </button>
         </div>
