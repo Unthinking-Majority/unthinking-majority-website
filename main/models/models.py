@@ -1,11 +1,18 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import NoReverseMatch, reverse
-from django.utils.html import format_html
 from notifications.models import Notification
 
 from main import DIFFICULTY_CHOICES, EASY, METRIC_CHOICES, TIME
 from um.functions import get_file_path
+
+__all__ = [
+    "Board",
+    "Content",
+    "ContentCategory",
+    "Pet",
+    "UMNotification",
+]
 
 
 class Board(models.Model):
