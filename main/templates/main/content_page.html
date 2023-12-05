@@ -1,0 +1,31 @@
+{% extends "main/site_base.html" %}
+
+{% load wagtailcore_tags main_extras %}
+
+{% block content %}
+    <div class="container mx-auto px-20">
+        <h1 class="mb-8 text-center text-7xl font-bold tracking-widest font-runescape">{{ page.title }}</h1>
+        <p class="">By {%  get_page_authors page %}</p>
+        <p>Last updated by {{ page.revisions.last.user.account.display_name }} on {{ page.last_published_at|date:"M d, Y" }}</p>
+        {% for block in page.body %}
+            {% if block.block_type == "heading" %}
+                <div class="flex items-center justify-center group mt-6 mb-2">
+                    <h2 id="{{ block.value|slugify }}" class="text-center text-4xl font-bold text-slate-800">
+                        {{ block.value }}
+                    </h2>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="invisible ml-2 h-6 w-6 cursor-pointer stroke-2 transition duration-100 group-hover:visible hover:stroke-cyan-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
+                    </svg>
+                </div>
+            {% elif block.block_type == "paragraph" %}
+                <div class="mx-32">
+                    {% include_block block %}
+                </div>
+            {% elif block.block_type == "image" %}
+                <div class="flex justify-center">
+                    {% include_block block %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock content %}

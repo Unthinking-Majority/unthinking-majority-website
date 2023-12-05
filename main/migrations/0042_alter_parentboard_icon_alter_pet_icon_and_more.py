@@ -20,16 +20,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="parentboard",
             name="icon",
-            field=models.ImageField(
-                blank=True, null=True, upload_to=get_file_path
-            ),
+            field=models.ImageField(blank=True, null=True, upload_to=get_file_path),
         ),
         migrations.AlterField(
             model_name="pet",
             name="icon",
-            field=models.ImageField(
-                blank=True, null=True, upload_to=get_file_path
-            ),
+            field=models.ImageField(blank=True, null=True, upload_to=get_file_path),
         ),
         migrations.AlterField(
             model_name="submission",
@@ -39,8 +35,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="submission",
             name="proof",
-            field=models.ImageField(
-                blank=True, null=True, upload_to=get_file_path
-            ),
+            field=models.ImageField(blank=True, null=True, upload_to=get_file_path),
         ),
     ]

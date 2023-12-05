@@ -15,13 +15,6 @@ from achievements import models as achievements_models
 from main import models
 
 
-def landing(request):
-    return render(
-        request,
-        "main/landing.html",
-    )
-
-
 def view_change_log(request):
     with open("./CHANGELOG.md", "r") as file:
         return HttpResponse(markdown.markdown(file.read()))

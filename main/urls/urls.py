@@ -4,7 +4,6 @@ from main import views
 from main.urls.autocomplete_urls import autocomplete_urlpatterns
 
 urlpatterns = [
-    path("", views.landing, name="landing"),
     path("change-log/", views.view_change_log, name="change-log"),
     path(
         "board/<str:content_category>/<str:content_name>/",

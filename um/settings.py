@@ -39,6 +39,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtail",
+    "modelcluster",
+    "taggit",
     "account",
     "admin_auto_filters",
     "django_browser_reload",
@@ -68,6 +81,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
+    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
 
 ROOT_URLCONF = "um.urls"
@@ -142,6 +156,7 @@ STORAGES = {
 if DEBUG:
     MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
     MEDIA_URL = "media/"
+
 if not DEBUG:
     STORAGES["default"] = {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"}
     # AWS settings
@@ -205,3 +220,7 @@ CONSTANCE_CONFIG = {
     "EVENT_MAJOR_HOSTS_PTS": (15, "Event Major Hosts Points"),
     "NEW_MEMBER_RAID_PTS": (2, "New Member Raid Points"),
 }
+
+# Wagtail settings
+WAGTAIL_SITE_NAME = "Unthinking Majority CMS"
+WAGTAILADMIN_BASE_URL = "https://www.um-osrs.com"

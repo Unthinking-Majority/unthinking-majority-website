@@ -2,14 +2,20 @@ from django import template
 from django.conf import settings
 
 from bounty.models import Bounty
-from main.models import ContentCategory
-from main.models import UMNotification
+from main.models import ContentCategory, UMNotification
+from wagtail.models import Site
 
 register = template.Library()
 
 
 @register.inclusion_tag("main/navbar.html", takes_context=True)
 def navbar(context):
+    menu_pages = (
+        Site.objects.get(is_default_site=True)
+        .root_page.get_children()
+        .filter(show_in_menus=True)
+    )
+    print(menu_pages)
     if context["request"].user.is_authenticated:
         notifications = UMNotification.objects.filter(
             recipient=context["request"].user
@@ -22,6 +28,7 @@ def navbar(context):
         "notifications": notifications,
         "bounty": Bounty.get_current_bounty(),
         "content_categories": ContentCategory.objects.all(),
+        "menu_pages": menu_pages,
     }
 
 
@@ -50,3 +57,13 @@ def gp_display(val):
         return f"{val // 1000}k"
     elif 10000000 <= val:
         return f"{val // 1000000}M"
+
+
+@register.simple_tag
+def get_page_authors(page):
+    """
+    For use only with wagtail Page models. Return a list of all authors.
+    """
+    return ", ".join(
+        set([revision.user.account.display_name for revision in page.revisions.all()])
+    )
