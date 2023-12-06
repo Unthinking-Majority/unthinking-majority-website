@@ -9,6 +9,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 admin.site.site_header = "UM Administration"
 
 urlpatterns = [
+    path("__reload__/", include("django_browser_reload.urls")),
     path("", include("main.urls")),
     path("", include("achievements.urls", namespace="achievements")),
     path("", include("dragonstone.urls", namespace="dragonstone")),
@@ -21,7 +22,6 @@ urlpatterns = [
     path(
         "inbox/notifications/", include("notifications.urls", namespace="notifications")
     ),
-    path("__reload__/", include("django_browser_reload.urls")),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:

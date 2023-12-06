@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load static main_extras %}
+{% load static main_extras wagtailuserbar %}
 
 {% block title %}
     Unthinking Majority
@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block main %}
+    {% wagtailuserbar %}
     {% block navbar %}
         {% navbar %}
     {% endblock %}
