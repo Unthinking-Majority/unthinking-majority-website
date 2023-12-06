@@ -44,7 +44,13 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
+                'sans': ['Kumbh Sans', 'sans-serif'],
                 'runescape': ['runescape', 'monospace'],
+            },
+            colors: {
+                'theme-brown': '#554733',
+                'theme-purple': '#363355',
+                'theme-teal': '#335255',
             }
         },
     },
@@ -60,7 +66,7 @@ module.exports = {
         require('@tailwindcss/aspect-ratio'),
     ],
     safelist: [
-        "float-right",
-        "float-left",
+        'float-right',
+        'float-left',
     ]
 }
