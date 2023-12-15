@@ -15,9 +15,8 @@ DEBUG = literal_eval(os.environ.get("DEBUG", "False"))
 DOMAIN = "www.um-osrs.com"
 
 if DEBUG:
-    ip_address = os.environ.get("IP_ADDRESS")
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1", ip_address]
-    INTERNAL_IPS = ["localhost", "127.0.0.1", ip_address]
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+    INTERNAL_IPS = ["localhost", "127.0.0.1"]
 else:
     # Production Security
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
