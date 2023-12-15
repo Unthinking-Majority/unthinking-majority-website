@@ -1,5 +1,8 @@
+from django.db import models
+
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
+from wagtail.embeds.blocks import EmbedBlock
 from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
@@ -21,11 +24,31 @@ class HomePage(Page):
 
 
 class ContentPage(Page):
+    THEME_CHOICES = (
+        ("teal", "Teal"),
+        ("purple", "Purple"),
+        ("brown", "Brown"),
+    )
+    theme = models.CharField(choices=THEME_CHOICES)
     body = StreamField(
         [
-            ("heading", blocks.CharBlock(max_length=256)),
-            ("rich_text", blocks.RichTextBlock()),
+            ("heading_2", blocks.CharBlock(max_length=128)),
+            ("heading_3", blocks.CharBlock(max_length=128)),
+            (
+                "rich_text",
+                blocks.RichTextBlock(
+                    features=[
+                        "bold",
+                        "italic",
+                        "ol",
+                        "ul",
+                        "document link",
+                        "link",
+                    ]
+                ),
+            ),
             ("image", ImageChooserBlock()),
+            ("embed", EmbedBlock(max_width=960, max_height=540)),
         ],
         use_json_field=True,
     )
@@ -35,5 +58,6 @@ class ContentPage(Page):
     ]
 
     content_panels = Page.content_panels + [
+        FieldPanel("theme"),
         FieldPanel("body"),
     ]

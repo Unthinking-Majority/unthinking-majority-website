@@ -66,7 +66,17 @@ module.exports = {
         require('@tailwindcss/aspect-ratio'),
     ],
     safelist: [
-        'float-right',
-        'float-left',
+        {
+            pattern: /bg-theme-(brown|purple|teal)/,
+            variants: [
+                'hover',
+            ],
+        },
+        {
+            pattern: /text-theme-(brown|purple|teal)/,
+            variants: [
+                'hover',
+            ],
+        },
     ]
 }
