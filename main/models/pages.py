@@ -16,14 +16,15 @@ class HomePage(Page):
     Empty home page model to transfer current home page to a wagtail system. In the future we can expand on this!
     """
 
-    pass
+    max_count = 1
+    parent_page_types = ["wagtailcore.Page"]
 
 
 class ContentPage(Page):
     body = StreamField(
         [
             ("heading", blocks.CharBlock(max_length=256)),
-            ("paragraph", blocks.RichTextBlock()),
+            ("rich_text", blocks.RichTextBlock()),
             ("image", ImageChooserBlock()),
         ],
         use_json_field=True,

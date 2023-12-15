@@ -71,7 +71,7 @@
     }
 }
 
-@responsive {
+@layer utilities {
     .text-border {
         text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
@@ -106,5 +106,10 @@
 
     .scroll-bar::-webkit-scrollbar-corner {
         background-color: transparent;
+    }
+
+    .prose :where(iframe):not(:where([class~="not-prose"] *)) {
+        @apply w-full h-auto;
+        aspect-ratio: 16 / 9;
     }
 }

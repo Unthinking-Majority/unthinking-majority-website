@@ -3,24 +3,24 @@
 {% load wagtailcore_tags main_extras %}
 
 {% block content %}
-    <div class="container mx-auto sm:px-12 overflow-hidden">
-        <div class="bg-theme-teal rounded-lg text-white px-4 py-2">
-            <h1 class="mb-6 text-7xl font-semibold tracking-tight">{{ page.title }}</h1>
+    <div class="container mx-auto overflow-hidden sm:px-12">
+        <div class="mb-6 rounded-lg px-4 py-2 text-white bg-theme-purple">
+            <h1 class="mb-6 select-none text-7xl font-semibold tracking-tight">{{ page.title }}</h1>
             <p class="text-xl">By {%  get_page_authors page %}</p>
             <p>Last updated on {{ page.last_published_at|date:"M d, Y" }}</p>
         </div>
         {% for block in page.body %}
             {% if block.block_type == "heading" %}
-                <div class="flex items-center justify-center group mt-6 mb-2">
-                    <h2 id="{{ block.value|slugify }}" class="text-center text-4xl font-bold text-slate-800">
+                <div class="mt-4 mb-4 flex items-center justify-center whitespace-nowrap rounded px-4 py-2 text-theme-purple group">
+                    <h2 id="{{ block.value|slugify }}" class="text-4xl font-bold tracking-tight md:text-6xl">
                         {{ block.value }}
                     </h2>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="invisible ml-2 h-6 w-6 cursor-pointer stroke-2 transition duration-100 group-hover:visible hover:stroke-cyan-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="ml-2 h-6 w-6 cursor-pointer stroke-2 transition duration-100 text-cyan-500 hover:stroke-gray-300">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
                     </svg>
                 </div>
-            {% elif block.block_type == "paragraph" %}
-                <div class="sm:px-32">
+            {% elif block.block_type == "rich_text" %}
+                <div class="mx-auto prose prose-slate lg:prose-lg prose-a:font-bold prose-a:text-cyan-500 hover:prose-a:text-gray-300 prose-a:no-underline prose-p:my-0 hover:prose-img:cursor-pointer">
                     {% include_block block %}
                 </div>
             {% elif block.block_type == "image" %}

@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                     wagtail.fields.StreamField(
                         [
                             ("heading", wagtail.blocks.CharBlock(max_length=256)),
-                            ("paragraph", wagtail.blocks.RichTextBlock()),
+                            ("rich_text", wagtail.blocks.RichTextBlock()),
                             ("image", wagtail.images.blocks.ImageChooserBlock()),
                         ],
                         use_json_field=True,
