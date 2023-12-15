@@ -1,23 +1,30 @@
 {% extends "main/site_base.html" %}
 
-{% load wagtailcore_tags main_extras %}
+{% load static wagtailcore_tags main_extras %}
+
+{% block extra_head %}
+    {{ block.super }}
+    <script src="{% static "js/content_page.js" %}"></script>
+{% endblock extra_head %}
 
 {% block content %}
     <div class="container mx-auto overflow-hidden sm:px-12">
         <div class="mb-6 rounded-lg px-4 py-2 text-white bg-theme-purple">
-            <h1 class="mb-6 select-none text-7xl font-semibold tracking-tight">{{ page.title }}</h1>
+            <h1 class="mb-6 cursor-default text-7xl font-semibold tracking-tight">{{ page.title }}</h1>
             <p class="text-xl">By {%  get_page_authors page %}</p>
             <p>Last updated on {{ page.last_published_at|date:"M d, Y" }}</p>
         </div>
         {% for block in page.body %}
             {% if block.block_type == "heading" %}
                 <div class="mt-4 mb-4 flex items-center justify-center whitespace-nowrap rounded px-4 py-2 text-theme-purple group">
-                    <h2 id="{{ block.value|slugify }}" class="text-4xl font-bold tracking-tight md:text-6xl">
+                    <h2 id="{{ block.value|slugify }}" class="text-4xl cursor-default font-bold tracking-tight md:text-6xl">
                         {{ block.value }}
                     </h2>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="ml-2 h-6 w-6 cursor-pointer stroke-2 transition duration-100 text-cyan-500 hover:stroke-gray-300">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
-                    </svg>
+                    <a href="#{{ block.value|slugify }}" title="Permalink to this heading.">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="ml-4 h-6 w-6 cursor-pointer stroke-2 transition duration-100 text-cyan-500 invisible hover:stroke-gray-300 group-hover:visible">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
+                        </svg>
+                    </a>
                 </div>
             {% elif block.block_type == "rich_text" %}
                 <div class="mx-auto prose prose-slate lg:prose-lg prose-a:font-bold prose-a:text-cyan-500 hover:prose-a:text-gray-300 prose-a:no-underline prose-p:my-0 hover:prose-img:cursor-pointer">
