@@ -8,7 +8,9 @@
 {% endblock extra_head %}
 
 {% block content %}
-    <div class="container overflow-hidden sm:px-12">
+{#    <div class="container overflow-hidden sm:px-12">#}
+    {% include "main/includes/content_page_sidebar.html" %}
+    <div class="container relative sm:px-12">
         <div class="mb-6 rounded-lg px-4 py-2 text-white bg-theme-{{ page.theme }}">
             <h1 class="mb-6 cursor-default text-6xl font-semibold tracking-tight">{{ page.title }}</h1>
             <p class="text-xl">By {%  get_page_authors page %}</p>

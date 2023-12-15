@@ -1,0 +1,18 @@
+<aside class="sticky top-0">
+    <div class="absolute -right-60 top-32">
+        <ul class="text-gray-200 text-xl">
+            {% for block in page.body %}
+                {% if block.block_type == "heading_2" %}
+                    {% if forloop.counter0 == 2 %}
+                        <li class="my-2 font-bold text-white"><a href="#{{ block.value|slugify }}">{{ block.value }}</a>
+                        </li>
+                    {% else %}
+                        <li class="my-2"><a href="#{{ block.value|slugify }}">{{ block.value }}</a></li>
+                    {% endif %}
+                {% elif block.block_type == "heading_3" %}
+                    <li class="my-3 pl-4"><a href="#{{ block.value|slugify }}">{{ block.value }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</aside>
