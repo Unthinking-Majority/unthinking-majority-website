@@ -30,6 +30,7 @@ class ContentPage(Page):
         ("brown", "Brown"),
     )
     theme = models.CharField(choices=THEME_CHOICES)
+    show_page_index = models.BooleanField(default=False)
     body = StreamField(
         [
             ("heading_2", blocks.CharBlock(max_length=128)),
@@ -59,5 +60,6 @@ class ContentPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("theme"),
+        FieldPanel("show_page_index"),
         FieldPanel("body"),
     ]
