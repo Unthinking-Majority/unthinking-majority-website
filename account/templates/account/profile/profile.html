@@ -67,7 +67,7 @@
             <p class="font-medium">Pets: <span
                     class="align-middle text-2xl font-runescape">({{ user.account.pets.count }})</span></p>
             {% for pet_submission in user.account.pets %}
-                <a href="{{ pet_submission.proof.url }}" target="_blank">
+                <a href="{{ pet_submission.proof.url }}" target="_blank" aria-label="{{ pet_submission.pet.name }} Proof Image">
                     <img src="{{ pet_submission.pet.icon.url }}"
                          class="inline-block object-scale-down"
                          title="{{ pet_submission.pet.name }}">

@@ -63,7 +63,7 @@
                     <td class="py-4 font-runescape">
                         {% if request.user.is_authenticated %}
                             <div class="m-auto w-min">
-                                <a href="{{ submission.proof.url }}" target="_blank">
+                                <a href="{{ submission.proof.url }}" target="_blank" aria-label="{{ submission.type_display }} {{ submission.value_display }} Proof Image">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                          class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
                                         <path fill-rule="evenodd"

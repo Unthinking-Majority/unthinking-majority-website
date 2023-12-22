@@ -1,9 +1,11 @@
 {% load static %}
 <h3 class="mb-2 text-center text-5xl font-runescape">
-    Grandmasters
+    <a href="{% url "ca-leaderboard" %}" class="inline-block transition ease-in duration-100 hover:scale-105">
+        Grandmasters
+    </a>
 </h3>
 <table class="min-w-full max-w-4xl overflow-hidden rounded-lg bg-gray-200 shadow-lg">
-    <thead class="sticky top-0 min-w-full rounded-lg bg-gray-800">
+    <thead class="min-w-full rounded-lg bg-gray-800">
     <tr class="text-white">
         <th class="px-2 py-4 text-center md:text-md md:p-4">
             Username
@@ -25,7 +27,7 @@
             <td class="py-4 font-runescape">
                 {% if request.user.is_authenticated %}
                     <div class="m-auto w-min">
-                        <a href="{{ submission.proof.url }}" target="_blank">
+                        <a href="{{ submission.proof.url }}" target="_blank" aria-label="{{ submission.type_display }} {{ submission.value_display }} Proof Image">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                  class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
                                 <path fill-rule="evenodd"
@@ -36,7 +38,7 @@
                     </div>
                     {% if submission.id == 615 %}
                         <div class="m-auto w-min">
-                            <a href="{% static 'img/proof/katze_btw_iron_gm.png' %}" target="_blank">
+                            <a href="{% static 'img/proof/katze_btw_iron_gm.png' %}" target="_blank" aria-label="Combat Achievement Grandmaster Proof Image">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                      class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
                                     <path fill-rule="evenodd"

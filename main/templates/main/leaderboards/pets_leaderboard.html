@@ -48,7 +48,7 @@
                             {% for pet_submission in account.pets %}
                                 <div class="group" tabindex="0">
                                     {% if request.user.is_authenticated %}
-                                        <a href="{{ pet_submission.proof.url }}" target="_blank">
+                                        <a href="{{ pet_submission.proof.url }}" target="_blank" aria-label="{{ pet_submission.pet.name }} Proof Image">
                                             <img src="{{ pet_submission.pet.icon.url }}" class="inline-block object-scale-down">
                                         </a>
                                     {% else %}

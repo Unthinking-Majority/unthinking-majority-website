@@ -59,7 +59,7 @@ def col_logs_leaderboard():
     accounts = Account.objects.annotate(col_logs=sub_query.values("col_logs")[:1])
 
     # filter out null col_log values, order by descending, return top 15
-    accounts = accounts.filter(col_logs__isnull=False).order_by("-col_logs")[:15]
+    accounts = accounts.filter(col_logs__isnull=False).order_by("-col_logs")[:5]
 
     return {
         "accounts": accounts,
@@ -107,4 +107,4 @@ def top_players_leaderboard():
         except AttributeError:
             continue
         accounts += list(first_place_accounts)
-    return {"accounts": Counter(accounts).most_common(15)}
+    return {"accounts": Counter(accounts).most_common(5)}

@@ -49,7 +49,7 @@
             <td class="whitespace-nowrap py-4 text-center font-light text-gray-900 underline hover:text-gray-600 lg:px-2 lg:py-4">
                 <div class="m-auto w-min">
                     {% if submission.proof %}
-                        <a href="{{ submission.proof.url }}" target="_blank">
+                        <a href="{{ submission.proof.url }}" target="_blank" aria-label="{{ submission.value_display }} Dragonstone Proof Image">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                  class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
                                 <path fill-rule="evenodd"
