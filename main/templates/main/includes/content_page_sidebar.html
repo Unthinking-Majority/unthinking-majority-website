@@ -14,21 +14,21 @@
 
 <aside class="sticky top-0">
     <div id="test1"
-         class="absolute right-0 bg-slate-800 p-4 rounded-full top-4 cursor-pointer transition ease-in-out hover:scale-110">
+         class="absolute top-4 right-0 cursor-pointer rounded-full bg-slate-800 p-4 transition ease-in-out hover:scale-110">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-             class="w-8 h-8 text-white">
+             class="h-8 w-8 text-white">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"></path>
         </svg>
     </div>
-    <div id="test2" class="hidden absolute right-0 bg-slate-800 rounded-lg top-4 transition ease-in-out duration-1000 py-2 px-4">
-        <div id="test3" class="cursor-pointer relative p-2 rounded-full w-min transition ease-in-out hover:scale-110 float-right -mr-3">
+    <div id="test2" class="absolute top-4 right-0 hidden rounded-lg bg-slate-800 px-4 py-2 transition duration-1000 ease-in-out">
+        <div id="test3" class="relative float-right -mr-3 w-min cursor-pointer rounded-full p-2 transition ease-in-out hover:scale-110">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                 class="w-8 h-8 text-white cursor-pointer">
+                 class="h-8 w-8 cursor-pointer text-white">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </div>
 
-        <ul class="text-gray-400 text-xl">
+        <ul class="text-xl text-gray-400">
             {% for block in page.body %}
                 {% if block.block_type == "heading_2" %}
                     {% if forloop.counter0 == 0 %}

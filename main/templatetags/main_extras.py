@@ -15,7 +15,6 @@ def navbar(context):
         .root_page.get_children()
         .filter(show_in_menus=True)
     )
-    print(menu_pages)
     if context["request"].user.is_authenticated:
         notifications = UMNotification.objects.filter(
             recipient=context["request"].user

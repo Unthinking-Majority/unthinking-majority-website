@@ -41,13 +41,13 @@
                     </a>
                 </div>
             {% elif block.block_type == "rich_text" %}
-                <div class="prose-p:my-0 prose-a:font-bold prose-a:text-cyan-500 prose-a:no-underline prose max-w-none prose-slate hover:prose-a:text-gray-300">
+                <div class="prose-p:my-0 max-w-none prose-a:font-bold prose-a:text-cyan-500 prose-a:no-underline prose prose-slate hover:prose-a:text-gray-300">
                     {% include_block block %}
                 </div>
             {% elif block.block_type == "image" %}
                 {% include_block block %}
             {% elif block.block_type == "embed" %}
-                <div class="aspect-video my-4">
+                <div class="my-4 aspect-video">
                     {% include_block block %}
                 </div>
             {% endif %}

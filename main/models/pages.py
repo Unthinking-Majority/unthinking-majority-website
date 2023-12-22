@@ -16,7 +16,8 @@ __all__ = [
 
 class HomePage(Page):
     """
-    Empty home page model to transfer current home page to a wagtail system. In the future we can expand on this!
+    Home page model.
+    Only one home page is allowed.
     """
 
     max_count = 1
@@ -24,6 +25,10 @@ class HomePage(Page):
 
 
 class ContentPage(Page):
+    """
+    Generic content page model for creating various kinds of pages, such as the pvm resources pages.
+    """
+
     THEME_CHOICES = (
         ("teal", "Teal"),
         ("purple", "Purple"),
