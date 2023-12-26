@@ -8,7 +8,7 @@ from wagtail.models import Site
 register = template.Library()
 
 
-@register.inclusion_tag("main/navbar.html", takes_context=True)
+@register.inclusion_tag("main/navbar/navbar.html", takes_context=True)
 def navbar(context):
     menu_pages = (
         Site.objects.get(is_default_site=True)

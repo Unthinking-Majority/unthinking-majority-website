@@ -1,0 +1,96 @@
+{% load wagtailcore_tags %}
+
+<div class="ml-6 hidden md:block">
+    <div class="flex items-center space-x-4">
+        <a tabindex="0"
+           href="/"
+           class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white">
+            Home
+        </a>
+        {% for bc in content_categories %}
+            <div class="relative group">
+                <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                    {{ bc.name }}
+                </button>
+                <ul class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    tabindex="-1">
+                    {% for content in bc.pb_content %}
+                        <li>
+                            <a href="{{ content.leaderboard_url }}"
+                               class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                               tabindex="-1">{{ content.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+        <div class="relative group">
+            <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                Other
+            </button>
+            <ul class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                tabindex="-1">
+                <li>
+                    <a href="{% url "pets-leaderboard" %}"
+                       class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                       tabindex="-1">Pets</a>
+                </li>
+                <li>
+                    <a href="{% url "col-logs-leaderboard" %}"
+                       class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                       tabindex="-1">Collection Logs</a>
+                </li>
+                <li>
+                    <a href="{% url "ca-leaderboard" %}"
+                       class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                       tabindex="-1">Combat Achievements</a>
+                </li>
+            </ul>
+        </div>
+        <div class="relative group">
+            <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                Submit
+            </button>
+            <ul class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                tabindex="-1">
+                <li>
+                    <a href="{% url "achievements:submit-achievement" %}"
+                       class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                       tabindex="-1">Achievement</a>
+                </li>
+                <li>
+                    <a href="{% url "dragonstone:submit-dragonstone" %}"
+                       class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                       tabindex="-1">Dragonstone</a>
+                </li>
+            </ul>
+        </div>
+        {% if request.user.is_superuser or request.user.id == 3 %}
+            {% if bounty %}
+                <div class="relative group">
+                    <a href="{% url "bounty:current-bounty" %}"
+                       class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                        Bounty
+                    </a>
+                </div>
+            {% endif %}
+        {% endif %}
+        {% if menu_pages %}
+            <div class="relative group">
+                <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                    Resources
+                </button>
+                <ul class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    tabindex="-1">
+                    {% for menu_page in menu_pages %}
+                        <li>
+                            <a href="{% pageurl menu_page %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-300" tabindex="-1">
+                                {{ menu_page.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</div>
