@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     "taggit",
     "account",
     "admin_auto_filters",
-    "django_browser_reload",
     "formtools",
     "notifications",
     "main",
@@ -68,6 +67,7 @@ INSTALLED_APPS = [
 if DEBUG:
     INSTALLED_APPS += [
         "django_extensions",
+        "django_browser_reload",
     ]
 
 MIDDLEWARE = [
@@ -79,9 +79,13 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE += [
+        "django_browser_reload.middleware.BrowserReloadMiddleware",
+    ]
 
 ROOT_URLCONF = "um.urls"
 
