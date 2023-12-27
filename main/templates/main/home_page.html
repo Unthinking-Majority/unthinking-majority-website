@@ -1,12 +1,13 @@
 {% extends "main/site_base.html" %}
 
+{% load wagtailimages_tags %}
+
 {% load static landing_leaderboards %}
 
 {% block content %}
     <div class="my-6 flex flex-col items-center justify-between">
         <div class="h-40 w-40 overflow-hidden rounded-lg">
-            <img class="h-auto w-auto" src="{{ page.logo.url }}"
-                 alt="Unthinking Majority Logo">
+            {% image page.logo original format-gif %}
         </div>
         <h1 class="cursor-default py-2 text-center text-5xl font-bold tracking-wide text-gray-800 sm:text-6xl">
             Unthinking Majority

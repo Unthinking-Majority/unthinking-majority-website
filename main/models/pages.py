@@ -23,7 +23,13 @@ class HomePage(Page):
     max_count = 1
     parent_page_types = ["wagtailcore.Page"]
 
-    logo = models.ImageField(help_text="Can also upload a gif.")
+    logo = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text="Upload an image/gif to display on the home page of the website.",
+    )
 
     content_panels = [FieldPanel("logo")]
 
