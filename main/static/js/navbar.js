@@ -51,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* Mobile navbar dropdown */
     document.getElementById("mobile-navbar-button").addEventListener("click", () => {
-        console.log('tap');
         let navbar = document.getElementById("navbar"),
             navbar_dropdown = document.getElementById("mobile-navbar-dropdown"),
             navbar_open_icon = document.querySelector("#mobile-navbar-button #open-button"),
@@ -73,8 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     Array.from(document.querySelectorAll(".mobile-navbar-dropdown-item")).forEach(element => {
-        element.addEventListener("click", () => {
-            let child_dropdown = element.querySelector("ul");
+        element.addEventListener("click", event => {
+            let child_dropdown = element.parentNode.querySelector("ul");
             if (child_dropdown.classList.contains("hidden")) {
                 child_dropdown.classList.remove("hidden");
             } else {

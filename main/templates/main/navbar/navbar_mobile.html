@@ -6,8 +6,8 @@
     </li>
     {% for bc in content_categories %}
         <li>
-            <div class="mobile-navbar-dropdown-item" tabindex="0">
-                <button class="block w-full px-4 py-2 text-left text-white">
+            <div tabindex="0">
+                <button class="block w-full px-4 py-2 text-left text-white mobile-navbar-dropdown-item">
                     {{ bc.name }}
                 </button>
                 <ul class="hidden w-full overflow-hidden whitespace-nowrap text-white"
@@ -24,8 +24,8 @@
         </li>
     {% endfor %}
     <li>
-        <div class="mobile-navbar-dropdown-item" tabindex="0">
-            <button class="block w-full px-4 py-2 text-left text-white">
+        <div tabindex="0">
+            <button class="block w-full px-4 py-2 text-left text-white mobile-navbar-dropdown-item">
                 Other
             </button>
             <ul class="hidden w-full overflow-hidden whitespace-nowrap bg-slate-900 text-white"
@@ -49,8 +49,8 @@
         </div>
     </li>
     <li>
-        <div class="mobile-navbar-dropdown-item" tabindex="0">
-            <button class="block w-full px-4 py-2 text-left text-white">
+        <div tabindex="0">
+            <button class="block w-full px-4 py-2 text-left text-white mobile-navbar-dropdown-item">
                 Submit
             </button>
             <ul class="hidden w-full overflow-hidden whitespace-nowrap bg-slate-900 text-white"
@@ -82,8 +82,8 @@
     {% endif %}
     {% if menu_pages %}
         <li>
-            <div class="mobile-navbar-dropdown-item" tabindex="0">
-                <button class="block w-full px-4 py-2 text-left text-white">
+            <div tabindex="0">
+                <button class="block w-full px-4 py-2 text-left text-white mobile-navbar-dropdown-item">
                     Resources
                 </button>
                 <ul class="hidden w-full overflow-hidden whitespace-nowrap bg-slate-900 text-white"
