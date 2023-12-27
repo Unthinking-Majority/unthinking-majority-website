@@ -31,7 +31,38 @@ class HomePage(Page):
         help_text="Upload an image/gif to display on the home page of the website.",
     )
 
-    content_panels = [FieldPanel("logo")]
+    body = StreamField(
+        [
+            ("heading_2", blocks.CharBlock(max_length=128)),
+            ("heading_3", blocks.CharBlock(max_length=128)),
+            (
+                "rich_text",
+                blocks.RichTextBlock(
+                    features=[
+                        "bold",
+                        "italic",
+                        "ol",
+                        "ul",
+                        "document link",
+                        "link",
+                    ]
+                ),
+            ),
+            ("image", ImageChooserBlock()),
+        ],
+        null=True,
+        blank=True,
+        use_json_field=True,
+    )
+
+    content_panels = [
+        FieldPanel("logo"),
+        FieldPanel("body"),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField("body"),
+    ]
 
 
 class ContentPage(Page):
@@ -69,12 +100,12 @@ class ContentPage(Page):
         use_json_field=True,
     )
 
-    search_fields = Page.search_fields + [
-        index.SearchField("body"),
-    ]
-
     content_panels = Page.content_panels + [
         FieldPanel("theme"),
         FieldPanel("show_page_index"),
         FieldPanel("body"),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField("body"),
     ]
