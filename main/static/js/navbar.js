@@ -56,14 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
             navbar_open_icon = document.querySelector("#mobile-navbar-button #open-button"),
             navbar_close_icon = document.querySelector("#mobile-navbar-button #close-button");
         if (navbar_dropdown.classList.contains("hidden")) {
-            navbar.classList.remove("rounded-lg", "mb-2");
-            navbar.classList.add("rounded-t-lg");
+            navbar.classList.remove("rounded-b-lg", "mb-2");
             navbar_dropdown.classList.remove("hidden");
             navbar_open_icon.classList.add("hidden");
             navbar_close_icon.classList.remove("hidden");
         } else {
-            navbar.classList.add("rounded-lg", "mb-2");
-            navbar.classList.remove("rounded-t-lg");
+            navbar.classList.add("rounded-b-lg", "mb-2");
             navbar_dropdown.classList.add("hidden");
             navbar_open_icon.classList.remove("hidden");
             navbar_close_icon.classList.add("hidden");
