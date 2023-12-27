@@ -23,6 +23,10 @@ class HomePage(Page):
     max_count = 1
     parent_page_types = ["wagtailcore.Page"]
 
+    logo = models.ImageField(help_text="Can also upload a gif.")
+
+    content_panels = [FieldPanel("logo")]
+
 
 class ContentPage(Page):
     """
