@@ -1,0 +1,103 @@
+{% load wagtailcore_tags %}
+
+<ul id="mobile-navbar-dropdown" class="mb-2 hidden rounded-b-lg bg-slate-900 shadow-lg ring-1 ring-black ring-opacity-5 items-left">
+    <li>
+        <a href="/" class="block px-4 py-2 text-white">Home</a>
+    </li>
+    {% for bc in content_categories %}
+        <li>
+            <div class="mobile-navbar-dropdown-item" tabindex="0">
+                <button class="block w-full px-4 py-2 text-left text-white">
+                    {{ bc.name }}
+                </button>
+                <ul class="hidden w-full overflow-hidden whitespace-nowrap text-white"
+                    tabindex="-1">
+                    {% for content in bc.pb_content %}
+                        <li>
+                            <a href="{{ content.leaderboard_url }}"
+                               class="block py-2 pl-12"
+                               tabindex="-1">{{ content.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </li>
+    {% endfor %}
+    <li>
+        <div class="mobile-navbar-dropdown-item" tabindex="0">
+            <button class="block w-full px-4 py-2 text-left text-white">
+                Other
+            </button>
+            <ul class="hidden w-full overflow-hidden whitespace-nowrap bg-slate-900 text-white"
+                tabindex="-1">
+                <li>
+                    <a href="{% url "pets-leaderboard" %}"
+                       class="block py-2 pl-12"
+                       tabindex="-1">Pets</a>
+                </li>
+                <li>
+                    <a href="{% url "col-logs-leaderboard" %}"
+                       class="block py-2 pl-12"
+                       tabindex="-1">Collection Logs</a>
+                </li>
+                <li>
+                    <a href="{% url "ca-leaderboard" %}"
+                       class="block py-2 pl-12"
+                       tabindex="-1">Combat Achievements</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li>
+        <div class="mobile-navbar-dropdown-item" tabindex="0">
+            <button class="block w-full px-4 py-2 text-left text-white">
+                Submit
+            </button>
+            <ul class="hidden w-full overflow-hidden whitespace-nowrap bg-slate-900 text-white"
+                tabindex="-1">
+                <li>
+                    <a href="{% url "achievements:submit-achievement" %}"
+                       class="block py-2 pl-12"
+                       tabindex="-1">Achievement</a>
+                </li>
+                <li>
+                    <a href="{% url "dragonstone:submit-dragonstone" %}"
+                       class="block py-2 pl-12"
+                       tabindex="-1">Dragonstone</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    {% if request.user.is_superuser or request.user.id == 3 %}
+        {% if bounty %}
+            <li>
+                <div class="relative" tabindex="0">
+                    <a href="{% url "bounty:current-bounty" %}"
+                       class="block w-full px-4 py-2 text-left text-white">
+                        Bounty
+                    </a>
+                </div>
+            </li>
+        {% endif %}
+    {% endif %}
+    {% if menu_pages %}
+        <li>
+            <div class="mobile-navbar-dropdown-item" tabindex="0">
+                <button class="block w-full px-4 py-2 text-left text-white">
+                    Resources
+                </button>
+                <ul class="hidden w-full overflow-hidden whitespace-nowrap bg-slate-900 text-white"
+                    tabindex="-1">
+                    {% for menu_page in menu_pages %}
+                        <li>
+                            <a href="{% pageurl menu_page %}" class="block py-2 pl-12" tabindex="-1">
+                                {{ menu_page.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </li>
+    {% endif %}
+</ul>
+
