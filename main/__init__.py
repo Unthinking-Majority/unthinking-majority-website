@@ -12,3 +12,9 @@ DIFFICULTY_CHOICES = (
     (HARD, "Hard"),
     (VERY_HARD, "Very Hard"),
 )
+
+THEME_CHOICES = (
+    ("green", "Green"),
+    ("purple", "Purple"),
+    ("brown", "Brown"),
+)

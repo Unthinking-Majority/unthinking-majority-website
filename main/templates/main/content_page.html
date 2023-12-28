@@ -12,7 +12,7 @@
         {% include "main/includes/content_page_sidebar.html" %}
     {% endif %}
     <div class="container sm:px-12">
-        <div class="mb-6 rounded-lg px-4 py-2 text-white bg-theme-{{ page.theme }}">
+        <div class="mb-6 rounded-lg px-4 py-2 text-white bg-um-{{ page.theme }}">
             <h1 class="mb-6 cursor-default text-6xl font-semibold tracking-tight">{{ page.title }}</h1>
             <p class="text-xl">By {%  get_page_authors page %}</p>
             <p>Last updated on {{ page.last_published_at|date:"M d, Y" }}</p>
@@ -20,7 +20,7 @@
         {% for block in page.body %}
             {% if block.block_type == "heading_2" %}
                 <div class="mt-4 mb-4 flex items-center justify-start whitespace-nowrap py-2 group">
-                    <h2 id="{{ block.value|slugify }}" class="cursor-default text-3xl font-bold tracking-tight text-theme-{{ page.theme }} md:text-5xl">
+                    <h2 id="{{ block.value|slugify }}" class="cursor-default text-3xl font-bold tracking-tight text-um-{{ page.theme }} md:text-5xl">
                         {{ block.value }}
                     </h2>
                     <a href="#{{ block.value|slugify }}" title="Permalink to this heading.">

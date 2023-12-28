@@ -48,32 +48,32 @@ module.exports = {
                 'runescape': ['runescape', 'monospace'],
             },
             colors: {
-                'theme-brown': '#554733',
-                'theme-purple': '#363355',
-                'theme-teal': '#335255',
+                'um-brown': '#372D1F',
+                'um-purple': '#371F35',
+                'um-green': '#1F3721',
             }
         },
     },
     plugins: [
-        /**
-         * '@tailwindcss/forms' is the forms plugin that provides a minimal styling
-         * for forms. If you don't like it or have own styling for forms,
-         * comment the line below to disable '@tailwindcss/forms'.
-         */
-        require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
         require('@tailwindcss/line-clamp'),
         require('@tailwindcss/aspect-ratio'),
     ],
     safelist: [
         {
-            pattern: /bg-theme-(brown|purple|teal)/,
+            pattern: /bg-um-(brown|purple|green)/,
             variants: [
                 'hover',
             ],
         },
         {
-            pattern: /text-theme-(brown|purple|teal)/,
+            pattern: /text-um-(brown|purple|green)/,
+            variants: [
+                'hover',
+            ],
+        },
+        {
+            pattern: /shadow-um-(brown|purple|green)/,
             variants: [
                 'hover',
             ],

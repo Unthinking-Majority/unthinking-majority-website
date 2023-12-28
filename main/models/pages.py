@@ -1,5 +1,4 @@
 from django.db import models
-
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.embeds.blocks import EmbedBlock
@@ -7,6 +6,9 @@ from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 from wagtail.search import index
+
+from main import THEME_CHOICES
+from main.blocks import BannerBlock
 
 __all__ = [
     "HomePage",
@@ -33,22 +35,7 @@ class HomePage(Page):
 
     body = StreamField(
         [
-            ("heading_2", blocks.CharBlock(max_length=128)),
-            ("heading_3", blocks.CharBlock(max_length=128)),
-            (
-                "rich_text",
-                blocks.RichTextBlock(
-                    features=[
-                        "bold",
-                        "italic",
-                        "ol",
-                        "ul",
-                        "document link",
-                        "link",
-                    ]
-                ),
-            ),
-            ("image", ImageChooserBlock()),
+            ("banner", BannerBlock()),
         ],
         null=True,
         blank=True,
@@ -70,11 +57,6 @@ class ContentPage(Page):
     Generic content page model for creating various kinds of pages, such as the pvm resources pages.
     """
 
-    THEME_CHOICES = (
-        ("teal", "Teal"),
-        ("purple", "Purple"),
-        ("brown", "Brown"),
-    )
     theme = models.CharField(choices=THEME_CHOICES)
     show_page_index = models.BooleanField(default=False)
     body = StreamField(
