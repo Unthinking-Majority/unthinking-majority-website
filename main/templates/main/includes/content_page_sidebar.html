@@ -1,27 +1,44 @@
 <script>
+
+    function convertRemToPixels(rem) {
+        console.log(rem * parseFloat(getComputedStyle(document.documentElement).fontSize));
+        return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("test1").addEventListener("click", (event) => {
+        /* Fix sticky sidebar margins when scrolling down */
+        let options = {
+            threshold: [1],
+        };
+        console.log(options);
+        let observer = new IntersectionObserver(([e]) => {
+            e.target.querySelector(".sidebar-button").classList.toggle('top-8', e.intersectionRatio < 1);
+        }, options);
+        observer.observe(document.getElementById("content-page-sidebar"));
+
+        /* Display sidebar panel on click */
+        document.querySelector("#content-page-sidebar .sidebar-button").addEventListener("click", (event) => {
             event.target.closest("div").classList.add("hidden");
-            document.getElementById("test2").classList.remove("hidden");
+            document.querySelector("#content-page-sidebar .sidebar-panel").classList.remove("hidden");
         });
-        document.getElementById("test3").addEventListener("click", (event) => {
-            {#event.target.closest("div").classList.add("hidden");#}
-            document.getElementById("test2").classList.add("hidden");
-            document.getElementById("test1").classList.remove("hidden");
+
+        /* Close sidebar panel on click */
+        document.querySelector("#content-page-sidebar .sidebar-panel .sidebar-button").addEventListener("click", (event) => {
+            document.querySelector("#content-page-sidebar .sidebar-panel").classList.add("hidden");
+            document.querySelector("#content-page-sidebar .sidebar-button").classList.remove("hidden");
         });
     });
 </script>
 
-<aside class="sticky top-0">
-    <div id="test1"
-         class="absolute top-4 right-0 cursor-pointer rounded-full bg-slate-800 p-4 transition ease-in-out hover:scale-110">
+<aside id="content-page-sidebar" class="sticky -top-1 transition-all">
+    <div class="absolute -top-1 -right-1 cursor-pointer rounded-full bg-slate-900 p-2 shadow-lg transition-all ease-in-out sidebar-button hover:scale-110">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="h-8 w-8 text-white">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"></path>
         </svg>
     </div>
-    <div id="test2" class="absolute top-4 right-0 hidden rounded-lg bg-slate-800 px-4 py-2 transition duration-1000 ease-in-out">
-        <div id="test3" class="relative float-right -mr-3 w-min cursor-pointer rounded-full p-2 transition ease-in-out hover:scale-110">
+    <div class="absolute top-0 right-0 hidden rounded-lg bg-slate-900 px-4 py-2 transition duration-1000 ease-in-out sidebar-panel">
+        <div class="relative float-right -mr-3 w-min cursor-pointer rounded-full p-2 transition ease-in-out sidebar-button hover:scale-110">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                  class="h-8 w-8 cursor-pointer text-white">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
@@ -32,13 +49,18 @@
             {% for block in page.body %}
                 {% if block.block_type == "heading_2" %}
                     {% if forloop.counter0 == 0 %}
-                        <li class="my-2 font-bold text-white"><a href="#{{ block.value|slugify }}">{{ block.value }}</a>
+                        <li class="my-2 font-bold text-white">
+                            <a href="#{{ block.value|slugify }}">{{ block.value }}</a>
                         </li>
                     {% else %}
-                        <li class="my-2"><a href="#{{ block.value|slugify }}">{{ block.value }}</a></li>
+                        <li class="my-2">
+                            <a href="#{{ block.value|slugify }}">{{ block.value }}</a>
+                        </li>
                     {% endif %}
                 {% elif block.block_type == "heading_3" %}
-                    <li class="my-3 pl-4"><a href="#{{ block.value|slugify }}">{{ block.value }}</a></li>
+                    <li class="my-3 pl-4">
+                        <a href="#{{ block.value|slugify }}">{{ block.value }}</a>
+                    </li>
                 {% endif %}
             {% endfor %}
         </ul>

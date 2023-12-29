@@ -73,6 +73,7 @@ class ContentPage(Page):
                         "ul",
                         "document link",
                         "link",
+                        "image",
                     ]
                 ),
             ),
