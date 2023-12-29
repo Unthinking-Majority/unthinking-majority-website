@@ -227,3 +227,4 @@ CONSTANCE_CONFIG = {
 # Wagtail settings
 WAGTAIL_SITE_NAME = "Unthinking Majority CMS"
 WAGTAILADMIN_BASE_URL = "https://www.um-osrs.com"
+WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]

@@ -5,7 +5,11 @@ from main import THEME_CHOICES
 
 class BannerBlock(blocks.StructBlock):
     theme = blocks.ChoiceBlock(choices=THEME_CHOICES)
-    title = blocks.CharBlock()
+    title = blocks.RichTextBlock(
+        features=[
+            "image",
+        ]
+    )
     description = blocks.TextBlock()
     link = blocks.PageChooserBlock()
 
