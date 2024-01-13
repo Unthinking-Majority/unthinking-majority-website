@@ -144,7 +144,7 @@ class EventHostPoints(DragonstonePoints):
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
             if self.submission.type == PVM or self.submission.type == SKILLING:
-                self.points = config.EVENT_MINOR_PTS
+                self.points = config.EVENT_MINOR_HOSTS_PTS
             elif self.submission.type == EVENT_MENTOR:
                 self.points = config.EVENT_MENTOR_HOSTS_PTS
             elif self.submission.type == MAJOR:
