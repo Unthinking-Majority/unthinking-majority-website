@@ -8,7 +8,7 @@ from wagtail.models import Page
 from wagtail.search import index
 
 from main import THEME_CHOICES
-from main.blocks import BannerBlock
+from main.blocks import BannerBlock, EmojiRowBlock
 
 __all__ = [
     "HomePage",
@@ -73,12 +73,12 @@ class ContentPage(Page):
                         "ul",
                         "document link",
                         "link",
-                        "image",
                     ]
                 ),
             ),
             ("image", ImageChooserBlock()),
             ("embed", EmbedBlock(max_width=960, max_height=540)),
+            ("emoji_row", EmojiRowBlock()),
         ],
         use_json_field=True,
     )

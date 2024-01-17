@@ -1,11 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+    /* Copy the url to the users clipboard on click */
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            navigator.clipboard.writeText(this.href).then();
         });
     });
 });

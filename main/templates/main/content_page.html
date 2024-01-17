@@ -4,7 +4,7 @@
 
 {% block extra_head %}
     {{ block.super }}
-    <script src="{% static "js/content_page.js" %}"></script>
+    <script src="{% static "js/content_page/page.js" %}"></script>
 {% endblock extra_head %}
 
 {% block content %}
@@ -13,44 +13,48 @@
     {% endif %}
     <div class="container sm:px-12">
         <div class="mb-6 rounded-lg px-4 bg-um-{{ page.theme }} py-2 text-white">
-            <h1 class="mb-6 cursor-default text-center text-6xl font-semibold tracking-tight md:text-left">{{ page.title }}</h1>
+            <h1 class="mb-4 cursor-default text-center text-6xl font-semibold tracking-tight md:text-left">{{ page.title }}</h1>
             <p class="text-xl">By {%  get_page_authors page %}</p>
             <p>Last updated on {{ page.last_published_at|date:"M d, Y" }}</p>
         </div>
-        {% for block in page.body %}
-            {% if block.block_type == "heading_2" %}
-                <div class="mt-4 mb-4 flex items-center justify-start whitespace-nowrap py-2 group">
-                    <h2 id="{{ block.value|slugify }}" class="cursor-default text-3xl font-bold tracking-tight text-um-{{ page.theme }} md:text-5xl">
-                        {{ block.value }}
-                    </h2>
-                    <a href="#{{ block.value|slugify }}" title="Permalink to this heading.">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="invisible ml-4 h-6 w-6 cursor-pointer stroke-2 text-cyan-500 transition duration-100 group-hover:visible hover:stroke-gray-300">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
-                        </svg>
-                    </a>
-                </div>
-            {% elif block.block_type == "heading_3" %}
-                <div class="mt-4 mb-4 flex items-center justify-start whitespace-nowrap py-2 group">
-                    <h3 id="{{ block.value|slugify }}" class="cursor-default text-2xl font-bold tracking-tight md:text-4xl">
-                        {{ block.value }}
-                    </h3>
-                    <a href="#{{ block.value|slugify }}" title="Permalink to this heading.">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="invisible ml-4 h-6 w-6 cursor-pointer stroke-2 text-cyan-500 transition duration-100 group-hover:visible hover:stroke-gray-300">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
-                        </svg>
-                    </a>
-                </div>
-            {% elif block.block_type == "rich_text" %}
-                <div class="prose-p:my-0 max-w-none prose-a:font-bold prose-a:text-cyan-500 prose-a:no-underline prose prose-slate hover:prose-a:text-gray-300">
+        <div class="content-page-body">
+            {% for block in page.body %}
+                {% if block.block_type == "heading_2" %}
+                    <div class="mt-4 mb-4 flex items-center justify-start whitespace-nowrap py-2 group">
+                        <h2 id="{{ block.value|slugify }}" class="cursor-default text-3xl font-bold tracking-tight md:text-5xl">
+                            {{ block.value }}
+                        </h2>
+                        <a href="#{{ block.value|slugify }}" title="Link to this heading." class="header-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="invisible ml-4 h-6 w-6 cursor-pointer stroke-2 text-cyan-500 transition duration-100 group-hover:visible hover:stroke-gray-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
+                            </svg>
+                        </a>
+                    </div>
+                {% elif block.block_type == "heading_3" %}
+                    <div class="mt-4 mb-4 flex items-center justify-start whitespace-nowrap py-2 group">
+                        <h3 id="{{ block.value|slugify }}" class="cursor-default text-xl font-bold tracking-tight text-um-{{ page.theme }} md:text-4xl">
+                            {{ block.value }}
+                        </h3>
+                        <a href="#{{ block.value|slugify }}" title="Link to this heading." class="header-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="invisible ml-4 h-6 w-6 cursor-pointer stroke-2 text-cyan-500 transition duration-100 group-hover:visible hover:stroke-gray-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
+                            </svg>
+                        </a>
+                    </div>
+                {% elif block.block_type == "rich_text" %}
+                    <div class="prose-p:my-0 max-w-none prose-a:font-bold prose-a:text-cyan-500 prose-a:no-underline prose prose-slate hover:prose-a:text-gray-300">
+                        {% include_block block %}
+                    </div>
+                {% elif block.block_type == "image" %}
                     {% include_block block %}
-                </div>
-            {% elif block.block_type == "image" %}
-                {% include_block block %}
-            {% elif block.block_type == "embed" %}
-                <div class="my-4 aspect-video">
-                    {% include_block block %}
-                </div>
-            {% endif %}
-        {% endfor %}
+                {% elif block.block_type == "embed" %}
+                    <div class="my-4 aspect-video">
+                        {% include_block block %}
+                    </div>
+                {% else %}
+                    {{ block }}
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock content %}
