@@ -51,6 +51,8 @@
                     <div class="my-4 aspect-video">
                         {% include_block block %}
                     </div>
+                {% else %}
+                    {{ block }}
                 {% endif %}
             {% endfor %}
         </div>

@@ -1,0 +1,10 @@
+{% load wagtailimages_tags %}
+
+<div class="mb-2 flex items-center">
+    <span class="basis-4 shrink-0 mr-2">
+        {% image self.emoji original %}
+    </span>
+    <p class="">
+        {{ self.text }}
+    </p>
+</div>
