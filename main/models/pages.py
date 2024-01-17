@@ -85,6 +85,7 @@ class ContentPage(Page):
     )
 
     content_panels = Page.content_panels + [
+        FieldPanel("author"),
         FieldPanel("theme"),
         FieldPanel("show_page_index"),
         FieldPanel("body"),
