@@ -230,3 +230,5 @@ WAGTAIL_SITE_NAME = "Unthinking Majority CMS"
 WAGTAILADMIN_BASE_URL = "https://www.um-osrs.com"
 WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
 WAGTAILIMAGES_MAX_UPLOAD_SIZE = 20 * 1024 * 1024  # i.e. 20MB
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
