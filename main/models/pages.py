@@ -57,7 +57,11 @@ class ContentPage(Page):
     Generic content page model for creating various kinds of pages, such as the pvm resources pages.
     """
 
-    author = models.CharField(max_length=64)
+    author = models.CharField(
+        max_length=64,
+        blank=True,
+        help_text="Leave blank to automatically show authors as all users who have edited this page.",
+    )
     theme = models.CharField(choices=THEME_CHOICES)
     show_page_index = models.BooleanField(default=False)
     body = StreamField(
