@@ -24,7 +24,7 @@
                         <a href="#{{ block.value|slugify }}" class="hover:text-white">{{ block.value }}</a>
                     </li>
                 {% elif block.block_type == "heading_3" %}
-                    <li class="my-3 pl-4">
+                    <li class="my-1 pl-4">
                         <a href="#{{ block.value|slugify }}" class="hover:text-white">{{ block.value }}</a>
                     </li>
                 {% endif %}
@@ -47,8 +47,8 @@
                     <a href="#{{ block.value|slugify }}" class="hover:text-white">{{ block.value }}</a>
                 </li>
             {% elif block.block_type == "heading_3" %}
-                <li class="my-3 pl-4">
-                    <a href="#{{ block.value|slugify }}" class="hover:text-white">{{ block.value }}</a>
+                <li class="my-1 pl-4">
+                    <a href="#{{ block.value|slugify }}" class="hover:text-white">- {{ block.value }}</a>
                 </li>
             {% endif %}
         {% endfor %}
