@@ -2,23 +2,25 @@
 
 <script src="{% static 'js/content_page/sidebar.js' %}"></script>
 
-<aside id="content-page-sidebar" class="sticky -top-1 transition-all">
-    <div class="absolute -top-1 -right-1 cursor-pointer rounded-full bg-slate-900 p-2 shadow-lg transition-all ease-in-out sidebar-button hover:scale-110">
+{# Mobile sidebar #}
+<aside id="content-page-sidebar-mobile" class="sticky -top-1 transition-all 2xl:hidden">
+    <div class="absolute -top-1 -right-1 cursor-pointer rounded-lg bg-slate-700 p-2 shadow-md transition-all ease-in-out sidebar-button hover:scale-110">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="h-8 w-8 text-white">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"></path>
         </svg>
     </div>
     <div class="absolute -top-1 -right-1 hidden transition-all ease-in-out sidebar-panel">
-        <ul class="rounded-lg bg-slate-900 px-4 py-1 text-xl text-gray-300">
-            <li class="my-2">
+        <ul class="rounded-lg bg-slate-700 px-4 py-1 text-xl text-gray-200">
+            <li class="my-1">
                 <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="flex hover:text-white">
                     Back to Top
                 </button>
             </li>
             {% for block in page.body %}
                 {% if block.block_type == "heading_2" %}
-                    <li class="my-2">
+                    <li class="my-1">
                         <a href="#{{ block.value|slugify }}" class="hover:text-white">{{ block.value }}</a>
                     </li>
                 {% elif block.block_type == "heading_3" %}
@@ -29,4 +31,26 @@
             {% endfor %}
         </ul>
     </div>
+</aside>
+
+{# Desktop sidebar #}
+<aside id="content-page-sidebar-desktop" class="invisible fixed transition-all 2xl:visible">
+    <ul class="rounded-lg px-4 py-1 text-xl text-gray-100">
+        <li class="my-1">
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="flex hover:text-white">
+                Back to Top
+            </button>
+        </li>
+        {% for block in page.body %}
+            {% if block.block_type == "heading_2" %}
+                <li class="my-1">
+                    <a href="#{{ block.value|slugify }}" class="hover:text-white">{{ block.value }}</a>
+                </li>
+            {% elif block.block_type == "heading_3" %}
+                <li class="my-3 pl-4">
+                    <a href="#{{ block.value|slugify }}" class="hover:text-white">{{ block.value }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
 </aside>
