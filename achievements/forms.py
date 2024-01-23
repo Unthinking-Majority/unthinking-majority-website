@@ -122,9 +122,7 @@ class PetSubmissionForm(forms.Form):
             attrs={"placeholder": "Tell us about this achievement!"}
         ),
     )
-    proof = forms.ImageField(
-        required=True, help_text="Upload an image as proof for this submission."
-    )
+    proof = forms.ImageField(required=True)
 
     def __init__(self, *args, **kwargs):
         super(PetSubmissionForm, self).__init__(*args, **kwargs)

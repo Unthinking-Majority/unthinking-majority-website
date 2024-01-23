@@ -24,7 +24,6 @@ class DragonstoneBaseSubmission(PolymorphicModel):
         upload_to=get_file_path,
         null=True,
         blank=True,
-        help_text="Upload an image as proof for this submission.",
     )
     notes = models.TextField(blank=True)
     denial_notes = models.TextField(
