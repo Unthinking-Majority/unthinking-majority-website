@@ -1,13 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    /* Fix sticky sidebar margins when scrolling down */
-    let observer = new IntersectionObserver(([e]) => {
-        e.target.querySelector(".sidebar-button").classList.toggle('top-8', e.intersectionRatio < 1);
-        e.target.querySelector(".sidebar-panel").classList.toggle('top-8', e.intersectionRatio < 1);
-        e.target.querySelector(".sidebar-button").classList.toggle('-top-1', e.intersectionRatio === 1);
-        e.target.querySelector(".sidebar-panel").classList.toggle('-top-1', e.intersectionRatio === 1);
-    }, {threshold: [1]});
-    observer.observe(document.getElementById("content-page-sidebar-mobile"));
-
     /* Display mobile sidebar panel on click */
     document.querySelector("#content-page-sidebar-mobile .sidebar-button").addEventListener("click", (event) => {
         event.target.closest("div").classList.add("hidden");
