@@ -27,15 +27,77 @@ document.addEventListener("DOMContentLoaded", () => {
         let desktop_sidebar = document.getElementById("content-page-sidebar-desktop"),
             content_div = document.getElementById("content-div");
         if (window.innerWidth - content_div.getBoundingClientRect().right < desktop_sidebar.offsetWidth) {
-            desktop_sidebar.style.right = window.innerWidth - content_div.getBoundingClientRect().right+ 5 + "px";
+            desktop_sidebar.style.right = window.innerWidth - content_div.getBoundingClientRect().right + 5 + "px";
             desktop_sidebar.getElementsByTagName("ul")[0].classList.add("bg-slate-700");
         } else {
             desktop_sidebar.style.right = window.innerWidth - content_div.getBoundingClientRect().right - desktop_sidebar.offsetWidth + "px";
             desktop_sidebar.getElementsByTagName("ul")[0].classList.remove("bg-slate-700");
         }
     }
+
     adjust_desktop_sidebar_position();
     visualViewport.addEventListener("resize", () => {
         adjust_desktop_sidebar_position();
     });
+
+    /*
+     * Highlight entries in sidebar as users scroll to them
+     * Credit to Dakota Lee Martinez https://dakotaleemartinez.com/tutorials/how-to-add-active-highlight-to-table-of-contents/
+     */
+
+    function calc_header_height() {
+        return document.querySelector(".content-page-body h2").offsetHeight;
+    }
+
+    let header_height = calc_header_height();
+    visualViewport.addEventListener("resize", () => {
+        header_height = calc_header_height();
+    });
+
+    class Scroller {
+        static init() {
+            this.sidebar_links_desktop = Array.from(document.getElementById("content-page-sidebar-desktop").querySelectorAll("li")).slice(1);
+            this.sidebar_links_mobile = Array.from(document.getElementById("content-page-sidebar-mobile").querySelectorAll("li")).slice(1);
+            this.headers = Array.from(document.querySelectorAll(".content-page-body h2, .content-page-body h3"));
+            this.current_header_classes = ["text-white"];
+            this.ticking = false;
+            window.addEventListener("scroll", (e) => {
+                this.onScroll()
+            });
+        }
+
+        static onScroll() {
+            if (!this.ticking) {
+                requestAnimationFrame(this.update.bind(this));
+                this.ticking = true;
+            }
+        }
+
+        static update() {
+            this.activeHeader ||= this.headers[0];
+            let activeIndex = this.headers.findIndex((header) => {
+                return header.getBoundingClientRect().top > header_height;
+            });
+            if ((window.innerHeight + Math.round(window.scrollY)) >= document.documentElement.scrollHeight) {
+                /* We are at the bottom of the page */
+                activeIndex = this.headers.length - 1;
+            } else if (activeIndex === -1) {
+                /* We have scrolled past all possible headers */
+                activeIndex = this.headers.length - 1;
+            } else if (activeIndex > 0) {
+                activeIndex--;
+            }
+            let active = this.headers[activeIndex];
+            if (active !== this.activeHeader) {
+                this.activeHeader = active;
+                this.sidebar_links_desktop.forEach(link => link.classList.remove(...this.current_header_classes));
+                this.sidebar_links_desktop[activeIndex].classList.add(...this.current_header_classes);
+                this.sidebar_links_mobile.forEach(link => link.classList.remove(...this.current_header_classes));
+                this.sidebar_links_mobile[activeIndex].classList.add(...this.current_header_classes);
+            }
+            this.ticking = false;
+        }
+    }
+
+    Scroller.init();
 });

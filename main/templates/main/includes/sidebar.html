@@ -3,8 +3,8 @@
 <script src="{% static 'js/content_page/sidebar.js' %}"></script>
 
 {# Mobile sidebar #}
-<aside id="content-page-sidebar-mobile" class="sticky -top-1 transition-all 2xl:hidden">
-    <div class="absolute -top-1 -right-1 cursor-pointer rounded-lg bg-slate-700 p-2 shadow-md transition-all ease-in-out sidebar-button hover:scale-110">
+<aside id="content-page-sidebar-mobile" class="sticky -top-1 transition-all duration-200 2xl:hidden">
+    <div class="absolute -top-1 -right-1 cursor-pointer rounded-lg bg-slate-900 p-2 shadow-md transition-all ease-in-out sidebar-button hover:scale-110">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              class="h-8 w-8 text-white">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -12,7 +12,7 @@
         </svg>
     </div>
     <div class="absolute -top-1 -right-1 hidden transition-all ease-in-out sidebar-panel">
-        <ul class="rounded-lg bg-slate-700 px-4 py-1 text-xl text-gray-200">
+        <ul class="rounded-lg bg-slate-900 px-4 py-1 text-xl text-gray-400">
             <li class="my-1">
                 <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="flex hover:text-white">
                     Back to Top
@@ -34,12 +34,12 @@
 </aside>
 
 {# Desktop sidebar #}
-<aside id="content-page-sidebar-desktop" class="invisible fixed transition-all 2xl:visible">
-    <ul class="rounded-lg px-4 py-1 text-xl text-gray-100">
+<aside id="content-page-sidebar-desktop" class="invisible fixed transition-all duration-200 2xl:visible">
+    <ul class="rounded-lg px-4 py-1 text-xl text-gray-400">
         <li class="my-1">
-            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="flex hover:text-white">
+            <a href="javascript:void(0);" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); location.hash = '';" class="hover:text-white">
                 Back to Top
-            </button>
+            </a>
         </li>
         {% for block in page.body %}
             {% if block.block_type == "heading_2" %}
@@ -48,7 +48,7 @@
                 </li>
             {% elif block.block_type == "heading_3" %}
                 <li class="my-1 pl-4">
-                    <a href="#{{ block.value|slugify }}" class="hover:text-white">- {{ block.value }}</a>
+                    <a href="#{{ block.value|slugify }}" class="hover:text-white">{{ block.value }}</a>
                 </li>
             {% endif %}
         {% endfor %}
