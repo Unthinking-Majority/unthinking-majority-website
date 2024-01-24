@@ -81,9 +81,15 @@
                      alt="Unthinking Majority Logo">
             </a>
 
-            {% include "main/navbar/navbar_user.html" %}
+            {% include "main/navbar/navbar_user_desktop.html" %}
+            {% include "main/navbar/navbar_user_mobile.html" %}
 
         </div>
     </div>
 </nav>
-{% include "main/navbar/navbar_mobile.html" %}
+{% include "main/navbar/navbar_mobile_dropdown.html" %}
+{% if request.user.is_authenticated %}
+    {% include "main/navbar/navbar_user_profile_dropdown_mobile_authenticated.html" %}
+{% else %}
+    {% include "main/navbar/navbar_user_profile_dropdown_mobile_unauthenticated.html" %}
+{% endif %}
