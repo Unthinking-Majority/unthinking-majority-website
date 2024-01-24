@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
             window.addEventListener("scroll", (e) => {
                 this.onScroll()
             });
+            this.update();
         }
 
         static onScroll() {
@@ -74,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         static update() {
-            this.activeHeader ||= this.headers[0];
             let activeIndex = this.headers.findIndex((header) => {
                 return header.getBoundingClientRect().top > header_height;
             });
@@ -87,14 +87,10 @@ document.addEventListener("DOMContentLoaded", () => {
             } else if (activeIndex > 0) {
                 activeIndex--;
             }
-            let active = this.headers[activeIndex];
-            if (active !== this.activeHeader) {
-                this.activeHeader = active;
-                this.sidebar_links_desktop.forEach(link => link.classList.remove(...this.current_header_classes));
-                this.sidebar_links_desktop[activeIndex].classList.add(...this.current_header_classes);
-                this.sidebar_links_mobile.forEach(link => link.classList.remove(...this.current_header_classes));
-                this.sidebar_links_mobile[activeIndex].classList.add(...this.current_header_classes);
-            }
+            this.sidebar_links_desktop.forEach(link => link.classList.remove(...this.current_header_classes));
+            this.sidebar_links_desktop[activeIndex].classList.add(...this.current_header_classes);
+            this.sidebar_links_mobile.forEach(link => link.classList.remove(...this.current_header_classes));
+            this.sidebar_links_mobile[activeIndex].classList.add(...this.current_header_classes);
             this.ticking = false;
         }
     }
