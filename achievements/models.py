@@ -86,7 +86,7 @@ class RecordSubmission(BaseSubmission):
         verbose_name_plural = "Record Submissions"
 
     def __str__(self):
-        return self.board.name
+        return self.board
 
     def send_notifications(self, request):
         if self.accepted is not None:
@@ -168,7 +168,7 @@ class RecordSubmission(BaseSubmission):
         fields = [
             {
                 "name": "Board",
-                "value": self.board.name,
+                "value": str(self.board),
             },
             {
                 "name": "User(s)",

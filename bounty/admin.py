@@ -34,4 +34,4 @@ class BountyAdmin(admin.ModelAdmin):
 
     @admin.display(description="Bounty Name")
     def bounty_name(self, obj):
-        return obj.board.name
+        return obj.board
