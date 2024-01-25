@@ -16,14 +16,14 @@ __all__ = [
 
 
 class Board(models.Model):
-    name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=256)
     content = models.ForeignKey(
         "main.Content", on_delete=models.CASCADE, related_name="boards"
     )
     team_size = models.IntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(8)]
     )
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField()
 
     class Meta:
         ordering = ["team_size", "name"]
