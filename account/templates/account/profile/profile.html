@@ -4,25 +4,7 @@
 
 {% block extra_head %}
     {{ block.super }}
-    <script>
-        function changeTab(element) {
-            Array.from(document.getElementsByClassName("tab-content")).forEach(el => {
-                el.classList.add("hidden");
-            });
-            Array.from(document.getElementsByClassName("tab-links")).forEach(el => {
-                el.classList.remove("bg-slate-600", "text-white");
-                el.classList.add("text-gray-400");
-            });
-
-            element.classList.add("bg-slate-600", "text-white");
-            element.classList.remove("text-gray-400");
-            document.getElementById(element.dataset.table).classList.remove("hidden");
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            changeTab(document.getElementById("{{ active_tab }}"));
-        });
-    </script>
+    <script src="{% static "account/js/profile.js" %}"></script>
 {% endblock extra_head %}
 
 {% block content %}
@@ -97,11 +79,11 @@
         <div class="flex justify-center sm:mt-12">
             <div class="basis-full xl:basis-full">
 
-                <div id="tabs" class="mb-2 flex flex-wrap justify-center space-x-4 md:justify-start">
-                    <button id="achievements-tab" data-table="achievements-table" onclick="changeTab(this)" class="rounded-md p-3 text-lg font-medium text-gray-400 tab-links hover:bg-slate-600 hover:text-white">
+                <div class="mb-2 flex flex-wrap justify-center space-x-4 md:justify-start">
+                    <button id="achievements-tab" data-table="achievements-table" class="rounded-md p-3 text-lg font-medium text-gray-400 tab-button hover:bg-slate-600 hover:text-white">
                         Achievements
                     </button>
-                    <button id="dragonstone-tab" data-table="dragonstone-table" onclick="changeTab(this)" class="rounded-md p-3 text-lg font-medium text-gray-400 tab-links hover:bg-slate-600 hover:text-white">
+                    <button id="dragonstone-tab" data-table="dragonstone-table" class="rounded-md p-3 text-lg font-medium text-gray-400 tab-button hover:bg-slate-600 hover:text-white">
                         Dragonstone
                     </button>
                 </div>
