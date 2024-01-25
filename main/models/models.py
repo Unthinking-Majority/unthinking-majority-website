@@ -29,6 +29,8 @@ class Board(models.Model):
         ordering = ["team_size", "name"]
 
     def __str__(self):
+        if self.content.boards.count() > 1:
+            return f"{self.content.name} {self.name}"
         return self.name
 
 

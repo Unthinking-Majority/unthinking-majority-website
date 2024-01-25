@@ -13,7 +13,7 @@
                 <div class="mb-2 flex flex-wrap justify-center">
                 {% for board in boards %}
                     <a href="?active_board={{ board.slug }}"
-                       class="mx-2 my-2 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if active_board == board %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-700 hover:text-white{% endif %}"
+                       class="mx-2 my-2 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if active_board == board %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-800 hover:text-gray-200{% endif %}"
                        {% if not achievements_page %}disabled{% endif %}>
                         {{ board }}
                     </a>
