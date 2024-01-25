@@ -44,26 +44,26 @@ class ProfileView(TemplateView):
             ),
             per_page,
         )
-        try:
-            context["achievement_page"] = achievement_paginator.page(
-                self.request.GET.get("achievement_page", 1)
-            )
-        except EmptyPage:
-            context["achievement_page"] = achievement_paginator.page(1)
 
-        try:
-            context["dragonstone_page"] = dragonstone_paginator.page(
-                self.request.GET.get("dragonstone_page", 1)
-            )
-        except EmptyPage:
-            context["dragonstone_submissions"] = dragonstone_paginator.page(1)
-
-        context["config"] = config
+        data = {
+            "achievements": achievement_paginator,
+            "dragonstone": dragonstone_paginator,
+        }
 
         if "active_tab" not in self.request.GET.keys():
-            context["active_tab"] = "achievements-tab"
+            context["active_tab"] = "achievements"
         else:
             context["active_tab"] = self.request.GET.get("active_tab")
+
+        active_page = f"{context['active_tab']}_page"
+        try:
+            context[active_page] = data[context["active_tab"]].page(
+                self.request.GET.get("page", 1)
+            )
+        except EmptyPage:
+            context[active_page] = data[context["active_tab"]].page(1)
+
+        context["config"] = config
 
         return context
 

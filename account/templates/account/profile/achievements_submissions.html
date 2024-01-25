@@ -22,7 +22,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for submission in achievement_page %}
+    {% for submission in achievements_page %}
         <tr class="odd:bg-gray-50 even:bg-gray-100">
             <td class="hidden py-4 text-center text-sm font-light sm:whitespace-nowrap sm:text-base lg:table-cell lg:px-2 lg:py-4">
                 {{ submission.type_display }}
@@ -111,8 +111,8 @@
 </table>
 
 <div class="mt-4 flex justify-around border-t-2 py-2 text-gray-800">
-    {% if achievement_page.has_previous %}
-        <a href="?achievement_page={{ achievement_page.previous_page_number }}&active_tab=achievements-tab"
+    {% if achievements_page.has_previous %}
+        <a href="?page={{ achievements_page.previous_page_number }}&active_tab=achievements"
            class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
             Previous
         </a>
@@ -124,11 +124,11 @@
     {% endif %}
 
     <a class="my-4 rounded-md px-3 py-2 font-medium hover:cursor-default">
-        Page {{ achievement_page.number }} of {{ achievement_page.paginator.num_pages }}
+        Page {{ achievements_page.number }} of {{ achievements_page.paginator.num_pages }}
     </a>
 
-    {% if achievement_page.has_next %}
-        <a href="?achievement_page={{ achievement_page.next_page_number }}&active_tab=achievements-tab"
+    {% if achievements_page.has_next %}
+        <a href="?page={{ achievements_page.next_page_number }}&active_tab=achievements"
            class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
             Next
         </a>

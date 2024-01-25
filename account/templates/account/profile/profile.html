@@ -2,11 +2,6 @@
 
 {% load static um_components main_extras %}
 
-{% block extra_head %}
-    {{ block.super }}
-    <script src="{% static "account/js/profile.js" %}"></script>
-{% endblock extra_head %}
-
 {% block content %}
     {% page_header user.account.display_name %}
 
@@ -49,7 +44,8 @@
             <p class="font-medium">Pets: <span
                     class="align-middle text-2xl font-runescape">({{ user.account.pets.count }})</span></p>
             {% for pet_submission in user.account.pets %}
-                <a href="{{ pet_submission.proof.url }}" target="_blank" aria-label="{{ pet_submission.pet.name }} Proof Image">
+                <a href="{{ pet_submission.proof.url }}" target="_blank"
+                   aria-label="{{ pet_submission.pet.name }} Proof Image">
                     <img src="{{ pet_submission.pet.icon.url }}"
                          class="inline-block object-scale-down"
                          title="{{ pet_submission.pet.name }}">
@@ -80,21 +76,23 @@
             <div class="basis-full xl:basis-full">
 
                 <div class="mb-2 flex flex-wrap justify-center space-x-4 md:justify-start">
-                    <button id="achievements-tab" data-table="achievements-table" class="rounded-md p-3 text-lg font-medium text-gray-400 tab-button hover:bg-slate-600 hover:text-white">
+                    <a href="?active_tab=achievements"
+                       class="mx-2 my-4 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if achievements_page %}bg-slate-800 pointer-events-none text-white{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-700 hover:text-white{% endif %}"
+                       {% if not achievements_page %}disabled{% endif %}>
                         Achievements
-                    </button>
-                    <button id="dragonstone-tab" data-table="dragonstone-table" class="rounded-md p-3 text-lg font-medium text-gray-400 tab-button hover:bg-slate-600 hover:text-white">
+                    </a>
+                    <a href="?active_tab=dragonstone"
+                       class="mx-2 my-4 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if dragonstone_page %}bg-slate-800 text-white pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-700 hover:text-white{% endif %}"
+                       {% if not dragonstone_page %}disabled{% endif %}>
                         Dragonstone
-                    </button>
+                    </a>
                 </div>
 
-                <div id="achievements-table" class="tab-content">
+                {% if achievements_page %}
                     {% include "account/profile/achievements_submissions.html" %}
-                </div>
-
-                <div id="dragonstone-table" class="tab-content">
+                {% elif dragonstone_page %}
                     {% include "account/profile/dragonstone_submissions.html" %}
-                </div>
+                {% endif %}
 
             </div>
         </div>
