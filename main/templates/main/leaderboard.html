@@ -5,16 +5,23 @@
 {% block content %}
     {% page_header content.name content.icon %}
 
-    <div class="flex flex-wrap justify-around gap-1">
-        {% for board, page_obj in data %}
-            <span class="basis-full xl:basis-7/12 {% if board.flex_order %}order-{{ board.flex_order }}{% else %}order-last{% endif %}">
-                {% if data|length > 1 %}
-                    <h2 class="text-center text-2xl tracking-wide text-gray-900 font-runescape md:text-4xl">
-                        {{ board.name }}
-                    </h2>
-                {% endif %}
-                {% include "main/board.html" %}
-            </span>
-        {% endfor %}
+    <div class="flex justify-around gap-1">
+        <span class="basis-full xl:basis-7/12">
+
+            {# Tab buttons to switch between boards #}
+            {% if boards|length > 1 %}
+                <div class="mb-2 flex flex-wrap justify-center">
+                {% for board in boards %}
+                    <a href="?active_board={{ board.slug }}"
+                       class="mx-2 my-2 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if active_board == board %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-700 hover:text-white{% endif %}"
+                       {% if not achievements_page %}disabled{% endif %}>
+                        {{ board }}
+                    </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% include "main/board.html" %}
+        </span>
     </div>
 {% endblock %}

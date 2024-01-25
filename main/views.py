@@ -5,7 +5,7 @@ from django.core.paginator import EmptyPage, Paginator
 from django.db.models import Count, OuterRef
 from django.http import HttpResponse
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -25,39 +25,50 @@ class LeaderboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        per_page = 5
+
         context["content"] = get_object_or_404(
             models.Content.objects.prefetch_related("boards__submissions"),
             slug=self.kwargs.get("content_name"),
         )
 
-        context["data"] = []
-        ordering = context["content"].ordering
-        num_objs_per_page = 10 if context["content"].boards.count() == 1 else 5
-        for board in context["content"].boards.all():
-            active_accounts_submissions = board.submissions.active().accepted()
+        if "active_board" not in self.request.GET.keys():
+            context["active_board"] = context["content"].boards.first()
+        else:
+            context["active_board"] = context["content"].boards.get(
+                slug=self.request.GET.get("active_board")
+            )
 
-            # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
-            annotated_submissions = active_accounts_submissions.annotate(
+        board = context["active_board"]
+        context["boards"] = context["content"].boards.all()
+
+        # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
+        annotated_submissions = (
+            board.submissions.active()
+            .accepted()
+            .annotate(
                 accounts_str=StringAgg(
                     "accounts__name", delimiter=",", ordering="accounts__name"
                 )
-            ).order_by("accounts_str", f"{ordering}value")
+            )
+            .order_by("accounts_str", f"{context['content'].ordering}value")
+        )
 
-            # grab the first submission for each team (which is the best, since we ordered by value above)
-            submissions = {}
-            for submission in annotated_submissions:
-                if submission.accounts_str not in submissions.keys():
-                    submissions[submission.accounts_str] = submission.id
-            submissions = achievements_models.RecordSubmission.objects.filter(
-                id__in=submissions.values()
-            ).order_by(f"{ordering}value", "date")
+        # grab the first submission for each team (which is the best, since we ordered by value above)
+        submissions = {}
+        for submission in annotated_submissions:
+            if submission.accounts_str not in submissions.keys():
+                submissions[submission.accounts_str] = submission.id
+        submissions = achievements_models.RecordSubmission.objects.filter(
+            id__in=submissions.values()
+        ).order_by(f"{context['content'].ordering}value", "date")
 
-            p = Paginator(submissions, num_objs_per_page)
-            try:
-                page = p.page(self.request.GET.get(f"{board.id}__page", 1))
-            except EmptyPage:
-                page = p.page(1)
-            context["data"].append((board, page))
+        page = Paginator(submissions, per_page)
+        try:
+            context["active_page"] = page.page(self.request.GET.get(f"page", 1))
+        except EmptyPage:
+            context["active_page"] = page.page(1)
 
         return context
 

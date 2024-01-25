@@ -23,12 +23,7 @@ class Board(models.Model):
     team_size = models.IntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(8)]
     )
-    flex_order = models.PositiveIntegerField(
-        null=True,
-        blank=True,
-        validators=[MinValueValidator(1), MaxValueValidator(12)],
-        help_text="Order on leaderboard page. Empty values will appear last (order is then defined by team size). Allowed numbers are 1 - 12.",
-    )
+    slug = models.SlugField(unique=True)
 
     class Meta:
         ordering = ["team_size", "name"]

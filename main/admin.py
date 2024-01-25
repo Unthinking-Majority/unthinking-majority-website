@@ -58,9 +58,9 @@ class ContentAdmin(admin.ModelAdmin):
 
 @admin.register(models.Board)
 class BoardAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("name",)}
     autocomplete_fields = ["content"]
-    list_display = ["name", "content", "team_size", "flex_order"]
-    list_editable = ["flex_order"]
+    list_display = ["name", "content", "team_size"]
     list_filter = [
         AutocompleteFilterFactory("Content Category", "content__category"),
         AutocompleteFilterFactory("Content", "content"),
@@ -71,7 +71,14 @@ class BoardAdmin(admin.ModelAdmin):
         (
             None,
             {
-                "fields": ("name", "content", "team_size", "flex_order"),
+                "fields": ("name", "content", "team_size"),
+            },
+        ),
+        (
+            "Other Options",
+            {
+                "fields": ("slug",),
+                "classes": ("collapse",),
             },
         ),
     )

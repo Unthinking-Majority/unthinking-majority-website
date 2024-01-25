@@ -202,7 +202,7 @@ class RecordSubmission(BaseSubmission):
             "color": 0x0099FF,
             "title": "New Submission",
             "fields": fields,
-            "url": f"https://{settings.DOMAIN}{self.board.content.leaderboard_url()}",
+            "url": f"https://{settings.DOMAIN}{self.board.content.leaderboard_url()}?active_board={self.board.slug}",
         }
 
         if not settings.DEBUG and self.proof:
