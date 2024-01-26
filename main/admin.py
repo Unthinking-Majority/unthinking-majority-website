@@ -35,7 +35,6 @@ class ContentAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "name",
-                    "hiscores_name",
                     "category",
                     "difficulty",
                     "icon",
@@ -47,6 +46,7 @@ class ContentAdmin(admin.ModelAdmin):
             "Other Options",
             {
                 "fields": (
+                    ("has_hiscores", "hiscores_name"),
                     "slug",
                     ("metric", "metric_name"),
                     ("ordering", "order"),

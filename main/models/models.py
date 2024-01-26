@@ -45,7 +45,12 @@ class Content(models.Model):
     hiscores_name = models.CharField(
         max_length=256,
         unique=True,
+        blank=True,
         help_text="The name of this content on the official OSRS Hiscores page. Must match exactly what is on the hiscores page, case insensitive.",
+    )
+    has_hiscores = models.BooleanField(
+        default=True,
+        verbose_name="Check if this content has a corresponding page on the official OSRS hiscores page.",
     )
     category = models.ForeignKey(
         "main.ContentCategory", on_delete=models.CASCADE, related_name="content_types"
