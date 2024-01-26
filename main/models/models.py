@@ -44,7 +44,6 @@ class Content(models.Model):
     )
     hiscores_name = models.CharField(
         max_length=256,
-        unique=True,
         blank=True,
         help_text="The name of this content on the official OSRS Hiscores page. Must match exactly what is on the hiscores page, case insensitive.",
     )
