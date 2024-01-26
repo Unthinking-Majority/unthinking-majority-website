@@ -31,6 +31,11 @@ class BaseSubmissionAdmin(PolymorphicParentModelAdmin):
     list_editable = ["accepted"]
     list_filter = ["accepted", "date", PolymorphicChildModelFilter]
 
+    def save_model(self, request, obj, form, change):
+        if change and "accepted" in form.changed_data:
+            obj.send_notifications(request)
+        return super().save_model(request, obj, form, change)
+
     @admin.display(description="Type")
     def _type_display(self, obj):
         return obj.type_display()
