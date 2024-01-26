@@ -13,15 +13,14 @@
 
 {% if messages %}
     {% for message in messages %}
-        <div class="absolute right-0 mx-2 w-fit opacity-0 duration-500 ease-in-out toast md:top-5 md:right-5 md:my-2">
-            <div class="flex w-full max-w-md items-center rounded-lg bg-gray-700 p-4 text-gray-300 shadow">
-                <div class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-lime-700 text-white">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <div class="ml-3 text-center font-medium text-white">
-                    Your form has been successfully submitted!
+        <div class="fixed top-24 right-0 left-0 z-10 mx-6 w-fit opacity-100 duration-500 ease-in-out toast md:top-32 md:mx-auto">
+            <div class="flex items-center rounded-lg bg-lime-700 p-4 text-white shadow-lg shadow-black/50">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8">
+                    <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="text-center text-lg font-medium text-white md:ml-3">
+                    {{ message }}
                 </div>
             </div>
         </div>

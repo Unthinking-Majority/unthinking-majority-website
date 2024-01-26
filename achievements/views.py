@@ -92,7 +92,7 @@ class SubmissionWizard(SessionWizardView):
         elif "ca_submission_form" in form_dict.keys():
             form_dict["ca_submission_form"].save()
 
-        messages.success(self.request, "Form successfully submitted.")
+        messages.success(self.request, "Your form has been successfully submitted.")
         return redirect("/")
 
     def get_context_data(self, form, **kwargs):
