@@ -13,7 +13,7 @@ class ContentCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.Content)
 class ContentAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {"slug": ("name",), "hiscores_name": ("name",)}
     search_fields = ["name"]
     list_display = [
         "name",
@@ -35,6 +35,7 @@ class ContentAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "name",
+                    "hiscores_name",
                     "category",
                     "difficulty",
                     "icon",
