@@ -27,6 +27,11 @@ class ContentAdmin(admin.ModelAdmin):
     list_editable = ["is_pb", "can_be_split", "can_be_mentored"]
     list_filter = [
         AutocompleteFilterFactory("Content Category", "category"),
+        "difficulty",
+        "is_pb",
+        "can_be_mentored",
+        "can_be_split",
+        "has_hiscores",
     ]
 
     fieldsets = (
