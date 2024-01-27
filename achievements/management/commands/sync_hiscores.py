@@ -1,18 +1,16 @@
 import requests
-
-from account.models import Account
-from main.models import Content
-from achievements.models import Hiscores
-
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+
+from account.models import Account
+from achievements.models import Hiscores
+from main.models import Content
 
 
 class Command(BaseCommand):
     help = "Syncs active users kill counts for all content using the official osrs api."
 
     def handle(self, *args, **options):
-        headers = ["rank", "level", "experience"]
         skills = [
             "Overall",
             "Attack",
@@ -141,8 +139,9 @@ class Command(BaseCommand):
                 try:
                     rank, kc = hiscore
                 except ValueError:
-                    print(account, hiscores_name, hiscore)
-                    return
+                    raise CommandError(
+                        f"ValueError: Not enough values to unpack. Account: {account.name} {hiscores_name} values:{hiscores}"
+                    )
                 try:
                     content = Content.objects.get(hiscores_name__iexact=hiscores_name)
                 except Content.DoesNotExist:
