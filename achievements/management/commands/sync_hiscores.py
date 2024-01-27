@@ -97,6 +97,7 @@ class Command(BaseCommand):
             "Phantom Muspah",
             "Sarachnis",
             "Scorpia",
+            "Scurrius",
             "Skotizo",
             "Spindel",
             "Tempoross",
