@@ -1,4 +1,6 @@
-import requests
+import asyncio
+
+import aiohttp
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
@@ -7,8 +9,27 @@ from achievements.models import Hiscores
 from main.models import Content
 
 
+def get_url(username):
+    return f"{settings.OSRS_PLAYER_HISCORES_API}{username}"
+
+
+async def get(session, username):
+    url = get_url(username)
+    async with session.get(url) as response:
+        if response.status != 200:
+            print(username, response.status)
+            return username, None
+        return username, await response.text()
+
+
+async def main(usernames):
+    conn = aiohttp.TCPConnector(limit=10)
+    async with aiohttp.ClientSession(connector=conn) as session:
+        return await asyncio.gather(*[get(session, username) for username in usernames])
+
+
 class Command(BaseCommand):
-    help = "Syncs active users kill counts for all content using the official osrs api."
+    help = "Syncs active users hiscores for all content using the official OSRS api."
 
     def handle(self, *args, **options):
         skills = [
@@ -56,7 +77,7 @@ class Command(BaseCommand):
             "PvP Arena - Rank",
             "Soul Wars Zeal",
             "Rifts closed",
-        ]  # 17 activites
+        ]  # 17 activities
 
         # Why the shit did Jagex do alphabetical order for all of these except PNM??? Makes my life harder!!!
         bosses = [
@@ -121,34 +142,44 @@ class Command(BaseCommand):
             "Zulrah",
         ]  # 58 bosses
 
-        for account in Account.objects.filter(is_active=True):
-            response = requests.get(
-                f"{settings.OSRS_PLAYER_HISCORES_API}{account.name}"
+        results = asyncio.run(
+            main(
+                list(
+                    Account.objects.filter(is_active=True).values_list(
+                        "name", flat=True
+                    )
+                ),
+            )
+        )
+        # results = asyncio.run(main(["KingOfJelly", "Katze btw"]))
+        data = []
+        for username, result in results:
+            if not result:
+                continue
+            hiscores_data = []
+            for line in result.split("\n"):
+                hiscores_data.append(line.split(","))
+            data.append(
+                (username, zip(bosses, hiscores_data[len(skills) + len(activities) :]))
             )
 
-            if response.status_code == 404:
-                raise CommandError(
-                    f"{account.name} was not found on the OSRS official hiscores."
-                )
-
-            data = [
-                line.split(",") for line in response.content.decode("utf-8").split("\n")
-            ]
-
-            hiscores = zip(bosses, data[len(skills) + len(activities) :])
-            for hiscores_name, hiscore in hiscores:
+        for username, result in data:
+            for hiscores_name, hiscore in result:
                 try:
                     rank, kc = hiscore
                 except ValueError:
                     raise CommandError(
-                        f"ValueError: Not enough values to unpack. Account: {account.name} {hiscores_name} values:{hiscores}"
+                        f"ValueError: Not enough values to unpack. Account: {username} {hiscores_name} values:{hiscore}"
                     )
+
                 try:
                     content = Content.objects.get(hiscores_name__iexact=hiscores_name)
                 except Content.DoesNotExist:
                     raise CommandError(
                         f"No Content object exists with hiscores_name={hiscores_name}"
                     )
+
+                account = Account.objects.get(name=username)
 
                 obj, created = Hiscores.objects.update_or_create(
                     account=account,

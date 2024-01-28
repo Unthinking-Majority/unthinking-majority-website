@@ -21,3 +21,4 @@ wom-py>=0.7
 redis==5.0.1
 wagtail>=5.2,<5.3
 Wand>=0.6,<0.7
+aiohttp>=3.9,<3.10
