@@ -52,7 +52,7 @@ class Content(models.Model):
         verbose_name="Check if this content has a corresponding page on the official OSRS hiscores page.",
     )
     category = models.ForeignKey(
-        "main.ContentCategory", on_delete=models.CASCADE, related_name="content_types"
+        "main.ContentCategory", on_delete=models.CASCADE, related_name="contents"
     )
     difficulty = models.PositiveIntegerField(choices=DIFFICULTY_CHOICES, default=EASY)
     is_pb = models.BooleanField(
@@ -109,7 +109,7 @@ class ContentCategory(models.Model):
         return self.name
 
     def pb_content(self):
-        return self.content_types.filter(is_pb=True)
+        return self.contents.filter(is_pb=True)
 
 
 class Pet(models.Model):

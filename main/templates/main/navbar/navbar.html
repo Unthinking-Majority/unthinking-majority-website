@@ -1,21 +1,21 @@
 {% load static main_extras wagtailcore_tags %}
 
-<nav id="navbar" class="mt-2 mb-2 rounded-t-lg rounded-b-lg bg-gray-900 md:mb-6 md:rounded-lg">
+<nav id="navbar" class="mt-2 mb-2 rounded-t-lg rounded-b-lg bg-gray-900 lg:mb-6 lg:rounded-lg">
     <div class="mx-auto max-w-6xl px-2">
         <div class="flex h-16 items-center justify-between">
 
             <div class="flex items-center justify-start">
                 {# Logo #}
                 <a href="/" class="flex flex-shrink-0 items-center" aria-label="Homepage Link">
-                    <img class="hidden h-12 w-auto md:block" src="{% static "um_logos/logo_gradient.png" %}"
+                    <img class="hidden h-12 w-auto lg:block" src="{% static "um_logos/logo_gradient.png" %}"
                          alt="Unthinking Majority Logo">
                 </a>
 
                 {% include "main/navbar/navbar_desktop.html" %}
 
                 {# Small navbar button #}
-                <div class="md:hidden" tabindex="0">
-                    <button id="mobile-navbar-button" type="button" class="rounded-md px-2 py-2">
+                <div class="lg:hidden" tabindex="0">
+                    <button id="mobile-navbar-button" type="button" class="rounded-lg px-2 py-2">
                         <svg id="open-button"
                              xmlns="http://www.w3.org/2000/svg"
                              fill="none"
@@ -43,7 +43,7 @@
                     <div class="ml-6 hidden lg:block">
                         <div class="flex items-center space-x-4">
                             <a href="{% url "admin:index" %}"
-                               class="rounded-md px-3 py-2 text-gray-300 hover:bg-gray-800 hover:text-white"
+                               class="rounded-lg px-3 py-2 text-gray-300 hover:bg-gray-800 hover:text-white"
                                aria-label="Admin Link">
                                 <svg viewBox="0 0 24 24"
                                      fill="currentColor"
@@ -60,7 +60,7 @@
 
             {# Logo #}
             <a href="/" class="flex flex-shrink-0 items-center" aria-label="Homepage Link">
-                <img class="h-12 w-auto md:hidden" src="{% static "um_logos/logo_gradient.png" %}"
+                <img class="h-12 w-auto lg:hidden" src="{% static "um_logos/logo_gradient.png" %}"
                      alt="Unthinking Majority Logo">
             </a>
 

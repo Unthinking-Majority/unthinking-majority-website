@@ -1,28 +1,46 @@
 {% load wagtailcore_tags %}
 
-<div class="ml-6 hidden md:block">
+<div class="ml-6 hidden lg:block">
     <div class="flex items-center space-x-4">
         <a tabindex="0"
            href="/"
            class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white">
             Home
         </a>
-        {% for bc in content_categories %}
+        {% for content_category in content_categories %}
+            {% if content_category.contents.count > 12 %}
             <div class="relative group">
                 <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
-                    {{ bc.name }}
+                    {{ content_category.name }}
                 </button>
-                <ul class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    tabindex="-1">
-                    {% for content in bc.pb_content %}
-                        <li>
+                <div>
+                    <div class="absolute z-10 mt-2 group-focus-within:grid hidden origin-top-right grid-flow-col overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 grid-rows-12 focus:outline-none md:-left-60"
+                         tabindex="-1">
+                        {% for content in content_category.contents.all %}
                             <a href="{{ content.leaderboard_url }}"
                                class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
                                tabindex="-1">{{ content.name }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
+            {% else %}
+                <div class="relative group">
+                    <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                        {{ content_category.name }}
+                    </button>
+                    <div>
+                        <div class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                             tabindex="-1">
+                            {% for content in content_category.contents.all %}
+                                <a href="{{ content.leaderboard_url }}"
+                                   class="block px-4 py-2 text-gray-700 hover:bg-gray-300"
+                                   tabindex="-1">{{ content.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         {% endfor %}
         <div class="relative group">
             <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">

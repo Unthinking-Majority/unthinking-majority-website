@@ -4,15 +4,15 @@
     <li>
         <a href="/" class="block px-4 py-2 text-white">Home</a>
     </li>
-    {% for bc in content_categories %}
+    {% for content_category in content_categories %}
         <li>
             <div tabindex="0">
                 <button class="block w-full px-4 py-2 text-left text-white mobile-navbar-dropdown-item">
-                    {{ bc.name }}
+                    {{ content_category.name }}
                 </button>
                 <ul class="hidden w-full overflow-hidden whitespace-nowrap text-white"
                     tabindex="-1">
-                    {% for content in bc.pb_content %}
+                    {% for content in content_category.contents.all %}
                         <li>
                             <a href="{{ content.leaderboard_url }}"
                                class="block py-2 pl-12"
