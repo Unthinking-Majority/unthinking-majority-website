@@ -350,5 +350,10 @@ class Hiscores(models.Model):
     kill_count = models.IntegerField(default=0)
     rank_overall = models.IntegerField(default=0)
 
+    class Meta:
+        ordering = ["-kill_count", "rank_overall"]
+        verbose_name = "Hiscores"
+        verbose_name_plural = "Hiscores"
+
     def __str__(self):
         return f"{self.account.display_name} - {self.content.hiscores_name} {self.kill_count}kc"

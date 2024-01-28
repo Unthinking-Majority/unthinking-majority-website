@@ -22,10 +22,10 @@
     </tr>
     </thead>
     <tbody>
-    {% for submission in active_page %}
+    {% for submission in active_pb_page %}
         <tr class="odd:bg-gray-50 even:bg-gray-100">
             <td class="whitespace-nowrap py-4 text-center md:px-2">
-                {{ forloop.counter0|add:active_page.start_index }}
+                {{ forloop.counter0|add:active_pb_page.start_index }}
             </td>
             <td class="max-w-xs py-4 text-center md:px-2">
                 {% for account in submission.accounts.all %}
@@ -93,8 +93,8 @@
 </table>
 
 <div class="mt-4 flex justify-around border-t-2 py-2 text-gray-800">
-    {% if active_page.has_previous %}
-        <a href="?active_board={{ active_board.slug }}&page={{ active_page.previous_page_number }}"
+    {% if active_pb_page.has_previous %}
+        <a href="?active_board={{ active_board.slug }}&page={{ active_pb_page.previous_page_number }}"
            class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
             Previous
         </a>
@@ -106,11 +106,11 @@
     {% endif %}
 
     <a class="my-4 rounded-md px-3 py-2 font-medium hover:cursor-default">
-        Page {{ active_page.number }} of {{ active_page.paginator.num_pages }}
+        Page {{ active_pb_page.number }} of {{ active_pb_page.paginator.num_pages }}
     </a>
 
-    {% if active_page.has_next %}
-        <a href="?active_board={{ active_board.slug }}&page={{ active_page.next_page_number }}"
+    {% if active_pb_page.has_next %}
+        <a href="?active_board={{ active_board.slug }}&page={{ active_pb_page.next_page_number }}"
            class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
             Next
         </a>

@@ -1,0 +1,68 @@
+<table class="w-full overflow-hidden rounded-lg shadow-lg">
+    <thead class="rounded-lg bg-gray-800">
+    <tr class="text-white">
+        <th class="px-1 py-4 text-center md:text-md md:py-4">
+            Rank
+        </th>
+        <th class="px-1 py-4 text-center md:text-md md:py-4">
+            Username
+        </th>
+        <th class="px-1 py-4 text-center md:text-md md:py-4">
+            <span class="hidden md:block">Kill Count</span>
+            <span class="block md:hidden">KC</span>
+        </th>
+        <th class="px-1 py-4 text-center md:text-md md:py-4">
+            <span class="hidden md:block">Rank Overall</span>
+            <span class="block md:hidden">Overall</span>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for hiscore in active_hiscores_page %}
+        <tr class="odd:bg-gray-50 even:bg-gray-100">
+            <td class="whitespace-nowrap py-4 text-center text-md md:px-2">
+                {{ forloop.counter0|add:active_hiscores_page.start_index }}
+            </td>
+            <td class="whitespace-nowrap py-4 text-center text-md md:px-2 md:text-lg">
+                {{ hiscore.account.display_name }}
+            </td>
+            <td class="whitespace-nowrap py-4 text-center text-xl font-runescape md:px-2 md:text-2xl">
+                {{ hiscore.kill_count }}
+            </td>
+            <td class="whitespace-nowrap py-4 text-center text-md md:px-2 md:text-lg">
+                {{ hiscore.rank_overall }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="mt-4 flex justify-around border-t-2 py-2 text-gray-800">
+    {% if active_hiscores_page.has_previous %}
+        <a href="?page={{ active_hiscores_page.previous_page_number }}"
+           class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
+            Previous
+        </a>
+    {% else %}
+        <a class="mx-2 my-4 rounded-md bg-gray-200 px-3 py-2 font-medium text-gray-400 shadow-md hover:cursor-default"
+           disabled>
+            Previous
+        </a>
+    {% endif %}
+
+    <a class="my-4 rounded-md px-3 py-2 font-medium hover:cursor-default">
+        Page {{ active_hiscores_page.number }} of {{ active_hiscores_page.paginator.num_pages }}
+    </a>
+
+    {% if active_hiscores_page.has_next %}
+        <a href="?page={{ active_hiscores_page.next_page_number }}"
+           class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
+            Next
+        </a>
+    {% else %}
+        <a class="mx-2 my-4 rounded-md bg-gray-200 px-3 py-2 font-medium text-gray-400 shadow-md hover:cursor-default"
+           disabled>
+            Next
+        </a>
+    {% endif %}
+</div>

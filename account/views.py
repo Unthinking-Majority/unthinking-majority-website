@@ -55,13 +55,13 @@ class ProfileView(TemplateView):
         else:
             context["active_tab"] = self.request.GET.get("active_tab")
 
-        active_page = f"{context['active_tab']}_page"
+        active_pb_page = f"{context['active_tab']}_page"
         try:
-            context[active_page] = data[context["active_tab"]].page(
+            context[active_pb_page] = data[context["active_tab"]].page(
                 self.request.GET.get("page", 1)
             )
         except EmptyPage:
-            context[active_page] = data[context["active_tab"]].page(1)
+            context[active_pb_page] = data[context["active_tab"]].page(1)
 
         context["config"] = config
 

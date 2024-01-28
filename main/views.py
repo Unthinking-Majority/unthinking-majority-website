@@ -33,42 +33,57 @@ class LeaderboardView(TemplateView):
             slug=self.kwargs.get("content_name"),
         )
 
-        if "active_board" not in self.request.GET.keys():
-            context["active_board"] = context["content"].boards.first()
-        else:
-            context["active_board"] = context["content"].boards.get(
-                slug=self.request.GET.get("active_board")
-            )
-
-        board = context["active_board"]
-        context["boards"] = context["content"].boards.all()
-
-        # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
-        annotated_submissions = (
-            board.submissions.active()
-            .accepted()
-            .annotate(
-                accounts_str=StringAgg(
-                    "accounts__name", delimiter=",", ordering="accounts__name"
+        if context["content"].is_pb:
+            if "active_board" not in self.request.GET.keys():
+                context["active_board"] = context["content"].boards.first()
+            else:
+                context["active_board"] = context["content"].boards.get(
+                    slug=self.request.GET.get("active_board")
                 )
+
+            board = context["active_board"]
+            context["boards"] = context["content"].boards.all()
+
+            # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
+            annotated_submissions = (
+                board.submissions.active()
+                .accepted()
+                .annotate(
+                    accounts_str=StringAgg(
+                        "accounts__name", delimiter=",", ordering="accounts__name"
+                    )
+                )
+                .order_by("accounts_str", f"{context['content'].ordering}value")
             )
-            .order_by("accounts_str", f"{context['content'].ordering}value")
-        )
 
-        # grab the first submission for each team (which is the best, since we ordered by value above)
-        submissions = {}
-        for submission in annotated_submissions:
-            if submission.accounts_str not in submissions.keys():
-                submissions[submission.accounts_str] = submission.id
-        submissions = achievements_models.RecordSubmission.objects.filter(
-            id__in=submissions.values()
-        ).order_by(f"{context['content'].ordering}value", "date")
+            # grab the first submission for each team (which is the best, since we ordered by value above)
+            submissions = {}
+            for submission in annotated_submissions:
+                if submission.accounts_str not in submissions.keys():
+                    submissions[submission.accounts_str] = submission.id
+            submissions = achievements_models.RecordSubmission.objects.filter(
+                id__in=submissions.values()
+            ).order_by(f"{context['content'].ordering}value", "date")
 
-        page = Paginator(submissions, per_page)
-        try:
-            context["active_page"] = page.page(self.request.GET.get(f"page", 1))
-        except EmptyPage:
-            context["active_page"] = page.page(1)
+            pb_page = Paginator(submissions, per_page)
+            try:
+                context["active_pb_page"] = pb_page.page(
+                    self.request.GET.get(f"page", 1)
+                )
+            except EmptyPage:
+                context["active_pb_page"] = pb_page.page(1)
+
+        if context["content"].has_hiscores:
+            hiscores_page = Paginator(
+                achievements_models.Hiscores.objects.filter(content=context["content"]),
+                per_page,
+            )
+            try:
+                context["active_hiscores_page"] = hiscores_page.page(
+                    self.request.GET.get(f"page", 1)
+                )
+            except EmptyPage:
+                context["active_hiscores_page"] = hiscores_page.page(1)
 
         return context
 
