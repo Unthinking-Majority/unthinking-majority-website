@@ -33,7 +33,14 @@ class LeaderboardView(TemplateView):
             slug=self.kwargs.get("content_name"),
         )
 
-        if context["content"].is_pb:
+        if "type" not in self.request.GET.keys():
+            context["type"] = (
+                "personal-bests" if context["content"].is_pb else "hiscores"
+            )
+        else:
+            context["type"] = self.request.GET.get("type")
+
+        if context["content"].is_pb and context["type"] == "personal-bests":
             if "active_board" not in self.request.GET.keys():
                 context["active_board"] = context["content"].boards.first()
             else:
@@ -72,10 +79,13 @@ class LeaderboardView(TemplateView):
                 )
             except EmptyPage:
                 context["active_pb_page"] = pb_page.page(1)
+            return context
 
-        if context["content"].has_hiscores:
+        if context["content"].has_hiscores and context["type"] == "hiscores":
             hiscores_page = Paginator(
-                achievements_models.Hiscores.objects.filter(content=context["content"]),
+                achievements_models.Hiscores.objects.filter(
+                    content=context["content"], account__is_active=True
+                ),
                 per_page,
             )
             try:
@@ -84,8 +94,7 @@ class LeaderboardView(TemplateView):
                 )
             except EmptyPage:
                 context["active_hiscores_page"] = hiscores_page.page(1)
-
-        return context
+            return context
 
 
 class PetsLeaderboardView(ListView):

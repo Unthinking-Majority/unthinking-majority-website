@@ -2,11 +2,6 @@
 
 {% load static um_components %}
 
-{% block extra_head %}
-    {{ block.super }}
-    <script src="{% static "js/tabs.js" %}"></script>
-{% endblock extra_head %}
-
 {% block content %}
     {% page_header content.name content.icon %}
 
@@ -16,39 +11,39 @@
             {# Buttons for switching between PB/Hiscores boards #}
             <div class="mb-2 flex flex-wrap justify-center">
                 {% if content.is_pb %}
-                    <button data-table="personal-bests-table" class="mx-2 my-2 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out tab-button">
+                    <a href="?type=personal-bests"
+                       class="mx-2 my-2 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if type == "personal-bests" %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-800 hover:text-gray-200{% endif %}"
+                       {% if not active_pb_page %}disabled{% endif %}>
                         Personal Bests
-                    </button>
+                    </a>
                 {% endif %}
                 {% if content.has_hiscores %}
-                    <button data-table="hiscores-table" class="mx-3 my-2 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out tab-button">
+                    <a href="?type=hiscores"
+                       class="mx-2 my-2 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if type == "hiscores" %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-800 hover:text-gray-200{% endif %}"
+                       {% if not active_hiscores_page %}disabled{% endif %}>
                         Hiscores
-                    </button>
+                    </a>
                 {% endif %}
             </div>
 
-            {% if content.is_pb %}
-                <div id="personal-bests-table" class="tab-content">
+            {% if content.is_pb and type == "personal-bests" %}
                 {# Tab buttons to switch between boards #}
-                    {% if boards|length > 1 %}
-                        <div class="mb-2 flex flex-wrap justify-center">
-                        {% for board in boards %}
-                            <a href="?active_board={{ board.slug }}"
-                               class="mx-2 my-2 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if active_board == board %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-800 hover:text-gray-200{% endif %}"
-                               {% if not achievements_page %}disabled{% endif %}>
-                                {{ board.name }}
-                            </a>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                    {% include "main/board.html" %}
+                {% if boards|length > 1 %}
+                    <div class="mb-2 flex flex-wrap justify-center">
+                    {% for board in boards %}
+                        <a href="?active_board={{ board.slug }}"
+                           class="mx-2 my-2 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if active_board == board %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-800 hover:text-gray-200{% endif %}"
+                           {% if not achievements_page %}disabled{% endif %}>
+                            {{ board.name }}
+                        </a>
+                    {% endfor %}
                 </div>
+                {% endif %}
+                {% include "main/board.html" %}
             {% endif %}
 
-            {% if content.has_hiscores %}
-                <div id="hiscores-table" class="tab-content">
-                    {% include "main/hiscores_board.html" %}
-                </div>
+            {% if content.has_hiscores and type == "hiscores" %}
+                {% include "main/hiscores_board.html" %}
             {% endif %}
 
         </span>

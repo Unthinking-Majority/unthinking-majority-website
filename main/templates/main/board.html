@@ -94,7 +94,7 @@
 
 <div class="mt-4 flex justify-around border-t-2 py-2 text-gray-800">
     {% if active_pb_page.has_previous %}
-        <a href="?active_board={{ active_board.slug }}&page={{ active_pb_page.previous_page_number }}"
+        <a href="?active_board={{ active_board.slug }}&page={{ active_pb_page.previous_page_number }}&type=personal-bests"
            class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
             Previous
         </a>
@@ -110,7 +110,7 @@
     </a>
 
     {% if active_pb_page.has_next %}
-        <a href="?active_board={{ active_board.slug }}&page={{ active_pb_page.next_page_number }}"
+        <a href="?active_board={{ active_board.slug }}&page={{ active_pb_page.next_page_number }}&type=personal-bests"
            class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
             Next
         </a>
