@@ -212,3 +212,14 @@ class CASubmissionAdmin(PolymorphicChildModelAdmin):
         if change and "accepted" in form.changed_data:
             obj.send_notifications(request)
         return super().save_model(request, obj, form, change)
+
+
+@admin.register(models.Hiscores)
+class HiscoresAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["account", "content"]
+    search_fields = ["account__name", "content__name"]
+    list_display = ["account", "content", "rank_overall", "kill_count"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        AutocompleteFilterFactory("Content", "content"),
+    ]
