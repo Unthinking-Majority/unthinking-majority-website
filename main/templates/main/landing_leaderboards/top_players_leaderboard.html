@@ -12,12 +12,12 @@
                 Username
             </th>
             <th class="px-2 py-4 text-center text-md md:p-4">
-                1st Places
+                Points
             </th>
         </tr>
         </thead>
         <tbody>
-        {% for account, val in accounts %}
+        {% for account, points in accounts %}
             <tr class="odd:bg-gray-50 even:bg-gray-100">
                 <td class="whitespace-nowrap py-4 text-start md:px-2">
                     {% if forloop.counter0 == 0 %}
@@ -42,7 +42,7 @@
                     {{ account.display_name }}
                 </td>
                 <td class="whitespace-nowrap py-4 text-2xl font-runescape md:px-2">
-                    <p class="pr-2 text-center">{{ val }}</p>
+                    <p class="pr-2 text-center">{{ points }}</p>
                 </td>
             </tr>
         {% endfor %}
