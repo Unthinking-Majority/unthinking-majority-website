@@ -35,6 +35,10 @@ class Board(models.Model):
         return self.name
 
     def top_submissions(self):
+        """
+        Return the top submission for each unique team on this board.
+        Submissions must have be active and accepted.
+        """
         # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
         annotated_submissions = (
             self.submissions.active()
