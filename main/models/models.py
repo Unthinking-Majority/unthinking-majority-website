@@ -31,6 +31,7 @@ class Board(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(3)],
         help_text="Multiplier for points earned from this board.",
     )
+    display_board = models.BooleanField(default=True)
     slug = models.SlugField()
 
     class Meta:
