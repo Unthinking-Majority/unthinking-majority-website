@@ -24,6 +24,13 @@ class Board(models.Model):
     team_size = models.IntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(8)]
     )
+    points_multiplier = models.DecimalField(
+        default=1.0,
+        decimal_places=2,
+        max_digits=3,
+        validators=[MinValueValidator(0), MaxValueValidator(3)],
+        help_text="Multiplier for points earned from this board.",
+    )
     slug = models.SlugField()
 
     class Meta:
@@ -34,9 +41,9 @@ class Board(models.Model):
             return f"{self.content.name} {self.name}"
         return self.name
 
-    def top_submissions(self):
+    def sort_submissions(self):
         """
-        Return the top submission for each unique team on this board.
+        Return the top submission sorted for each unique team on this board.
         Submissions must have be active and accepted.
         """
         # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value

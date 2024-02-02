@@ -136,7 +136,7 @@ class RecordSubmission(BaseSubmission):
         )
 
     def get_rank(self):
-        submissions = self.board.top_submissions()
+        submissions = self.board.sort_submissions()
         for rank, submission in enumerate(submissions):
             if submission.id == self.id:
                 return rank + 1

@@ -9,6 +9,9 @@ from main.models import Board
 
 class AccountQueryset(QuerySet):
     def dragonstone_points(self):
+        """
+        Return all active accounts queryset with each accounts total dragonstone points annotated
+        """
         dstone_pts_sum_by_type = (
             DragonstonePoints.objects.active()
             .values("account", "polymorphic_ctype")
@@ -42,7 +45,7 @@ class AccountQueryset(QuerySet):
 
     def annotate_points(self):
         """
-        Return an active accounts queryset with each accounts total points annotated
+        Return all active accounts queryset with each accounts total points annotated
         """
         accounts_ids = self.filter(is_active=True).values_list("pk", flat=True)
         accounts = dict(zip(accounts_ids, [0] * len(accounts_ids)))
@@ -51,14 +54,14 @@ class AccountQueryset(QuerySet):
         third_pts = config.THIRD_PLACE_PTS
 
         for board in Board.objects.all():
-            submissions = board.top_submissions()[:3]
+            submissions = board.sort_submissions()[:3]
 
             if submissions.exists():
                 first_place_accounts = submissions.first().accounts.filter(
                     is_active=True
                 )
                 for account in first_place_accounts:
-                    accounts[account.pk] += first_pts
+                    accounts[account.pk] += first_pts * board.points_multiplier
 
                 if len(submissions) >= 2:
                     second_place_accounts = submissions[1].accounts.filter(
@@ -66,7 +69,7 @@ class AccountQueryset(QuerySet):
                         & ~Q(id__in=first_place_accounts.values_list("pk"))
                     )
                     for account in second_place_accounts:
-                        accounts[account.pk] += second_pts
+                        accounts[account.pk] += second_pts * board.points_multiplier
 
                     if len(submissions) >= 3:
                         third_place_accounts = submissions[2].accounts.filter(
@@ -77,7 +80,7 @@ class AccountQueryset(QuerySet):
                             )
                         )
                         for account in third_place_accounts:
-                            accounts[account.pk] += third_pts
+                            accounts[account.pk] += third_pts * board.points_multiplier
         whens = [When(pk=pk, then=pts) for pk, pts in list(accounts.items())]
         return self.annotate(
             points=Case(*whens, default=0, output_field=IntegerField())

@@ -66,7 +66,8 @@ class ContentAdmin(admin.ModelAdmin):
 class BoardAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     autocomplete_fields = ["content"]
-    list_display = ["name", "content", "team_size"]
+    list_display = ["name", "content", "team_size", "points_multiplier"]
+    list_editable = ["points_multiplier"]
     list_filter = [
         AutocompleteFilterFactory("Content Category", "content__category"),
         AutocompleteFilterFactory("Content", "content"),
@@ -77,7 +78,7 @@ class BoardAdmin(admin.ModelAdmin):
         (
             None,
             {
-                "fields": ("name", "content", "team_size"),
+                "fields": ("name", "content", "team_size", "points_multiplier"),
             },
         ),
         (

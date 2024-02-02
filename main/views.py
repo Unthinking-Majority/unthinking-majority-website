@@ -49,7 +49,7 @@ class LeaderboardView(TemplateView):
 
             context["boards"] = context["content"].boards.all()
 
-            submissions = context["active_board"].top_submissions()
+            submissions = context["active_board"].sort_submissions()
 
             pb_page = Paginator(submissions, per_page)
             try:
