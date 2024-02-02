@@ -1,10 +1,6 @@
-from collections import Counter
-
 from django import template
 from django.conf import settings
-from django.contrib.postgres.aggregates import StringAgg
 from django.db.models import Count, OuterRef
-from django.db.models import Q
 
 from account.models import Account
 from achievements import GRANDMASTER
@@ -14,7 +10,6 @@ from achievements.models import (
     ColLogSubmission,
     CASubmission,
 )
-from main.models import Board
 
 register = template.Library()
 
@@ -96,58 +91,4 @@ def recent_submission_leaderboard(context):
 
 @register.inclusion_tag("main/landing_leaderboards/top_players_leaderboard.html")
 def top_players_leaderboard():
-    accounts = Account.objects.filter(is_active=True)
-    accounts = dict(zip(accounts, [0] * len(accounts)))
-    first_pts = 10
-    second_pts = 5
-    third_pts = 2
-
-    for board in Board.objects.all():
-        # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
-        annotated_submissions = (
-            board.submissions.active()
-            .accepted()
-            .annotate(
-                accounts_str=StringAgg(
-                    "accounts__name", delimiter=",", ordering="accounts__name"
-                )
-            )
-            .order_by("accounts_str", f"{board.content.ordering}value")
-        )
-
-        # grab the first submission for each team (which is the best, since we ordered by value above)
-        submissions = {}
-        for submission in annotated_submissions:
-            if submission.accounts_str not in submissions.keys():
-                submissions[submission.accounts_str] = submission.id
-
-        # grab the top 3 submissions (1st, 2nd, 3rd)
-        submissions = board.submissions.filter(id__in=submissions.values()).order_by(
-            f"{board.content.ordering}value", "date"
-        )[:3]
-
-        if submissions.exists():
-            first_place_accounts = submissions.first().accounts.filter(is_active=True)
-            for account in first_place_accounts:
-                accounts[account] += first_pts
-
-            if len(submissions) >= 2:
-                second_place_accounts = submissions[1].accounts.filter(
-                    Q(is_active=True)
-                    & ~Q(id__in=first_place_accounts.values_list("id"))
-                )
-                for account in second_place_accounts:
-                    accounts[account] += second_pts
-
-                if len(submissions) >= 3:
-                    third_place_accounts = submissions[2].accounts.filter(
-                        Q(is_active=True)
-                        & ~Q(
-                            Q(id__in=first_place_accounts.values_list("id"))
-                            | Q(id__in=second_place_accounts.values_list("id"))
-                        )
-                    )
-                    for account in third_place_accounts:
-                        accounts[account] += third_pts
-
-    return {"accounts": Counter(accounts).most_common(5)}
+    return {"accounts": Account.objects.annotate_points()[:5]}

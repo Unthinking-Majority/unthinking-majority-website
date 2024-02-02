@@ -31,6 +31,11 @@ class Bounty(models.Model):
             .filter(date__gte=self.start_date, date__lte=self.end_date)
         )
 
+    def top_submission(self):
+        return self.board.top_submissions().filter(
+            date__gte=self.start_date, date__lte=self.end_date
+        )
+
     def get_most_improved(self):
         raise NotImplementedError
 

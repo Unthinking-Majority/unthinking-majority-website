@@ -22,6 +22,11 @@ urlpatterns = [
         name="ca-leaderboard",
     ),
     path(
+        "board/top-players/",
+        views.TopPlayersLeaderboardView.as_view(),
+        name="top-players-leaderboard",
+    ),
+    path(
         "mark-notification-as-read/<int:notification_id>/",
         views.MarkNotificationAsRead.as_view(),
         name="mark-notification-as-read",

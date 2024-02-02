@@ -1,3 +1,4 @@
+from django.contrib.postgres.aggregates import StringAgg
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import NoReverseMatch, reverse
@@ -32,6 +33,31 @@ class Board(models.Model):
         if self.content.boards.count() > 1:
             return f"{self.content.name} {self.name}"
         return self.name
+
+    def top_submissions(self):
+        # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
+        annotated_submissions = (
+            self.submissions.active()
+            .accepted()
+            .annotate(
+                accounts_str=StringAgg(
+                    "accounts__name", delimiter=",", ordering="accounts__name"
+                )
+            )
+            .order_by("accounts_str", f"{self.content.ordering}value")
+        )
+
+        # grab the first submission for each team (which is the best, since we ordered by value above)
+        submissions = {}
+        for submission in annotated_submissions:
+            if submission.accounts_str not in submissions.keys():
+                submissions[submission.accounts_str] = submission.id
+
+        # grab the top 3 submissions (1st, 2nd, 3rd)
+        submissions = self.submissions.filter(id__in=submissions.values()).order_by(
+            f"{self.content.ordering}value", "date"
+        )
+        return submissions
 
 
 class Content(models.Model):

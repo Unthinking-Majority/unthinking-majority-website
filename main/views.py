@@ -1,6 +1,5 @@
 import markdown
 from django.conf import settings
-from django.contrib.postgres.aggregates import StringAgg
 from django.core.paginator import EmptyPage, Paginator
 from django.db.models import Count, OuterRef
 from django.http import HttpResponse
@@ -48,29 +47,9 @@ class LeaderboardView(TemplateView):
                     slug=self.request.GET.get("active_board")
                 )
 
-            board = context["active_board"]
             context["boards"] = context["content"].boards.all()
 
-            # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
-            annotated_submissions = (
-                board.submissions.active()
-                .accepted()
-                .annotate(
-                    accounts_str=StringAgg(
-                        "accounts__name", delimiter=",", ordering="accounts__name"
-                    )
-                )
-                .order_by("accounts_str", f"{context['content'].ordering}value")
-            )
-
-            # grab the first submission for each team (which is the best, since we ordered by value above)
-            submissions = {}
-            for submission in annotated_submissions:
-                if submission.accounts_str not in submissions.keys():
-                    submissions[submission.accounts_str] = submission.id
-            submissions = achievements_models.RecordSubmission.objects.filter(
-                id__in=submissions.values()
-            ).order_by(f"{context['content'].ordering}value", "date")
+            submissions = context["active_board"].top_submissions()
 
             pb_page = Paginator(submissions, per_page)
             try:
@@ -175,6 +154,20 @@ class CALeaderboardView(ListView):
             id__in=sub_query.values("id")
         ).order_by("ca_tier", "date")
         return submissions
+
+
+class TopPlayersLeaderboardView(ListView):
+    model = Account
+    template_name = "main/leaderboards/top_players_leaderboard.html"
+    paginate_by = 10
+
+    def get_queryset(self):
+        return super().get_queryset().annotate_points()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["max_col_log"] = settings.MAX_COL_LOG
+        return context
 
 
 class MarkNotificationAsRead(View):

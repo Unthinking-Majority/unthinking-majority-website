@@ -1,9 +1,10 @@
 from constance import config
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Case, When, Sum, IntegerField, Value, F, QuerySet
+from django.db.models import Case, When, Sum, IntegerField, Value, F, QuerySet, Q
 from django.db.models.functions import Least
 
 from dragonstone.models import DragonstonePoints, PVMSplitPoints
+from main.models import Board
 
 
 class AccountQueryset(QuerySet):
@@ -38,3 +39,46 @@ class AccountQueryset(QuerySet):
         return self.annotate(
             dragonstone_pts=Case(*whens, output_field=IntegerField(), default=Value(0))
         ).order_by("-dragonstone_pts", "name")
+
+    def annotate_points(self):
+        """
+        Return an active accounts queryset with each accounts total points annotated
+        """
+        accounts_ids = self.filter(is_active=True).values_list("pk", flat=True)
+        accounts = dict(zip(accounts_ids, [0] * len(accounts_ids)))
+        first_pts = config.FIRST_PLACE_PTS
+        second_pts = config.SECOND_PLACE_PTS
+        third_pts = config.THIRD_PLACE_PTS
+
+        for board in Board.objects.all():
+            submissions = board.top_submissions()[:3]
+
+            if submissions.exists():
+                first_place_accounts = submissions.first().accounts.filter(
+                    is_active=True
+                )
+                for account in first_place_accounts:
+                    accounts[account.pk] += first_pts
+
+                if len(submissions) >= 2:
+                    second_place_accounts = submissions[1].accounts.filter(
+                        Q(is_active=True)
+                        & ~Q(id__in=first_place_accounts.values_list("pk"))
+                    )
+                    for account in second_place_accounts:
+                        accounts[account.pk] += second_pts
+
+                    if len(submissions) >= 3:
+                        third_place_accounts = submissions[2].accounts.filter(
+                            Q(is_active=True)
+                            & ~Q(
+                                Q(id__in=first_place_accounts.values_list("pk"))
+                                | Q(id__in=second_place_accounts.values_list("pk"))
+                            )
+                        )
+                        for account in third_place_accounts:
+                            accounts[account.pk] += third_pts
+        whens = [When(pk=pk, then=pts) for pk, pts in list(accounts.items())]
+        return self.annotate(
+            points=Case(*whens, default=0, output_field=IntegerField())
+        ).order_by("-points")

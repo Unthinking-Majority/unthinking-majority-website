@@ -10,6 +10,7 @@ from account import ACCOUNT_RANK_CHOICES
 from account import managers
 from achievements import CA_DICT
 from achievements.models import CASubmission, ColLogSubmission, PetSubmission
+from main.models import Board
 from um.functions import get_file_path
 
 

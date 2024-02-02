@@ -4,7 +4,6 @@ from datetime import datetime
 import requests
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.postgres.aggregates import StringAgg
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import F
@@ -137,26 +136,7 @@ class RecordSubmission(BaseSubmission):
         )
 
     def get_rank(self):
-        ordering = self.board.content.ordering
-
-        active_accounts_submissions = self.board.submissions.active().accepted()
-
-        # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
-        annotated_submissions = active_accounts_submissions.annotate(
-            accounts_str=StringAgg(
-                "accounts__name", delimiter=",", ordering="accounts__name"
-            )
-        ).order_by("accounts_str", f"{ordering}value")
-
-        # grab the first submission for each team (which is the best, since we ordered by value above)
-        submissions = {}
-        for submission in annotated_submissions:
-            if submission.accounts_str not in submissions.keys():
-                submissions[submission.accounts_str] = submission.id
-        submissions = self.__class__.objects.filter(
-            id__in=submissions.values()
-        ).order_by(f"{ordering}value", "date")
-
+        submissions = self.board.top_submissions()
         for rank, submission in enumerate(submissions):
             if submission.id == self.id:
                 return rank + 1

@@ -223,6 +223,9 @@ CONSTANCE_CONFIG = {
     "EVENT_MENTOR_HOSTS_PTS": (5, "Event Mentor Hosts Points"),
     "EVENT_MAJOR_HOSTS_PTS": (15, "Event Major Hosts Points"),
     "NEW_MEMBER_RAID_PTS": (2, "New Member Raid Points"),
+    "FIRST_PLACE_PTS": (10, "Points for 1st Place"),
+    "SECOND_PLACE_PTS": (5, "Points for 2nd Place"),
+    "THIRD_PLACE_PTS": (2, "Points for 3rd Place"),
 }
 
 # Wagtail settings
