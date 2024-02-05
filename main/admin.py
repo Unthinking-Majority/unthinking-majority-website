@@ -71,14 +71,14 @@ class BoardAdmin(admin.ModelAdmin):
         "content",
         "team_size",
         "points_multiplier",
-        "display_board",
+        "is_active",
     ]
     list_editable = ["points_multiplier"]
     list_filter = [
         AutocompleteFilterFactory("Content Category", "content__category"),
         AutocompleteFilterFactory("Content", "content"),
         "team_size",
-        "display_board",
+        "is_active",
     ]
     search_fields = ["name"]
 
@@ -92,7 +92,7 @@ class BoardAdmin(admin.ModelAdmin):
         (
             "Other Options",
             {
-                "fields": ("display_board", "slug"),
+                "fields": ("is_active", "slug"),
                 "classes": ("collapse",),
             },
         ),
