@@ -52,9 +52,11 @@ class AccountQueryset(QuerySet):
         first_pts = config.FIRST_PLACE_PTS
         second_pts = config.SECOND_PLACE_PTS
         third_pts = config.THIRD_PLACE_PTS
+        fourth_pts = config.FOURTH_PLACE_PTS
+        fifth_pts = config.FIFTH_PLACE_PTS
 
         for board in Board.objects.all():
-            submissions = board.sort_submissions()[:3]
+            submissions = board.sort_submissions()[:5]
 
             if submissions.exists():
                 first_place_accounts = submissions.first().accounts.filter(
@@ -81,6 +83,33 @@ class AccountQueryset(QuerySet):
                         )
                         for account in third_place_accounts:
                             accounts[account.pk] += third_pts * board.points_multiplier
+
+                    if len(submissions) >= 4:
+                        fourth_place_accounts = submissions[3].accounts.filter(
+                            Q(is_active=True)
+                            & ~Q(
+                                Q(id__in=first_place_accounts.values_list("pk"))
+                                | Q(id__in=second_place_accounts.values_list("pk"))
+                                | Q(id__in=third_place_accounts.values_list("pk"))
+                            )
+                        )
+                        for account in fourth_place_accounts:
+                            accounts[account.pk] += fourth_pts * board.points_multiplier
+
+                    if len(submissions) >= 5:
+                        fifth_place_accounts = submissions[4].accounts.filter(
+                            Q(is_active=True)
+                            & ~Q(
+                                Q(id__in=first_place_accounts.values_list("pk"))
+                                | Q(id__in=second_place_accounts.values_list("pk"))
+                                | Q(id__in=third_place_accounts.values_list("pk"))
+                                | Q(id__in=fourth_place_accounts.values_list("pk"))
+                            )
+                        )
+                        for account in fifth_place_accounts:
+                            print(account, board)
+                            accounts[account.pk] += fifth_pts * board.points_multiplier
+
         whens = [When(pk=pk, then=pts) for pk, pts in list(accounts.items())]
         return self.annotate(
             points=Case(*whens, default=0, output_field=IntegerField())

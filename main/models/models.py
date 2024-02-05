@@ -65,11 +65,9 @@ class Board(models.Model):
             if submission.accounts_str not in submissions.keys():
                 submissions[submission.accounts_str] = submission.id
 
-        # grab the top 3 submissions (1st, 2nd, 3rd)
-        submissions = self.submissions.filter(id__in=submissions.values()).order_by(
+        return self.submissions.filter(id__in=submissions.values()).order_by(
             f"{self.content.ordering}value", "date"
         )
-        return submissions
 
 
 class Content(models.Model):

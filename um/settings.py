@@ -225,7 +225,9 @@ CONSTANCE_CONFIG = {
     "NEW_MEMBER_RAID_PTS": (2, "New Member Raid Points"),
     "FIRST_PLACE_PTS": (10, "Points for 1st Place"),
     "SECOND_PLACE_PTS": (5, "Points for 2nd Place"),
-    "THIRD_PLACE_PTS": (2, "Points for 3rd Place"),
+    "THIRD_PLACE_PTS": (3, "Points for 3rd Place"),
+    "FOURTH_PLACE_PTS": (2, "Points for 4th Place"),
+    "FIFTH_PLACE_PTS": (1, "Points for 5th Place"),
 }
 
 # Wagtail settings
