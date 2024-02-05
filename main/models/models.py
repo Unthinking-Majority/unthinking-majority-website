@@ -65,8 +65,10 @@ class Board(models.Model):
             if submission.accounts_str not in submissions.keys():
                 submissions[submission.accounts_str] = submission.id
 
-        return self.submissions.filter(id__in=submissions.values()).order_by(
-            f"{self.content.ordering}value", "date"
+        return (
+            self.submissions.filter(id__in=submissions.values())
+            .order_by(f"{self.content.ordering}value", "date")
+            .prefetch_related("accounts")
         )
 
 
