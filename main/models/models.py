@@ -1,6 +1,8 @@
 from django.contrib.postgres.aggregates import StringAgg
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import Q
 from django.urls import NoReverseMatch, reverse
 from notifications.models import Notification
 
@@ -85,23 +87,18 @@ class Content(models.Model):
         blank=True,
         help_text="The name of this content on the official OSRS Hiscores page. Must match exactly what is on the hiscores page, case insensitive.",
     )
-    has_hiscores = models.BooleanField(
-        default=True,
-        verbose_name="Check if this content has a corresponding page on the official OSRS hiscores page.",
-    )
     category = models.ForeignKey(
         "main.ContentCategory", on_delete=models.CASCADE, related_name="contents"
     )
     difficulty = models.PositiveIntegerField(choices=DIFFICULTY_CHOICES, default=EASY)
-    is_pb = models.BooleanField(
-        default=False, verbose_name="Display on PB Leaderboards?"
+    has_pbs = models.BooleanField(default=False, verbose_name="Has personal bests.")
+    has_hiscores = models.BooleanField(
+        default=True, verbose_name="Has official OSRS hiscores."
     )
     can_be_mentored = models.BooleanField(
-        default=False, verbose_name="Can this content be mentored?"
+        default=False, verbose_name="Can be mentored."
     )
-    can_be_split = models.BooleanField(
-        default=False, verbose_name="Can teams split drops from this content?"
-    )
+    can_be_split = models.BooleanField(default=False, verbose_name="Can be split.")
     metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
     metric_name = models.CharField(max_length=128, default="Time")
     slug = models.SlugField(unique=True)
@@ -146,8 +143,13 @@ class ContentCategory(models.Model):
     def __str__(self):
         return self.name
 
-    def pb_content(self):
-        return self.contents.filter(is_pb=True)
+    def active_content(self):
+        """
+        Return Content objects in this ContentCategory which is active.
+        Active means they either have PB submissions (has_pbs=True) or they have a corresponding board on the
+        official OSRS Hiscores page.
+        """
+        return self.contents.filter(Q(has_pbs=True) | Q(has_hiscores=True))
 
 
 class Pet(models.Model):

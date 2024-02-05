@@ -10,7 +10,7 @@
 
             {# Buttons for switching between PB/Hiscores boards #}
             <div class="mb-2 flex flex-wrap justify-center">
-                {% if content.is_pb %}
+                {% if content.has_pbs %}
                     <a href="?type=personal-bests"
                        class="mx-2 my-2 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if type == "personal-bests" %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-800 hover:text-gray-200{% endif %}"
                        {% if not active_pb_page %}disabled{% endif %}>
@@ -26,7 +26,7 @@
                 {% endif %}
             </div>
 
-            {% if content.is_pb and type == "personal-bests" %}
+            {% if content.has_pbs and type == "personal-bests" %}
                 {# Tab buttons to switch between boards #}
                 {% if boards|length > 1 %}
                     <div class="mb-2 flex flex-wrap justify-center">

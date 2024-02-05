@@ -34,12 +34,12 @@ class LeaderboardView(TemplateView):
 
         if "type" not in self.request.GET.keys():
             context["type"] = (
-                "personal-bests" if context["content"].is_pb else "hiscores"
+                "personal-bests" if context["content"].has_pbs else "hiscores"
             )
         else:
             context["type"] = self.request.GET.get("type")
 
-        if context["content"].is_pb and context["type"] == "personal-bests":
+        if context["content"].has_pbs and context["type"] == "personal-bests":
             if "active_board" not in self.request.GET.keys():
                 context["active_board"] = context["content"].boards.first()
             else:

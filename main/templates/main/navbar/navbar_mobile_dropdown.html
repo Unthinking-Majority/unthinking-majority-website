@@ -12,7 +12,7 @@
                 </button>
                 <ul class="hidden w-full overflow-hidden whitespace-nowrap text-white"
                     tabindex="-1">
-                    {% for content in content_category.contents.all %}
+                    {% for content in content_category.active_content %}
                         <li>
                             <a href="{{ content.leaderboard_url }}"
                                class="block py-2 pl-12"

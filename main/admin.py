@@ -20,18 +20,18 @@ class ContentAdmin(admin.ModelAdmin):
         "category",
         "metric",
         "metric_name",
-        "is_pb",
-        "can_be_split",
+        "has_pbs",
+        "has_hiscores",
         "can_be_mentored",
+        "can_be_split",
     ]
-    list_editable = ["is_pb", "can_be_split", "can_be_mentored"]
     list_filter = [
         AutocompleteFilterFactory("Content Category", "category"),
         "difficulty",
-        "is_pb",
+        "has_pbs",
+        "has_hiscores",
         "can_be_mentored",
         "can_be_split",
-        "has_hiscores",
     ]
 
     fieldsets = (
@@ -43,7 +43,13 @@ class ContentAdmin(admin.ModelAdmin):
                     "category",
                     "difficulty",
                     "icon",
-                    ("is_pb", "can_be_split", "can_be_mentored"),
+                    (
+                        "has_pbs",
+                        "can_be_split",
+                        "can_be_mentored",
+                        "has_hiscores",
+                        "hiscores_name",
+                    ),
                 ),
             },
         ),
@@ -51,7 +57,6 @@ class ContentAdmin(admin.ModelAdmin):
             "Other Options",
             {
                 "fields": (
-                    ("has_hiscores", "hiscores_name"),
                     "slug",
                     ("metric", "metric_name"),
                     ("ordering", "order"),
