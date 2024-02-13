@@ -19,7 +19,9 @@
                     {% endif %}
                 </span>
             </span>
-        <span class="mx-2 hidden font-bold text-gray-300 lg:block">{{ request.user.account.display_name }}</span>
+        {% if request.user.is_authenticated %}
+            <span class="mx-2 hidden font-bold text-gray-300 lg:block">{{ request.user.account.display_name }}</span>
+        {% endif %}
     </button>
     {% if request.user.is_authenticated %}
         {% include "main/navbar/navbar_user_profile_dropdown_desktop_authenticated.html" %}
