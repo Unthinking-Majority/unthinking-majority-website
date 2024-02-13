@@ -112,6 +112,9 @@
                     click: () => {
                         autoCompleteJS.start();
                     },
+                    close: () => {
+                        autoCompleteJS.input.value = "";
+                    }
                 },
                 list: {
                     scroll: (event) => {
