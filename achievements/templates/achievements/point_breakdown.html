@@ -5,7 +5,7 @@
 {% block content %}
     <div class="flex flex-col items-center justify-between">
         {% page_header "Point Multipliers" %}
-        <p class="text-center mb-4">
+        <p class="mb-4 text-center">
             <i>Points are adding as decimals, and rounded down to the nearest integer for display.</i>
         </p>
         <table class="overflow-hidden rounded-lg shadow-lg">
@@ -14,7 +14,7 @@
                 <th class="px-1 py-4 text-center md:py-4 md:text-base">
                     Board
                 </th>
-                <th class="px-1 hidden py-4 text-center md:block md:py-4 md:text-base">
+                <th class="hidden px-1 py-4 text-center md:block md:py-4 md:text-base">
                     Multiplier
                 </th>
                 <th class="px-1 py-4 text-center md:hidden md:py-4 md:text-base">
@@ -40,7 +40,7 @@
             <tbody>
             {% for board in boards %}
                 <tr class="odd:bg-gray-50 even:bg-gray-100">
-                    <td class="py-2 text-center text-sm md:text-base md:whitespace-nowrap md:px-2">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
                         {{ board }}
                     </td>
                     <td class="whitespace-nowrap py-2 text-center text-sm md:font-runescape md:px-2 md:text-2xl">

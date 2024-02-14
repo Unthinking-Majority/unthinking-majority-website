@@ -24,5 +24,6 @@ urlpatterns = [
                 "config": config,
             },
         ),
+        name="point-multipliers",
     ),
 ]
