@@ -6,7 +6,7 @@ app_name = "dragonstone"
 
 urlpatterns = [
     path(
-        "submit/dragonstone/",
+        "submit/",
         views.DragonstoneSubmissionWizard.as_view(),
         name="submit-dragonstone",
     ),

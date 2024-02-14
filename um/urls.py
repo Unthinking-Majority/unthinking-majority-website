@@ -10,8 +10,8 @@ admin.site.site_header = "UM Administration"
 
 urlpatterns = [
     path("", include("main.urls")),
-    path("", include("achievements.urls", namespace="achievements")),
-    path("", include("dragonstone.urls", namespace="dragonstone")),
+    path("achievements/", include("achievements.urls", namespace="achievements")),
+    path("dragonstone/", include("dragonstone.urls", namespace="dragonstone")),
     path("bounty/", include("bounty.urls", namespace="bounty")),
     path("admin/", admin.site.urls),
     path("accounts/", include("account.urls", namespace="account")),

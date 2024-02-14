@@ -66,3 +66,8 @@ def get_page_authors(page):
     return ", ".join(
         set([revision.user.account.display_name for revision in page.revisions.all()])
     )
+
+
+@register.filter
+def mult(val, multiplier):
+    return val * multiplier
