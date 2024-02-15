@@ -16,7 +16,7 @@ urlpatterns = [
     path(
         "point-multipliers/",
         TemplateView.as_view(
-            template_name="achievements/point_breakdown.html",
+            template_name="achievements/point_multipliers.html",
             extra_context={
                 "boards": Board.objects.filter(
                     content__has_pbs=True, is_active=True
