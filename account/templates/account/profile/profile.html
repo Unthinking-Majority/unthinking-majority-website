@@ -5,72 +5,67 @@
 {% block content %}
     {% page_header user.account.display_name %}
 
-    <div class="m-auto flex flex-col justify-center rounded-lg lg:w-9/12">
-        <div class="flex justify-center font-medium space-x-4">
-            <p class="py-1 text-center sm:py-2">
-                Username: {{ user.username }}
-            </p>
-            <p class="py-1 text-center sm:py-2">
-                <a href="{% url "accounts:password_change" %}" class="font-bold text-cyan-500 hover:text-gray-300">
-                    Change Password
-                </a>
-            </p>
-        </div>
-        <div class="flex justify-center font-medium space-x-4">
-            <p class="py-1 text-center sm:py-2">
-                In game name: {{ user.account.name }}
-            </p>
+    <div class="m-auto mt-2 flex flex-col items-center justify-center rounded-lg lg:w-9/12">
+
+        <ul class="mb-4 flex max-w-xl flex-col items-center overflow-hidden rounded-lg bg-gray-50 p-4 shadow-lg">
+            <li class="py-1">
+                <span class="align-middle">Username:</span>
+                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.username }}</span>
+            </li>
+            <li class="py-1">
+                <span class="align-middle">In Game Name:</span>
+                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.name }}</span>
+            </li>
             {% if user.account.preferred_name %}
-                <p class="py-1 text-center sm:py-2">
-                    Preferred name: {{ user.account.preferred_name }}
-                </p>
+                <li class="py-1">
+                    <span class="align-middle">Preferred Name:</span>
+                    <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.preferred_name }}</span>
+                </li>
             {% endif %}
-            <p class="py-1 text-center sm:py-2">
-                <a href="{% url "accounts:change-preferred-name" %}"
-                   class="font-bold text-cyan-500 hover:text-gray-300">
-                    {% if user.account.preferred_name %}Change{% else %}Add{% endif %} Preferred Name
-                </a>
-            </p>
-        </div>
-        <p class="text-center sm:py-2">
-            <span class="align-middle font-medium">Highest Tier Combat Achievement: </span>
-            <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.ca_tier }}</span>
-        </p>
-        <p class="text-center sm:py-2">
-            <span class="align-middle font-medium">Collection Log Total: </span>
-            <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
-        </p>
-        <div class="flex flex-wrap justify-center gap-1 py-1 sm:mx-4 sm:py-2">
-            <p class="font-medium">Pets: <span
-                    class="align-middle text-2xl font-runescape">({{ user.account.pets.count }})</span></p>
-            {% for pet_submission in user.account.pets %}
-                <a href="{{ pet_submission.proof.url }}" target="_blank"
-                   aria-label="{{ pet_submission.pet.name }} Proof Image">
-                    <img src="{{ pet_submission.pet.icon.url }}"
-                         class="inline-block object-scale-down"
-                         title="{{ pet_submission.pet.name }}">
-                </a>
-            {% endfor %}
-        </div>
-        {% if user.account.rank >= 3 %}  {# 3 == DIAMOND rank #}
-            <div class="flex items-center justify-center gap-1 sm:py-2">
-                <div class="align-middle font-medium">Dragonstone Points:</div>
-                <div class="text-center align-middle text-2xl font-runescape">
-                    {{ user.account.dragonstone_pts }}
-                </div>
-                {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
-                    <img src="{% static "dragonstone/img/dragonstone.webp" %}" alt="" class="h-6 w-6">
-                    <div class="hidden text-center align-middle font-medium sm:block">
-                        (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
-                    </div>
+            <li class="py-1">
+                {% if user.account.ca_tier %}
+                    <span class="align-middle">Combat Achievements:</span>
+                    <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.ca_tier }}</span>
                 {% endif %}
-            </div>
-            {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
-                <div class="text-center align-middle font-medium sm:hidden">
-                    (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
-                </div>
+            </li>
+            <li class="py-1">
+                <span class="align-middle">Collection Logs:</span>
+                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
+            </li>
+            <li class="flex flex-wrap gap-1 py-1">
+                {% for pet_submission in user.account.pets %}
+                    <a href="{{ pet_submission.proof.url }}" target="_blank"
+                       aria-label="{{ pet_submission.pet.name }} Proof Image">
+                        <img src="{{ pet_submission.pet.icon.url }}"
+                             class="inline-block object-scale-down"
+                             title="{{ pet_submission.pet.name }}">
+                    </a>
+                {% endfor %}
+            </li>
+            {% if user.account.rank >= 3 %}  {# 3 == DIAMOND rank #}
+                <li class="flex items-center gap-1 py-1">
+                    <div class="text-center align-middle text-2xl font-runescape">
+                        {{ user.account.dragonstone_pts }}
+                    </div>
+                    <div class="align-middle">Dragonstone Points</div>
+                    {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
+                        <img src="{% static "dragonstone/img/dragonstone.webp" %}" alt="" class="h-6 w-6">
+                        <div class="">
+                            (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
+                        </div>
+                    {% endif %}
+                </li>
             {% endif %}
-        {% endif %}
+        </ul>
+
+        <div class="flex flex-wrap justify-around md:w-1/2">
+            <a href="{% url "accounts:password_change" %}" class="mx-2 font-bold text-cyan-500 hover:text-gray-300">
+                Change Password
+            </a>
+            <a href="{% url "accounts:change-preferred-name" %}" class="mx-2 font-bold text-cyan-500 hover:text-gray-300">
+                {% if user.account.preferred_name %}Change{% else %}Add{% endif %} Preferred Name
+            </a>
+        </div>
 
         <div class="flex justify-center sm:mt-12">
             <div class="basis-full xl:basis-full">

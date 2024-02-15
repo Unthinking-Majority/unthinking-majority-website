@@ -59,7 +59,7 @@ class Account(models.Model):
             .filter(account=self.id)
             .aggregate(Min("ca_tier"))["ca_tier__min"]
         )
-        return CA_DICT.get(ca_tier, "None")
+        return CA_DICT.get(ca_tier, None)
 
     def dragonstone_pts(self):
         """
