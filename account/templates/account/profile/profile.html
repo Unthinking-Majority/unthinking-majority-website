@@ -58,14 +58,18 @@
             {% endif %}
         </ul>
 
-        <div class="flex flex-wrap justify-around md:w-1/2">
-            <a href="{% url "accounts:password_change" %}" class="mx-2 font-bold text-cyan-500 hover:text-gray-300">
-                Change Password
-            </a>
-            <a href="{% url "accounts:change-preferred-name" %}" class="mx-2 font-bold text-cyan-500 hover:text-gray-300">
-                {% if user.account.preferred_name %}Change{% else %}Add{% endif %} Preferred Name
-            </a>
-        </div>
+        <a href="{% url "accounts:password_change" %}" class="mx-2 py-0.5 font-bold text-cyan-500 hover:text-gray-300">
+            Change Password
+        </a>
+        <a href="{% url "accounts:change-preferred-name" %}" class="mx-2 py-0.5 font-bold text-cyan-500 hover:text-gray-300">
+            {% if user.account.preferred_name %}Change{% else %}Add{% endif %} Preferred Name
+        </a>
+        <a href="{% url "dragonstone:points-breakdown" %}" class="mx-2 py-0.5 font-bold text-cyan-500 hover:text-gray-300">
+            Dragonstone Points Breakdown
+        </a>
+        <a href="{% url "achievements:points-multipliers" %}" class="mx-2 py-0.5 font-bold text-cyan-500 hover:text-gray-300">
+            Points Multipliers
+        </a>
 
         <div class="flex justify-center sm:mt-12">
             <div class="basis-full xl:basis-full">
