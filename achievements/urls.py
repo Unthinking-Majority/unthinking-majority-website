@@ -14,9 +14,9 @@ urlpatterns = [
         name="submit-achievement",
     ),
     path(
-        "point-multipliers/",
+        "points-multipliers/",
         TemplateView.as_view(
-            template_name="achievements/point_multipliers.html",
+            template_name="achievements/points_multipliers.html",
             extra_context={
                 "boards": Board.objects.filter(
                     content__has_pbs=True, is_active=True
@@ -24,6 +24,6 @@ urlpatterns = [
                 "config": config,
             },
         ),
-        name="point-multipliers",
+        name="points-multipliers",
     ),
 ]

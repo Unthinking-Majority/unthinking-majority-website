@@ -1,0 +1,313 @@
+{% extends "main/site_base.html" %}
+
+{% load static um_components main_extras %}
+
+{% block content %}
+    <div class="flex flex-col items-center justify-between">
+        {% page_header "Dragonstone Points Breakdown" %}
+
+        <ul class="mb-4 flex max-w-xl flex-col items-center overflow-hidden rounded-lg bg-gray-50 p-4 shadow-lg">
+            <li class="py-1">
+                <span class="align-middle">Expiration Period:</span>
+                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ config.DRAGONSTONE_EXPIRATION_PERIOD }} days</span>
+            </li>
+            <li class="py-1">
+                <span class="align-middle">Rank Threshold:</span>
+                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ config.DRAGONSTONE_POINTS_THRESHOLD }} points</span>
+            </li>
+            <li class="py-1">
+                <span class="align-middle">Max PVM Splits Points:</span>
+                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ config.PVM_SPLIT_POINTS_MAX }} points</span>
+            </li>
+        </ul>
+
+        <div class="flex flex-wrap items-start justify-center gap-4">
+            {# PVM Splits #}
+            <table class="overflow-hidden rounded-lg shadow-lg min-w-60">
+                <thead class="rounded-lg bg-gray-800">
+                <tr class="text-white">
+                    <th colspan="2" class="px-1 py-4 text-center text-xl md:py-4">
+                        PVM Splits
+                    </th>
+                </tr>
+                <tr class="text-white">
+                    <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                        Difficulty
+                    </th>
+                    <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                        Points
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Easy
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.PVM_SPLIT_EASY_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Medium
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.PVM_SPLIT_HARD_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Hard
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.PVM_SPLIT_HARD_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Vary Hard
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.PVM_SPLIT_VERY_HARD_PTS }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            {# Events #}
+            <table class="overflow-hidden rounded-lg shadow-lg min-w-60">
+                <thead class="rounded-lg bg-gray-800">
+                <tr class="text-white">
+                    <th colspan="4" class="px-1 py-4 text-center text-xl md:py-4">
+                        Events
+                    </th>
+                </tr>
+                <tr class="text-white">
+                    <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                        Type
+                    </th>
+                    <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                        Host
+                    </th>
+                    <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                        Participant
+                    </th>
+                    <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                        Donor
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Major
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MAJOR_HOSTS_PTS }}
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MAJOR_PARTICIPANTS_PTS }}
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MAJOR_DONORS_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Mentor
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MENTOR_HOSTS_PTS }}
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MENTOR_PARTICIPANTS_PTS }}
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MENTOR_DONORS_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        PVM
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MINOR_HOSTS_PTS }}
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MINOR_PARTICIPANTS_PTS }}
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MINOR_DONORS_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Skilling
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MINOR_HOSTS_PTS }}
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MINOR_PARTICIPANTS_PTS }}
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_MINOR_DONORS_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Other
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_OTHER_HOSTS_PTS }}
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_OTHER_PARTICIPANTS_PTS }}
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.EVENT_OTHER_DONORS_PTS }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            {# Skill of the Month #}
+            <table class="overflow-hidden rounded-lg shadow-lg min-w-60">
+                <thead class="rounded-lg bg-gray-800">
+                <tr class="text-white">
+                    <th colspan="2" class="px-1 py-4 text-center text-xl md:py-4">
+                        Skill of the Month
+                    </th>
+                </tr>
+                <tr class="text-white">
+                    <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                        Place
+                    </th>
+                    <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                        Points
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        1st
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.SOTM_FIRST_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        2nd
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.SOTM_SECOND_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        3rd
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.SOTM_THIRD_PTS }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            {# Mentor #}
+            <table class="overflow-hidden rounded-lg shadow-lg min-w-60">
+                <thead class="rounded-lg bg-gray-800">
+                <tr class="text-white">
+                    <th colspan="2" class="px-1 py-4 text-center text-xl md:py-4">
+                        Mentor
+                    </th>
+                </tr>
+                <tr class="text-white">
+                    <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                        Difficulty
+                    </th>
+                    <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                        Points
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Easy
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.MENTOR_EASY_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Medium
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.MENTOR_HARD_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Hard
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.MENTOR_HARD_PTS }}
+                    </td>
+                </tr>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        Vary Hard
+                    </td>
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.MENTOR_VERY_HARD_PTS }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="my-4 flex flex-wrap justify-center gap-4">
+            {# New Member Raids #}
+            <table class="overflow-hidden rounded-lg shadow-lg min-w-60">
+                <thead class="rounded-lg bg-gray-800">
+                <tr class="text-white">
+                    <th class="px-1 py-4 text-center text-xl md:py-4">
+                        New Member Raid
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.NEW_MEMBER_RAID_PTS }} points
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            {# New Member Raids #}
+            <table class="overflow-hidden rounded-lg shadow-lg min-w-60">
+                <thead class="rounded-lg bg-gray-800">
+                <tr class="text-white">
+                    <th class="px-1 py-4 text-center text-xl md:py-4">
+                        Recruit New Member
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="odd:bg-gray-50 even:bg-gray-100">
+                    <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                        {{ config.RECRUITER_PTS }} points
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+{% endblock content %}
