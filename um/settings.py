@@ -231,7 +231,7 @@ CONSTANCE_CONFIG = {
 }
 
 # Wagtail settings
-WAGTAIL_SITE_NAME = "Unthinking Majority CMS"
+WAGTAIL_SITE_NAME = "Unthinking Majority"
 WAGTAILADMIN_BASE_URL = "https://www.um-osrs.com"
 WAGTAILIMAGES_EXTENSIONS = ["gif", "jpg", "jpeg", "png", "webp", "svg"]
 WAGTAILIMAGES_MAX_UPLOAD_SIZE = 20 * 1024 * 1024  # i.e. 20MB
