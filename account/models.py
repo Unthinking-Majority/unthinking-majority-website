@@ -57,6 +57,12 @@ class Account(models.Model):
         )
         return CA_DICT.get(ca_tier, None)
 
+    def achievements_pts(self):
+        """
+        Return total amount of achievements points for this account.
+        """
+        return self.__class__.objects.annotate_points().get(id=self.id).points
+
     def dragonstone_pts(self):
         """
         Return total amount of dragonstone points for this account.

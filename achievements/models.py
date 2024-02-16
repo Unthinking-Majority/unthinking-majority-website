@@ -52,7 +52,6 @@ class BaseSubmission(PolymorphicModel):
             self.get_real_instance().on_accepted()
 
     def send_notifications(self, request):
-        print("sending notifications from base")
         self.get_real_instance().send_notifications(request)
 
     def type_display(self):
@@ -247,9 +246,7 @@ class ColLogSubmission(BaseSubmission):
         return f"{self.col_logs}/{settings.MAX_COL_LOG} Collection Logs"
 
     def send_notifications(self, request):
-        print("we made it")
         if self.accepted is not None:
-            print("we made it time 2")
             verb = f"{'accepted' if self.accepted else 'denied'} your submission for"
             custom_url = reverse("account:profile") if request.user.is_staff else None
             if self.account.user:

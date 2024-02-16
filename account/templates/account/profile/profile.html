@@ -42,6 +42,10 @@
                     </a>
                 {% endfor %}
             </li>
+            <li class="py-1">
+                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.achievements_pts }}</span>
+                <span class="align-middle">achievement points</span>
+            </li>
             {% if user.account.rank >= 3 %}  {# 3 == DIAMOND rank #}
                 <li class="flex items-center gap-1 py-1">
                     <div class="text-center align-middle text-2xl font-runescape">
@@ -68,7 +72,7 @@
             Dragonstone Points Breakdown
         </a>
         <a href="{% url "achievements:points-multipliers" %}" class="mx-2 py-0.5 font-bold text-cyan-500 hover:text-gray-300">
-            Points Multipliers
+            Achievement Points Multipliers
         </a>
 
         <div class="flex justify-center sm:mt-12">
