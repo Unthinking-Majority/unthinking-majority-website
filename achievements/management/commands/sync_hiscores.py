@@ -151,7 +151,7 @@ class Command(BaseCommand):
                 ),
             )
         )
-        # results = asyncio.run(main(["KingOfJelly", "Katze btw"]))
+
         data = []
         for username, result in results:
             if not result:
@@ -162,7 +162,7 @@ class Command(BaseCommand):
             data.append(
                 (username, zip(bosses, hiscores_data[len(skills) + len(activities) :]))
             )
-
+        objs = []
         for username, result in data:
             for hiscores_name, hiscore in result:
                 try:
@@ -181,16 +181,18 @@ class Command(BaseCommand):
 
                 account = Account.objects.get(name=username)
 
-                obj, created = Hiscores.objects.update_or_create(
-                    account=account,
-                    content=content,
-                    defaults={"kill_count": kc, "rank_overall": rank},
+                objs.append(
+                    Hiscores(
+                        account=account,
+                        content=content,
+                        kill_count=kc,
+                        rank_overall=rank,
+                    )
                 )
-                if created:
-                    print(
-                        f"Created new Hiscores object {obj.id} for {obj.account} {obj.content} rank:{obj.rank_overall} kc: {obj.kill_count}"
-                    )
-                else:
-                    print(
-                        f"Updated Hiscores object {obj.id} for {obj.account} {obj.content} rank:{obj.rank_overall} kc: {obj.kill_count}"
-                    )
+
+        Hiscores.objects.bulk_create(
+            objs,
+            update_conflicts=True,
+            unique_fields=["account", "content"],
+            update_fields=["kill_count", "rank_overall"],
+        )

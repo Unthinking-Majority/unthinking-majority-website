@@ -329,6 +329,7 @@ class Hiscores(models.Model):
 
     class Meta:
         ordering = ["-kill_count", "rank_overall"]
+        unique_together = [("account", "content")]
         verbose_name = "Hiscores"
         verbose_name_plural = "Hiscores"
 
