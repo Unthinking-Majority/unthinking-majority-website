@@ -39,6 +39,7 @@ class DragonstonePointsChildAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.FreeformPoints)
 class FreeformPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.FreeformPoints
+    show_in_index = True
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "created_by"]
 
@@ -62,6 +63,7 @@ class FreeformPointsAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.RecruitmentPoints)
 class RecruitmentPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.RecruitmentPoints
+    show_in_index = True
     autocomplete_fields = ["account", "recruited"]
     readonly_fields = ["date", "points"]
 
@@ -81,6 +83,7 @@ class RecruitmentPointsAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.SotMPoints)
 class SotMPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.SotMPoints
+    show_in_index = True
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "points"]
 
@@ -100,6 +103,7 @@ class SotMPointsAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.PVMSplitPoints)
 class PVMSplitPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.PVMSplitPoints
+    show_in_index = True
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
@@ -120,6 +124,7 @@ class PVMSplitPointsAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.MentorPoints)
 class MentorPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.MentorPoints
+    show_in_index = True
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
@@ -140,6 +145,7 @@ class MentorPointsAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.EventHostPoints)
 class EventHostPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.EventHostPoints
+    show_in_index = True
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
@@ -160,6 +166,7 @@ class EventHostPointsAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.EventParticipantPoints)
 class EventParticipantPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.EventParticipantPoints
+    show_in_index = True
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
@@ -180,6 +187,7 @@ class EventParticipantPointsAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.EventDonorPoints)
 class EventDonorPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.EventDonorPoints
+    show_in_index = True
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
@@ -200,6 +208,7 @@ class EventDonorPointsAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.NewMemberRaidPoints)
 class NewMemberRaidPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.NewMemberRaidPoints
+    show_in_index = True
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]

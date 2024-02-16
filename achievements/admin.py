@@ -60,6 +60,7 @@ class BaseSubmissionChildAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.RecordSubmission)
 class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
     base_model = models.RecordSubmission
+    show_in_index = True
     autocomplete_fields = ["accounts", "board"]
     list_display = [
         "accounts_display",
@@ -112,6 +113,7 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.PetSubmission)
 class PetSubmissionAdmin(PolymorphicChildModelAdmin):
     base_model = models.PetSubmission
+    show_in_index = True
     autocomplete_fields = ["account", "pet"]
     list_display = ["account", "pet", "proof", "date", "accepted"]
     list_editable = ["accepted"]
@@ -146,6 +148,7 @@ class PetSubmissionAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.ColLogSubmission)
 class ColLogSubmissionAdmin(PolymorphicChildModelAdmin):
     base_model = models.ColLogSubmission
+    show_in_index = True
     autocomplete_fields = ["account"]
     list_display = ["account", "col_logs_display", "proof", "date", "accepted"]
     list_editable = ["accepted"]
@@ -183,6 +186,7 @@ class ColLogSubmissionAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.CASubmission)
 class CASubmissionAdmin(PolymorphicChildModelAdmin):
     base_model = models.CASubmission
+    show_in_index = True
     autocomplete_fields = ["account"]
     list_display = ["account", "ca_tier", "proof", "date", "accepted"]
     list_editable = ["accepted"]

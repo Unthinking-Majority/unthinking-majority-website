@@ -59,6 +59,7 @@ class DragonstoneBaseSubmissionChildAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.PVMSplitSubmission)
 class PVMSplitAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
     base_model = models.PVMSplitSubmission
+    show_in_index = True
     inlines = [inlines.PVMSplitPointsAdminInline]
     autocomplete_fields = ["content"]
     list_display = ["accounts_display", "content", "proof", "date", "accepted"]
@@ -93,6 +94,7 @@ class PVMSplitAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
 @admin.register(models.MentorSubmission)
 class MentorAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
     base_model = models.MentorSubmission
+    show_in_index = True
     inlines = [inlines.MentorPointsAdminInline]
     autocomplete_fields = ["learners", "content"]
     list_display = ["mentors_display", "content", "proof", "date", "accepted"]
@@ -128,6 +130,7 @@ class MentorAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
 @admin.register(models.EventSubmission)
 class EventAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
     base_model = models.EventSubmission
+    show_in_index = True
     inlines = [
         inlines.EventHostPointsAdminInline,
         inlines.EventParticipantPointsAdminInline,
@@ -167,6 +170,7 @@ class EventAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
 @admin.register(models.NewMemberRaidSubmission)
 class NewMemberRaidAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
     base_model = models.NewMemberRaidSubmission
+    show_in_index = True
     inlines = [
         inlines.NewMemberRaidPointsAdminInline,
     ]

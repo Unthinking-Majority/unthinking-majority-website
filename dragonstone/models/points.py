@@ -41,7 +41,7 @@ class DragonstonePoints(PolymorphicModel):
 
     class Meta:
         verbose_name = "Dragonstone Points"
-        verbose_name_plural = "Dragonstone Points"
+        verbose_name_plural = "All Dragonstone Points"
 
 
 class FreeformPoints(DragonstonePoints):
