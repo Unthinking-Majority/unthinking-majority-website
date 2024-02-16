@@ -72,6 +72,9 @@ class SotMPoints(DragonstonePoints):
         verbose_name = "Skill of the Month Points"
         verbose_name_plural = "Skill of the Month Points"
 
+    def __str__(self):
+        return f"{self.account} - {self.get_rank_display()} place"
+
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
             if self.rank == 1:
