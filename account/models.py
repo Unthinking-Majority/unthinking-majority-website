@@ -25,10 +25,6 @@ class Account(models.Model):
         blank=True,
     )
     is_active = models.BooleanField(default=True)
-    is_alt = models.BooleanField(
-        default=False,
-        help_text="Check if this is an alt account. Doesn't affect anything on the site; used only for helping admins.",
-    )
     rank = models.PositiveIntegerField(
         choices=ACCOUNT_RANK_CHOICES, null=True, blank=True
     )
