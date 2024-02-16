@@ -8,6 +8,7 @@ from account import models
 
 @admin.register(models.Account)
 class AccountAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["user"]
     list_display = ["name", "rank", "dragonstone_pts", "is_active"]
     list_editable = ["rank"]
     list_filter = ["is_active", "rank"]
@@ -18,9 +19,12 @@ class AccountAdmin(admin.ModelAdmin):
             None,
             {
                 "fields": (
-                    ("name", "preferred_name"),
+                    "name",
+                    "preferred_name",
+                    "user",
                     "rank",
-                    ("is_active", "is_alt"),
+                    "is_active",
+                    "is_alt",
                 ),
             },
         ),
