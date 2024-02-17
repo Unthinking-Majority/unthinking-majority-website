@@ -69,6 +69,10 @@
         font-weight: bold;
         font-style: normal;
     }
+    @font-face {
+        font-family: 'san-andreas';
+        src: url(../../fonts/SanAndreas.otf) format('opentype');
+    }
 }
 
 @layer utilities {

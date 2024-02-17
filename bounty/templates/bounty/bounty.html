@@ -8,11 +8,12 @@
         document.addEventListener("DOMContentLoaded", () => {
             function setTimer(duration, element) {
                 let interval = setInterval(() => {
-                    let hours = Math.trunc(duration / 3600),
+                    let days=Math.trunc(duration / 86400),
+                        hours = Math.trunc(duration / 3600) % 24,
                         minutes = Math.trunc(duration / 60) % 60,
                         seconds = duration % 60;
 
-                    element.textContent = `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
+                    element.textContent = `${String(days).padStart(2, '0')} days ${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
                     if (duration-- === 0) {
                         clearInterval(interval);
                     }
@@ -29,33 +30,40 @@
     </script>
 {% endblock extra_head %}
 
+{% block content-classes %}relative mb-6 h-auto rounded-lg bg-slate-100 p-2 shadow-xl shadow-black/40 bg-wood-panels
+    bg-cover{% endblock %}
+
 {% block content %}
-    <div class="text-center">
-        <div class="relative mx-auto inline-block">
-            <img src="{{ bounty.image.url }}">
-            <div class="absolute inset-x-0 bottom-56 mx-auto w-fit">
-                <div class="self-center whitespace-nowrap text-center align-middle text-6xl font-bold font-runescape">
-                    {{ bounty.title }}
-                </div>
+
+    {# Wanted Poster #}
+    <div class="mb-14 flex justify-center">
+        <div class="flex flex-col items-center rounded-sm bg-cover p-4 shadow-2xl shadow-black bg-rustic-paper md:m-2 md:basis-7/12 md:tracking-widest">
+            <h1 class="select-none text-6xl font-western md:text-9xl">WANTED</h1>
+            <div class="select-none text-center text-2xl font-bold font-western md:text-5xl">
+                DEAD AS FAST AS POSSIBLE
             </div>
-            <div class="absolute inset-x-0 bottom-24 mx-auto w-fit">
-                <div class="relative flex">
+            <img src="{{ bounty.image.url }}" class="mt-2 mb-2 select-none sepia-60 md:mt-8">
+            <div class="mt-2 select-none text-center text-4xl font-bold font-western md:mt-12 md:text-7xl">
+                {{ bounty.title }}
+            </div>
+            <div class="mt-2 flex select-none items-center md:mt-12">
+                <span class="mx-2 text-3xl font-western md:text-6xl">REWARD:</span>
+                <div class="flex">
                     <img src="{% static "bounty/img/coin_stack.webp" %}" class="h-24 w-24">
-                    <p class="absolute text-4xl tracking-wide text-green-500 font-runescape text-shadow">
+                    <p class="absolute text-3xl font-bold text-green-400 font-runescape text-shadow md:text-4xl">
                         {{ bounty.prize_pool|gp_display }}
                     </p>
                 </div>
             </div>
-            <div class="absolute inset-x-0 bottom-4 mx-auto w-fit">
-                <div id="countdown-timer" class="self-center whitespace-nowrap text-center align-middle text-5xl font-bold font-runescape">
-                    00 : 00 : 00
+            <div class="mt-2 flex select-none items-center md:mt-12">
+                <span class="mx-2 hidden text-2xl font-western md:block">TIME LEFT:</span>
+                <div id="countdown-timer"  class="whitespace-nowrap text-2xl font-bold font-western">
+                    -
                 </div>
             </div>
-            <div class="absolute right-4 bottom-4">
-                <a href="{% url "bounty:bounty-rules" %}" class="self-center whitespace-nowrap text-center align-middle text-4xl font-runescape">Rules</a>
-            </div>
+            <a href="{% url "bounty:bounty-rules" %}" class="mt-6 text-2xl font-western">Rules</a>
+            <a href="{% url "bounty:bounty-index" %}" class="whitespace-nowrap text-center align-middle text-2xl font-western">Previous Bounties</a>
         </div>
-
     </div>
 
 
@@ -64,9 +72,4 @@
             {% include "bounty/board.html" %}
         </span>
     </div>
-
-    <div class="flex flex-wrap justify-evenly gap-3">
-        <a href="{% url "bounty:bounty-index" %}" class="whitespace-nowrap text-center align-middle text-4xl font-runescape">Previous Bounties</a>
-    </div>
-
 {% endblock content %}

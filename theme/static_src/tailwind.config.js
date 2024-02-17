@@ -46,11 +46,19 @@ module.exports = {
             fontFamily: {
                 'sans': ['Kumbh Sans', 'sans-serif'],
                 'runescape': ['runescape', 'monospace'],
+                'western': ['san-andreas', 'monospace'],
             },
             colors: {
                 'um-brown': '#372D1F',
                 'um-purple': '#371F35',
                 'um-green': '#1F3721',
+            },
+            backgroundImage: {
+                'wood-panels': "url('/static/bounty/img/wood_panel.jpg')",
+                'rustic-paper': "url('/static/bounty/img/poster_background.jpg')",
+            },
+            sepia: {
+                60: '.60',
             }
         },
     },

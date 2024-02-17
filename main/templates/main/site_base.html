@@ -21,7 +21,8 @@
     {% block toast %}
         {% include "main/toast.html" %}
     {% endblock %}
-    <div id="content-div" class="relative mb-6 h-auto rounded-lg bg-slate-100 p-2 shadow-xl shadow-black/40 md:p-4">
+    <div id="content-div"
+         class="{% block content-classes %}relative mb-6 h-auto rounded-lg bg-slate-100 p-2 shadow-xl shadow-black/40 md:p-4{% endblock content-classes %}">
         {% block header %}
         {% endblock %}
         {% block content %}
