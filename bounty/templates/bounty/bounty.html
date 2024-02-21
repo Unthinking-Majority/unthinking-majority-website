@@ -8,7 +8,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             function setTimer(duration, element) {
                 let interval = setInterval(() => {
-                    let days=Math.trunc(duration / 86400),
+                    let days = Math.trunc(duration / 86400),
                         hours = Math.trunc(duration / 3600) % 24,
                         minutes = Math.trunc(duration / 60) % 60,
                         seconds = duration % 60;
@@ -36,36 +36,36 @@
 {% block content %}
 
     {# Wanted Poster #}
-    <div class="mb-14 flex justify-center">
+    <div class="m-2 mb-14 flex justify-center">
         <div class="flex flex-col items-center rounded-sm bg-cover p-4 shadow-xl shadow-black bg-rustic-paper md:m-2 md:basis-7/12 md:tracking-widest">
-            <h1 class="select-none text-6xl font-western md:text-9xl">WANTED</h1>
-            <div class="select-none text-center text-2xl font-bold font-western md:text-5xl">
+            <h1 class="select-none text-5xl font-western md:text-9xl">WANTED</h1>
+            <div class="select-none text-center text-xl font-bold font-western md:text-5xl">
                 DEAD AS FAST AS POSSIBLE
             </div>
             <img src="{{ bounty.image.url }}" class="mt-2 mb-2 select-none sepia-60 md:mt-8">
-            <div class="mt-2 select-none text-center text-4xl font-bold font-western md:mt-12 md:text-7xl">
+            <div class="mt-2 select-none text-center text-3xl font-bold font-western md:mt-12 md:text-7xl">
                 {{ bounty.title }}
             </div>
             <div class="mt-2 flex select-none items-center md:mt-12">
-                <span class="mx-2 text-3xl font-western md:text-6xl">REWARD:</span>
+                <span class="mx-2 text-2xl font-western md:text-6xl">REWARD:</span>
                 <div class="flex items-center md:items-start">
-                    <span class="mr-2 text-3xl font-bold text-green-400 font-runescape text-shadow md:hidden md:text-4xl">
+                    <span class="mr-2 text-3xl font-bold text-green-400 font-runescape text-shadow md:hidden">
                         {{ bounty.prize_pool|gp_display }}
                     </span>
                     <img src="{% static "bounty/img/coin_stack.webp" %}" class="h-12 w-12 md:h-24 md:w-24">
-                    <p class="absolute hidden text-3xl font-bold text-green-400 font-runescape text-shadow md:block md:text-4xl">
+                    <p class="absolute hidden text-4xl font-bold text-green-400 font-runescape text-shadow md:block">
                         {{ bounty.prize_pool|gp_display }}
                     </p>
                 </div>
             </div>
             <div class="mt-2 flex select-none items-center md:mt-12">
                 <span class="mx-2 hidden text-2xl font-western md:block">TIME LEFT:</span>
-                <div id="countdown-timer"  class="whitespace-nowrap text-2xl font-bold font-western">
+                <div id="countdown-timer" class="whitespace-nowrap text-xl md:text-2xl font-bold font-western">
                     -
                 </div>
             </div>
-            <a href="{% url "bounty:bounty-rules" %}" class="mt-6 text-2xl font-western">Rules</a>
-            <a href="{% url "bounty:bounty-index" %}" class="whitespace-nowrap text-center align-middle text-2xl font-western">Previous Bounties</a>
+            <a href="{% url "bounty:bounty-rules" %}" class="mt-2 text-lg font-western hover:scale-105 md:mt-6 md:text-2xl">Rules</a>
+            <a href="{% url "bounty:bounty-index" %}" class="text-lg font-western hover:scale-105 md:text-2xl">Previous Bounties</a>
         </div>
     </div>
 

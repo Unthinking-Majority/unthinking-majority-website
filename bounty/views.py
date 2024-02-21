@@ -11,7 +11,6 @@ class CurrentBountyView(ListView):
     template_name = "bounty/bounty.html"
 
     def dispatch(self, request, *args, **kwargs):
-        # check if there is some video onsite
         if not models.Bounty.get_current_bounty():
             return redirect("bounty:bounty-index")
         else:

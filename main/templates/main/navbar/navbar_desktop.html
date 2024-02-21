@@ -84,6 +84,16 @@
                 </li>
             </ul>
         </div>
+        {% if request.user.is_superuser or request.user.id == 3 %}
+            {% if bounty %}
+                <div class="relative group">
+                    <a href="{% url "bounty:current-bounty" %}"
+                       class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                        Bounty
+                    </a>
+                </div>
+            {% endif %}
+        {% endif %}
         <div class="relative group">
             <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                 Submit
@@ -102,16 +112,6 @@
                 </li>
             </ul>
         </div>
-        {% if request.user.is_superuser or request.user.id == 3 %}
-            {% if bounty %}
-                <div class="relative group">
-                    <a href="{% url "bounty:current-bounty" %}"
-                       class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
-                        Bounty
-                    </a>
-                </div>
-            {% endif %}
-        {% endif %}
         {% if menu_pages %}
             <div class="relative group">
                 <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
