@@ -1,4 +1,4 @@
-<ul class="absolute right-0 z-10 mt-2 group-focus-within:block hidden max-h-96 w-64 overflow-hidden overflow-y-auto whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+<ul class="absolute z-10 mt-2 group-focus-within:block hidden max-h-96 overflow-hidden overflow-y-auto whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
     <li>
         <a href="{% url "accounts:profile" %}"
            class="block px-4 py-2 text-gray-700 hover:bg-gray-300">Profile</a>
@@ -23,7 +23,7 @@
         </button>
     </li>
     {% for notification in notifications %}
-        <li class="flex w-64 items-center whitespace-normal notification-list-item 2xl:w-auto">
+        <li class="flex w-60 items-center whitespace-normal notification-list-item">
             <button class="notificationMarkReadButton"
                     data-url="{% url 'mark-notification-as-read' notification.id %}">
                 <svg fill="none"
