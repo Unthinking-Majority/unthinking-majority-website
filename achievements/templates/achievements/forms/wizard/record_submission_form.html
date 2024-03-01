@@ -1,8 +1,9 @@
 {% extends "main/forms/wizard/base.html" %}
-{% load main_extras um_components %}
+{% load static main_extras um_components %}
 {% block extra_head %}
     {{ block.super }}
     {{ wizard.form.media }}
+    <script src="{% static "js/inputmask.js" %}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             let minutes_selector = document.getElementById("{{ wizard.form.minutes.id_for_label }}");

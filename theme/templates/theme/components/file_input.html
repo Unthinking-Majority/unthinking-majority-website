@@ -33,7 +33,6 @@
         /* update displayed file name on change */
         file_input.addEventListener("change", (e) => {
             let filename_el = document.getElementById("{{ field.id_for_label }}" + "_filename");
-            console.log(filename_el);
             filename_el.textContent = e.target.files[0].name;
         });
 
