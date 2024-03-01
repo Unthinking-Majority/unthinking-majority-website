@@ -4,13 +4,13 @@
     <div class="flex items-center space-x-4">
         <a tabindex="0"
            href="/"
-           class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white">
+           class="rounded-md px-3 py-2 font-medium text-gray-100 hover:bg-gray-800 hover:text-white">
             Home
         </a>
         {% for content_category in content_categories %}
             {% if content_category.contents.count > 12 %}
                 <div class="relative group">
-                    <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                    <button class="rounded-md px-3 py-2 font-medium text-gray-100 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         {{ content_category.name }}
                     </button>
                     <div>
@@ -33,7 +33,7 @@
                 </div>
             {% else %}
                 <div class="relative group">
-                    <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                    <button class="rounded-md px-3 py-2 font-medium text-gray-100 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         {{ content_category.name }}
                     </button>
                     <div>
@@ -57,7 +57,7 @@
             {% endif %}
         {% endfor %}
         <div class="relative group">
-            <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+            <button class="rounded-md px-3 py-2 font-medium text-gray-100 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                 Other
             </button>
             <ul class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
@@ -88,14 +88,14 @@
             {% if bounty %}
                 <div class="relative group">
                     <a href="{% url "bounty:current-bounty" %}"
-                       class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                       class="rounded-md px-3 py-2 font-medium text-gray-100 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                         Bounty
                     </a>
                 </div>
             {% endif %}
         {% endif %}
         <div class="relative group">
-            <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+            <button class="rounded-md px-3 py-2 font-medium text-gray-100 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                 Submit
             </button>
             <ul class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
@@ -114,7 +114,7 @@
         </div>
         {% if menu_pages %}
             <div class="relative group">
-                <button class="rounded-md px-3 py-2 font-medium text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+                <button class="rounded-md px-3 py-2 font-medium text-gray-100 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
                     Resources
                 </button>
                 <ul class="absolute z-10 mt-2 group-focus-within:block hidden origin-top-right overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"

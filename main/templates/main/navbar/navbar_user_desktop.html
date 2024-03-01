@@ -1,5 +1,5 @@
 <div class="relative hidden group md:inline-block" tabindex="0">
-    <button class="flex items-center rounded-md py-2 text-gray-300 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
+    <button class="flex items-center rounded-md py-2 text-gray-100 hover:bg-gray-800 hover:text-white focus:bg-gray-800 focus:text-white">
             <span class="mx-2">
                 <span class="relative flex">
                     <svg fill="currentColor"
@@ -20,7 +20,7 @@
                 </span>
             </span>
         {% if request.user.is_authenticated %}
-            <span class="mx-2 hidden font-bold text-gray-300 lg:block">{{ request.user.account.display_name }}</span>
+            <span class="mx-2 hidden font-bold text-gray-100 lg:block">{{ request.user.account.display_name }}</span>
         {% endif %}
     </button>
     {% if request.user.is_authenticated %}
