@@ -12,7 +12,7 @@ from dragonstone import (
     EVENT_MENTOR,
 )
 from dragonstone import managers
-from main import EASY, MEDIUM, HARD, VERY_HARD
+from main import EASY, MEDIUM, HARD, VERY_HARD, SKILLS
 
 __all__ = [
     "DragonstonePoints",
@@ -67,6 +67,7 @@ class RecruitmentPoints(DragonstonePoints):
 
 class SotMPoints(DragonstonePoints):
     rank = models.PositiveIntegerField(choices=((1, "1st"), (2, "2nd"), (3, "3rd")))
+    skill = models.PositiveIntegerField(choices=SKILLS)
 
     class Meta:
         verbose_name = "Skill of the Month Points"

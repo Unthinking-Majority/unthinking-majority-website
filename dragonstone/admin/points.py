@@ -85,7 +85,8 @@ class SotMPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.SotMPoints
     show_in_index = True
     autocomplete_fields = ["account"]
-    list_display = ["account", "rank"]
+    list_display = ["account", "skill", "rank"]
+    list_filter = ["skill"]
     readonly_fields = ["date", "points"]
 
     fieldsets = (
@@ -93,7 +94,7 @@ class SotMPointsAdmin(PolymorphicChildModelAdmin):
             None,
             {
                 "fields": (
-                    ("account", "rank"),
+                    ("account", "skill", "rank"),
                     ("points", "date"),
                 ),
             },

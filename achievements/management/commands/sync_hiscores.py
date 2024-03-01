@@ -7,6 +7,7 @@ from django.core.management.base import BaseCommand, CommandError
 from account.models import Account
 from achievements.models import Hiscores
 from main.models import Content
+from main import SKILLS
 
 
 def get_url(username):
@@ -34,29 +35,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         skills = [
             "Overall",
-            "Attack",
-            "Defence",
-            "Strength",
-            "Hitpoints",
-            "Ranged",
-            "Prayer",
-            "Magic",
-            "Cooking",
-            "Woodcutting",
-            "Fletching",
-            "Fishing",
-            "Firemaking",
-            "Crafting",
-            "Smithing",
-            "Mining",
-            "Herblore",
-            "Agility",
-            "Thieving",
-            "Slayer",
-            "Farming",
-            "Runecrafting",
-            "Hunter",
-            "Construction",
+            *[i[1] for i in SKILLS],
         ]  # 23 skills + overall section at top
 
         activities = [
