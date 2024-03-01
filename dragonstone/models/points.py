@@ -90,6 +90,7 @@ class PVMSplitPoints(DragonstonePoints):
     submission = models.ForeignKey(
         "dragonstone.PVMSplitSubmission",
         on_delete=models.CASCADE,
+        related_name="points",
     )
 
     class Meta:
@@ -114,6 +115,7 @@ class MentorPoints(DragonstonePoints):
     submission = models.ForeignKey(
         "dragonstone.MentorSubmission",
         on_delete=models.CASCADE,
+        related_name="mentor_points",
     )
 
     class Meta:
@@ -138,6 +140,7 @@ class EventHostPoints(DragonstonePoints):
     submission = models.ForeignKey(
         "dragonstone.EventSubmission",
         on_delete=models.CASCADE,
+        related_name="host_points",
     )
 
     class Meta:
@@ -162,6 +165,7 @@ class EventParticipantPoints(DragonstonePoints):
     submission = models.ForeignKey(
         "dragonstone.EventSubmission",
         on_delete=models.CASCADE,
+        related_name="participant_points",
     )
 
     class Meta:
@@ -186,6 +190,7 @@ class EventDonorPoints(DragonstonePoints):
     submission = models.ForeignKey(
         "dragonstone.EventSubmission",
         on_delete=models.CASCADE,
+        related_name="donor_points",
     )
 
     class Meta:
@@ -210,6 +215,7 @@ class NewMemberRaidPoints(DragonstonePoints):
     submission = models.ForeignKey(
         "dragonstone.NewMemberRaidSubmission",
         on_delete=models.CASCADE,
+        related_name="points",
     )
 
     class Meta:
