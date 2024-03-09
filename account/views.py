@@ -32,16 +32,14 @@ class ProfileView(TemplateView):
 
         dragonstone_paginator = Paginator(
             DragonstoneBaseSubmission.objects.filter(
-                Q(
-                    Q(pvmsplitsubmission__accounts=self.request.user.account)
-                    | Q(mentorsubmission__mentors=self.request.user.account)
-                    | Q(mentorsubmission__learners=self.request.user.account)
-                    | Q(eventsubmission__hosts=self.request.user.account)
-                    | Q(eventsubmission__participants=self.request.user.account)
-                    | Q(eventsubmission__donors=self.request.user.account)
-                    | Q(newmemberraidsubmission__accounts=self.request.user.account)
-                )
-            ),
+                Q(pvmsplitsubmission__accounts=self.request.user.account)
+                | Q(mentorsubmission__mentors=self.request.user.account)
+                | Q(mentorsubmission__learners=self.request.user.account)
+                | Q(eventsubmission__hosts=self.request.user.account)
+                | Q(eventsubmission__participants=self.request.user.account)
+                | Q(eventsubmission__donors=self.request.user.account)
+                | Q(newmemberraidsubmission__accounts=self.request.user.account)
+            ).distinct(),
             per_page,
         )
 
