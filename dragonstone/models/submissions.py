@@ -148,6 +148,19 @@ class EventSubmission(DragonstoneBaseSubmission):
     def accounts_display(self):
         return ", ".join([host.display_name for host in self.hosts.all()])
 
+    def roles_display(self, account):
+        """
+        Display the role(s) the passed account played in this submission.
+        """
+        roles = []
+        if account in self.hosts.all():
+            roles += ["Host"]
+        if account in self.participants.all():
+            roles += ["Participant"]
+        if account in self.donors.all():
+            roles += ["Donor"]
+        return ", ".join(roles)
+
 
 class NewMemberRaidSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = "dragonstone/new_member_raid/proof/"

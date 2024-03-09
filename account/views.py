@@ -26,7 +26,7 @@ class ProfileView(TemplateView):
                 | Q(petsubmission__account=self.request.user.account)
                 | Q(collogsubmission__account=self.request.user.account)
                 | Q(casubmission__account=self.request.user.account)
-            ),
+            ).distinct(),
             per_page,
         )
 
@@ -34,7 +34,6 @@ class ProfileView(TemplateView):
             DragonstoneBaseSubmission.objects.filter(
                 Q(pvmsplitsubmission__accounts=self.request.user.account)
                 | Q(mentorsubmission__mentors=self.request.user.account)
-                | Q(mentorsubmission__learners=self.request.user.account)
                 | Q(eventsubmission__hosts=self.request.user.account)
                 | Q(eventsubmission__participants=self.request.user.account)
                 | Q(eventsubmission__donors=self.request.user.account)
