@@ -25,7 +25,7 @@ class Bounty(models.Model):
         return current_bounty
 
     def get_submissions(self):
-        return self.board.sort_submissions().filter(
+        return self.board.top_unique_submissions().filter(
             date__gte=self.start_date, date__lte=self.end_date
         )
 

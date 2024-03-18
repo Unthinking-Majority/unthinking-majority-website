@@ -6,10 +6,15 @@ from rest_framework.routers import DefaultRouter
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
+
+from account.api.urls import router as account_router
+from achievements.api.urls import router as achievements_router
 from main.api.urls import router as main_router
 
 router = DefaultRouter()
 router.registry.extend(main_router.registry)
+router.registry.extend(achievements_router.registry)
+router.registry.extend(account_router.registry)
 
 admin.site.site_header = "UM Administration"
 

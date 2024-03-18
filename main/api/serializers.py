@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from main.models import Board, Content, ContentCategory
+from main import models
 
 
 class ContentCategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = ContentCategory
+        model = models.ContentCategory
         fields = ["pk", "name", "slug"]
 
 
@@ -15,7 +15,7 @@ class ContentSerializer(serializers.ModelSerializer):
     metric = serializers.SerializerMethodField()
 
     class Meta:
-        model = Content
+        model = models.Content
         fields = [
             "pk",
             "name",
@@ -45,7 +45,7 @@ class BoardSerializer(serializers.ModelSerializer):
     content = ContentSerializer()
 
     class Meta:
-        model = Board
+        model = models.Board
         fields = [
             "pk",
             "name",

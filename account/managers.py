@@ -57,7 +57,7 @@ class AccountQueryset(QuerySet):
             config.FIFTH_PLACE_PTS,
         ]
         for board in Board.objects.filter(is_active=True, content__has_pbs=True):
-            submissions = board.sort_submissions()[:5]
+            submissions = board.top_unique_submissions()[:5]
 
             query = Q(is_active=True)
             for index, submission in enumerate(submissions):
