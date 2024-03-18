@@ -240,3 +240,12 @@ WAGTAILIMAGES_MAX_UPLOAD_SIZE = 20 * 1024 * 1024  # i.e. 20MB
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
 
 OSRS_PLAYER_HISCORES_API = os.environ.get("OSRS_PLAYER_HISCORES_API")
+
+# REST Settings
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 100,
+}
