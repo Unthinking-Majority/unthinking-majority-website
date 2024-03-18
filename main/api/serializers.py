@@ -49,13 +49,13 @@ class BoardSerializer(serializers.ModelSerializer):
         model = models.Board
         fields = [
             "pk",
-            "display_name",
             "name",
+            "display_name",
             "content",
             "team_size",
             "points_multiplier",
             "is_active",
         ]
 
-    def display_name(self, obj):
+    def get_display_name(self, obj):
         return str(obj)
