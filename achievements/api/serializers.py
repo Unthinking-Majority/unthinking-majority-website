@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
+from account.api.serializers import AccountSerializer
 from achievements import models
 from main.api.serializers import BoardSerializer
-from account.api.serializers import AccountSerializer
 
 
 class BaseSubmissionSerializer(serializers.ModelSerializer):
