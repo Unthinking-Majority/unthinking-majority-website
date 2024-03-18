@@ -4,6 +4,7 @@ from rest_framework.response import Response
 
 from main import models
 from main.api import serializers
+from achievements.api.serializers import RecordSubmissionSerializer
 
 
 class ContentCateogryViewSet(viewsets.ModelViewSet):
@@ -21,6 +22,8 @@ class BoardViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BoardSerializer
 
     @action(detail=True, methods=["GET"])
-    def get_top_unique_submissions(self, request, pk=None):
+    def top_unique_submissions(self, request, pk=None):
         board = self.get_object()
-        return Response(board)
+        return Response(
+            RecordSubmissionSerializer(board.top_unique_submissions(), many=True).data
+        )
