@@ -1,9 +1,9 @@
 from django import template
 from django.conf import settings
+from wagtail.models import Site
 
 from bounty.models import Bounty
 from main.models import ContentCategory, UMNotification
-from wagtail.models import Site
 
 register = template.Library()
 

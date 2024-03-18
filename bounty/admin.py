@@ -1,8 +1,8 @@
 from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
 
-from bounty import models
 from bounty import forms
+from bounty import models
 
 
 @admin.register(models.Bounty)

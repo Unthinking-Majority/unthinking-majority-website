@@ -1,5 +1,4 @@
 from django.contrib.postgres.aggregates import StringAgg
-
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Q

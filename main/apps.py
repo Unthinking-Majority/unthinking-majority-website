@@ -13,4 +13,3 @@ class CustomConstanceConfig(ConstanceConfig):
 
     def ready(self):
         super().ready()
-        from main import signals

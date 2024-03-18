@@ -6,8 +6,8 @@ from django.core.management.base import BaseCommand, CommandError
 
 from account.models import Account
 from achievements.models import Hiscores
-from main.models import Content
 from main import SKILLS
+from main.models import Content
 
 
 def get_url(username):

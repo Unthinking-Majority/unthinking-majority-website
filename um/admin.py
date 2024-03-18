@@ -1,5 +1,5 @@
-from django.contrib.admin.apps import AdminConfig
 from django.contrib import admin
+from django.contrib.admin.apps import AdminConfig
 
 
 class UMAdminSite(admin.AdminSite):
