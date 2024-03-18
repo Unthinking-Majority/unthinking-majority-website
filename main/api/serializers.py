@@ -55,6 +55,7 @@ class BoardSerializer(serializers.ModelSerializer):
             "team_size",
             "points_multiplier",
             "is_active",
+            "slug",
         ]
 
     def get_display_name(self, obj):
