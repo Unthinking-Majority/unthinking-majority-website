@@ -60,6 +60,7 @@ class Command(BaseCommand):
 
         # Why the shit did Jagex do alphabetical order for all of these except PNM??? Makes my life harder!!!
         bosses = [
+            "Colosseum Glory",
             "Abyssal Sire",
             "Alchemical Hydra",
             "Artio",
@@ -99,6 +100,7 @@ class Command(BaseCommand):
             "Scorpia",
             "Scurrius",
             "Skotizo",
+            "Sol Heredit",
             "Spindel",
             "Tempoross",
             "The Gauntlet",
@@ -119,7 +121,7 @@ class Command(BaseCommand):
             "Wintertodt",
             "Zalcano",
             "Zulrah",
-        ]  # 58 bosses
+        ]  # 60 hiscores (59 bosses + glory for colosseum!)
 
         results = asyncio.run(
             main(
