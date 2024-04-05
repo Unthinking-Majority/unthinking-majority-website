@@ -63,7 +63,9 @@ class LeaderboardView(TemplateView):
         if context["content"].has_hiscores and context["type"] == "hiscores":
             hiscores_page = Paginator(
                 achievements_models.Hiscores.objects.filter(
-                    content=context["content"], account__is_active=True
+                    content=context["content"],
+                    account__is_active=True,
+                    kill_count__gt=0,
                 ),
                 per_page,
             )
