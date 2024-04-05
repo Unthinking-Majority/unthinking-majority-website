@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
      * Highlight entries in sidebar as users scroll to them
      * Credit to Dakota Lee Martinez https://dakotaleemartinez.com/tutorials/how-to-add-active-highlight-to-table-of-contents/
      */
-
     function calc_header_height() {
         return document.querySelector(".content-page-body h2").offsetHeight;
     }
@@ -47,8 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     class Scroller {
         static init() {
-            this.sidebar_links_desktop = Array.from(document.getElementById("content-page-sidebar-desktop").querySelectorAll("li")).slice(1);
-            this.sidebar_links_mobile = Array.from(document.getElementById("content-page-sidebar-mobile").querySelectorAll("li")).slice(1);
+            this.sidebar_links_desktop = Array.from(document.getElementById("content-page-sidebar-desktop").querySelectorAll("li")).slice(2);
+            this.sidebar_links_mobile = Array.from(document.getElementById("content-page-sidebar-mobile").querySelectorAll("li")).slice(2);
             this.headers = Array.from(document.querySelectorAll(".content-page-body h2, .content-page-body h3"));
             this.current_header_classes = ["text-white"];
             this.ticking = false;
@@ -69,13 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let activeIndex = this.headers.findIndex((header) => {
                 return header.getBoundingClientRect().top > header_height;
             });
-            if ((window.innerHeight + Math.round(window.scrollY)) >= document.documentElement.scrollHeight) {
-                /* We are at the bottom of the page */
-                activeIndex = this.headers.length - 1;
-            } else if (activeIndex === -1) {
-                /* We have scrolled past all possible headers */
-                activeIndex = this.headers.length - 1;
-            } else if (activeIndex > 0) {
+            if (activeIndex > 0) {
                 activeIndex--;
             }
             this.sidebar_links_desktop.forEach(link => link.classList.remove(...this.current_header_classes));
