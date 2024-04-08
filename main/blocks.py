@@ -26,3 +26,9 @@ class EmojiRowBlock(blocks.StructBlock):
     class Meta:
         icon = "pick"
         template = "main/blocks/emoji_row_block.html"
+
+
+class EmbedBlock(blocks.URLBlock):
+    class Meta:
+        icon = "media"
+        template = "main/blocks/embed_block.html"

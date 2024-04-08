@@ -1,5 +1,8 @@
 from django import template
 from django.conf import settings
+from django.utils.safestring import mark_safe
+from wagtail.embeds import embeds
+from wagtail.embeds.exceptions import EmbedException
 from wagtail.models import Site
 
 from bounty.models import Bounty
@@ -71,3 +74,15 @@ def get_page_authors(page):
 @register.filter
 def mult(val, multiplier):
     return val * multiplier
+
+
+@register.simple_tag(name="embed")
+def embed_tag(url, max_width=None, max_height=None):
+    """
+    Override wagtailembeds_tags embed_tag so we can pass max_height argument.
+    """
+    try:
+        embed = embeds.get_embed(url, max_width=max_width, max_height=max_height)
+        return mark_safe(embed.html)
+    except EmbedException:
+        return ""

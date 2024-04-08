@@ -1,14 +1,13 @@
 from django.db import models
 from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
-from wagtail.embeds.blocks import EmbedBlock
 from wagtail.fields import StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 from wagtail.search import index
 
 from main import THEME_CHOICES
-from main.blocks import BannerBlock, EmojiRowBlock
+from main.blocks import BannerBlock, EmojiRowBlock, EmbedBlock
 
 __all__ = [
     "HomePage",
@@ -82,7 +81,7 @@ class ContentPage(Page):
                 ),
             ),
             ("image", ImageChooserBlock()),
-            ("embed", EmbedBlock(max_width=960, max_height=540)),
+            ("embed", EmbedBlock()),
             ("emoji_row", EmojiRowBlock()),
         ],
         use_json_field=True,
