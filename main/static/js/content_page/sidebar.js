@@ -70,6 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             if (activeIndex > 0) {
                 activeIndex--;
+            } else {
+                activeIndex = this.headers.length - 1;
             }
             this.sidebar_links_desktop.forEach(link => link.classList.remove(...this.current_header_classes));
             this.sidebar_links_desktop[activeIndex].classList.add(...this.current_header_classes);
