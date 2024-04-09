@@ -12,14 +12,9 @@
         </svg>
     </div>
     <div class="fixed right-6 bottom-6 hidden transition-all ease-in-out sidebar-panel">
-        <ul class="rounded-lg bg-slate-700 px-4 py-2 text-gray-300">
+        <ul class="rounded-lg bg-slate-700 px-4 py-4 text-gray-400">
             <li>
-                <p>Page Contents</p>
-            </li>
-            <li class="my-1 ml-2">
-                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="flex hover:text-white">
-                    Back to Top
-                </button>
+                <h3 class="text-lg text-white text-center">Page Contents</h3>
             </li>
             {% for block in page.body %}
                 {% if block.block_type == "heading_2" %}
@@ -27,7 +22,7 @@
                         <a href="#{{ block.value|slugify }}" class="hover:text-white">{{ block.value }}</a>
                     </li>
                 {% elif block.block_type == "heading_3" %}
-                    <li class="my-1 pl-4">
+                    <li class="my-1 pl-6">
                         <a href="#{{ block.value|slugify }}" class="hover:text-white">{{ block.value }}</a>
                     </li>
                 {% endif %}
@@ -38,21 +33,11 @@
 
 {# Desktop sidebar #}
 <aside id="content-page-sidebar-desktop" class="invisible fixed transition-all duration-200 2xl:visible">
-    <ul class="rounded-lg px-4 py-1 text-gray-300">
+    <ul class="rounded-lg px-4 py-1 text-gray-400">
         <li>
-            <h3 class="text-lg">
+            <h3 class="text-lg text-white text-center">
                 Page Contents
             </h3>
-        </li>
-        <li class="my-1 ml-4">
-            <a href="javascript:void(0);" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); location.hash = '';"
-               class="flex items-center space-x-12 hover:text-white">
-                Back to Top
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"></path>
-                </svg>
-            </a>
         </li>
         {% for block in page.body %}
             {% if block.block_type == "heading_2" %}

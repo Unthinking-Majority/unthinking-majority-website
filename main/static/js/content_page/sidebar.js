@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             desktop_sidebar.style.right = window.innerWidth - content_div.getBoundingClientRect().right + 5 + "px";
             desktop_sidebar.getElementsByTagName("ul")[0].classList.add("bg-slate-700");
         } else {
-            desktop_sidebar.style.right = window.innerWidth - content_div.getBoundingClientRect().right - desktop_sidebar.offsetWidth + "px";
+            desktop_sidebar.style.right = window.innerWidth - content_div.getBoundingClientRect().right - desktop_sidebar.offsetWidth - 15 + "px";
             desktop_sidebar.getElementsByTagName("ul")[0].classList.remove("bg-slate-700");
         }
     }
@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     class Scroller {
         static init() {
-            this.sidebar_links_desktop = Array.from(document.getElementById("content-page-sidebar-desktop").querySelectorAll("li")).slice(2);
-            this.sidebar_links_mobile = Array.from(document.getElementById("content-page-sidebar-mobile").querySelectorAll("li")).slice(2);
+            this.sidebar_links_desktop = Array.from(document.getElementById("content-page-sidebar-desktop").querySelectorAll("li")).slice(1);
+            this.sidebar_links_mobile = Array.from(document.getElementById("content-page-sidebar-mobile").querySelectorAll("li")).slice(1);
             this.headers = Array.from(document.querySelectorAll(".content-page-body h2, .content-page-body h3"));
             this.current_header_classes = ["text-white"];
             this.ticking = false;
