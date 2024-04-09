@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             if (activeIndex > 0) {
                 activeIndex--;
-            } else {
+            } else if (activeIndex === -1) {
                 activeIndex = this.headers.length - 1;
             }
             this.sidebar_links_desktop.forEach(link => link.classList.remove(...this.current_header_classes));
