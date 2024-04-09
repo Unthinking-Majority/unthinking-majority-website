@@ -54,8 +54,7 @@ module.exports = {
                 'um-green': '#1F3721',
             },
             backgroundImage: {
-                'wood-panels': "url('/static/bounty/img/wood_panel.jpg')",
-                'rustic-paper': "url('/static/bounty/img/poster_background.jpg')",
+                'faded-paper': "url('/static/bounty/img/FadedPaper.jpg')",
             },
             sepia: {
                 60: '.60',

@@ -21,10 +21,10 @@
             {% endif %}
             <p>Last updated on {{ page.last_published_at|date:"M d, Y" }}</p>
         </div>
-        <div class="content-page-body sm:px-40">
+        <div class="content-page-body lg:px-40">
             {% for block in page.body %}
                 {% if block.block_type == "heading_2" %}
-                    <div class="mt-6 mb-2 flex justify-center py-2 text-center group md:justify-start md:whitespace-nowrap">
+                    <div class="mt-6 mb-2 flex justify-center py-2 text-center group md:whitespace-nowrap lg:justify-start">
                         <div class="flex items-center justify-start">
                             <h2 id="{{ block.value|slugify }}"
                                 class="cursor-default text-4xl font-bold tracking-tight md:text-5xl">
