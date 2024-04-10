@@ -31,7 +31,7 @@ class CurrentBountyView(ListView):
 
 
 class BountyIndexView(TemplateView):
-    template_name = "bounty/bounty_index.html"
+    template_name = "bounty/index.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -42,7 +42,7 @@ class BountyIndexView(TemplateView):
 
 
 class BountyView(ListView):
-    template_name = "bounty/bounty_view.html"
+    template_name = "bounty/previous.html"
     paginate_by = 10
 
     def get_queryset(self):
@@ -59,4 +59,4 @@ class BountyView(ListView):
 
 
 class BountyRulesView(TemplateView):
-    template_name = "bounty/bounty_rules.html"
+    template_name = "bounty/rules.html"
