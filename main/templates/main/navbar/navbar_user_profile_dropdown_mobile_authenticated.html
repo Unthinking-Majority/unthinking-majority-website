@@ -10,9 +10,6 @@
     <li>
         <a href="{% url "accounts:logout" %}" class="block px-4 py-2 text-white">Log out</a>
     </li>
-{#    {% if notifications.exists %}#}
-{#        <hr id="notificationDivider">#}
-{#    {% endif %}#}
     <li class="mt-2 text-center {% if not notifications.count > 0 %}hidden{% endif %}">
         <button data-url="{% url 'mark-all-notification-as-read' request.user.id %}"
                 class="font-bold text-cyan-500 mark-all-read-button hover:text-gray-100">
