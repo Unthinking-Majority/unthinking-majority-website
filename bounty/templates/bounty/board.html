@@ -1,6 +1,8 @@
+{% load static %}
+
 <table class="w-full overflow-hidden rounded-lg shadow-lg">
-    <thead class="rounded-lg bg-gray-800">
-    <tr class="text-white">
+    <thead class="rounded-lg bg-amber-900">
+    <tr class="text-white font-san-andreas">
         <th class="px-1 py-4 text-center md:py-4 md:text-base">
             Rank
         </th>
@@ -84,7 +86,7 @@
                     </div>
                 {% endif %}
             </td>
-            <td class="whitespace-nowrap py-4 pr-2 text-center text-xl font-runescape md:px-2 md:text-2xl">
+            <td class="whitespace-nowrap py-4 pr-2 text-center text-xl font-western md:px-2 md:text-2xl">
                 {{ submission.value_display }}
             </td>
         </tr>
@@ -92,32 +94,22 @@
     </tbody>
 </table>
 
-<div class="mt-4 flex justify-around border-t-2 py-2 text-gray-800">
+<div class="relative flex justify-center py-2 text-gray-800">
     {% if page_obj.has_previous %}
         <a href="?page={{ page_obj.previous_page_number }}"
-           class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
-            Previous
-        </a>
-    {% else %}
-        <a class="mx-2 my-4 rounded-md bg-gray-200 px-3 py-2 font-medium text-gray-400 shadow-md hover:cursor-default"
-           disabled>
-            Previous
+           class="absolute top-5 left-0 rounded-md px-3 py-2 transition ease-in-out hover:scale-105">
+            <img src="{% static "bounty/svg/fingerPoint.svg" %}" alt="" class="h-10 scale-x-[-1] md:h-12">
         </a>
     {% endif %}
 
-    <a class="my-4 rounded-md px-3 py-2 font-medium hover:cursor-default">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    <a class="my-4 rounded-md px-3 py-2 text-xl font-san-andreas hover:cursor-default">
+        {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
     </a>
 
     {% if page_obj.has_next %}
         <a href="?page={{ page_obj.next_page_number }}"
-           class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
-            Next
-        </a>
-    {% else %}
-        <a class="mx-2 my-4 rounded-md bg-gray-200 px-3 py-2 font-medium text-gray-400 shadow-md hover:cursor-default"
-           disabled>
-            Next
+           class="absolute top-5 right-0 rounded-md px-3 py-2 transition ease-in-out hover:scale-105">
+            <img src="{% static "bounty/svg/fingerPoint.svg" %}" alt="" class="h-10 md:h-12">
         </a>
     {% endif %}
 </div>
