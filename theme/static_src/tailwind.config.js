@@ -46,12 +46,14 @@ module.exports = {
             fontFamily: {
                 'sans': ['Kumbh Sans', 'sans-serif'],
                 'runescape': ['runescape', 'monospace'],
-                'western': ['san-andreas', 'monospace'],
+                'western': ['old-western', 'monospace'],
+                'san-andreas': ['san-andreas', 'monospace'],
             },
             colors: {
                 'um-brown': '#372D1F',
                 'um-purple': '#371F35',
                 'um-green': '#1F3721',
+                'western-brown': '#433518',
             },
             backgroundImage: {
                 'faded-paper': "url('/static/bounty/img/FadedPaper.jpg')",

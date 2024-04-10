@@ -1,4 +1,4 @@
-{% extends "main/site_base.html" %}
+{% extends "bounty/bounty_base.html" %}
 
 {% load static main_extras %}
 
@@ -13,7 +13,7 @@
                         minutes = Math.trunc(duration / 60) % 60,
                         seconds = duration % 60;
 
-                    element.textContent = `${String(days).padStart(2, '0')} days ${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
+                    element.textContent = `${String(days).padStart(2, '0')} : ${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
                     if (duration-- === 0) {
                         clearInterval(interval);
                     }
@@ -32,14 +32,15 @@
 
 {% block content %}
     {# Wanted Poster #}
-
-    <h1 class="text-center text-8xl tracking-wide font-western">
-        Bounty
-    </h1>
-    <div class="m-2 mb-14 flex justify-center">
-        <div class="flex flex-col items-center rounded-sm bg-cover p-4 shadow-xl shadow-black/60 bg-faded-paper md:m-2 md:basis-7/12 md:tracking-widest">
-            <h1 class="select-none text-5xl font-western md:text-8xl">WANTED</h1>
-            <div class="select-none text-center text-xl font-bold font-western md:text-5xl">
+    {#    <div class="w-min p-2 bg-western-brown">#}
+    {#        <h1 class="bg-clip-text text-center text-xl leading-loose tracking-widest text-transparent font-western bg-faded-paper">#}
+    {#            BOUNTY#}
+    {#        </h1>#}
+    {#    </div>#}
+    <div class="mt-14 mb-14 flex justify-center">
+        <div class="flex flex-col items-center rounded-sm p-4 md:m-2 md:basis-7/12 md:tracking-widest">
+            <h1 class="select-none text-5xl font-western md:text-7xl">WANTED</h1>
+            <div class="select-none text-center text-xl font-bold font-san-andreas text-western-brown md:text-5xl">
                 DEAD AS FAST AS POSSIBLE
             </div>
             <img src="{{ bounty.image.url }}" class="mt-2 mb-2 select-none sepia-60 md:mt-8">
@@ -64,8 +65,10 @@
                     -
                 </div>
             </div>
-            <a href="{% url "bounty:bounty-rules" %}" class="mt-2 text-lg font-western hover:scale-105 md:mt-6 md:text-2xl">Rules</a>
-            <a href="{% url "bounty:bounty-index" %}" class="text-lg font-western hover:scale-105 md:text-2xl">Previous Bounties</a>
+            <a href="{% url "bounty:bounty-rules" %}"
+               class="mt-2 text-lg font-western hover:scale-105 md:mt-6 md:text-2xl">Rules</a>
+            <a href="{% url "bounty:bounty-index" %}" class="text-lg font-western hover:scale-105 md:text-2xl">Previous
+                Bounties</a>
         </div>
     </div>
 

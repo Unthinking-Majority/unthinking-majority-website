@@ -73,6 +73,10 @@
         font-family: 'san-andreas';
         src: url(../../fonts/SanAndreas.otf) format('opentype');
     }
+    @font-face {
+        font-family: 'old-western';
+        src: url(../../fonts/OldWestern.ttf) format('truetype');
+    }
 }
 
 @layer utilities {
