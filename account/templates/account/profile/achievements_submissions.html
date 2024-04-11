@@ -30,7 +30,7 @@
             <td class="hidden whitespace-nowrap py-4 text-center text-sm font-light lg:table-cell">
                 {{ submission.date|date:"M d, Y" }}
             </td>
-            <td class="py-4 font-runescape">
+            <td class="py-4">
                 {% if submission.notes %}
                     <div class="static m-auto w-min group" tabindex="0">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
@@ -39,7 +39,7 @@
                                   d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
                                   clip-rule="evenodd"></path>
                         </svg>
-                        <span class="absolute max-lg:right-0 max-lg:left-0 z-10 max-lg:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-gray-600 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none lg:w-96 lg:-translate-x-1/2"
+                        <span class="absolute max-lg:right-0 max-lg:left-0 z-10 max-lg:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-slate-700 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none lg:w-96 lg:-translate-x-1/2"
                               tabindex="-1">
                             {{ submission.notes }}
                         </span>
@@ -77,14 +77,13 @@
                                  class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:cursor-pointer hover:text-red-800">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
-                            <span class="absolute max-lg:right-0 max-lg:left-0 z-10 max-lg:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-gray-600 p-2 text-center text-base text-gray-50 font-runescape group-hover:block hover:cursor-default focus:outline-none lg:w-96 lg:-translate-x-1/2"
-                                  tabindex="-1">
-                                            {% if submission.denial_notes %}
-                                                {{ submission.denial_notes }}
-                                            {% else %}
-                                                No reason for denial provided.
-                                            {% endif %}
-                                        </span>
+                            <span class="absolute max-lg:right-0 max-lg:left-0 z-10 max-lg:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-slate-700 p-2 text-center text-base text-gray-50 font-runescape group-hover:block hover:cursor-default focus:outline-none lg:w-96 lg:-translate-x-1/2" tabindex="-1">
+                                {% if submission.denial_notes %}
+                                    {{ submission.denial_notes }}
+                                {% else %}
+                                    No reason for denial provided.
+                                {% endif %}
+                            </span>
                         </div>
                     {% else %} {# Null (has not been reviewed) #}
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

@@ -31,7 +31,7 @@
                     <p class="pr-2 text-center">{{ account.pets.count }}</p>
                 </div>
             </td>
-            <td class="py-4 text-center font-runescape md:px-2">
+            <td class="py-4 text-center md:px-2">
                 <div class="max-md:ml-4 flex flex-row flex-wrap gap-1">
                     {% for pet_submission in account.pets %}
                         <div class="group" tabindex="0">
@@ -42,7 +42,7 @@
                             {% else %}
                                 <img src="{{ pet_submission.pet.icon.url }}" class="inline-block object-scale-down">
                             {% endif %}
-                            <span class="absolute max-md:right-0 max-md:left-0 z-10 max-md:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-gray-600 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none md:w-96 md:-translate-x-1/2"
+                            <span class="absolute max-md:right-0 max-md:left-0 z-10 max-md:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-slate-700 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none md:w-96 md:-translate-x-1/2"
                                   tabindex="-1">
                                 <p>{{ pet_submission.pet.name }}</p>
                                 <p>{{ pet_submission.date|date:"M d, Y" }}</p>
