@@ -47,6 +47,7 @@ module.exports = {
                 'sans': ['Kumbh Sans', 'sans-serif'],
                 'runescape': ['runescape', 'monospace'],
                 'western': ['old-western', 'monospace'],
+                'cast-iron': ['cast-iron', 'monospace'],
                 'san-andreas': ['san-andreas', 'monospace'],
             },
             colors: {

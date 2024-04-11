@@ -58,7 +58,7 @@
                 <div class="flex-grow border-2 border-black"></div>
             </div>
 
-            <h1 class="select-none text-5xl font-western md:text-9xl md:tracking-widest">WANTED</h1>
+            <h1 class="select-none text-5xl font-cast-iron md:text-9xl md:tracking-widest">WANTED</h1>
 
             <div class="mb-4 flex w-full items-center md:mb-12">
                 <div class="flex-grow border-2 border-black"></div>
@@ -89,17 +89,17 @@
 
             <img src="{{ bounty.image.url }}" class="h-40 select-none sepia-60 md:my-8 md:h-96">
 
-            <div class="select-none text-center text-5xl font-bold font-western md:text-8xl">
+            <div class="select-none text-center text-5xl font-bold font-western md:text-7xl">
                 {{ bounty.title }}
             </div>
 
             <div class="my-12 flex select-none items-center">
-                <span class="mx-2 text-4xl font-western md:text-9xl">REWARD</span>
+                <span class="mx-2 text-4xl font-western md:text-8xl">REWARD</span>
                 <div class="flex items-center md:items-start">
                     <span class="mr-2 text-3xl font-bold text-green-400 font-runescape text-shadow md:hidden">
                         {{ bounty.prize_pool|gp_display }}
                     </span>
-                    <img src="{% static "bounty/img/CoinStack.webp" %}" class="h-12 w-12 md:h-32 md:w-32">
+                    <img src="{% static "bounty/img/CoinStack.webp" %}" class="h-12 w-12 md:h-28 md:w-28">
                     <p class="absolute hidden text-5xl font-bold text-green-400 font-runescape text-shadow md:block">
                         {{ bounty.prize_pool|gp_display }}
                     </p>

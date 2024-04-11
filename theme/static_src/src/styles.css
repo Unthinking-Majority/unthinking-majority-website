@@ -75,7 +75,11 @@
     }
     @font-face {
         font-family: 'old-western';
-        src: url(../../fonts/OldWesternTest.ttf) format('truetype');
+        src: url(../../fonts/HorseSaguaro.ttf) format('truetype');
+    }
+    @font-face {
+        font-family: 'cast-iron';
+        src: url(../../fonts/CastIron.ttf) format('truetype');
     }
 }
 
