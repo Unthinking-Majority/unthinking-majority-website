@@ -80,6 +80,12 @@ class RecordSubmission(BaseSubmission):
     )
     value = models.DecimalField(max_digits=7, decimal_places=2)
 
+    bounty_accepted = models.BooleanField(
+        default=False,
+        null=True,
+        help_text="For record submissions which are made during a Bounty event for the selected Bounty's content. Must be set to true for a submission to be accepted for a given Bounty event.",
+    )
+
     class Meta:
         verbose_name = "Record Submission"
         verbose_name_plural = "Record Submissions"

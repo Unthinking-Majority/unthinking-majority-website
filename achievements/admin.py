@@ -8,6 +8,10 @@ from polymorphic.admin import (
 )
 
 from achievements import models
+from achievements.forms import (
+    RecordSubmissionAdminForm,
+    RecordSubmissionChangelistAdminForm,
+)
 
 
 @admin.register(models.BaseSubmission)
@@ -60,6 +64,7 @@ class BaseSubmissionChildAdmin(PolymorphicChildModelAdmin):
 @admin.register(models.RecordSubmission)
 class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
     base_model = models.RecordSubmission
+    form = RecordSubmissionAdminForm
     show_in_index = True
     autocomplete_fields = ["accounts", "board"]
     list_display = [
@@ -69,8 +74,9 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
         "proof",
         "date",
         "accepted",
+        "bounty_accepted",
     ]
-    list_editable = ["accepted"]
+    list_editable = ["accepted", "bounty_accepted"]
     list_filter = [
         AutocompleteFilterFactory("Accounts", "accounts"),
         AutocompleteFilterFactory("Content", "board__content"),
@@ -89,8 +95,10 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
                     "accounts",
                     "board",
                     ("value", "time_display"),
+                    "accepted",
+                    "bounty_accepted",
                     ("notes", "denial_notes"),
-                    ("proof", "date", "accepted"),
+                    ("proof", "date"),
                 ),
             },
         ),
@@ -100,6 +108,10 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
         if change and "accepted" in form.changed_data:
             obj.send_notifications(request)
         return super().save_model(request, obj, form, change)
+
+    def get_changelist_formset(self, request, **kwargs):
+        kwargs["formset"] = RecordSubmissionChangelistAdminForm
+        return super().get_changelist_formset(request, **kwargs)
 
     @admin.display(description="Accounts")
     def accounts_display(self, obj):

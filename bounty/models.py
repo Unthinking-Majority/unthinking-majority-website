@@ -26,7 +26,7 @@ class Bounty(models.Model):
 
     def get_submissions(self):
         return self.board.top_unique_submissions().filter(
-            date__gte=self.start_date, date__lte=self.end_date
+            date__gte=self.start_date, date__lte=self.end_date, bounty_accepted=True
         )
 
     def get_most_improved(self):

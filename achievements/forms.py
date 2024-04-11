@@ -1,13 +1,15 @@
 from django import forms
 from django.conf import settings
 from django.db.models import Q
+from django.forms import ValidationError
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
 
 from account.models import Account
 from achievements import SUBMISSION_TYPES
-from achievements import models as achievements_models
-from main import models
+from achievements import models
+from bounty.models import Bounty
+from main import models as main_models
 from main import widgets
 
 
@@ -17,7 +19,7 @@ class SelectSubmissionTypeForm(forms.Form):
 
 class SelectContentForm(forms.Form):
     content = forms.ModelChoiceField(
-        queryset=models.Content.objects.filter(has_pbs=True)
+        queryset=main_models.Content.objects.filter(has_pbs=True)
     )
 
     def __init__(self, *args, **kwargs):
@@ -30,7 +32,7 @@ class SelectContentForm(forms.Form):
 
 
 class SelectBoardForm(forms.Form):
-    board = forms.ModelChoiceField(queryset=models.Board.objects.all())
+    board = forms.ModelChoiceField(queryset=main_models.Board.objects.all())
 
     def __init__(self, *args, **kwargs):
         content = kwargs.pop("content", None)
@@ -57,7 +59,7 @@ class RecordSubmissionForm(forms.ModelForm):
     account = forms.ModelChoiceField(queryset=Account.objects.all(), required=False)
 
     class Meta:
-        model = achievements_models.RecordSubmission
+        model = models.RecordSubmission
         fields = ["board", "accounts", "notes", "value", "proof"]
         widgets = {
             "board": forms.HiddenInput(),
@@ -117,7 +119,7 @@ class RecordSubmissionForm(forms.ModelForm):
 
 class PetSubmissionForm(forms.Form):
     account = forms.ModelChoiceField(queryset=Account.objects.all())
-    pets = forms.ModelMultipleChoiceField(queryset=models.Pet.objects.all())
+    pets = forms.ModelMultipleChoiceField(queryset=main_models.Pet.objects.all())
     notes = forms.CharField(
         required=False,
         widget=forms.TextInput(
@@ -144,7 +146,7 @@ class PetSubmissionForm(forms.Form):
         cleaned_data = super(PetSubmissionForm, self).clean()
 
         for pet in cleaned_data["pets"]:
-            submission = achievements_models.PetSubmission.objects.accepted().filter(
+            submission = models.PetSubmission.objects.accepted().filter(
                 Q(account=cleaned_data["account"]),
                 Q(pet=pet),
                 Q(accepted=None) | Q(accepted=True),
@@ -161,14 +163,14 @@ class PetSubmissionForm(forms.Form):
         return cleaned_data
 
     def form_valid(self):
-        first_submission = achievements_models.PetSubmission.objects.create(
+        first_submission = models.PetSubmission.objects.create(
             account=self.cleaned_data["account"],
             pet=self.cleaned_data["pets"][0],
             notes=self.cleaned_data["notes"],
             proof=self.cleaned_data["proof"],
         )
         for pet in self.cleaned_data["pets"][1:]:
-            achievements_models.PetSubmission.objects.create(
+            models.PetSubmission.objects.create(
                 account=self.cleaned_data["account"],
                 pet=pet,
                 notes=self.cleaned_data["notes"],
@@ -185,7 +187,7 @@ class ColLogSubmissionForm(forms.ModelForm):
     )
 
     class Meta:
-        model = achievements_models.ColLogSubmission
+        model = models.ColLogSubmission
         fields = ["account", "col_logs", "notes", "proof"]
 
     def __init__(self, *args, **kwargs):
@@ -232,7 +234,7 @@ class CASubmissionForm(forms.ModelForm):
     )
 
     class Meta:
-        model = achievements_models.CASubmission
+        model = models.CASubmission
         fields = ["account", "ca_tier", "notes", "proof"]
 
     def __init__(self, *args, **kwargs):
@@ -245,3 +247,33 @@ class CASubmissionForm(forms.ModelForm):
             placeholder="Select an account",
             label="Account",
         )
+
+
+class RecordSubmissionAdminForm(forms.ModelForm):
+    class Meta:
+        model = models.RecordSubmission
+        fields = "__all__"
+
+    def clean(self):
+        cleaned_data = super().clean()
+        bounty = Bounty.get_current_bounty()
+
+        if bounty and bounty.board == cleaned_data["board"]:
+            if cleaned_data["bounty_accepted"] is None:
+                raise ValidationError(
+                    f"You must specify whether this submission is accepted for the current bounty or not."
+                )
+        return cleaned_data
+
+
+class RecordSubmissionChangelistAdminForm(forms.BaseModelFormSet):
+    def clean(self):
+        form_sets = self.cleaned_data
+        bounty = Bounty.get_current_bounty()
+        for cleaned_data in form_sets:
+            if bounty and bounty.board == cleaned_data["basesubmission_ptr"].board:
+                if cleaned_data["bounty_accepted"] is None:
+                    raise ValidationError(
+                        f"You must specify whether this submission is accepted for the current bounty or not."
+                    )
+        return form_sets
