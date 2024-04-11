@@ -60,3 +60,9 @@ class BountyView(ListView):
 
 class BountyRulesView(TemplateView):
     template_name = "bounty/rules.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        bounty = models.Bounty.get_current_bounty()
+        context["bounty"] = bounty
+        return context
