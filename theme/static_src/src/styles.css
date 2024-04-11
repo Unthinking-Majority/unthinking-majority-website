@@ -75,7 +75,7 @@
     }
     @font-face {
         font-family: 'old-western';
-        src: url(../../fonts/OldWesternEdited.ttf) format('truetype');
+        src: url(../../fonts/OldWesternOriginal.ttf) format('truetype');
     }
 }
 
