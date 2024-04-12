@@ -3,8 +3,12 @@ import json
 import requests
 from django.conf import settings
 from django.db import models
+from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone
+
+
+# from main.templatetags.main_extras import gp_display
 
 
 class Bounty(models.Model):
@@ -19,6 +23,25 @@ class Bounty(models.Model):
 
     class Meta:
         ordering = ["-start_date"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__original_prize_pool = self.prize_pool
+
+    def save(self, *args, **kwargs):
+        super(Bounty, self).save(*args, **kwargs)
+        if self.prize_pool > self.__original_prize_pool:
+            embed = self.create_embed(
+                "Bounty Increased",
+                f"The prize pool for the bounty has increase to {self.prize_pool}.",
+                thumbnail=static("bounty/img/CoinStack.webp"),
+            )
+            data = json.dumps({"embeds": [embed]})
+            requests.post(
+                settings.BOUNTY_DISCORD_WEBHOOK_URL,
+                data=data,
+                headers={"Content-Type": "application/json"},
+            )
 
     @classmethod
     def get_current_bounty(cls):
@@ -67,7 +90,7 @@ class Bounty(models.Model):
                 headers={"Content-Type": "application/json"},
             )
 
-    def create_embed(self, title, description):
+    def create_embed(self, title, description, thumbnail=None):
         """
         Create json discord embed.
         """
@@ -77,4 +100,8 @@ class Bounty(models.Model):
             "description": description,
             "url": f"https://{settings.DOMAIN}{reverse('bounty:current-bounty')}",
         }
+
+        if not settings.DEBUG and thumbnail:
+            embed["thumbnail"] = {"url": thumbnail}
+
         return embed
