@@ -11,6 +11,7 @@ from django.urls import reverse
 from polymorphic.models import PolymorphicModel
 
 from achievements import managers, CA_CHOICES
+from bounty.models import Bounty
 from main import INTEGER, TIME
 from main.models import UMNotification
 from um.functions import get_file_path
@@ -139,6 +140,10 @@ class RecordSubmission(BaseSubmission):
             data=data,
             headers={"Content-Type": "application/json"},
         )
+
+        bounty = Bounty.get_current_bounty()
+        if bounty and self.bounty_accepted:
+            bounty.on_accepted_submission(self)
 
     def get_rank(self):
         submissions = self.board.top_unique_submissions()

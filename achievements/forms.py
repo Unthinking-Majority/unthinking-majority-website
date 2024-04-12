@@ -259,7 +259,10 @@ class RecordSubmissionAdminForm(forms.ModelForm):
         bounty = Bounty.get_current_bounty()
 
         if bounty and bounty.board == cleaned_data["board"]:
-            if cleaned_data["bounty_accepted"] is None:
+            if (
+                cleaned_data["bounty_accepted"] is None
+                and cleaned_data["accepted"] is not None
+            ):
                 raise ValidationError(
                     f"You must specify whether this submission is accepted for the current bounty or not."
                 )
@@ -272,7 +275,10 @@ class RecordSubmissionChangelistAdminForm(forms.BaseModelFormSet):
         bounty = Bounty.get_current_bounty()
         for cleaned_data in form_sets:
             if bounty and bounty.board == cleaned_data["basesubmission_ptr"].board:
-                if cleaned_data["bounty_accepted"] is None:
+                if (
+                    cleaned_data["bounty_accepted"] is None
+                    and cleaned_data["accepted"] is not None
+                ):
                     raise ValidationError(
                         f"You must specify whether this submission is accepted for the current bounty or not."
                     )
