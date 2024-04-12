@@ -2,7 +2,7 @@
 
 <table class="w-full overflow-hidden rounded-lg shadow-lg">
     <thead class="rounded-lg bg-amber-900">
-    <tr class="text-white font-san-andreas md:text-xl">
+    <tr class="text-white font-san-andreas md:text-xl md:tracking-widest">
         <th class="px-1 py-4 text-center md:py-4">
             Rank
         </th>
@@ -54,7 +54,7 @@
                                   d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
                                   clip-rule="evenodd"></path>
                         </svg>
-                        <span class="absolute max-md:right-0 max-md:left-0 z-10 max-md:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-slate-700 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none md:w-96 md:-translate-x-1/2"
+                        <span class="absolute max-md:right-0 max-md:left-0 z-10 max-md:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-amber-900 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none md:w-96 md:-translate-x-1/2"
                               tabindex="-1">
                             {{ submission.notes }}
                         </span>
@@ -79,7 +79,7 @@
                                   d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
                                   clip-rule="evenodd"></path>
                         </svg>
-                        <span class="absolute max-md:right-0 max-md:left-0 z-10 max-md:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-slate-700 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none md:w-96 md:-translate-x-1/2"
+                        <span class="absolute max-md:right-0 max-md:left-0 z-10 max-md:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-amber-900 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none md:w-96 md:-translate-x-1/2"
                               tabindex="-1">
                         You must be logged in to view proof.
                         </span>
@@ -94,7 +94,7 @@
     </tbody>
 </table>
 
-<div class="relative flex justify-center py-2 text-gray-800">
+<div class="relative flex justify-center text-gray-800 md:py-2">
     {% if page_obj.has_previous %}
         <a href="?page={{ page_obj.previous_page_number }}"
            class="absolute top-5 left-0 rounded-md px-3 py-2 transition ease-in-out hover:scale-105">

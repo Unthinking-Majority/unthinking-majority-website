@@ -1,11 +1,16 @@
 {% extends "bounty/base.html" %}
 
-{% load um_components %}
+{% load static um_components main_extras %}
 
 {% block content %}
     {# Wanted Poster #}
     <div class="flex justify-center">
-        <div class="flex flex-col items-center mx-40">
+        <div class="mx-40 flex flex-col items-center">
+
+            <a href="{% url "bounty:current-bounty" %}"
+               class="absolute top-5 left-5 hidden rounded-md px-3 py-2 transition ease-in-out hover:scale-105 sm:block">
+                <img src="{% static "bounty/svg/fingerPoint.svg" %}" alt="" class="h-10 scale-x-[-1] md:h-12">
+            </a>
 
             <div class="mb-4 flex w-full items-center md:mb-12">
                 <div class="flex-grow border-2 border-black"></div>
@@ -30,9 +35,9 @@
                 <div class="flex-grow border-2 border-black"></div>
             </div>
 
-            <h1 class="select-none text-5xl font-western md:text-9xl md:tracking-widest">RULES</h1>
+            <h1 class="select-none text-5xl font-cast-iron md:text-7xl md:tracking-widest lg:text-9xl">RULES</h1>
 
-            <div class="mb-4 flex w-full items-center md:mb-12">
+            <div class="mt-2 mb-4 flex w-full items-center md:mt-4 md:mb-12">
                 <div class="flex-grow border-2 border-black"></div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                      class="h-6 w-6 md:h-12 md:w-12">
@@ -55,13 +60,103 @@
                 <div class="flex-grow border-2 border-black"></div>
             </div>
 
-            <p class="font-san-andreas text-3xl text-center">
+            <p class="text-center text-3xl font-san-andreas">
                 A large bounty has been placed on the
             </p>
-            <p class="text-amber-900 text-5xl text-center font-san-andreas">{{ bounty.title }}</p>
-            <p class="mt-4 font-san-andreas text-3xl text-center">
-                Your job as a bounty hunter is to kill them, and to kill them fast.
+            <p class="text-center text-6xl text-amber-900 font-san-andreas">{{ bounty.title }}</p>
+            <p class="mt-8 text-center text-3xl font-san-andreas">
+                The kingdom of Gielinor is offering a reward of <span class="align-text-bottom text-5xl font-bold {% if bounty.prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|gp_display }}</span> for the capture and killing of this nefarious criminal.
             </p>
+
+            <div class="my-4 flex w-full items-center md:mt-4 md:mb-4">
+                <div class="flex-grow border-2 border-black"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                     class="h-6 w-6 md:h-12 md:w-12">
+                    <path fill-rule="evenodd"
+                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <div class="flex-grow border-2 border-black"></div>
+            </div>
+
+            <p class="mb-2 text-center text-2xl font-san-andreas">"Bounty" is a speedrunning event with a fresh leaderboard. Complete the selected content as fast as possible to compete for rewards. Place in the top 3 on the temporary leaderboard to earn:</p>
+            <div class="flex flex-col">
+                <div class="flex justify-between"><span class="text-5xl font-western">1st </span><span class="ml-8 align-text-bottom text-5xl font-bold {% if bounty.prize_pool|mult:0.40 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.40|gp_display }}</span></div>
+                <div class="flex justify-between"><span class="text-5xl font-western">2nd</span><span class="ml-8 align-text-bottom text-5xl font-bold {% if bounty.prize_pool|mult:0.20 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.20|gp_display }}</span></div>
+                <div class="flex justify-between"><span class="text-5xl font-western">3rd</span><span class="ml-8 align-text-bottom text-5xl font-bold {% if bounty.prize_pool|mult:0.15 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.15|gp_display }}</span></div>
+            </div>
+
+            <div class="my-4 flex w-full items-center md:mt-4 md:mb-4">
+                <div class="flex-grow border-2 border-black"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                     class="h-6 w-6 md:h-12 md:w-12">
+                    <path fill-rule="evenodd"
+                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <div class="flex-grow border-2 border-black"></div>
+            </div>
+
+            <p class="text-center text-2xl font-san-andreas">
+                If your time is faster than the top time on the <a href="{% url "leaderboard" bounty.board.content.slug bounty.board.slug %}" class="text-amber-900 transition ease-in-out hover:text-amber-700">Permanent Leaderboard</a> earn an additional prize of
+            </p>
+            <p class="text-5xl font-bold text-green-400 font-runescape text-shadow">{{ 25000000|gp_display }}</p>
+
+            <div class="my-4 flex w-full items-center md:mt-4 md:mb-4">
+                <div class="flex-grow border-2 border-black"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                     class="h-6 w-6 md:h-12 md:w-12">
+                    <path fill-rule="evenodd"
+                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <div class="flex-grow border-2 border-black"></div>
+            </div>
+
+            <p class="mb-2 text-center text-2xl font-san-andreas">
+                Don't think you have what it takes to get into the top 3? No worries! Compete in the other following ways to also win:
+            </p>
+            <div class="flex flex-col">
+                <div class="flex justify-between">
+                    <span class="text-5xl font-western">Slowest Time </span><span class="ml-8 align-text-bottom text-5xl font-bold {% if bounty.prize_pool|mult:0.10 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.10|gp_display }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-5xl font-western">Best outfit </span><span class="ml-8 align-text-bottom text-5xl font-bold {% if bounty.prize_pool|mult:0.05 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.05|gp_display }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-5xl font-western">???</span><span class="ml-8 align-text-bottom text-5xl font-bold {% if bounty.prize_pool|mult:0.10 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.10|gp_display }}</span>
+                </div>
+            </div>
+
+            <div class="my-4 flex w-full items-center md:mt-4 md:mb-4">
+                <div class="flex-grow border-2 border-black"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                     class="h-6 w-6 md:h-12 md:w-12">
+                    <path fill-rule="evenodd"
+                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <div class="flex-grow border-2 border-black"></div>
+            </div>
+
+            <h2 class="text-5xl font-western lg:text-5xl">The Nitty Gritty</h2>
+
+            <ul class="text-xl font-bold [&>li]:my-4 [&>li]:before:bg-[url(../../../static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
+                <li>
+                    For a submission to be accepted for the bounty, you must include the following phrase in your screenshot: <span class="text-amber-900 font-western">Darn Tootin</span>. The following methods are accepted:
+                    <ul class="pl-8 text-xl font-bold [&>li]:before:bg-[url(../../../static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
+                        <li>Using the "Clan Event" plugin on Runelite, and entering the phrase as the event password (preferred method).</li>
+                        <li>Typing the phrase into chat.</li>
+                    </ul>
+                </li>
+                <li>Each participant can only win one reward (only exception is the permanent leaderboard reward).</li>
+                <li>Multiple people can earn the permanent leaderboard reward.</li>
+                <li>The permanent leaderboard reward will be payed out of pocket, not from the prize pool.</li>
+                <li>The permanent leaderboard reward is an additional reward, and will be added on top of whatever other reward the participant has won, if any.</li>
+                <li>Submissions made for the bounty will not appear on the permanent leaderboard until the event is over.</li>
+                <li>The "Best Outfit" award will determined by a team of secret judges. Creativity with respect to the "Bounty" theme will be rewarded!</li>
+                <li>If you want to donate to the pot, please contact an admin through discord.</li>
+            </ul>
         </div>
     </div>
 {% endblock content %}

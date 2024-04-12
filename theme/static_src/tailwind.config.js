@@ -54,11 +54,7 @@ module.exports = {
                 'um-brown': '#372D1F',
                 'um-purple': '#371F35',
                 'um-green': '#1F3721',
-                'western-brown': '#433518',
             },
-            sepia: {
-                60: '.60',
-            }
         },
     },
     plugins: [
