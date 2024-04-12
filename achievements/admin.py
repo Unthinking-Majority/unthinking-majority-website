@@ -1,6 +1,7 @@
 from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.conf import settings
 from django.contrib import admin
+from django.db.models import Case, When
 from polymorphic.admin import (
     PolymorphicParentModelAdmin,
     PolymorphicChildModelAdmin,
@@ -12,6 +13,7 @@ from achievements.forms import (
     RecordSubmissionAdminForm,
     RecordSubmissionChangelistAdminForm,
 )
+from bounty.models import Bounty
 
 
 @admin.register(models.BaseSubmission)
@@ -75,6 +77,7 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
         "date",
         "accepted",
         "bounty_accepted",
+        "has_bounty",
     ]
     list_editable = ["accepted", "bounty_accepted"]
     list_filter = [
@@ -84,7 +87,7 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
         "accepted",
         "date",
     ]
-    readonly_fields = ["time_display"]
+    readonly_fields = ["time_display", "has_bounty"]
     search_fields = ["accounts__name", "board__name"]
 
     fieldsets = (
@@ -104,6 +107,14 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
         ),
     )
 
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        bounty = Bounty.get_current_bounty()
+        queryset = queryset.annotate(
+            has_bounty=Case(When(board=bounty.board, then=True), default=False)
+        )
+        return queryset
+
     def save_model(self, request, obj, form, change):
         if change and "accepted" in form.changed_data:
             obj.send_notifications(request)
@@ -120,6 +131,10 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
     @admin.display(description="Time Display")
     def time_display(self, obj):
         return obj.value_display()
+
+    @admin.display(description="Has Active Bounty", boolean=True)
+    def has_bounty(self, obj):
+        return obj.has_bounty
 
 
 @admin.register(models.PetSubmission)
