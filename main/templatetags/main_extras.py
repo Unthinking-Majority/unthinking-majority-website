@@ -7,6 +7,7 @@ from wagtail.models import Site
 
 from bounty.models import Bounty
 from main.models import ContentCategory, UMNotification
+from main.functions import gp_display as _gp_display
 
 register = template.Library()
 
@@ -52,13 +53,7 @@ def gp_display(val):
     100,000 - 9,999,999 => return value in thousands (100k, 9999k)
     10,000,000 and up =>  return value in millions (10m)
     """
-    val = int(val)
-    if val <= 99999:
-        return val
-    elif 100000 <= val <= 9999999:
-        return f"{val // 1000}k"
-    elif 10000000 <= val:
-        return f"{val // 1000000}M"
+    return _gp_display(val)
 
 
 @register.simple_tag
