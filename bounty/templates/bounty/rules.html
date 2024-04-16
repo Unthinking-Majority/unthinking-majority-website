@@ -6,11 +6,11 @@
     <div class="mx-2 flex flex-col items-center md:mx-12">
 
         <a href="{% url "bounty:current-bounty" %}"
-           class="absolute top-24 left-12 hidden rounded-md px-3 py-2 transition ease-in-out hover:scale-105 sm:block">
-            <img src="{% static "bounty/svg/fingerPoint.svg" %}" alt="" class="h-10 scale-x-[-1] md:h-12">
+            class="absolute top-0 left-0 rounded-md px-3 py-2 transition ease-in-out hover:scale-105 sm:top-8 sm:left-4">
+            <img src="{% static "bounty/svg/fingerPoint.svg" %}" alt="" class="h-8 scale-x-[-1] sm:h-10 md:h-12">
         </a>
 
-        <div class="mb-4 flex w-10/12 items-center md:mb-12">
+        <div class="mb-4 flex w-7/12 items-center md:mb-12 md:w-10/12">
             <div class="flex-grow border-2 border-black"></div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                  class="h-6 w-6 md:h-12 md:w-12">
@@ -35,7 +35,7 @@
 
         <h1 class="select-none text-5xl font-cast-iron md:text-7xl md:tracking-widest lg:text-9xl">RULES</h1>
 
-        <div class="mt-2 mb-4 flex w-10/12 items-center md:mt-4 md:mb-12">
+        <div class="mt-2 mb-4 flex w-7/12 items-center md:mt-4 md:mb-12 md:w-10/12">
             <div class="flex-grow border-2 border-black"></div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                  class="h-6 w-6 md:h-12 md:w-12">
@@ -61,12 +61,15 @@
         <p class="text-center text-2xl font-san-andreas md:text-3xl">
             A large bounty has been placed on the
         </p>
-        <p class="text-center text-4xl text-amber-900 font-san-andreas md:text-6xl">{{ bounty.title }}</p>
+        <p class="my-1 text-center text-4xl text-amber-900 font-san-andreas md:text-6xl">{{ bounty.title }}</p>
+        <p class="text-center text-2xl font-san-andreas md:text-3xl">
+            for the destruction and terrorization of iron men and iron women everywhere.
+        </p>
         <p class="mt-8 text-center text-2xl font-san-andreas md:text-3xl">
             The kingdom of Gielinor is offering a reward of <span class="align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|gp_display }}</span> for the capture and killing of this nefarious criminal.
         </p>
 
-        <div class="my-4 flex w-10/12 items-center md:mt-4 md:mb-4">
+        <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
             <div class="flex-grow border-2 border-black"></div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                  class="h-6 w-6 md:h-12 md:w-12">
@@ -84,7 +87,7 @@
             <div class="flex justify-between"><span class="text-4xl font-western md:text-5xl">3rd</span><span class="ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.15 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.15|gp_display }}</span></div>
         </div>
 
-        <div class="my-4 flex w-10/12 items-center md:mt-4 md:mb-4">
+        <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
             <div class="flex-grow border-2 border-black"></div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                  class="h-6 w-6 md:h-12 md:w-12">
@@ -100,7 +103,7 @@
         </p>
         <p class="text-4xl font-bold text-green-400 font-runescape text-shadow md:text-5xl">{{ 25000000|gp_display }}</p>
 
-        <div class="my-4 flex w-10/12 items-center md:mt-4 md:mb-4">
+        <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
             <div class="flex-grow border-2 border-black"></div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                  class="h-6 w-6 md:h-12 md:w-12">
@@ -126,7 +129,7 @@
             </div>
         </div>
 
-        <div class="my-4 flex w-10/12 items-center md:mt-4 md:mb-4">
+        <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
             <div class="flex-grow border-2 border-black"></div>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                  class="h-6 w-6 md:h-12 md:w-12">
