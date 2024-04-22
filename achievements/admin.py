@@ -110,9 +110,10 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
         bounty = Bounty.get_current_bounty()
-        queryset = queryset.annotate(
-            has_bounty=Case(When(board=bounty.board, then=True), default=False)
-        )
+        if bounty:
+            queryset = queryset.annotate(
+                has_bounty=Case(When(board=bounty.board, then=True), default=False)
+            )
         return queryset
 
     def save_model(self, request, obj, form, change):
