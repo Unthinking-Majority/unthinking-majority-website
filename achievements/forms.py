@@ -264,7 +264,7 @@ class RecordSubmissionAdminForm(forms.ModelForm):
                 and cleaned_data["accepted"] is not None
             ):
                 raise ValidationError(
-                    f"You must specify whether this submission is accepted for the current bounty or not."
+                    f"You must specify whether this submission is accepted for the current bounty or not"
                 )
         return cleaned_data
 
@@ -280,6 +280,6 @@ class RecordSubmissionChangelistAdminForm(forms.BaseModelFormSet):
                     and cleaned_data["accepted"] is not None
                 ):
                     raise ValidationError(
-                        f"You must specify whether this submission is accepted for the current bounty or not."
+                        f"You must specify whether a submission a part of a current bounty is accepted for the bounty or not."
                     )
         return form_sets

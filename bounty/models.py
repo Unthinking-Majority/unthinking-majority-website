@@ -32,7 +32,7 @@ class Bounty(models.Model):
         if self.prize_pool > self.__original_prize_pool:
             embed = self.create_embed(
                 "Bounty Increased",
-                f"The prize pool for the bounty has increase to {gp_display(self.prize_pool)}.",
+                f"The prize pool for the bounty has increased to {gp_display(self.prize_pool)}.",
                 thumbnail=static("bounty/img/CoinStack.webp"),
             )
             data = json.dumps({"embeds": [embed]})
