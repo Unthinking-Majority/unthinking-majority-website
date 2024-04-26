@@ -53,17 +53,15 @@
             </ul>
         </div>
     </li>
-    {% if request.user.is_superuser or request.user.id == 3 %}
-        {% if bounty %}
-            <li>
-                <div class="relative" tabindex="0">
-                    <a href="{% url "bounty:current-bounty" %}"
-                       class="block w-full px-4 py-2 text-left text-white">
-                        Bounty
-                    </a>
-                </div>
-            </li>
-        {% endif %}
+    {% if bounty %}
+        <li>
+            <div class="relative" tabindex="0">
+                <a href="{% url "bounty:current-bounty" %}"
+                   class="block w-full px-4 py-2 text-left text-white">
+                    Bounty
+                </a>
+            </div>
+        </li>
     {% endif %}
     <li>
         <div tabindex="0">
