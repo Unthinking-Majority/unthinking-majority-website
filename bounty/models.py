@@ -52,9 +52,12 @@ class Bounty(models.Model):
         return current_bounty
 
     def get_submissions(self):
-        return self.board.top_unique_submissions().filter(
-            date__gte=self.start_date, date__lte=self.end_date, bounty_accepted=True
+        return self.board.top_unique_submissions(
+            start_date=self.start_date, end_date=self.end_date
         )
+        # return self.board.top_unique_submissions().filter(
+        #     date__gte=self.start_date, date__lte=self.end_date, bounty_accepted=True
+        # )
 
     def get_most_improved(self):
         raise NotImplementedError
