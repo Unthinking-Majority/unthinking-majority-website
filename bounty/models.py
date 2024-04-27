@@ -55,9 +55,15 @@ class Bounty(models.Model):
         return self.board.top_unique_submissions(
             start_date=self.start_date, end_date=self.end_date
         )
-        # return self.board.top_unique_submissions().filter(
-        #     date__gte=self.start_date, date__lte=self.end_date, bounty_accepted=True
-        # )
+
+    def get_slowest_submission(self):
+        return (
+            self.board.submissions.filter(
+                date__gte=self.start_date, date__lte=self.end_date
+            )
+            .order_by(f"{self.board.content.ordering}value", "date")
+            .last()
+        )
 
     def get_most_improved(self):
         raise NotImplementedError
@@ -81,7 +87,14 @@ class Bounty(models.Model):
                 headers={"Content-Type": "application/json"},
             )
 
-        if rank == submissions.count():
+        all_bounty_submissions = self.board.submissions.filter(
+            date__gte=self.start_date, date__lte=self.end_date
+        ).order_by(f"{self.board.content.ordering}value", "date")
+        try:
+            non_unique_rank = list(all_bounty_submissions).index(submission) + 1
+        except ValueError:
+            non_unique_rank = None
+        if non_unique_rank == all_bounty_submissions.count():
             title = "Bounty Claimed"
             users = ", ".join(submission.accounts.values_list("name", flat=True))
             description = f"{users} submitted a time of {submission.value_display()} to claim the slowest time of the bounty."

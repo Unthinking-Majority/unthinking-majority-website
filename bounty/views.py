@@ -17,7 +17,10 @@ class CurrentBountyView(ListView):
             return super(CurrentBountyView, self).dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return models.Bounty.get_current_bounty().get_submissions()
+        bounty = models.Bounty.get_current_bounty()
+        submissions = list(bounty.get_submissions())
+        submissions.append(bounty.get_slowest_submission())
+        return submissions
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
