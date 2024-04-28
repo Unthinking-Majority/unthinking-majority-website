@@ -19,7 +19,9 @@ class CurrentBountyView(ListView):
     def get_queryset(self):
         bounty = models.Bounty.get_current_bounty()
         submissions = list(bounty.get_submissions())
-        submissions.append(bounty.get_slowest_submission())
+        slowest_submission = bounty.get_slowest_submission()
+        if slowest_submission not in submissions:
+            submissions.append(bounty.get_slowest_submission())
         return submissions
 
     def get_context_data(self, **kwargs):
