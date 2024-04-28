@@ -54,7 +54,7 @@ class Bounty(models.Model):
     def get_submissions(self):
         return self.board.top_unique_submissions(
             start_date=self.start_date, end_date=self.end_date
-        )
+        ).filter(bounty_accepted=True)
 
     def get_slowest_submission(self):
         return (
