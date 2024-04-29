@@ -1,13 +1,90 @@
 {% extends "bounty/base.html" %}
 
-{% load um_components %}
+{% load static um_components %}
 
 {% block content %}
-    {% page_header "Bounty: "|add:bounty.board bounty.board.content.icon %}
+    <a href="{% url "bounty:bounty-index" %}"
+       class="absolute top-0 left-0 rounded-md px-3 py-2 transition ease-in-out hover:scale-105 sm:top-8 sm:left-4">
+        <img src="{% static "bounty/svg/fingerPoint.svg" %}" alt="" class="h-6 scale-x-[-1] sm:h-10 md:h-12">
+    </a>
 
-    <div class="flex flex-wrap justify-around gap-1">
-        <span class="basis-full xl:basis-7/12">
-            {% include "main/board.html" %}
-        </span>
+    <div class="mx-auto mb-4 flex w-8/12 items-center md:mb-12 lg:w-9/12">
+        <div class="flex-grow border-2 border-black"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+             class="h-6 w-6 md:h-12 md:w-12">
+            <path fill-rule="evenodd"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                  clip-rule="evenodd"></path>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+             class="h-6 w-6 md:h-12 md:w-12">
+            <path fill-rule="evenodd"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                  clip-rule="evenodd"></path>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+             class="h-6 w-6 md:h-12 md:w-12">
+            <path fill-rule="evenodd"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                  clip-rule="evenodd"></path>
+        </svg>
+        <div class="flex-grow border-2 border-black"></div>
     </div>
+
+    <h1 class="select-none text-center text-3xl font-cast-iron sm:text-5xl md:text-7xl md:tracking-widest lg:text-8xl">{{ bounty.title }}</h1>
+
+    <div class="mx-auto mt-2 mb-4 flex w-8/12 items-center md:mt-4 md:mb-12 lg:w-9/12">
+        <div class="flex-grow border-2 border-black"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+             class="h-6 w-6 md:h-12 md:w-12">
+            <path fill-rule="evenodd"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                  clip-rule="evenodd"></path>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+             class="h-6 w-6 md:h-12 md:w-12">
+            <path fill-rule="evenodd"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                  clip-rule="evenodd"></path>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+             class="h-6 w-6 md:h-12 md:w-12">
+            <path fill-rule="evenodd"
+                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                  clip-rule="evenodd"></path>
+        </svg>
+        <div class="flex-grow border-2 border-black"></div>
+    </div>
+
+    <div class="flex justify-center">
+        <img src="{{ bounty.image.url }}" class="h-40 select-none sepia-[.50] md:my-8 md:h-60 lg:h-96"
+             alt="bounty image">
+    </div>
+
+    <div class="relative my-4 flex flex-wrap justify-center gap-1 md:my-6">
+        <img src="{% static "bounty/svg/filigree.svg" %}" alt="" class="absolute top-1/2 left-4 hidden h-80 -translate-y-1/2 2xl:block">
+        <img src="{% static "bounty/svg/filigree.svg" %}" alt="" class="absolute top-1/2 right-4 hidden h-80 -translate-y-1/2 scale-x-[-1] 2xl:block">
+        <span class="basis-full 2xl:basis-8/12">
+                {% include "bounty/board.html" %}
+            </span>
+    </div>
+
 {% endblock content %}
+
+{% block footer%}
+    <footer class="relative pb-4">
+        <div class="flex items-center justify-center">
+            <img class="pointer-events-none h-12 w-auto" src="{% static "um_logos/logo_gradient.png" %}" alt="Unthinking Majority Logo">
+        </div>
+        <div class="absolute bottom-0 left-0">
+            <div class="flex w-40 flex-col md:w-full">
+                <a href="https://www.vecteezy.com/free-vector/finger-point" class="text-gray-600 text-[0.5rem] md:text-xs">
+                    Finger Point Vectors by Vecteezy
+                </a>
+                <a href="http://www.freepik.com" class="text-gray-600 text-[0.5rem] md:text-xs">
+                    Filigree Designed by Alvaro_Cabrera / Freepik
+                </a>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
