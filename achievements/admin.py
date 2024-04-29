@@ -1,7 +1,7 @@
 from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.conf import settings
 from django.contrib import admin
-from django.db.models import Case, When
+from django.db.models import Case, When, Value
 from polymorphic.admin import (
     PolymorphicParentModelAdmin,
     PolymorphicChildModelAdmin,
@@ -115,7 +115,7 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
                 has_bounty=Case(When(board=bounty.board, then=True), default=False)
             )
         else:
-            queryset = queryset.annotate(has_bounty=False)
+            queryset = queryset.annotate(has_bounty=Value(False))
         return queryset
 
     def save_model(self, request, obj, form, change):
