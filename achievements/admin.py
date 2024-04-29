@@ -114,6 +114,8 @@ class RecordSubmissionAdmin(PolymorphicChildModelAdmin):
             queryset = queryset.annotate(
                 has_bounty=Case(When(board=bounty.board, then=True), default=False)
             )
+        else:
+            queryset = queryset.annotate(has_bounty=False)
         return queryset
 
     def save_model(self, request, obj, form, change):
