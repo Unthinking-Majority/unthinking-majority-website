@@ -17,7 +17,7 @@
         </h2>
 
         {# Discord icon #}
-        <div class="mt-4 flex items-center space-x-8">
+        <div class="my-4 flex items-center space-x-8">
             <a href="https://discord.gg/umcc" class="rounded-md text-slate-600 hover:text-slate-900"
                aria-label="Discord Link">
                 <svg class="h-12 w-auto fill-current" viewBox="0 0 16 16">
@@ -31,6 +31,11 @@
                 </svg>
             </a>
         </div>
+
+        <div class="overflow-hidden rounded-lg shadow-lg shadow-slate-700/40">
+            <img src="{% static "img/clan-hall.png" %}" alt="" class="h-[rem] object-scale-down">
+        </div>
+
     </div>
 
     {{ page.body }}
