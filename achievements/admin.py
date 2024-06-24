@@ -252,7 +252,7 @@ class CASubmissionAdmin(PolymorphicChildModelAdmin):
 class HiscoresAdmin(admin.ModelAdmin):
     autocomplete_fields = ["account", "content"]
     search_fields = ["account__name", "content__name"]
-    list_display = ["account", "content", "rank_overall", "kill_count"]
+    list_display = ["account", "content", "rank_overall", "score"]
     list_filter = [
         AutocompleteFilterFactory("Account", "account"),
         AutocompleteFilterFactory("Content", "content"),

@@ -65,7 +65,7 @@ class LeaderboardView(TemplateView):
                 achievements_models.Hiscores.objects.filter(
                     content=context["content"],
                     account__is_active=True,
-                    kill_count__gt=0,
+                    score__gt=0,
                 ),
                 per_page,
             )

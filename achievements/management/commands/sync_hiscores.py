@@ -167,7 +167,7 @@ class Command(BaseCommand):
                     Hiscores(
                         account=account,
                         content=content,
-                        kill_count=kc,
+                        score=kc,
                         rank_overall=rank,
                     )
                 )
@@ -176,5 +176,5 @@ class Command(BaseCommand):
             objs,
             update_conflicts=True,
             unique_fields=["account", "content"],
-            update_fields=["kill_count", "rank_overall"],
+            update_fields=["score", "rank_overall"],
         )

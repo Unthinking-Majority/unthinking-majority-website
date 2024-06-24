@@ -335,14 +335,16 @@ class Hiscores(models.Model):
         "account.Account", on_delete=models.CASCADE, related_name="hiscores"
     )
     content = models.ForeignKey("main.Content", on_delete=models.CASCADE)
-    kill_count = models.IntegerField(default=0)
+    score = models.IntegerField(default=0)
     rank_overall = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ["-kill_count", "rank_overall"]
+        ordering = ["-score", "rank_overall"]
         unique_together = [("account", "content")]
         verbose_name = "Hiscores"
         verbose_name_plural = "Hiscores"
 
     def __str__(self):
-        return f"{self.account.display_name} - {self.content.hiscores_name} {self.kill_count}kc"
+        return (
+            f"{self.account.display_name} - {self.content.hiscores_name} {self.score}kc"
+        )
