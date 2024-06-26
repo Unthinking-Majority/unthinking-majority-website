@@ -17,6 +17,7 @@ class Bounty(models.Model):
     end_date = models.DateTimeField()
     board = models.ForeignKey("main.Board", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="bounty/image/")
+    event_phrase = models.CharField(max_length=32)
     prize_pool = models.PositiveIntegerField(
         default=0, help_text="Total amount of gp in the prize pool."
     )

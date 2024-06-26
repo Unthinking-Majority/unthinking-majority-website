@@ -26,6 +26,7 @@ class BountyAdmin(admin.ModelAdmin):
                     "title",
                     "board",
                     "prize_pool",
+                    "event_phrase",
                     "bounty_reason",
                     ("start_date", "end_date"),
                     "image",
