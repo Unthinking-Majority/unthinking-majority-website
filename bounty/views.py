@@ -20,7 +20,7 @@ class CurrentBountyView(ListView):
         bounty = models.Bounty.get_current_bounty()
         submissions = list(bounty.get_submissions())
         slowest_submission = bounty.get_slowest_submission()
-        if slowest_submission not in submissions:
+        if slowest_submission is not None and slowest_submission not in submissions:
             submissions.append(bounty.get_slowest_submission())
         return submissions
 
