@@ -57,7 +57,7 @@
             <div class="flex-grow border-2 border-black"></div>
         </div>
 
-        <h1 class="select-none text-5xl font-cast-iron md:text-8xl md:tracking-widest lg:text-9xl">WANTED</h1>
+        <h1 class="select-none text-5xl font-cast-iron md:text-7xl md:tracking-widest lg:text-8xl">WANTED</h1>
 
         <div class="mt-2 mb-4 flex w-7/12 items-center md:mt-4 md:mb-12 md:w-10/12">
             <div class="flex-grow border-2 border-black"></div>
@@ -82,21 +82,21 @@
             <div class="flex-grow border-2 border-black"></div>
         </div>
 
-        <div class="select-none text-center text-4xl font-bold tracking-tight font-western md:text-7xl lg:text-8xl">
+        <div class="select-none text-center text-5xl font-cast-iron md:text-7xl lg:text-8xl">
+            {{ bounty.title }}
+        </div>
+        <div class="select-none text-center text-4xl font-bold font-western md:text-5xl lg:text-6xl">
             DEAD ONLY
         </div>
 
         <img src="{{ bounty.image.url }}" class="h-40 select-none sepia-[.50] md:my-8 md:h-60 lg:h-96">
 
-        <div class="select-none text-center text-5xl font-bold font-western md:text-7xl lg:text-8xl">
-            {{ bounty.title }}
-        </div>
 
         <div class="mt-8 flex select-none items-center md:my-12">
-            <span class="mx-2 text-5xl font-western md:pr-4 md:text-7xl lg:text-9xl">REWARD</span>
+            <span class="mx-2 text-5xl font-western md:pr-4 md:text-6xl lg:text-7xl">REWARD</span>
             <div class="flex items-center md:items-start">
-                <img src="{% static "bounty/img/CoinStack.webp" %}" class="hidden h-12 w-12 md:block md:h-28 md:w-28">
-                <p class="absolute hidden text-5xl font-bold {% if bounty.prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow md:block">
+                <img src="{% static "bounty/img/CoinStack.webp" %}" class="hidden h-12 w-12 md:block md:h-24 md:w-24 lg:h-28 lg:w-28">
+                <p class="absolute hidden text-4xl lg:text-5xl font-bold {% if bounty.prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow md:block">
                     {{ bounty.prize_pool|gp_display }}
                 </p>
             </div>

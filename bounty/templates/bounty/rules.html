@@ -59,11 +59,11 @@
         </div>
 
         <p class="text-center text-2xl font-san-andreas md:text-3xl">
-            A large bounty has been placed on the
+            A large bounty has been placed on
         </p>
         <p class="my-1 text-center text-4xl text-amber-900 font-san-andreas md:text-6xl">{{ bounty.title }}</p>
         <p class="text-center text-2xl font-san-andreas md:text-3xl">
-            for the destruction and terrorization of iron men and iron women everywhere.
+            for {{ bounty.bounty_reason }}.
         </p>
         <p class="mt-8 text-center text-2xl font-san-andreas md:text-3xl">
             The kingdom of Gielinor is offering a reward of <span class="align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|gp_display }}</span> for the capture and killing of this nefarious criminal.
@@ -99,7 +99,7 @@
         </div>
 
         <p class="text-center text-2xl font-san-andreas md:text-3xl">
-            If your time is faster than the top time on the <a href="{% url "leaderboard" bounty.board.content.slug bounty.board.slug %}" class="text-amber-900 transition ease-in-out hover:text-amber-700">Permanent Leaderboard</a> earn an additional prize of
+            If your time is faster than the top time on the <a href="{% url "leaderboard" bounty.board.content.slug bounty.board.slug %}" class="text-amber-900 transition ease-in-out hover:text-amber-700">permanent leaderboard</a> earn an additional prize of
         </p>
         <p class="text-4xl font-bold text-green-400 font-runescape text-shadow md:text-5xl">{{ 25000000|gp_display }}</p>
 
@@ -142,30 +142,37 @@
 
         <h2 class="text-center text-5xl font-western">The Nitty Gritty</h2>
 
-        <ul class="md:text-xl font-bold [&>li]:my-4 [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
+        <ul class="md:text-xl font-semibold [&>li]:my-4 [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
             <li>
-                For a submission to be accepted for the bounty, you must include the phrase <span class="text-amber-900 font-western md:text-3xl">Darn Tootin</span> in your screenshot. The following methods are accepted:
-                <ul class="pl-8 md:text-xl font-bold [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
-                    <li>Using the "Clan Event" plugin on Runelite, and entering the phrase as the event password (preferred method).</li>
-                    <li>Typing the phrase into chat.</li>
+                For a submission to be accepted for the bounty, you must include the phrase <span class="text-amber-900 font-western md:text-3xl">Darn Tootin</span> in your screenshot with the current date & time. The following methods are accepted:
+                <ul class="pl-12 md:text-xl [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
+                    <li>Using the "Clan Event" plugin on Runelite, and entering the phrase as the event password (preferred method). Be sure the date & time setting is on!</li>
+                    <li>Typing the phrase, date,and time into chat.</li>
                 </ul>
             </li>
             <li>
-                The screenshot must show the time achieved in the chat box right after killing the boss. The following methods will not be accepted:
-                <ul class="pl-8 md:text-xl font-bold [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
+                Your screenshot must show the time achieved in the chat box right after killing the boss. The following methods will not be accepted:
+                <ul class="pl-12 md:text-xl [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
                     <li>Using the !pb command from Runelite.</li>
                     <li>Using the adventure log in any POH.</li>
                     <li>Old screenshots of personal bests.</li>
                     <li>Any other method of displaying times which is not listed here, but does not adhere to the above rules on submitting. Discretion will be used when verifying submissions.</li>
                 </ul>
             </li>
-            <li>Each participant can only win one reward (only exception is the permanent leaderboard reward).</li>
-            <li>Multiple people can earn the permanent leaderboard reward.</li>
-            <li>The permanent leaderboard reward will be payed out of pocket, not from the prize pool.</li>
-            <li>The permanent leaderboard reward is an additional reward, and will be added on top of whatever other reward the participant has won, if any.</li>
+            <li>
+                Additional rules for the <a href="{% url "leaderboard" bounty.board.content.slug bounty.board.slug %}" class="text-amber-900 transition ease-in-out hover:text-amber-700">permanent leaderboard</a> reward:
+                <ul class="pl-12 md:text-xl [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
+                    <li>The permanent leaderboard reward is an additional reward, and will be added on top of whatever other reward the participant has won, if any.</li>
+                    <li>There is no limit on how many participants can win the permanent leaderboard reward.</li>
+                    <li>The permanent leaderboard reward will be payed out of pocket, and not subtracted from the prize pool.</li>
+                </ul>
+            </li>
+            <li>Each participant can only win one reward, exception being the permanent leaderboard reward.</li>
             <li>Submissions made for the bounty will not appear on the permanent leaderboard until the event is over.</li>
             <li>The "Best Outfit" award will determined by a team of secret judges. Creativity with respect to the "Bounty" theme will be rewarded!</li>
-            <li>If you want to donate to the prize pool, please contact an admin in-game or through discord.</li>
         </ul>
+        <p class="my-4 text-center font-semibold md:text-xl">
+            If you want to donate to the prize pool, please contact an admin in-game or through discord.
+        </p>
     </div>
 {% endblock content %}
