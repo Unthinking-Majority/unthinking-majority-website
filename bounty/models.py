@@ -2,6 +2,7 @@ import json
 
 import requests
 from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.templatetags.static import static
 from django.urls import reverse
@@ -124,3 +125,15 @@ class Bounty(models.Model):
             embed["thumbnail"] = {"url": thumbnail}
 
         return embed
+
+
+class ExtraBountyReward(models.Model):
+    bounty = models.ForeignKey("bounty.Bounty", on_delete=models.CASCADE)
+    reward = models.CharField(max_length=32)
+    rules = models.TextField(max_length=256)
+    percent_of_prize_pool = models.DecimalField(
+        default=0.0,
+        decimal_places=2,
+        max_digits=2,
+        validators=[MinValueValidator(0), MaxValueValidator(1)],
+    )
