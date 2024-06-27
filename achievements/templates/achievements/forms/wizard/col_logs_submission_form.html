@@ -9,12 +9,15 @@
 {% block form_content %}
 
     {# Account #}
-    {% if wizard.form.account.errors %}
-        <div class="mx-2 flex w-80 justify-center">
-            {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}
-        </div>
-    {% endif %}
-    {{ wizard.form.account }}
+    <div class="{% if wizard.form.account.initial %}hidden{% endif %}">
+        {# hide input if initial value was provided #}
+        {% if wizard.form.account.errors %}
+            <div class="mx-2 flex w-80 justify-center">
+                {% include "main/forms/field_error_list.html" with errors=wizard.form.account.errors %}
+            </div>
+        {% endif %}
+        {{ wizard.form.account }}
+    </div>
 
     {% simple_input wizard.form.col_logs label="Collection Log Total" prefix=wizard.form.prefix %}
 

@@ -74,12 +74,14 @@ class RecordSubmissionForm(forms.ModelForm):
 
         # set board value on form so we can grab it back when it's submitted!
         self.fields["board"].initial = board
+
         if "account" not in kwargs.get("initial").keys():
             self.fields["account"].widget = widgets.AutocompleteSelectWidget(
                 autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
                 placeholder="Select account",
                 label="Account",
             )
+
         self.fields["accounts"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder="Select all accounts",
@@ -97,14 +99,39 @@ class RecordSubmissionForm(forms.ModelForm):
             if cleaned_data["value"] <= 0:
                 raise forms.ValidationError("Time must be more than 0.")
 
-        # validate team size
         accounts = cleaned_data.get("accounts")
+
+        # validate team size
         if accounts and cleaned_data["board"].team_size != accounts.count():
             raise forms.ValidationError(
                 "You must select exactly %(team_size)s account(s).",
                 params={"team_size": cleaned_data["board"].team_size},
             )
 
+        # validate all accounts are active for team submissions
+        if accounts.filter(is_active=False).exists():
+            raise forms.ValidationError(
+                "The following account(s) are currently not in the clan: %(inactive_accounts)s",
+                params={
+                    "inactive_accounts": ",".join(
+                        accounts.filter(is_active=False).values_list(
+                            "display_name", flat=True
+                        )
+                    )
+                },
+            )
+
+        # validate account is active if solo submission
+        if (
+            cleaned_data["board"].team_size == 1
+            and cleaned_data["account"].is_active is False
+        ):
+            raise forms.ValidationError(
+                "The account %(account)s is not a current member of the clan.",
+                params={"account": cleaned_data["account"].display_name},
+            )
+
+        # For solo submissions, copy account field into array variable accounts to fit into RecordSubmission model
         if cleaned_data["board"].team_size == 1:
             cleaned_data["accounts"] = [cleaned_data["account"]]
 
@@ -131,11 +158,13 @@ class PetSubmissionForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(PetSubmissionForm, self).__init__(*args, **kwargs)
 
-        self.fields["account"].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
-            placeholder="Select an account",
-            label="Account",
-        )
+        if "account" not in kwargs.get("initial").keys():
+            self.fields["account"].widget = widgets.AutocompleteSelectWidget(
+                autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
+                placeholder="Select an account",
+                label="Account",
+            )
+
         self.fields["pets"].widget = widgets.AutocompleteSelectMultipleWidget(
             autocomplete_url=reverse_lazy("pet-autocomplete"),
             placeholder="Select a pet",
@@ -144,6 +173,12 @@ class PetSubmissionForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(PetSubmissionForm, self).clean()
+
+        if not cleaned_data.get("account").is_active:
+            raise forms.ValidationError(
+                "The account %(account)s is not a current member of the clan.",
+                params={"account": cleaned_data.get("account").display_name},
+            )
 
         for pet in cleaned_data["pets"]:
             submission = models.PetSubmission.objects.accepted().filter(
@@ -195,14 +230,21 @@ class ColLogSubmissionForm(forms.ModelForm):
 
         self.fields["proof"].required = True
 
-        self.fields["account"].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
-            placeholder="Select an account",
-            label="Account",
-        )
+        if "account" not in kwargs.get("initial").keys():
+            self.fields["account"].widget = widgets.AutocompleteSelectWidget(
+                autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
+                placeholder="Select an account",
+                label="Account",
+            )
 
     def clean(self):
         cleaned_data = super(ColLogSubmissionForm, self).clean()
+
+        if not cleaned_data.get("account").is_active:
+            raise forms.ValidationError(
+                "The account %(account)s is not a current member of the clan.",
+                params={"account": cleaned_data.get("account").display_name},
+            )
 
         if cleaned_data.get("col_logs", 0) > settings.MAX_COL_LOG:
             raise forms.ValidationError(
@@ -242,11 +284,23 @@ class CASubmissionForm(forms.ModelForm):
 
         self.fields["proof"].required = True
 
-        self.fields["account"].widget = widgets.AutocompleteSelectWidget(
-            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
-            placeholder="Select an account",
-            label="Account",
-        )
+        if "account" not in kwargs.get("initial").keys():
+            self.fields["account"].widget = widgets.AutocompleteSelectWidget(
+                autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
+                placeholder="Select an account",
+                label="Account",
+            )
+
+    def clean(self):
+        cleaned_data = super(CASubmissionForm, self).clean()
+
+        if not cleaned_data.get("account").is_active:
+            raise forms.ValidationError(
+                "The account %(account)s is not a current member of the clan.",
+                params={"account": cleaned_data.get("account").display_name},
+            )
+
+        return cleaned_data
 
 
 class RecordSubmissionAdminForm(forms.ModelForm):

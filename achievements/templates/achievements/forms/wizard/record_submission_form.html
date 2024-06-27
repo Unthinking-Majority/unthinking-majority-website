@@ -40,6 +40,7 @@
 
 {% block form_content %}
     {{ wizard.form.board }}
+
     {% if board.team_size == 1 %}
         {# Account #}
         {# only rendered for records with team size equal to 1 #}
@@ -62,6 +63,7 @@
         {% endif %}
         {{ wizard.form.accounts }}
     {% endif %}
+
     {# Value #}
     {% if board.content.get_metric_display == 'Time' %}
         <div class="mx-2 my-4">
