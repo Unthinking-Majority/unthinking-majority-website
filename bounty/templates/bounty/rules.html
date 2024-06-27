@@ -118,15 +118,16 @@
             Don't think you have what it takes to compete at the top? No worries! Compete in the other following ways to also win:
         </p>
         <div class="flex flex-col">
+        {% for extra_reward in bounty.extra_rewards %}
             <div class="flex items-center justify-between">
-                <span class="text-4xl font-western md:text-5xl">Slowest Time </span><span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.10 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.10|gp_display }}</span>
-            </div>
-            <div class="flex items-center justify-between">
-                <span class="text-4xl font-western md:text-5xl">Best outfit </span><span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.05 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.05|gp_display }}</span>
-            </div>
-            <div class="flex items-center justify-between">
-                <span class="text-4xl font-western md:text-5xl">???</span><span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.10 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.10|gp_display }}</span>
-            </div>
+                <span class="text-4xl font-western md:text-5xl">{{ extra_reward.title }}</span><span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:extra_reward.percent_of_prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:extra_reward.percent_of_prize_pool|gp_display }}</span> </div>
+{#            <div class="flex items-center justify-between">#}
+{#                <span class="text-4xl font-western md:text-5xl">Best outfit </span><span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.05 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.05|gp_display }}</span>#}
+{#            </div>#}
+{#            <div class="flex items-center justify-between">#}
+{#                <span class="text-4xl font-western md:text-5xl">???</span><span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.10 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.10|gp_display }}</span>#}
+{#            </div>#}
+        {% endfor %}
         </div>
 
         <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">

@@ -23,17 +23,15 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("reward", models.CharField(max_length=32)),
-                ("rules", models.TextField(max_length=256)),
+                ("title", models.CharField(max_length=32)),
+                ("rules", models.CharField(max_length=256, blank=True)),
                 (
                     "percent_of_prize_pool",
-                    models.DecimalField(
-                        decimal_places=2,
+                    models.IntegerField(
                         default=0.0,
-                        max_digits=2,
                         validators=[
                             django.core.validators.MinValueValidator(0),
-                            django.core.validators.MaxValueValidator(1),
+                            django.core.validators.MaxValueValidator(100),
                         ],
                     ),
                 ),

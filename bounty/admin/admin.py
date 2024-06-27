@@ -3,11 +3,13 @@ from django.contrib import admin
 
 from bounty import forms
 from bounty import models
+from bounty.admin.inlines import ExtraBountyRewardInline
 
 
 @admin.register(models.Bounty)
 class BountyAdmin(admin.ModelAdmin):
     form = forms.BountyAdminForm
+    inlines = [ExtraBountyRewardInline]
     autocomplete_fields = ["board"]
     list_display = ["bounty_name", "start_date", "end_date"]
     list_filter = [

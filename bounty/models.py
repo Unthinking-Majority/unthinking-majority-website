@@ -129,12 +129,12 @@ class Bounty(models.Model):
 
 
 class ExtraBountyReward(models.Model):
-    bounty = models.ForeignKey("bounty.Bounty", on_delete=models.CASCADE)
-    reward = models.CharField(max_length=32)
-    rules = models.TextField(max_length=256)
-    percent_of_prize_pool = models.DecimalField(
-        default=0.0,
-        decimal_places=2,
-        max_digits=2,
-        validators=[MinValueValidator(0), MaxValueValidator(1)],
+    bounty = models.ForeignKey(
+        "bounty.Bounty", on_delete=models.CASCADE, related_name="extra_rewards"
+    )
+    title = models.CharField(max_length=32)
+    rules = models.CharField(max_length=256, blank=True)
+    percent_of_prize_pool = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
     )
