@@ -12,12 +12,12 @@ urlpatterns = [
     ),
     path(
         "index/",
-        views.BountyIndexView.as_view(),
-        name="bounty-index",
+        views.BountyListView.as_view(),
+        name="index",
     ),
     path(
         "<int:pk>/",
-        views.BountyView.as_view(),
+        views.BountyDetail.as_view(),
         name="detail",
     ),
     path(
@@ -27,7 +27,7 @@ urlpatterns = [
     ),
     path(
         "rules/<int:pk>/",
-        views.BountyRulesDetailView.as_view(),
+        views.BountyRulesDetail.as_view(),
         name="rules-detail",
     ),
 ]

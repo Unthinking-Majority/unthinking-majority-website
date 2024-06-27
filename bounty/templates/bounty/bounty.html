@@ -124,8 +124,12 @@
         </span>
     </div>
 
-    <div class="flex justify-center">
+    <div class="mb-4 flex justify-center">
         <a href="{% url "bounty:rules" %}" class="text-3xl transition duration-100 ease-in-out font-cast-iron hover:scale-105 md:text-6xl">Rules</a>
+    </div>
+
+    <div class="flex justify-center">
+        <a href="{% url "bounty:index" %}" class="text-3xl transition duration-100 ease-in-out font-cast-iron hover:scale-105 md:text-6xl">Previous Bounties</a>
     </div>
 {% endblock content %}
 

@@ -14,7 +14,7 @@ class CurrentBountyView(ListView):
 
     def dispatch(self, request, *args, **kwargs):
         if not models.Bounty.get_current_bounty():
-            return redirect("bounty:bounty-index")
+            return redirect("bounty:index")
         else:
             return super(CurrentBountyView, self).dispatch(request, *args, **kwargs)
 
@@ -28,29 +28,45 @@ class CurrentBountyView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         bounty = models.Bounty.get_current_bounty()
-
         context["bounty"] = bounty
         context["content"] = bounty.board.content
-
         return context
 
 
-class BountyIndexView(TemplateView):
-    template_name = "bounty/index.html"
+class CurrentBountyRulesView(TemplateView):
+    template_name = "bounty/rules.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not models.Bounty.get_current_bounty():
+            return redirect("bounty:index")
+        else:
+            return super(CurrentBountyRulesView, self).dispatch(
+                request, *args, **kwargs
+            )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["bounty"] = models.Bounty.get_current_bounty()
+        context["bounty_url"] = reverse("bounty:current-bounty")
+        return context
+
+
+class BountyListView(TemplateView):
+    template_name = "bounty/list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["bounties"] = models.Bounty.objects.exclude(
             id=getattr(models.Bounty.get_current_bounty(), "id", None)
         ).order_by("-start_date")
+        context["bounty"] = models.Bounty.get_current_bounty()
         return context
 
 
-class BountyView(ListView):
+class BountyDetail(ListView):
     model = models.Bounty
-    template_name = "bounty/previous.html"
+    template_name = "bounty/detail.html"
     paginate_by = 10
 
     def get_queryset(self):
@@ -66,24 +82,7 @@ class BountyView(ListView):
         return context
 
 
-class CurrentBountyRulesView(TemplateView):
-    template_name = "bounty/rules.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        if not models.Bounty.get_current_bounty():
-            return redirect("bounty:bounty-index")
-        else:
-            return super(CurrentBountyRulesView, self).dispatch(
-                request, *args, **kwargs
-            )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["bounty"] = models.Bounty.get_current_bounty()
-        return context
-
-
-class BountyRulesDetailView(DetailView):
+class BountyRulesDetail(DetailView):
     model = models.Bounty
     template_name = "bounty/rules.html"
 

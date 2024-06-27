@@ -1,10 +1,17 @@
 {% extends "bounty/base.html" %}
 
-{% load um_components %}
+{% load static um_components %}
 
 {% block content %}
 
-    <div class="mx-auto mb-4 flex w-7/12 items-center md:mb-12 md:w-10/12">
+    {% if bounty %}
+        <a href="{% url "bounty:current-bounty" %}"
+           class="absolute top-0 left-0 rounded-md px-3 py-2 transition ease-in-out hover:scale-105 sm:top-8 sm:left-4">
+            <img src="{% static "bounty/svg/fingerPoint.svg" %}" alt="" class="h-8 scale-x-[-1] sm:h-10 md:h-12">
+        </a>
+    {% endif %}
+
+    <div class="mx-auto mb-4 flex w-7/12 items-center md:mb-12 md:w-9/12">
         <div class="flex-grow border-2 border-black"></div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
              class="h-6 w-6 md:h-12 md:w-12">
@@ -32,7 +39,7 @@
         <span class="block">Bounties</span>
     </h1>
 
-    <div class="mx-auto mt-2 mb-4 flex w-7/12 items-center md:mt-4 md:mb-12 md:w-10/12">
+    <div class="mx-auto mt-2 mb-4 flex w-7/12 items-center md:mt-4 md:mb-12 md:w-9/12">
         <div class="flex-grow border-2 border-black"></div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
              class="h-6 w-6 md:h-12 md:w-12">
@@ -91,7 +98,7 @@
         {% endfor %}
     </ul>
 
-    <div class="mx-auto my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
+    <div class="mx-auto my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-9/12">
         <div class="flex-grow border-2 border-black"></div>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
              class="h-6 w-6 md:h-12 md:w-12">
