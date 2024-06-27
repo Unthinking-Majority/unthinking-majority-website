@@ -1,6 +1,6 @@
 {% extends "bounty/base.html" %}
 
-{% load static um_components %}
+{% load static um_components main_extras %}
 
 {% block content %}
     <a href="{% url "bounty:bounty-index" %}"
@@ -56,9 +56,52 @@
         <div class="flex-grow border-2 border-black"></div>
     </div>
 
+    {# Bounty Image #}
     <div class="flex justify-center">
         <img src="{{ bounty.image.url }}" class="h-40 select-none sepia-[.50] md:my-8 md:h-60 lg:h-96"
              alt="bounty image">
+    </div>
+
+    {# Winner of the Bounty #}
+    <div class="flex flex-col text-xl md:mx-24 md:text-2xl lg:text-4xl">
+        <div class="flex justify-between">
+            <span class="font-western">1st</span>
+            <span class="font-western">
+                {{ bounty.first_place.display_name }}
+                <span class="hidden md:inline align-text-bottom font-bold {% if bounty.prize_pool|mult:0.40 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">
+                    {{ bounty.prize_pool|mult:0.40|gp_display }}
+                </span>
+            </span>
+        </div>
+        <div class="flex justify-between">
+            <span class="font-western">2nd</span>
+            <span class="font-western">
+                {{ bounty.second_place.display_name }}
+                <span class="hidden md:inline align-text-bottom font-bold {% if bounty.prize_pool|mult:0.20 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">
+                    {{ bounty.prize_pool|mult:0.20|gp_display }}
+                </span>
+            </span>
+        </div>
+        <div class="flex justify-between">
+            <span class="font-western">3rd</span>
+            <span class="font-western">
+                {{ bounty.third_place.display_name }}
+            <span class="hidden md:inline align-text-bottom font-bold {% if bounty.prize_pool|mult:0.15 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">
+                {{ bounty.prize_pool|mult:0.15|gp_display }}
+            </span>
+            </span>
+        </div>
+        {% for extra_reward in bounty.extra_rewards.all %}
+            <div class="flex justify-between">
+                <span class="font-western">{{ extra_reward.title }}</span>
+                <span class="font-western">
+                    {{ extra_reward.winner.display_name }}
+                <span class="hidden md:inline align-text-bottom font-bold {% if bounty.prize_pool|mult_percentage:extra_reward.percent_of_prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">
+                    {{ bounty.prize_pool|mult_percentage:extra_reward.percent_of_prize_pool|gp_display }}
+                </span>
+                </span>
+            </div>
+        {% endfor %}
     </div>
 
     <div class="relative my-4 flex flex-wrap justify-center gap-1 md:my-6">
@@ -67,6 +110,10 @@
         <span class="basis-full 2xl:basis-8/12">
                 {% include "bounty/board.html" %}
             </span>
+    </div>
+
+    <div class="flex justify-center">
+        <a href="{% url "bounty:rules-detail" bounty.pk %}" class="text-3xl transition duration-100 ease-in-out font-cast-iron hover:scale-105 md:text-6xl">Rules</a>
     </div>
 {% endblock content %}
 

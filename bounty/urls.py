@@ -16,13 +16,18 @@ urlpatterns = [
         name="bounty-index",
     ),
     path(
-        "<int:id>/",
+        "<int:pk>/",
         views.BountyView.as_view(),
-        name="bounty-view",
+        name="detail",
     ),
     path(
         "rules/",
-        views.BountyRulesView.as_view(),
-        name="bounty-rules",
+        views.CurrentBountyRulesView.as_view(),
+        name="rules",
+    ),
+    path(
+        "rules/<int:pk>/",
+        views.BountyRulesDetailView.as_view(),
+        name="rules-detail",
     ),
 ]

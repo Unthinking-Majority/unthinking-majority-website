@@ -10,7 +10,7 @@ from bounty.admin.inlines import ExtraBountyRewardInline
 class BountyAdmin(admin.ModelAdmin):
     form = forms.BountyAdminForm
     inlines = [ExtraBountyRewardInline]
-    autocomplete_fields = ["board"]
+    autocomplete_fields = ["board", "first_place", "second_place", "third_place"]
     list_display = ["bounty_name", "start_date", "end_date"]
     list_filter = [
         AutocompleteFilterFactory("Board", "board"),
@@ -32,6 +32,9 @@ class BountyAdmin(admin.ModelAdmin):
                     "bounty_reason",
                     ("start_date", "end_date"),
                     "image",
+                    "first_place",
+                    "second_place",
+                    "third_place",
                 ),
             },
         ),

@@ -27,8 +27,8 @@
         <div class="flex-grow border-2 border-black"></div>
     </div>
 
-    <h1 class="select-none text-center text-3xl font-cast-iron sm:text-5xl md:text-7xl md:tracking-widest">
-        <span class="block">Completed</span>
+    <h1 class="select-none text-center text-4xl font-cast-iron sm:text-5xl md:text-7xl md:tracking-widest">
+        <span class="block">Previous</span>
         <span class="block">Bounties</span>
     </h1>
 
@@ -58,7 +58,7 @@
     <ul class="md:mb-12">
         {% for bounty in bounties %}
             <li class="flex items-center justify-around md:justify-between lg:mx-12">
-                <a href="{% url "bounty:bounty-view" bounty.id %}" class="w-32 select-none text-center text-2xl font-bold tracking-tight transition duration-100 ease-in-out font-western hover:scale-105 sm:text-4xl md:w-auto md:text-5xl">
+                <a href="{% url "bounty:detail" bounty.id %}" class="w-32 select-none text-center text-2xl font-bold tracking-tight transition duration-100 ease-in-out font-western hover:scale-105 sm:text-4xl md:w-auto md:text-5xl">
                     {{ bounty.board }}
                 </a>
                 <p class="hidden text-2xl font-san-andreas lg:block">

@@ -43,13 +43,19 @@ class Board(models.Model):
             return f"{self.content.name} {self.name}"
         return self.name
 
-    def top_unique_submissions(self, start_date=None, end_date=None):
+    def top_unique_submissions(
+        self, start_date=None, end_date=None, exclude_inactive=True
+    ):
         """
         Return the top submission sorted for each unique team on this board.
         Submissions must be active and accepted.
         """
         # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
-        submissions = self.submissions.active()
+        if exclude_inactive:
+            submissions = self.submissions.active()
+        else:
+            submissions = self.submissions.all()
+
         if start_date:
             submissions = submissions.filter(date__gte=start_date)
         if start_date:

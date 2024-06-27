@@ -1,5 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from bounty import models
@@ -47,33 +49,46 @@ class BountyIndexView(TemplateView):
 
 
 class BountyView(ListView):
+    model = models.Bounty
     template_name = "bounty/previous.html"
     paginate_by = 10
 
     def get_queryset(self):
         return get_object_or_404(
-            models.Bounty, id=self.kwargs.get("id")
+            models.Bounty, pk=self.kwargs.get("pk")
         ).get_submissions()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        bounty = get_object_or_404(models.Bounty, id=self.kwargs.get("id"))
+        bounty = get_object_or_404(models.Bounty, pk=self.kwargs.get("pk"))
         context["bounty"] = bounty
         context["content"] = bounty.board.content
         return context
 
 
-class BountyRulesView(TemplateView):
+class CurrentBountyRulesView(TemplateView):
     template_name = "bounty/rules.html"
 
     def dispatch(self, request, *args, **kwargs):
         if not models.Bounty.get_current_bounty():
             return redirect("bounty:bounty-index")
         else:
-            return super(BountyRulesView, self).dispatch(request, *args, **kwargs)
+            return super(CurrentBountyRulesView, self).dispatch(
+                request, *args, **kwargs
+            )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        bounty = models.Bounty.get_current_bounty()
-        context["bounty"] = bounty
+        context["bounty"] = models.Bounty.get_current_bounty()
+        return context
+
+
+class BountyRulesDetailView(DetailView):
+    model = models.Bounty
+    template_name = "bounty/rules.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["bounty"] = self.object
+        context["bounty_url"] = reverse("bounty:detail", kwargs={"pk": self.object.pk})
         return context

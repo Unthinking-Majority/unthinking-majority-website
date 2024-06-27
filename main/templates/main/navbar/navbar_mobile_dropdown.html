@@ -62,6 +62,15 @@
                 </a>
             </div>
         </li>
+    {% else %}
+        <li>
+            <div class="relative" tabindex="0">
+                <a href="{% url "bounty:bounty-index" %}"
+                   class="block w-full px-4 py-2 text-left text-white">
+                    Bounty
+                </a>
+            </div>
+        </li>
     {% endif %}
     <li>
         <div tabindex="0">

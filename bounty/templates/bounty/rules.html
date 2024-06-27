@@ -5,7 +5,7 @@
 {% block content %}
     <div class="mx-2 flex flex-col items-center md:mx-12">
 
-        <a href="{% url "bounty:current-bounty" %}"
+        <a href="{{ bounty_url }}"
             class="absolute top-0 left-0 rounded-md px-3 py-2 transition ease-in-out hover:scale-105 sm:top-8 sm:left-4">
             <img src="{% static "bounty/svg/fingerPoint.svg" %}" alt="" class="h-8 scale-x-[-1] sm:h-10 md:h-12">
         </a>
@@ -82,9 +82,24 @@
 
         <p class="mb-2 text-center text-2xl font-san-andreas md:text-3xl">"Bounty" is a speedrunning event with a fresh leaderboard. Complete the selected content as fast as possible to compete for rewards. Place in the top 3 on the temporary leaderboard to earn:</p>
         <div class="flex flex-col">
-            <div class="flex justify-between"><span class="text-4xl font-western md:text-5xl">1st </span><span class="ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.40 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.40|gp_display }}</span></div>
-            <div class="flex justify-between"><span class="text-4xl font-western md:text-5xl">2nd</span><span class="ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.20 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.20|gp_display }}</span></div>
-            <div class="flex justify-between"><span class="text-4xl font-western md:text-5xl">3rd</span><span class="ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.15 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.15|gp_display }}</span></div>
+            <div class="flex justify-between">
+                <span class="text-4xl font-western md:text-5xl">1st </span>
+                <span class="ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.40 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">
+                    {{ bounty.prize_pool|mult:0.40|gp_display }}
+                </span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-4xl font-western md:text-5xl">2nd</span>
+                <span class="ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.20 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">
+                    {{ bounty.prize_pool|mult:0.20|gp_display }}
+                </span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-4xl font-western md:text-5xl">3rd</span>
+                <span class="ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.15 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">
+                    {{ bounty.prize_pool|mult:0.15|gp_display }}
+                </span>
+            </div>
         </div>
 
         <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
@@ -118,15 +133,13 @@
             Don't think you have what it takes to compete at the top? No worries! Compete in the other following ways to also win:
         </p>
         <div class="flex flex-col">
-        {% for extra_reward in bounty.extra_rewards %}
+        {% for extra_reward in bounty.extra_rewards.all %}
             <div class="flex items-center justify-between">
-                <span class="text-4xl font-western md:text-5xl">{{ extra_reward.title }}</span><span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:extra_reward.percent_of_prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:extra_reward.percent_of_prize_pool|gp_display }}</span> </div>
-{#            <div class="flex items-center justify-between">#}
-{#                <span class="text-4xl font-western md:text-5xl">Best outfit </span><span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.05 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.05|gp_display }}</span>#}
-{#            </div>#}
-{#            <div class="flex items-center justify-between">#}
-{#                <span class="text-4xl font-western md:text-5xl">???</span><span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult:0.10 < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|mult:0.10|gp_display }}</span>#}
-{#            </div>#}
+                <span class="text-4xl font-western md:text-5xl">{{ extra_reward.title }}</span>
+                <span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult_percentage:extra_reward.percent_of_prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">
+                    {{ bounty.prize_pool|mult_percentage:extra_reward.percent_of_prize_pool|gp_display }}
+                </span>
+            </div>
         {% endfor %}
         </div>
 
@@ -148,7 +161,7 @@
                 For a submission to be accepted for the bounty, you must include the phrase <span class="text-amber-900 font-western md:text-3xl">{{ bounty.event_phrase }}</span> in your screenshot with the current date & time. The following methods are accepted:
                 <ul class="pl-12 md:text-xl [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
                     <li>Using the "Clan Event" plugin on Runelite, and entering the phrase as the event password (preferred method). Be sure the date & time setting is on!</li>
-                    <li>Typing the phrase, date,and time into chat.</li>
+                    <li>Typing the event phrase, date, and time into chat.</li>
                 </ul>
             </li>
             <li>
@@ -170,10 +183,17 @@
             </li>
             <li>Each participant can only win one reward, exception being the permanent leaderboard reward.</li>
             <li>Submissions made for the bounty will not appear on the permanent leaderboard until the event is over.</li>
-            <li>The "Best Outfit" award will determined by a team of secret judges. Creativity with respect to the "Bounty" theme will be rewarded!</li>
+            {% for extra_reward in bounty.extra_rewards.all %}
+                {% if extra_reward.rules %}
+                    <li>{{ extra_reward.rules }}</li>
+                {% endif %}
+            {% endfor %}
         </ul>
-        <p class="my-4 text-center font-semibold md:text-xl">
-            If you want to donate to the prize pool, please contact an admin in-game or through discord.
-        </p>
+        <div class="flex flex-col items-center md:flex-row">
+            <p class="my-4 text-center font-semibold md:text-xl">
+                If you want to donate to the prize pool, please contact an admin in-game or through discord.
+            </p>
+            <img src="{% static "bounty/img/CoinStack.webp" %}" class="mx-2 h-12 w-12">
+        </div>
     </div>
 {% endblock content %}

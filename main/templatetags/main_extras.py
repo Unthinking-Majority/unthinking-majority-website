@@ -6,8 +6,8 @@ from wagtail.embeds.exceptions import EmbedException
 from wagtail.models import Site
 
 from bounty.models import Bounty
-from main.models import ContentCategory, UMNotification
 from main.functions import gp_display as _gp_display
+from main.models import ContentCategory, UMNotification
 
 register = template.Library()
 
@@ -69,6 +69,14 @@ def get_page_authors(page):
 @register.filter
 def mult(val, multiplier):
     return val * multiplier
+
+
+@register.filter
+def mult_percentage(val, multiplier):
+    """
+    Multiplies value against multiplier, where multiplier is expected to be a percentage represented as an integer.
+    """
+    return val * (multiplier / 100)
 
 
 @register.simple_tag(name="embed")

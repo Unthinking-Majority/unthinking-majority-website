@@ -26,6 +26,29 @@ class Bounty(models.Model):
         help_text="Give a fun reason for why this npc has a bounty placed on their head!",
     )
 
+    # Fields for saving the winners after the event is over!
+    first_place = models.ForeignKey(
+        "account.Account",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name="first_place_bounties",
+    )
+    second_place = models.ForeignKey(
+        "account.Account",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name="second_place_bounties",
+    )
+    third_place = models.ForeignKey(
+        "account.Account",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name="third_place_bounties",
+    )
+
     class Meta:
         ordering = ["-start_date"]
 
@@ -59,7 +82,7 @@ class Bounty(models.Model):
 
     def get_submissions(self):
         return self.board.top_unique_submissions(
-            start_date=self.start_date, end_date=self.end_date
+            start_date=self.start_date, end_date=self.end_date, exclude_inactive=False
         ).filter(bounty_accepted=True)
 
     def get_slowest_submission(self):
@@ -137,4 +160,12 @@ class ExtraBountyReward(models.Model):
     percent_of_prize_pool = models.IntegerField(
         default=0,
         validators=[MinValueValidator(0), MaxValueValidator(100)],
+    )
+
+    winner = models.ForeignKey(
+        "account.Account",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        related_name="extra_bounty_rewards",
     )
