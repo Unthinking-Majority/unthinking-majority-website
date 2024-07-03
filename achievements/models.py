@@ -43,6 +43,8 @@ class BaseSubmission(PolymorphicModel):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        if not getattr(self, "pk", None):
+            self.on_creation()
         self.__original_accepted = self.accepted
 
     def save(self, *args, **kwargs):
@@ -51,6 +53,84 @@ class BaseSubmission(PolymorphicModel):
             # get_child_instance seems to return self if there is no child. This works out
             # because this code still runs successfully when a child instance is saved!
             self.get_real_instance().on_accepted()
+
+    def on_creation(self):
+        """
+        Post to discord um pb webhook the newly accepted submission!
+        """
+        data = json.dumps({"embeds": [self.create_new_submission_embed()]})
+        requests.post(
+            settings.UM_SUBMISSIONS_DISCORD_WEBHOOK_URL,
+            data=data,
+            headers={"Content-Type": "application/json"},
+        )
+
+    def create_new_submission_embed(self):
+        """
+        Create json discord embed for newly created submissions.
+        """
+        print("here")
+        fields = [
+            {
+                "name": "Type",
+                "value": str(self.type_display()),
+            },
+            {
+                "name": "Value",
+                "value": str(self.value_display()),
+            },
+            # {
+            #     "name": "User(s)",
+            #     "value": ", ".join(self.accounts.values_list("name", flat=True)),
+            # },
+            # {
+            #     "name": self.board.content.metric_name,
+            #     "value": self.value_display(),
+            #     "inline": True,
+            # },
+            # {
+            #     "name": "Date",
+            #     "value": f"{self.date:%b %d, %Y}",
+            #     "inline": True,
+            # },
+            # {
+            #     "name": "Rank",
+            #     "value": self.get_rank() or "---",
+            #     "inline": True,
+            # },
+        ]
+
+        if self.notes:
+            fields.append(
+                {
+                    "name": "Notes",
+                    "value": self.notes,
+                }
+            )
+
+        admin_url = reverse(
+            f"admin:{self.get_real_instance()._meta.app_label}_{self.get_real_instance()._meta.model_name}_change",
+            args=[self.id],
+        )
+
+        embed = {
+            "color": 0x0099FF,
+            "title": "New Submission",
+            "fields": fields,
+            "url": f"https://{settings.DOMAIN}/{admin_url}",
+        }
+
+        if not settings.DEBUG and self.proof:
+            embed["image"] = {"url": self.proof.url}
+
+        return embed
+
+    def get_rank(self):
+        submissions = self.board.top_unique_submissions()
+        for rank, submission in enumerate(submissions):
+            if submission.id == self.id:
+                return rank + 1
+        return None
 
     def send_notifications(self, request):
         self.get_real_instance().send_notifications(request)
