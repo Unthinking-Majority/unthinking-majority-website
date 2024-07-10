@@ -43,8 +43,6 @@ class BaseSubmission(PolymorphicModel):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if not getattr(self, "pk", None):
-            self.on_creation()
         self.__original_accepted = self.accepted
 
     def save(self, *args, **kwargs):
@@ -58,7 +56,12 @@ class BaseSubmission(PolymorphicModel):
         """
         Post to discord um pb webhook the newly accepted submission!
         """
-        data = json.dumps({"embeds": [self.create_new_submission_embed()]})
+        data = json.dumps(
+            {
+                "embeds": [self.create_new_submission_embed()],
+                "components": self.create_new_submission_components(),
+            }
+        )
         requests.post(
             settings.UM_SUBMISSIONS_DISCORD_WEBHOOK_URL,
             data=data,
@@ -69,35 +72,26 @@ class BaseSubmission(PolymorphicModel):
         """
         Create json discord embed for newly created submissions.
         """
-        print("here")
         fields = [
             {
                 "name": "Type",
-                "value": str(self.type_display()),
+                "value": self.type_display(),
+                "inline": True,
             },
             {
                 "name": "Value",
-                "value": str(self.value_display()),
+                "value": self.value_display(),
+                "inline": True,
             },
-            # {
-            #     "name": "User(s)",
-            #     "value": ", ".join(self.accounts.values_list("name", flat=True)),
-            # },
-            # {
-            #     "name": self.board.content.metric_name,
-            #     "value": self.value_display(),
-            #     "inline": True,
-            # },
-            # {
-            #     "name": "Date",
-            #     "value": f"{self.date:%b %d, %Y}",
-            #     "inline": True,
-            # },
-            # {
-            #     "name": "Rank",
-            #     "value": self.get_rank() or "---",
-            #     "inline": True,
-            # },
+            {
+                "name": "User(s)",
+                "value": self.accounts_display(),
+            },
+            {
+                "name": "Date",
+                "value": f"{self.date:%b %d, %Y}",
+                "inline": True,
+            },
         ]
 
         if self.notes:
@@ -117,13 +111,35 @@ class BaseSubmission(PolymorphicModel):
             "color": 0x0099FF,
             "title": "New Submission",
             "fields": fields,
-            "url": f"https://{settings.DOMAIN}/{admin_url}",
+            "url": f"https://{settings.DOMAIN}{admin_url}",
         }
 
         if not settings.DEBUG and self.proof:
             embed["image"] = {"url": self.proof.url}
 
         return embed
+
+    def create_new_submission_components(self):
+        components = [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Accept",
+                        "style": 3,
+                        "custom_id": "accept-submission",
+                    },
+                    {
+                        "type": 2,
+                        "label": "Deny",
+                        "style": 4,
+                        "custom_id": "deny-submission",
+                    },
+                ],
+            }
+        ]
+        return components
 
     def get_rank(self):
         submissions = self.board.top_unique_submissions()
@@ -149,7 +165,7 @@ class BaseSubmission(PolymorphicModel):
 
     def accounts_display(self):
         """
-        Call the acounts_display() method from the corresponding child instance of this base submission
+        Call the accounts_display() method from the corresponding child instance of this base submission
         """
         return self.get_real_instance().accounts_display()
 
@@ -195,13 +211,13 @@ class RecordSubmission(BaseSubmission):
                     )
 
     def type_display(self):
-        return self.board
+        return self.board.name
 
     def value_display(self):
         if self.board.content.metric == TIME:
             minutes = int(self.value // 60)
             seconds = self.value % 60
-            return f"{minutes}:{seconds:05}"
+            return f"{minutes}:{float(seconds):05.2f}"
         else:
             return (
                 int(self.value) if self.board.content.metric == INTEGER else self.value

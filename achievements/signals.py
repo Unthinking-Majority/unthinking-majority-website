@@ -1,10 +1,15 @@
-from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-from achievements.models impo
+
+from achievements import models
 
 __all__ = ["submission_created"]
 
 
-@receiver(pre_save)
-def submission_created(sender, key, old_value, new_value, **kwargs):
-    pass
+@receiver(post_save, sender=models.RecordSubmission)
+@receiver(post_save, sender=models.PetSubmission)
+@receiver(post_save, sender=models.ColLogSubmission)
+@receiver(post_save, sender=models.CASubmission)
+def submission_created(sender, instance, created, *args, **kwargs):
+    if created:
+        instance.on_creation()

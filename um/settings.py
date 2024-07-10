@@ -191,6 +191,9 @@ MAX_COL_LOG = int(os.environ.get("MAX_COL_LOG"))
 UM_PB_DISCORD_WEBHOOK_URL = os.environ.get(
     "UM_PB_DISCORD_WEBHOOK_URL"
 )  # for posting discord embeds to the #um-pb-leaderboards channel!
+UM_SUBMISSIONS_DISCORD_WEBHOOK_URL = os.environ.get(
+    "UM_SUBMISSIONS_DISCORD_WEBHOOK_URL"
+)  # for posting discord embeds to the #submissions channel!
 BOUNTY_DISCORD_WEBHOOK_URL = os.environ.get(
     "BOUNTY_DISCORD_WEBHOOK_URL"
 )  # for posting discord embeds to the #bounty channel during Bounty events!
