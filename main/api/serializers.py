@@ -1,3 +1,4 @@
+from constance.models import Constance
 from rest_framework import serializers
 
 from main import models
@@ -60,3 +61,9 @@ class BoardSerializer(serializers.ModelSerializer):
 
     def get_display_name(self, obj):
         return str(obj)
+
+
+class ConstanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Constance
+        fields = ["key", "value"]

@@ -1,10 +1,11 @@
+from constance.models import Constance
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from achievements.api.serializers import RecordSubmissionSerializer
 from main import models
 from main.api import serializers
-from achievements.api.serializers import RecordSubmissionSerializer
 
 
 class ContentCateogryViewSet(viewsets.ModelViewSet):
@@ -27,3 +28,8 @@ class BoardViewSet(viewsets.ModelViewSet):
         return Response(
             RecordSubmissionSerializer(board.top_unique_submissions(), many=True).data
         )
+
+
+class ConstanceViewSet(viewsets.ModelViewSet):
+    queryset = Constance.objects.all()
+    serializer_class = serializers.ConstanceSerializer
