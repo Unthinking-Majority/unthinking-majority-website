@@ -260,6 +260,6 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 100,
 }
 if DEBUG:
-    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] += [
-        "rest_framework.authentication.BasicAuthentication"
+    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = [
+        "rest_framework.authentication.SessionAuthentication",
     ]
