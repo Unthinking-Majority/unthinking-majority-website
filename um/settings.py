@@ -200,9 +200,8 @@ BOUNTY_DISCORD_WEBHOOK_URL = os.environ.get(
 
 WOM_API_KEY = os.environ.get("WOM_API_KEY")
 
-if not DEBUG:
-    CONSTANCE_REDIS_CONNECTION = os.environ.get("REDIS_URL")
-CONSTANCE_SUPERUSER_ONLY = False
+CONSTANCE_SUPERUSER_ONLY = True
+CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
 CONSTANCE_CONFIG = {
     "DRAGONSTONE_POINTS_THRESHOLD": (40, "Dragonstone Points Threshold"),
     "DRAGONSTONE_EXPIRATION_PERIOD": (180, "Dragonstone Expiration Period (in days)"),
