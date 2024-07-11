@@ -191,9 +191,6 @@ MAX_COL_LOG = int(os.environ.get("MAX_COL_LOG"))
 UM_PB_DISCORD_WEBHOOK_URL = os.environ.get(
     "UM_PB_DISCORD_WEBHOOK_URL"
 )  # for posting discord embeds to the #um-pb-leaderboards channel!
-UM_SUBMISSIONS_DISCORD_WEBHOOK_URL = os.environ.get(
-    "UM_SUBMISSIONS_DISCORD_WEBHOOK_URL"
-)  # for posting discord embeds to the #submissions channel!
 BOUNTY_DISCORD_WEBHOOK_URL = os.environ.get(
     "BOUNTY_DISCORD_WEBHOOK_URL"
 )  # for posting discord embeds to the #bounty channel during Bounty events!
@@ -236,6 +233,7 @@ CONSTANCE_CONFIG = {
     "THIRD_PLACE_PTS": (3, "Points for 3rd Place"),
     "FOURTH_PLACE_PTS": (2, "Points for 4th Place"),
     "FIFTH_PLACE_PTS": (1, "Points for 5th Place"),
+    "UM_SUBMISSIONS_DISCORD_WEBHOOK_URL": ("", "Submissions Discord Webhook URL"),
 }
 
 # Wagtail settings

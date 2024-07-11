@@ -66,4 +66,4 @@ class BoardSerializer(serializers.ModelSerializer):
 class ConstanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Constance
-        fields = ["key", "value"]
+        fields = ["pk", "key", "value"]

@@ -15,6 +15,7 @@ from bounty.models import Bounty
 from main import INTEGER, TIME
 from main.models import UMNotification
 from um.functions import get_file_path
+from constance import config
 
 
 class BaseSubmission(PolymorphicModel):
@@ -62,11 +63,12 @@ class BaseSubmission(PolymorphicModel):
                 "components": self.create_new_submission_components(),
             }
         )
-        requests.post(
-            settings.UM_SUBMISSIONS_DISCORD_WEBHOOK_URL,
-            data=data,
-            headers={"Content-Type": "application/json"},
-        )
+        if config.UM_SUBMISSIONS_DISCORD_WEBHOOK_URL:
+            requests.post(
+                config.UM_SUBMISSIONS_DISCORD_WEBHOOK_URL,
+                data=data,
+                headers={"Content-Type": "application/json"},
+            )
 
     def create_new_submission_embed(self):
         """
