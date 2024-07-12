@@ -84,13 +84,17 @@ class SubmissionWizard(SessionWizardView):
     def done(self, form_list, **kwargs):
         form_dict = kwargs.get("form_dict")
         if "record_submission_form" in form_dict.keys():
-            form_dict["record_submission_form"].save()
+            instance = form_dict["record_submission_form"].save()
+            instance.on_creation()
         elif "pet_submission_form" in form_dict.keys():
-            form_dict["pet_submission_form"].form_valid()
+            instance = form_dict["pet_submission_form"].form_valid()
+            instance.on_creation()
         elif "col_logs_submission_form" in form_dict.keys():
-            form_dict["col_logs_submission_form"].save()
+            instance = form_dict["col_logs_submission_form"].save()
+            instance.on_creation()
         elif "ca_submission_form" in form_dict.keys():
-            form_dict["ca_submission_form"].save()
+            instance = form_dict["ca_submission_form"].save()
+            instance.on_creation()
 
         messages.success(self.request, "Your form has been successfully submitted.")
         return redirect("/")
