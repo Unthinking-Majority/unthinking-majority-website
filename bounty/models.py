@@ -116,23 +116,24 @@ class Bounty(models.Model):
                 headers={"Content-Type": "application/json"},
             )
 
-        all_bounty_submissions = self.board.submissions.filter(
-            date__gte=self.start_date, date__lte=self.end_date
-        ).order_by(f"{self.board.content.ordering}value", "date")
-        try:
-            non_unique_rank = list(all_bounty_submissions).index(submission) + 1
-        except ValueError:
-            non_unique_rank = None
-        if non_unique_rank == all_bounty_submissions.count():
-            title = "Bounty Claimed"
-            users = ", ".join(submission.accounts.values_list("name", flat=True))
-            description = f"{users} submitted a time of {submission.value_display()} to claim the slowest time of the bounty."
-            data = json.dumps({"embeds": [self.create_embed(title, description)]})
-            requests.post(
-                settings.BOUNTY_DISCORD_WEBHOOK_URL,
-                data=data,
-                headers={"Content-Type": "application/json"},
-            )
+        # Updates for slowest bounty submission if applicable to this bounty
+        # all_bounty_submissions = self.board.submissions.filter(
+        #     date__gte=self.start_date, date__lte=self.end_date
+        # ).order_by(f"{self.board.content.ordering}value", "date")
+        # try:
+        #     non_unique_rank = list(all_bounty_submissions).index(submission) + 1
+        # except ValueError:
+        #     non_unique_rank = None
+        # if non_unique_rank == all_bounty_submissions.count():
+        #     title = "Bounty Claimed"
+        #     users = ", ".join(submission.accounts.values_list("name", flat=True))
+        #     description = f"{users} submitted a time of {submission.value_display()} to claim the slowest time of the bounty."
+        #     data = json.dumps({"embeds": [self.create_embed(title, description)]})
+        #     requests.post(
+        #         settings.BOUNTY_DISCORD_WEBHOOK_URL,
+        #         data=data,
+        #         headers={"Content-Type": "application/json"},
+        #     )
 
     def create_embed(self, title, description, thumbnail=None):
         """
