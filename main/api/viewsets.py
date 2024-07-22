@@ -27,3 +27,9 @@ class BoardViewSet(viewsets.ModelViewSet):
         return Response(
             RecordSubmissionSerializer(board.top_unique_submissions(), many=True).data
         )
+
+
+class SettingsViewSet(viewsets.ModelViewSet):
+    queryset = models.Settings.objects.all()
+    serializer_class = serializers.SettingsSerializer
+    filterset_fields = ["key"]

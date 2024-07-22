@@ -30,6 +30,7 @@ else:
     ALLOWED_HOSTS = [DOMAIN]
 
 INSTALLED_APPS = [
+    "constance",
     "um.admin.UMAdminConfig",
     "django.contrib.auth",
     "polymorphic",

@@ -60,3 +60,9 @@ class BoardSerializer(serializers.ModelSerializer):
 
     def get_display_name(self, obj):
         return str(obj)
+
+
+class SettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Settings
+        fields = "__all__"
