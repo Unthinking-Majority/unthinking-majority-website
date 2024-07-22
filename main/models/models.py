@@ -8,13 +8,7 @@ from notifications.models import Notification
 from main import DIFFICULTY_CHOICES, EASY, METRIC_CHOICES, TIME
 from um.functions import get_file_path
 
-__all__ = [
-    "Board",
-    "Content",
-    "ContentCategory",
-    "Pet",
-    "UMNotification",
-]
+__all__ = ["Board", "Content", "ContentCategory", "Pet", "UMNotification", "Settings"]
 
 
 class Board(models.Model):
@@ -191,3 +185,16 @@ class UMNotification(Notification):
             return url
         except NoReverseMatch:
             return self.action_object_object_id
+
+
+class Settings(models.Model):
+    """
+    For setting dynamic settings through the admin.
+    """
+
+    key = models.CharField(max_length=256, unique=True)
+    value = models.CharField(max_length=256)
+
+    class Meta:
+        verbose_name = "Settings"
+        verbose_name_plural = "Settings"

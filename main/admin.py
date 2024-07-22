@@ -114,6 +114,13 @@ class UMNotificationAdmin(admin.ModelAdmin):
     search_fields = ["verb"]
 
 
+@admin.register(models.Settings)
+class SettingsAdmin(admin.ModelAdmin):
+    list_display = ["key", "value"]
+    list_editable = ["value"]
+    search_fields = ["key"]
+
+
 admin.site.unregister(
     Notification
 )  # unregister Notification model from admin, since we have our own UMNotification model + admin
