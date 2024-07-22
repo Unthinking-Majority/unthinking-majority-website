@@ -1,8 +1,8 @@
-from constance import config
 from django.urls import path
 from django.views.generic.base import TemplateView
 
 from achievements import views
+from main.config import config
 from main.models import Board
 
 app_name = "achievements"

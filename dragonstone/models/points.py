@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from constance import config
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
@@ -13,6 +12,7 @@ from dragonstone import (
 )
 from dragonstone import managers
 from main import EASY, MEDIUM, HARD, VERY_HARD, SKILLS
+from main.config import config
 
 __all__ = [
     "DragonstonePoints",

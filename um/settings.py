@@ -30,7 +30,6 @@ else:
     ALLOWED_HOSTS = [DOMAIN]
 
 INSTALLED_APPS = [
-    "main.apps.CustomConstanceConfig",
     "um.admin.UMAdminConfig",
     "django.contrib.auth",
     "polymorphic",
@@ -197,45 +196,6 @@ BOUNTY_DISCORD_WEBHOOK_URL = os.environ.get(
 )  # for posting discord embeds to the #bounty channel during Bounty events!
 
 WOM_API_KEY = os.environ.get("WOM_API_KEY")
-
-CONSTANCE_SUPERUSER_ONLY = True
-CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
-CONSTANCE_CONFIG = {
-    "DRAGONSTONE_POINTS_THRESHOLD": (40, "Dragonstone Points Threshold"),
-    "DRAGONSTONE_EXPIRATION_PERIOD": (180, "Dragonstone Expiration Period (in days)"),
-    "PVM_SPLIT_POINTS_MAX": (25, "Maximum Points Allowed from PVM Splits"),
-    "RECRUITER_PTS": (2, "Dragonstone Recruiter Points"),
-    "SOTM_FIRST_PTS": (3, "Skill of the Month First Place Points"),
-    "SOTM_SECOND_PTS": (2, "Skill of the Month Second Points"),
-    "SOTM_THIRD_PTS": (1, "Skill of the Month Third Points"),
-    "PVM_SPLIT_EASY_PTS": (0, "Pvm Splits Easy Points"),
-    "PVM_SPLIT_MEDIUM_PTS": (1, "Pvm Splits Medium Points"),
-    "PVM_SPLIT_HARD_PTS": (1, "Pvm Splits Hard Points"),
-    "PVM_SPLIT_VERY_HARD_PTS": (2, "Pvm Splits Very Hard Points"),
-    "MENTOR_EASY_PTS": (1, "Mentor Easy Points"),
-    "MENTOR_MEDIUM_PTS": (2, "Mentor Medium Points"),
-    "MENTOR_HARD_PTS": (3, "Mentor Hard Points"),
-    "MENTOR_VERY_HARD_PTS": (4, "Mentor Very Hard Points"),
-    "EVENT_MINOR_HOSTS_PTS": (5, "Event Minor Hosts Points"),
-    "EVENT_MINOR_PARTICIPANTS_PTS": (2, "Event Minor Participants Points"),
-    "EVENT_MINOR_DONORS_PTS": (0, "Event Minor Donors Points"),
-    "EVENT_MENTOR_PARTICIPANTS_PTS": (2, "Event Mentor Participants Points"),
-    "EVENT_MAJOR_PARTICIPANTS_PTS": (5, "Event Major Participants Points"),
-    "EVENT_MAJOR_DONORS_PTS": (2, "Event Major Donors Points"),
-    "EVENT_OTHER_HOSTS_PTS": (3, "Event Other Hosts Points"),
-    "EVENT_OTHER_PARTICIPANTS_PTS": (1, "Event Other Participants Points"),
-    "EVENT_OTHER_DONORS_PTS": (0, "Event Other Donors Points"),
-    "EVENT_MENTOR_DONORS_PTS": (0, "Event Mentor Donors Points"),
-    "EVENT_MENTOR_HOSTS_PTS": (5, "Event Mentor Hosts Points"),
-    "EVENT_MAJOR_HOSTS_PTS": (15, "Event Major Hosts Points"),
-    "NEW_MEMBER_RAID_PTS": (2, "New Member Raid Points"),
-    "FIRST_PLACE_PTS": (10, "Points for 1st Place"),
-    "SECOND_PLACE_PTS": (5, "Points for 2nd Place"),
-    "THIRD_PLACE_PTS": (3, "Points for 3rd Place"),
-    "FOURTH_PLACE_PTS": (2, "Points for 4th Place"),
-    "FIFTH_PLACE_PTS": (1, "Points for 5th Place"),
-    "UM_SUBMISSIONS_DISCORD_WEBHOOK_URL": ("", "Submissions Discord Webhook URL"),
-}
 
 # Wagtail settings
 WAGTAIL_SITE_NAME = "Unthinking Majority"

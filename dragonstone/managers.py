@@ -1,11 +1,11 @@
 from datetime import timedelta
 
-from constance import config
 from django.db.models import Q
 from django.utils import timezone
 from polymorphic.managers import PolymorphicQuerySet
 
 from dragonstone import models
+from main.config import config
 
 __all__ = ["DragonstonePointsQueryset", "DragonstoneSubmissionQueryset"]
 

@@ -1,6 +1,5 @@
 from datetime import timedelta
 
-from constance import config
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -10,6 +9,7 @@ from account import ACCOUNT_RANK_CHOICES
 from account import managers
 from achievements import CA_DICT
 from achievements.models import CASubmission, ColLogSubmission, PetSubmission
+from main.config import config
 from main.models import Board
 from um.functions import get_file_path
 

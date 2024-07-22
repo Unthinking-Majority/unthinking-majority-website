@@ -1,9 +1,9 @@
-from constance import config
 from django.contrib import admin
 from django.templatetags.static import static
 from django.utils.safestring import mark_safe
 
 from account import models
+from main.config import config
 
 
 @admin.register(models.Account)

@@ -1,9 +1,9 @@
-from constance import config
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Case, When, Sum, IntegerField, Value, F, QuerySet, Q
 from django.db.models.functions import Least
 
 from dragonstone.models import DragonstonePoints, PVMSplitPoints
+from main.config import config
 from main.models import Board
 
 

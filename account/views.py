@@ -1,4 +1,3 @@
-from constance import config
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage
 from django.db.models import Q
@@ -10,6 +9,7 @@ from django.views.generic.edit import FormView
 from account import forms
 from achievements.models import BaseSubmission
 from dragonstone.models import DragonstoneBaseSubmission
+from main.config import config
 
 
 class ProfileView(TemplateView):

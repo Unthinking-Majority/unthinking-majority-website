@@ -13,9 +13,9 @@ from polymorphic.models import PolymorphicModel
 from achievements import managers, CA_CHOICES
 from bounty.models import Bounty
 from main import INTEGER, TIME
+from main.config import config
 from main.models import UMNotification
 from um.functions import get_file_path
-from constance import config
 
 
 class BaseSubmission(PolymorphicModel):

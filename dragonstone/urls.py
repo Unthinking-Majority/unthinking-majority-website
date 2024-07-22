@@ -1,8 +1,8 @@
-from constance import config
 from django.urls import path
 from django.views.generic.base import TemplateView
 
 from dragonstone import views
+from main.config import config
 
 app_name = "dragonstone"
 
