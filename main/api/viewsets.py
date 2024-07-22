@@ -33,3 +33,4 @@ class BoardViewSet(viewsets.ModelViewSet):
 class ConstanceViewSet(viewsets.ModelViewSet):
     queryset = Constance.objects.all()
     serializer_class = serializers.ConstanceSerializer
+    filterset_fields = ["key"]

@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "tailwind",
     "theme",
     "bounty",
+    "django_filters",
 ]
 
 if DEBUG:
@@ -254,10 +255,11 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
     ],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 100,
 }
 if DEBUG:
-    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = [
+    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] += [
         "rest_framework.authentication.SessionAuthentication",
     ]
