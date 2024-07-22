@@ -13,7 +13,6 @@ django-storages>=1.13,<1.14
 django-tailwind>=3.6,<3.7
 django>=4.2,<5.0
 gunicorn>=22.0.0,<23.0.0
-markdown==3.5
 pillow
 psycopg2>=2.9,<2.10
 requests
