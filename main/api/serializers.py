@@ -65,4 +65,4 @@ class BoardSerializer(serializers.ModelSerializer):
 class SettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Settings
-        fields = "__all__"
+        fields = ["pk", "key", "value"]

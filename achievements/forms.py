@@ -198,19 +198,23 @@ class PetSubmissionForm(forms.Form):
         return cleaned_data
 
     def form_valid(self):
+        submissions = []
         first_submission = models.PetSubmission.objects.create(
             account=self.cleaned_data["account"],
             pet=self.cleaned_data["pets"][0],
             notes=self.cleaned_data["notes"],
             proof=self.cleaned_data["proof"],
         )
+        submissions.append(first_submission)
         for pet in self.cleaned_data["pets"][1:]:
-            models.PetSubmission.objects.create(
+            submission = models.PetSubmission.objects.create(
                 account=self.cleaned_data["account"],
                 pet=pet,
                 notes=self.cleaned_data["notes"],
                 proof=first_submission.proof,  # re-use the already uploaded file!
             )
+            submissions.append(submission)
+        return submissions
 
 
 class ColLogSubmissionForm(forms.ModelForm):

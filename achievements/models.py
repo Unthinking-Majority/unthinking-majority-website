@@ -130,13 +130,13 @@ class BaseSubmission(PolymorphicModel):
                         "type": 2,
                         "label": "Accept",
                         "style": 3,
-                        "custom_id": "accept-submission",
+                        "custom_id": f"achievement-accept-submission-{self.pk}",
                     },
                     {
                         "type": 2,
                         "label": "Deny",
                         "style": 4,
-                        "custom_id": "deny-submission",
+                        "custom_id": f"achievement-deny-submission-{self.pk}",
                     },
                 ],
             }

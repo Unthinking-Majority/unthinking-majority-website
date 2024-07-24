@@ -87,8 +87,9 @@ class SubmissionWizard(SessionWizardView):
             instance = form_dict["record_submission_form"].save()
             instance.on_creation()
         elif "pet_submission_form" in form_dict.keys():
-            instance = form_dict["pet_submission_form"].form_valid()
-            instance.on_creation()
+            instances = form_dict["pet_submission_form"].form_valid()
+            for instance in instances:
+                instance.on_creation()
         elif "col_logs_submission_form" in form_dict.keys():
             instance = form_dict["col_logs_submission_form"].save()
             instance.on_creation()
