@@ -193,7 +193,7 @@ class Settings(models.Model):
     """
 
     key = models.CharField(max_length=256, unique=True)
-    value = models.CharField(max_length=256)
+    value = models.CharField(max_length=256, blank=True)
 
     class Meta:
         verbose_name = "Settings"
