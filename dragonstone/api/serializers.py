@@ -1,17 +1,15 @@
+from django.conf import settings
 from django.urls import reverse
 from rest_framework import serializers
 
-from django.conf import settings
-from account.api.serializers import AccountSerializer
-from achievements import models
-from main.api.serializers import BoardSerializer
+from dragonstone import models
 
 
-class BaseSubmissionSerializer(serializers.ModelSerializer):
+class DragonstoneBaseSubmissionSerializer(serializers.ModelSerializer):
     admin_url = serializers.SerializerMethodField()
 
     class Meta:
-        model = models.BaseSubmission
+        model = models.DragonstoneBaseSubmission
         fields = [
             "pk",
             "proof",
@@ -29,12 +27,3 @@ class BaseSubmissionSerializer(serializers.ModelSerializer):
             kwargs={"object_id": instance.pk},
         )
         return f"https://{settings.DOMAIN}{url}"
-
-
-class RecordSubmissionSerializer(BaseSubmissionSerializer):
-    accounts = AccountSerializer(many=True)
-    board = BoardSerializer()
-
-    class Meta(BaseSubmissionSerializer.Meta):
-        model = models.RecordSubmission
-        fields = BaseSubmissionSerializer.Meta.fields + ["accounts", "board", "value"]
