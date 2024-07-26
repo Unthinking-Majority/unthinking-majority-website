@@ -63,9 +63,9 @@ class BaseSubmission(PolymorphicModel):
                 "components": self.create_new_submission_components(),
             }
         )
-        if config.UM_SUBMISSIONS_DISCORD_WEBHOOK_URL:
+        if config.UM_ACHIEVEMENT_SUBMISSIONS_DISCORD_WEBHOOK_URL:
             requests.post(
-                config.UM_SUBMISSIONS_DISCORD_WEBHOOK_URL,
+                config.UM_ACHIEVEMENT_SUBMISSIONS_DISCORD_WEBHOOK_URL,
                 data=data,
                 headers={"Content-Type": "application/json"},
             )
