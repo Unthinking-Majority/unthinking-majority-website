@@ -86,7 +86,7 @@ class BaseSubmission(PolymorphicModel):
                 "inline": True,
             },
             {
-                "name": "User(s)",
+                "name": "Account(s)",
                 "value": self.accounts_display(),
             },
             {
@@ -260,7 +260,7 @@ class RecordSubmission(BaseSubmission):
                 "value": str(self.board),
             },
             {
-                "name": "User(s)",
+                "name": "Account(s)",
                 "value": ", ".join(self.accounts.values_list("name", flat=True)),
             },
             {

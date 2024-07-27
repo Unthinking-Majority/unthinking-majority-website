@@ -77,13 +77,17 @@ class DragonstoneSubmissionWizard(SessionWizardView):
         form_dict = kwargs.get("form_dict")
 
         if "pvm_split_submission_form" in form_dict.keys():
-            form_dict["pvm_split_submission_form"].save()
+            instance = form_dict["pvm_split_submission_form"].save()
+            instance.on_creation()
         elif "mentor_submission_form" in form_dict.keys():
-            form_dict["mentor_submission_form"].save()
+            instance = form_dict["mentor_submission_form"].save()
+            instance.on_creation()
         elif "event_submission_form" in form_dict.keys():
-            form_dict["event_submission_form"].save()
+            instance = form_dict["event_submission_form"].save()
+            instance.on_creation()
         elif "new_member_raid_submission_form" in form_dict.keys():
-            form_dict["new_member_raid_submission_form"].save()
+            instance = form_dict["new_member_raid_submission_form"].save()
+            instance.on_creation()
 
         messages.success(self.request, "Form successfully submitted.")
         return redirect("/")
