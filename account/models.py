@@ -1,9 +1,13 @@
+import json
 from datetime import timedelta
 
+import requests
+from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Max, Min
+from django.urls import reverse
 
 from account import ACCOUNT_RANK_CHOICES
 from account import managers
@@ -115,3 +119,80 @@ class UserCreationSubmission(models.Model):
                 self.account.user = user
                 self.account.save()
             self.delete()
+
+    def on_creation(self):
+        """
+        Post to discord um pb webhook the newly accepted submission!
+        """
+        data = json.dumps(
+            {
+                "embeds": [self.create_new_submission_embed()],
+                "components": self.create_new_submission_components(),
+            }
+        )
+        if config.UM_USER_CREATION_SUBMISSIONS_DISCORD_WEBHOOK_URL:
+            requests.post(
+                config.UM_USER_CREATION_SUBMISSIONS_DISCORD_WEBHOOK_URL,
+                data=data,
+                headers={"Content-Type": "application/json"},
+            )
+
+    def create_new_submission_embed(self):
+        """
+        Create json discord embed for newly created submissions.
+        """
+        fields = [
+            {
+                "name": "Account",
+                "value": self.account.name,
+                "inline": True,
+            },
+            {
+                "name": "Username",
+                "value": self.username,
+                "inline": True,
+            },
+            {
+                "name": "Phrase",
+                "value": self.phrase,
+            },
+        ]
+
+        admin_url = reverse(
+            f"admin:{self._meta.app_label}_{self._meta.model_name}_change",
+            args=[self.id],
+        )
+
+        embed = {
+            "color": 0x0099FF,
+            "title": "New User Creation Submission",
+            "fields": fields,
+            "url": f"https://{settings.DOMAIN}{admin_url}",
+        }
+
+        if not settings.DEBUG and self.proof:
+            embed["image"] = {"url": self.proof.url}
+
+        return embed
+
+    def create_new_submission_components(self):
+        components = [
+            {
+                "type": 1,
+                "components": [
+                    {
+                        "type": 2,
+                        "label": "Accept",
+                        "style": 3,
+                        "custom_id": f"user-creation-accept-submission-{self.pk}",
+                    },
+                    {
+                        "type": 2,
+                        "label": "Deny",
+                        "style": 4,
+                        "custom_id": f"user-creation-deny-submission-{self.pk}",
+                    },
+                ],
+            }
+        ]
+        return components

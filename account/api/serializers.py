@@ -12,3 +12,9 @@ class AccountSerializer(serializers.ModelSerializer):
 
     def get_rank(self, obj):
         return obj.get_rank_display()
+
+
+class UserCreationSubmissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.UserCreationSubmission
+        fields = "__all__"

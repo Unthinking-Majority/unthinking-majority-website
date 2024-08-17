@@ -105,13 +105,14 @@ class CreateAccountForm(forms.Form):
         return cleaned_data
 
     def form_valid(self):
-        models.UserCreationSubmission.objects.create(
+        obj = models.UserCreationSubmission.objects.create(
             account=self.cleaned_data["account"],
             username=self.cleaned_data["username"],
             password=self.cleaned_data["password1"],
             proof=self.cleaned_data["proof"],
             phrase=self.cleaned_data["phrase"],
         )
+        obj.on_creation()
 
 
 class ChangePreferredNameForm(forms.Form):
