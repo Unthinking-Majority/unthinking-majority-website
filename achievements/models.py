@@ -213,7 +213,7 @@ class RecordSubmission(BaseSubmission):
                     )
 
     def type_display(self):
-        return self.board.name
+        return str(self.board)
 
     def value_display(self):
         if self.board.content.metric == TIME:

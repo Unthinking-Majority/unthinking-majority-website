@@ -10,15 +10,3 @@ ACCOUNT_RANK_CHOICES = (
     (SILVER, "Silver"),
     (GOLD, "Gold"),
 )
-
-WOM_ROLE_MAPPINGS = {
-    "general": GOLD,
-    "captain": SILVER,
-    "lieutenant": BRONZE,
-    "crusader": VANGUARD,
-    "dragonstone": DRAGONSTONE,
-    "diamond": DIAMOND,
-    "emerald": EMERALD,
-    "ruby": RUBY,
-    "sapphire": SAPPHIRE,
-}

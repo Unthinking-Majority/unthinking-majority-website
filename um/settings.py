@@ -196,8 +196,6 @@ BOUNTY_DISCORD_WEBHOOK_URL = os.environ.get(
     "BOUNTY_DISCORD_WEBHOOK_URL"
 )  # for posting discord embeds to the #bounty channel during Bounty events!
 
-WOM_API_KEY = os.environ.get("WOM_API_KEY")
-
 # Wagtail settings
 WAGTAIL_SITE_NAME = "Unthinking Majority"
 WAGTAILADMIN_BASE_URL = "https://www.um-osrs.com"
