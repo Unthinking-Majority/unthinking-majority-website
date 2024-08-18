@@ -19,6 +19,7 @@ from um.functions import get_file_path
 
 
 class Account(models.Model):
+    discord_id = models.CharField(max_length=32, unique=True, blank=True, null=True)
     user = models.OneToOneField(
         "auth.User", on_delete=models.CASCADE, blank=True, null=True
     )
