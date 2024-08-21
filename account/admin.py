@@ -17,7 +17,7 @@ class AccountAdmin(admin.ModelAdmin):
         "dragonstone_pts",
         "is_active",
     ]
-    list_editable = ["rank"]
+    list_editable = ["rank", "discord_id"]
     list_filter = ["is_active", "rank"]
     search_fields = ["name", "preferred_name", "discord_id"]
 
