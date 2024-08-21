@@ -9,10 +9,17 @@ from main.config import config
 @admin.register(models.Account)
 class AccountAdmin(admin.ModelAdmin):
     autocomplete_fields = ["user"]
-    list_display = ["name", "preferred_name", "rank", "dragonstone_pts", "is_active"]
+    list_display = [
+        "name",
+        "preferred_name",
+        "discord_id",
+        "rank",
+        "dragonstone_pts",
+        "is_active",
+    ]
     list_editable = ["rank"]
     list_filter = ["is_active", "rank"]
-    search_fields = ["name", "preferred_name"]
+    search_fields = ["name", "preferred_name", "discord_id"]
 
     fieldsets = (
         (
@@ -21,6 +28,7 @@ class AccountAdmin(admin.ModelAdmin):
                 "fields": (
                     "name",
                     "preferred_name",
+                    "discord_id",
                     "user",
                     "rank",
                     "is_active",
