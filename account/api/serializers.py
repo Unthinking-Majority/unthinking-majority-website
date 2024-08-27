@@ -8,7 +8,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Account
-        fields = ["pk", "name", "preferred_name", "is_active", "rank"]
+        fields = ["pk", "discord_id", "name", "preferred_name", "is_active", "rank"]
 
     def get_rank(self, obj):
         return obj.get_rank_display()
