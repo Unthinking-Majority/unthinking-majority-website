@@ -12,7 +12,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = literal_eval(os.environ.get("DEBUG", "False"))
 
-DOMAIN = "www.um-osrs.com"
+DOMAIN = os.environ.get("DOMAIN")
 
 if DEBUG:
     ALLOWED_HOSTS = ["localhost", "127.0.0.1", "10.0.0.211"]

@@ -1,7 +1,7 @@
+from django.conf import settings
 from django.urls import reverse
 from rest_framework import serializers
 
-from django.conf import settings
 from account.api.serializers import AccountSerializer
 from achievements import models
 from main.api.serializers import BoardSerializer
@@ -28,7 +28,11 @@ class BaseSubmissionSerializer(serializers.ModelSerializer):
             f"admin:{instance._meta.app_label}_{instance._meta.model_name}_change",
             kwargs={"object_id": instance.pk},
         )
-        return f"https://{settings.DOMAIN}{url}"
+        if settings.DEBUG:
+            protocol = "https://"
+        else:
+            protocol = "http://"
+        return f"{protocol}{settings.DOMAIN}{url}"
 
 
 class RecordSubmissionSerializer(BaseSubmissionSerializer):
