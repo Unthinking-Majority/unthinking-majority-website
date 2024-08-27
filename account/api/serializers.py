@@ -27,9 +27,9 @@ class AccountSerializer(serializers.ModelSerializer):
             kwargs={"object_id": obj.pk},
         )
         if settings.DEBUG:
-            protocol = "https://"
-        else:
             protocol = "http://"
+        else:
+            protocol = "https://"
         return f"{protocol}{settings.DOMAIN}{url}"
 
     def get_rank(self, obj):

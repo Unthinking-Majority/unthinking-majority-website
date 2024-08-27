@@ -29,9 +29,9 @@ class BaseSubmissionSerializer(serializers.ModelSerializer):
             kwargs={"object_id": instance.pk},
         )
         if settings.DEBUG:
-            protocol = "https://"
-        else:
             protocol = "http://"
+        else:
+            protocol = "https://"
         return f"{protocol}{settings.DOMAIN}{url}"
 
 
