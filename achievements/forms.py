@@ -307,26 +307,6 @@ class CASubmissionForm(forms.ModelForm):
         return cleaned_data
 
 
-class RecordSubmissionAdminForm(forms.ModelForm):
-    class Meta:
-        model = models.RecordSubmission
-        fields = "__all__"
-
-    def clean(self):
-        cleaned_data = super().clean()
-        bounty = Bounty.get_current_bounty()
-
-        if bounty and bounty.board == cleaned_data["board"]:
-            if (
-                cleaned_data["bounty_accepted"] is None
-                and cleaned_data["accepted"] is not None
-            ):
-                raise ValidationError(
-                    f"You must specify whether this submission is accepted for the current bounty or not"
-                )
-        return cleaned_data
-
-
 class RecordSubmissionChangelistAdminForm(forms.BaseModelFormSet):
     def clean(self):
         form_sets = self.cleaned_data

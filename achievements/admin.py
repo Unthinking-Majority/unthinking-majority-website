@@ -4,10 +4,7 @@ from django.contrib import admin
 from django.db.models import Case, When, Value
 
 from achievements import models
-from achievements.forms import (
-    RecordSubmissionAdminForm,
-    RecordSubmissionChangelistAdminForm,
-)
+from achievements.forms import RecordSubmissionChangelistAdminForm
 from bounty.models import Bounty
 
 
@@ -43,7 +40,6 @@ class BaseSubmissionAdmin(admin.ModelAdmin):
 
 @admin.register(models.RecordSubmission)
 class RecordSubmissionAdmin(admin.ModelAdmin):
-    form = RecordSubmissionAdminForm
     autocomplete_fields = ["accounts", "board"]
     list_display = [
         "accounts_display",
