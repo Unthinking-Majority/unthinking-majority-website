@@ -1,18 +1,11 @@
 from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
-from polymorphic.admin import (
-    PolymorphicParentModelAdmin,
-    PolymorphicChildModelAdmin,
-    PolymorphicChildModelFilter,
-    PolymorphicInlineSupportMixin,
-)
 
 from dragonstone import models
 from dragonstone.admin import inlines
 
 __all__ = [
     "DragonstoneBaseSubmissionAdmin",
-    "DragonstoneBaseSubmissionChildAdmin",
     "PVMSplitAdmin",
     "MentorAdmin",
     "EventAdmin",
@@ -20,24 +13,15 @@ __all__ = [
 
 
 @admin.register(models.DragonstoneBaseSubmission)
-class DragonstoneBaseSubmissionAdmin(PolymorphicParentModelAdmin):
-    base_model = models.DragonstoneBaseSubmission
-    child_models = (
-        models.PVMSplitSubmission,
-        models.MentorSubmission,
-        models.EventSubmission,
-        models.NewMemberRaidSubmission,
-    )
+class DragonstoneBaseSubmissionAdmin(admin.ModelAdmin):
     list_display = [
         "_value_display",
         "_accounts_display",
         "proof",
         "date",
         "accepted",
-        "_accepted_display",
     ]
-    list_editable = ["accepted"]
-    list_filter = ["accepted", "date", PolymorphicChildModelFilter]
+    list_filter = ["accepted", "date"]
 
     @admin.display(description="Account(s)")
     def _accounts_display(self, obj):
@@ -47,23 +31,12 @@ class DragonstoneBaseSubmissionAdmin(PolymorphicParentModelAdmin):
     def _value_display(self, obj):
         return obj.type_display()
 
-    @admin.display(description="", ordering="accepted", boolean=True)
-    def _accepted_display(self, obj):
-        return obj.accepted
-
-
-class DragonstoneBaseSubmissionChildAdmin(PolymorphicChildModelAdmin):
-    base_model = models.DragonstoneBaseSubmission
-
 
 @admin.register(models.PVMSplitSubmission)
-class PVMSplitAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
-    base_model = models.PVMSplitSubmission
-    show_in_index = True
+class PVMSplitAdmin(admin.ModelAdmin):
     inlines = [inlines.PVMSplitPointsAdminInline]
     autocomplete_fields = ["content"]
     list_display = ["accounts_display", "content", "proof", "date", "accepted"]
-    list_editable = ["accepted"]
     list_filter = [
         AutocompleteFilterFactory("Accounts", "accounts"),
         AutocompleteFilterFactory("Content", "content"),
@@ -92,13 +65,10 @@ class PVMSplitAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
 
 
 @admin.register(models.MentorSubmission)
-class MentorAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
-    base_model = models.MentorSubmission
-    show_in_index = True
+class MentorAdmin(admin.ModelAdmin):
     inlines = [inlines.MentorPointsAdminInline]
     autocomplete_fields = ["learners", "content"]
     list_display = ["mentors_display", "content", "proof", "date", "accepted"]
-    list_editable = ["accepted"]
     list_filter = [
         AutocompleteFilterFactory("Mentors", "mentors"),
         AutocompleteFilterFactory("Learners", "learners"),
@@ -128,16 +98,13 @@ class MentorAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
 
 
 @admin.register(models.EventSubmission)
-class EventAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
-    base_model = models.EventSubmission
-    show_in_index = True
+class EventAdmin(admin.ModelAdmin):
     inlines = [
         inlines.EventHostPointsAdminInline,
         inlines.EventParticipantPointsAdminInline,
         inlines.EventDonorPointsAdminInline,
     ]
     list_display = ["name", "hosts_display", "type", "proof", "date", "accepted"]
-    list_editable = ["accepted"]
     list_filter = [
         AutocompleteFilterFactory("Hosts", "hosts"),
         AutocompleteFilterFactory("Participants", "participants"),
@@ -168,15 +135,12 @@ class EventAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
 
 
 @admin.register(models.NewMemberRaidSubmission)
-class NewMemberRaidAdmin(PolymorphicInlineSupportMixin, PolymorphicChildModelAdmin):
-    base_model = models.NewMemberRaidSubmission
-    show_in_index = True
+class NewMemberRaidAdmin(admin.ModelAdmin):
     inlines = [
         inlines.NewMemberRaidPointsAdminInline,
     ]
     autocomplete_fields = ["new_members"]
     list_display = ["accounts_display", "proof", "date", "accepted"]
-    list_editable = ["accepted"]
     list_filter = [
         AutocompleteFilterFactory("Account", "accounts"),
         AutocompleteFilterFactory("New Member", "new_members"),
