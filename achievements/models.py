@@ -141,6 +141,28 @@ class BaseSubmission(PolymorphicModel):
                 ],
             }
         ]
+        real_instance = self.get_real_instance()
+        if isinstance(real_instance, RecordSubmission):
+            bounty = Bounty.get_current_bounty()
+            if bounty and bounty.board == real_instance.board:
+                # this submission is a part of an active bounty
+                components[0]["components"][0][
+                    "custom_id"
+                ] = f"bounty-deny-achievement-accept-{self.pk}"
+                components[0]["components"][1][
+                    "custom_id"
+                ] = f"bounty-deny-achievement-deny-{self.pk}"
+                components[0]["components"].insert(
+                    0,
+                    {
+                        "type": 2,
+                        "label": "Accept Bounty",
+                        "style": 1,
+                        "custom_id": f"bounty-accept-{self.pk}",
+                        "emoji": {"id": None, "name": "🤠"},
+                    },
+                )
+            print(components)
         return components
 
     def get_rank(self):

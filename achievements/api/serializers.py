@@ -41,4 +41,9 @@ class RecordSubmissionSerializer(BaseSubmissionSerializer):
 
     class Meta(BaseSubmissionSerializer.Meta):
         model = models.RecordSubmission
-        fields = BaseSubmissionSerializer.Meta.fields + ["accounts", "board", "value"]
+        fields = BaseSubmissionSerializer.Meta.fields + [
+            "accounts",
+            "board",
+            "value",
+            "bounty_accepted",
+        ]
