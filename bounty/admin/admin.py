@@ -30,6 +30,7 @@ class BountyAdmin(admin.ModelAdmin):
                     "prize_pool",
                     "event_phrase",
                     "bounty_reason",
+                    "enemy_description",
                     ("start_date", "end_date"),
                     "image",
                     "first_place",

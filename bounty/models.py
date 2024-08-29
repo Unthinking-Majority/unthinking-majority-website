@@ -22,8 +22,12 @@ class Bounty(models.Model):
         default=0, help_text="Total amount of gp in the prize pool."
     )
     bounty_reason = models.TextField(
-        max_length=128,
+        max_length=256,
         help_text="Give a fun reason for why this npc has a bounty placed on their head!",
+    )
+    enemy_description = models.CharField(
+        max_length=128,
+        help_text="Give a fun descriptor for what this npc is! A 'nefarious criminal'? Maybe a 'nasty bug'?",
     )
 
     # Fields for saving the winners after the event is over!

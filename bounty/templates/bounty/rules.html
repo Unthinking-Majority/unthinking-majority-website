@@ -66,7 +66,7 @@
             for {{ bounty.bounty_reason }}.
         </p>
         <p class="mt-8 text-center text-2xl font-san-andreas md:text-3xl">
-            The kingdom of Gielinor is offering a reward of <span class="align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|gp_display }}</span> for the capture and killing of this nefarious criminal.
+            The kingdom of Gielinor is offering a reward of <span class="align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">{{ bounty.prize_pool|gp_display }}</span> for the capture and killing of this {{ bounty.enemy_description }}.
         </p>
 
         <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
@@ -132,31 +132,32 @@
             </svg>
             <div class="flex-grow border-2 border-black"></div>
         </div>
-
-        <p class="mb-2 text-center text-2xl font-san-andreas md:text-3xl">
-            Don't think you have what it takes to compete at the top? No worries! Compete in the other following ways to also win:
-        </p>
-        <div class="flex flex-col">
-        {% for extra_reward in bounty.extra_rewards.all %}
-            <div class="flex items-center justify-between">
-                <span class="text-4xl font-western md:text-5xl">{{ extra_reward.title }}</span>
-                <span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult_percentage:extra_reward.percent_of_prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">
-                    {{ bounty.prize_pool|mult_percentage:extra_reward.percent_of_prize_pool|gp_display }}
-                </span>
+        {% if bounty.extra_rewards.exists %}
+            <p class="mb-2 text-center text-2xl font-san-andreas md:text-3xl">
+                Don't think you have what it takes to compete at the top? No worries! Compete in the other following ways to also win:
+            </p>
+            <div class="flex flex-col">
+            {% for extra_reward in bounty.extra_rewards.all %}
+                <div class="flex items-center justify-between">
+                    <span class="text-4xl font-western md:text-5xl">{{ extra_reward.title }}</span>
+                    <span class="md:ml-8 align-text-bottom text-4xl md:text-5xl font-bold {% if bounty.prize_pool|mult_percentage:extra_reward.percent_of_prize_pool < 9999999 %}text-white{% else %}text-green-400{% endif %} font-runescape text-shadow">
+                        {{ bounty.prize_pool|mult_percentage:extra_reward.percent_of_prize_pool|gp_display }}
+                    </span>
+                </div>
+            {% endfor %}
             </div>
-        {% endfor %}
-        </div>
 
-        <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
-            <div class="flex-grow border-2 border-black"></div>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                 class="h-6 w-6 md:h-12 md:w-12">
-                <path fill-rule="evenodd"
-                      d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                      clip-rule="evenodd"></path>
-            </svg>
-            <div class="flex-grow border-2 border-black"></div>
-        </div>
+            <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
+                <div class="flex-grow border-2 border-black"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                     class="h-6 w-6 md:h-12 md:w-12">
+                    <path fill-rule="evenodd"
+                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <div class="flex-grow border-2 border-black"></div>
+            </div>
+        {% endif %}
 
         <h2 class="text-center text-5xl font-western">The Nitty Gritty</h2>
 
