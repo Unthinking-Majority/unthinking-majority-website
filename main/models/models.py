@@ -38,7 +38,11 @@ class Board(models.Model):
         return self.name
 
     def top_unique_submissions(
-        self, start_date=None, end_date=None, exclude_inactive=True
+        self,
+        start_date=None,
+        end_date=None,
+        exclude_inactive=True,
+        bounty_accepted=False,
     ):
         """
         Return the top submission sorted for each unique team on this board.
@@ -54,6 +58,9 @@ class Board(models.Model):
             submissions = submissions.filter(date__gte=start_date)
         if end_date:
             submissions = submissions.filter(date__lte=end_date)
+        if bounty_accepted:
+            submissions = submissions.filter(bounty_accepted=bounty_accepted)
+
         annotated_submissions = (
             submissions.accepted()
             .annotate(
