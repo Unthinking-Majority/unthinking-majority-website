@@ -52,7 +52,7 @@ class Board(models.Model):
 
         if start_date:
             submissions = submissions.filter(date__gte=start_date)
-        if start_date:
+        if end_date:
             submissions = submissions.filter(date__lte=end_date)
         annotated_submissions = (
             submissions.accepted()

@@ -163,10 +163,10 @@
 
         <ul class="md:text-xl font-semibold [&>li]:my-4 [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
             <li>
-                For a submission to be accepted for the bounty, you must include the phrase <span class="whitespace-nowrap text-amber-900 font-western md:text-3xl">{{ bounty.event_phrase }}</span> in your screenshot with the current date & time. The following methods are accepted:
+                For a submission to be accepted for the bounty, you must include the phrase <span class="whitespace-nowrap text-amber-900 font-western md:text-3xl">{{ bounty.event_phrase }}</span> in your screenshot. The following methods are accepted:
                 <ul class="pl-12 md:text-xl [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
-                    <li>Using the "Clan Event" plugin on Runelite, and entering the phrase as the event password (preferred method). Be sure the date & time setting is on!</li>
-                    <li>Typing the event phrase, date, and time into chat.</li>
+                    <li>Using the "Clan Event" plugin on Runelite, and entering the phrase as the event password (preferred method).</li>
+                    <li>Typing the event phrase into chat.</li>
                 </ul>
             </li>
             <li>
@@ -190,7 +190,14 @@
             <li>Submissions made for the bounty will not appear on the permanent leaderboard until the event is over.</li>
             {% for extra_reward in bounty.extra_rewards.all %}
                 {% if extra_reward.rules %}
-                    <li>{{ extra_reward.rules }}</li>
+                    <li>
+                        <span class="font-bold text-xl">{{ extra_reward.title}}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="size-6 inline-block">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"/>
+                        </svg>
+                        {{ extra_reward.rules }}
+                    </li>
                 {% endif %}
             {% endfor %}
         </ul>
