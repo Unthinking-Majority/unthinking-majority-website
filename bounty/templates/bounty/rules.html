@@ -80,7 +80,7 @@
             <div class="flex-grow border-2 border-black"></div>
         </div>
 
-        <p class="mb-2 text-center text-2xl font-san-andreas md:text-3xl">"Bounty" is a speedrunning event with a fresh leaderboard. Complete the selected content as fast as possible to compete for rewards. Place in the top 3 on the temporary leaderboard to earn:</p>
+        <p class="mb-2 text-center text-2xl font-san-andreas md:text-3xl">"Bounty" is a speedrunning event with a fresh leaderboard, where previous times and personal bests don't matter. Place in the top 3 on the temporary leaderboard and you'll earn:</p>
         <div class="flex flex-col">
             <div class="flex justify-between">
                 <span class="text-4xl font-western md:text-5xl">1st </span>
@@ -102,8 +102,19 @@
             </div>
         </div>
 
+        <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
+            <div class="flex-grow border-2 border-black"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                 class="h-6 w-6 md:h-12 md:w-12">
+                <path fill-rule="evenodd"
+                      d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                      clip-rule="evenodd"></path>
+            </svg>
+            <div class="flex-grow border-2 border-black"></div>
+        </div>
+
         <p class="mt-2 text-center text-2xl font-san-andreas md:text-3xl">
-            Participate by submitting to the website like you normally would!
+            Participate by submitting your times <a href="{% url "achievements:submit-achievement" %}" class="text-amber-900 transition ease-in-out hover:text-amber-700" tabindex="-1">here</a>. Remember, you must get the time you are submitting for during the event! Old times and personal bests are not accepted.
         </p>
 
         <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
@@ -118,7 +129,7 @@
         </div>
 
         <p class="text-center text-2xl font-san-andreas md:text-3xl">
-            If your time is faster than the top time on the <a href="{% url "leaderboard" bounty.board.content.slug bounty.board.slug %}" class="text-amber-900 transition ease-in-out hover:text-amber-700">permanent leaderboard</a> earn an additional prize of
+            If your time is faster than the top time on the <a href="{% url "leaderboard" bounty.board.content.slug bounty.board.slug %}" class="text-amber-900 transition ease-in-out hover:text-amber-700">permanent leaderboard</a> you'll earn an additional prize of
         </p>
         <p class="text-4xl font-bold text-green-400 font-runescape text-shadow md:text-5xl">{{ 25000000|gp_display }}</p>
 
@@ -134,7 +145,7 @@
         </div>
         {% if bounty.extra_rewards.exists %}
             <p class="mb-2 text-center text-2xl font-san-andreas md:text-3xl">
-                Don't think you have what it takes to compete at the top? No worries! Compete in the other following ways to also win:
+                Don't think you have what it takes to compete at the top? No worries! You can also win in the other following ways:
             </p>
             <div class="flex flex-col">
             {% for extra_reward in bounty.extra_rewards.all %}
@@ -146,6 +157,9 @@
                 </div>
             {% endfor %}
             </div>
+            <p class="mt-2 text-center text-2xl font-san-andreas md:text-3xl">
+                Participate the same as before, by submitting your times <a href="{% url "achievements:submit-achievement" %}" class="text-amber-900 transition ease-in-out hover:text-amber-700" tabindex="-1">here</a>. You must still complete the selected content and submit your time, even if you are only submitting for one of these rewards!
+            </p>
 
             <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
                 <div class="flex-grow border-2 border-black"></div>
@@ -159,17 +173,34 @@
             </div>
         {% endif %}
 
+        <p class="mt-2 text-center text-2xl font-san-andreas md:text-3xl">
+            For a submission to be accepted for the bounty, you must include the phrase <span class="whitespace-nowrap align-text-bottom text-amber-900 font-western md:text-5xl">{{ bounty.event_phrase }}</span> in your screenshot.
+        </p>
+
+        <div class="my-4 flex w-7/12 items-center md:mt-4 md:mb-4 md:w-10/12">
+            <div class="flex-grow border-2 border-black"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                 class="h-6 w-6 md:h-12 md:w-12">
+                <path fill-rule="evenodd"
+                      d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                      clip-rule="evenodd"></path>
+            </svg>
+            <div class="flex-grow border-2 border-black"></div>
+        </div>
+
         <h2 class="text-center text-5xl font-western">The Nitty Gritty</h2>
 
         <ul class="md:text-xl font-semibold [&>li]:my-4 [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
             <li>
-                For a submission to be accepted for the bounty, you must include the phrase <span class="whitespace-nowrap text-amber-900 font-western md:text-3xl">{{ bounty.event_phrase }}</span> in your screenshot. The following methods are accepted:
+                The following methods for including the event phrase in your screenshot are accepted:
                 <ul class="pl-12 md:text-xl [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
-                    <li>Using the "Clan Event" plugin on Runelite, and entering the phrase as the event password (preferred method).</li>
+                    <li>Using the "Clan Event" plugin on Runelite, and entering the phrase as the event password.</li>
                     <li>Typing the event phrase into chat.</li>
                 </ul>
             </li>
-            <li>Old personal bests are not accepted! You must achieve the time during the event.</li>
+            <li>Old times and personal bests are not accepted! You must achieve the time during the event.</li>
+            <li>The times you submit for the event do not have to a personal best, just any time achieved.</li>
+            <li>There are no limit to the number of submissions you can make, even if you are submitting a slower time than you already have!</li>
             <li>
                 Your screenshot must show the time achieved in the chat box right after killing the boss. The following methods will not be accepted:
                 <ul class="pl-12 md:text-xl [&>li]:before:bg-[url(/static/bounty/svg/star.svg)] [&>li]:before:inline-block [&>li]:before:h-4 [&>li]:before:w-4 [&>li]:before:mr-2">
@@ -192,9 +223,9 @@
             {% for extra_reward in bounty.extra_rewards.all %}
                 {% if extra_reward.rules %}
                     <li>
-                        <span class="font-bold text-xl">{{ extra_reward.title}}</span>
+                        <span class="text-xl font-bold">{{ extra_reward.title}}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="size-6 inline-block">
+                             stroke="currentColor" class="inline-block size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"/>
                         </svg>
                         {{ extra_reward.rules }}

@@ -162,7 +162,6 @@ class BaseSubmission(PolymorphicModel):
                         "emoji": {"id": None, "name": "🤠"},
                     },
                 )
-            print(components)
         return components
 
     def get_rank(self):
