@@ -85,6 +85,7 @@ class MentorSubmissionForm(forms.ModelForm):
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
             placeholder="Select all learners",
             label="Learners",
+            required=False,
         )
         self.fields["content"].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('content-autocomplete')}?{urlencode({'can_be_mentored': True})}",
@@ -201,6 +202,7 @@ class NewMemberRaidSubmissionForm(forms.ModelForm):
             autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True, 'rank__lte': EMERALD})}",
             placeholder="Select all accounts",
             label="New Members",
+            required=False,
         )
         self.fields["content"].widget = widgets.AutocompleteSelectWidget(
             autocomplete_url=f"{reverse_lazy('content-autocomplete')}?{urlencode({'can_be_split': True, 'category__name__iexact': 'Raids'})}",

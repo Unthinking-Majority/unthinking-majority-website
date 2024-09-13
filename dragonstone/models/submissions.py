@@ -185,7 +185,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = "dragonstone/mentor/proof/"
 
     learners = models.ManyToManyField(
-        "account.Account", related_name="mentor_learner_submissions"
+        "account.Account", related_name="mentor_learner_submissions", blank=True
     )
     mentors = models.ManyToManyField(
         "account.Account",
@@ -393,7 +393,9 @@ class NewMemberRaidSubmission(DragonstoneBaseSubmission):
         related_name="new_member_raid_submissions",
     )
     new_members = models.ManyToManyField(
-        "account.Account", related_name="new_member_raid_new_member_submissions"
+        "account.Account",
+        related_name="new_member_raid_new_member_submissions",
+        blank=True,
     )
     content = models.ForeignKey("main.Content", on_delete=models.CASCADE)
 
