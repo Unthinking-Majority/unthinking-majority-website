@@ -119,7 +119,7 @@ if DEBUG:
             "USER": os.environ.get("LOCAL_DB_USERNAME"),
             "PASSWORD": os.environ.get("LOCAL_DB_PASSWORD"),
             "HOST": "localhost",
-            "PORT": "",
+            "PORT": os.environ.get("LOCAL_DB_PASSWORD"),
         }
     }
 else:
