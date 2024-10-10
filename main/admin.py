@@ -1,5 +1,7 @@
+import adminactions.actions as actions
 from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
+from django.contrib.admin import site
 from notifications.models import Notification
 
 from main import models
@@ -124,3 +126,6 @@ class SettingsAdmin(admin.ModelAdmin):
 admin.site.unregister(
     Notification
 )  # unregister Notification model from admin, since we have our own UMNotification model + admin
+
+# register adminactions to site from django-adminactions (provides things like mass update)
+actions.add_to_site(site)
