@@ -31,7 +31,6 @@ else:
 
 INSTALLED_APPS = [
     "adminactions",
-    "constance",
     "um.admin.UMAdminConfig",
     "django.contrib.auth",
     "polymorphic",
