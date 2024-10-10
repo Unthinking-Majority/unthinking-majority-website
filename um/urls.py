@@ -23,6 +23,7 @@ admin.site.site_header = "UM Administration"
 urlpatterns = [
     path("", include("main.urls")),
     path("api/", include(router.urls)),
+    path("adminactions/", include("adminactions.urls")),
     path("achievements/", include("achievements.urls", namespace="achievements")),
     path("dragonstone/", include("dragonstone.urls", namespace="dragonstone")),
     path("bounty/", include("bounty.urls", namespace="bounty")),
