@@ -195,6 +195,9 @@ UM_PB_DISCORD_WEBHOOK_URL = os.environ.get(
 BOUNTY_DISCORD_WEBHOOK_URL = os.environ.get(
     "BOUNTY_DISCORD_WEBHOOK_URL"
 )  # for posting discord embeds to the #bounty channel during Bounty events!
+DRAGONSTONE_UPDATES_DISCORD_WEBHOOK_URL = os.environ.get(
+    "DRAGONSTONE_UPDATES_DISCORD_WEBHOOK_URL"
+)  # for posting discord embeds to the #dragonstone-updates for notifying change of dragonstone rank for accounts
 
 # Wagtail settings
 WAGTAIL_SITE_NAME = "Unthinking Majority"

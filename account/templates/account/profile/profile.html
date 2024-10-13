@@ -54,26 +54,30 @@
                     <div class="align-middle">Dragonstone Points</div>
                     {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
                         <img src="{% static "dragonstone/img/dragonstone.webp" %}" alt="" class="h-6 w-6">
-                        <div class="">
-                            (rank expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
+                        <div class="hidden md:block">
+                            (expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
                         </div>
                     {% endif %}
                 </li>
+                <li class="md:hidden">
+                    {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
+                        (expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
+                    {% endif %}
+                </li>
             {% endif %}
+            <a href="{% url "accounts:password_change" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
+                Change Password
+            </a>
+            <a href="{% url "accounts:change-preferred-name" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
+                {% if user.account.preferred_name %}Change{% else %}Add{% endif %} Preferred Name
+            </a>
+            <a href="{% url "dragonstone:points-breakdown" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
+                Dragonstone Points Breakdown
+            </a>
+            <a href="{% url "achievements:points-multipliers" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
+                Achievement Points Multipliers
+            </a>
         </ul>
-
-        <a href="{% url "accounts:password_change" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
-            Change Password
-        </a>
-        <a href="{% url "accounts:change-preferred-name" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
-            {% if user.account.preferred_name %}Change{% else %}Add{% endif %} Preferred Name
-        </a>
-        <a href="{% url "dragonstone:points-breakdown" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
-            Dragonstone Points Breakdown
-        </a>
-        <a href="{% url "achievements:points-multipliers" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
-            Achievement Points Multipliers
-        </a>
 
         <div class="flex justify-center sm:mt-12">
             <div class="basis-full xl:basis-full">

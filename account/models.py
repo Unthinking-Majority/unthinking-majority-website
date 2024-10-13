@@ -68,12 +68,16 @@ class Account(models.Model):
         """
         return self.__class__.objects.annotate_points().get(id=self.id).points
 
-    def dragonstone_pts(self):
+    def dragonstone_pts(self, ignore=None):
         """
         Return total amount of dragonstone points for this account.
         """
+        if not ignore:
+            ignore = []
         return (
-            self.__class__.objects.dragonstone_points().get(id=self.id).dragonstone_pts
+            self.__class__.objects.dragonstone_points(ignore=ignore)
+            .get(id=self.id)
+            .dragonstone_pts
         )
 
     def dragonstone_expiration_date(self):
@@ -88,6 +92,35 @@ class Account(models.Model):
                 expiration_date = dstone_pts.date
                 break
         return expiration_date + timedelta(days=config.DRAGONSTONE_EXPIRATION_PERIOD)
+
+    def create_update_dstone_status_embed(self):
+        """
+        Create json discord embed.
+        """
+        if self.dragonstone_pts() >= config.DRAGONSTONE_POINTS_THRESHOLD:
+            description = f"<@{self.discord_id}> has gained enough points for the rank of dragonstone!"
+        else:
+            description = f"<@{self.discord_id}> has lost their dragonstone rank."
+        embed = {
+            "color": 0x0099FF,
+            "title": f"Dragonstone Rank Update",
+            "description": description,
+            "url": f"https://{settings.DOMAIN}{reverse('admin:account_account_changelist')}",
+        }
+
+        return embed
+
+    def update_dstone_status(self):
+        """
+        Post updates to the #dragonstone-updates channel to notify changing of
+        dragonstone rank for this account
+        """
+        data = json.dumps({"embeds": [self.create_update_dstone_status_embed()]})
+        requests.post(
+            settings.DRAGONSTONE_UPDATES_DISCORD_WEBHOOK_URL,
+            data=data,
+            headers={"Content-Type": "application/json"},
+        )
 
 
 class UserCreationSubmission(models.Model):

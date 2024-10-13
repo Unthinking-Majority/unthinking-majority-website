@@ -8,12 +8,16 @@ from main.models import Board
 
 
 class AccountQueryset(QuerySet):
-    def dragonstone_points(self):
+    def dragonstone_points(self, ignore=None):
         """
         Return all active accounts queryset with each accounts total dragonstone points annotated
+        :ignore: a list of DragonstoneBaseSubmission primary keys to ignore when annotating dragonstone points
         """
+        if not ignore:
+            ignore = []
         dstone_pts_sum_by_type = (
             DragonstonePoints.objects.active()
+            .filter(~Q(pk__in=ignore))
             .values("account", "polymorphic_ctype")
             .order_by()
             .annotate(_pts=Sum("points"))

@@ -44,9 +44,20 @@ class DragonstoneBaseSubmission(PolymorphicModel):
         verbose_name = "Dragonstone Base Submission"
         verbose_name_plural = "All Dragonstone Submissions"
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__original_accepted = self.accepted
+
+    def save(self, *args, **kwargs):
+        super(DragonstoneBaseSubmission, self).save(*args, **kwargs)
+        if self.accepted and self.accepted != self.__original_accepted:
+            # get_child_instance seems to return self if there is no child. This works out
+            # because this code still runs successfully when a child instance is saved!
+            self.on_accepted()
+
     def on_creation(self):
         """
-        Post to discord um pb webhook the newly accepted submission!
+        Post to discord dragonstone submission webhook the newly created submission
         """
         data = json.dumps(
             {
@@ -61,8 +72,15 @@ class DragonstoneBaseSubmission(PolymorphicModel):
                 headers={"Content-Type": "application/json"},
             )
 
+    def on_accepted(self):
+        """
+        Post to discord dragonstone updates webhook if a user now qualifies for dragonstone
+        because of this submission being accepted
+        """
+        return self.get_real_instance().on_accepted()
+
     def create_new_submission_embed(self):
-        return self.get_real_instanc().create_new_submission_embed()
+        return self.get_real_instance().create_new_submission_embed()
 
     def create_new_submission_components(self):
         components = [
@@ -180,6 +198,13 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
     def accounts_display(self):
         return ", ".join([account.display_name for account in self.accounts.all()])
 
+    def on_accepted(self):
+        for pt in self.points.all():
+            current_pts = pt.account.dragonstone_pts()
+            prev_pts = pt.account.dragonstone_pts(ignore=[pt.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                pt.account.update_dstone_status()
+
 
 class MentorSubmission(DragonstoneBaseSubmission):
     UPLOAD_TO = "dragonstone/mentor/proof/"
@@ -266,6 +291,13 @@ class MentorSubmission(DragonstoneBaseSubmission):
 
     def accounts_display(self):
         return ", ".join([mentor.display_name for mentor in self.mentors.all()])
+
+    def on_accepted(self):
+        for pt in self.mentor_points.all():
+            current_pts = pt.account.dragonstone_pts()
+            prev_pts = pt.account.dragonstone_pts(ignore=[pt.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                pt.account.update_dstone_status()
 
 
 class EventSubmission(DragonstoneBaseSubmission):
@@ -382,6 +414,28 @@ class EventSubmission(DragonstoneBaseSubmission):
         if account in self.donors.all():
             roles += ["Donor"]
         return ", ".join(roles)
+
+    def on_accepted(self):
+        host_points = self.host_points.all()
+        participant_points = self.participant_points.all()
+        donor_points = self.donor_points.all()
+        accounts = (
+            host_points.values_list("account", flat=True)
+            + participant_points.values_list("account", flat=True)
+            + donor_points.values_list("account", flat=True)
+        )
+        for account in accounts:
+            current_pts = account.dragonstone_pts()
+            ignore = []
+            if account in host_points.values_list("account", flat=True):
+                ignore.append(host_points.get(account=account).pk)
+            if account in participant_points.values_list("account", flat=True):
+                ignore.append(participant_points.get(account=account).pk)
+            if account in donor_points.values_list("account", flat=True):
+                ignore.append(donor_points.get(account=account).pk)
+            prev_pts = account.dragonstone_pts(ignore=ignore)
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                account.update_dstone_status()
 
 
 class NewMemberRaidSubmission(DragonstoneBaseSubmission):
