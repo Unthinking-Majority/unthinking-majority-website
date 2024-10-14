@@ -67,10 +67,10 @@ class FreeformPoints(DragonstonePoints):
         verbose_name_plural = "Freeform Points"
 
     def on_created(self):
-        current_pts = self.account.dragonstone_pts()
-        prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+        current_pts = self.account.get_dragonstone_pts()
+        prev_pts = self.account.get_dragonstone_pts(ignore=[self.pk])
         if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
-            self.account.update_dstone_status()
+            self.account.notify_dstone_status_change()
 
 
 class RecruitmentPoints(DragonstonePoints):
@@ -86,10 +86,10 @@ class RecruitmentPoints(DragonstonePoints):
         super().save(*args, **kwargs)
 
     def on_created(self):
-        current_pts = self.account.dragonstone_pts()
-        prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+        current_pts = self.account.get_dragonstone_pts()
+        prev_pts = self.account.get_dragonstone_pts(ignore=[self.pk])
         if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
-            self.account.update_dstone_status()
+            self.account.notify_dstone_status_change()
 
 
 class SotMPoints(DragonstonePoints):
@@ -114,10 +114,10 @@ class SotMPoints(DragonstonePoints):
         super().save(*args, **kwargs)
 
     def on_created(self):
-        current_pts = self.account.dragonstone_pts()
-        prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+        current_pts = self.account.get_dragonstone_pts()
+        prev_pts = self.account.get_dragonstone_pts(ignore=[self.pk])
         if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
-            self.account.update_dstone_status()
+            self.account.notify_dstone_status_change()
 
 
 class PVMSplitPoints(DragonstonePoints):
@@ -151,10 +151,10 @@ class PVMSplitPoints(DragonstonePoints):
         after the submission has already been accepted!
         """
         if self.submission.accepted:
-            current_pts = self.account.dragonstone_pts()
-            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            current_pts = self.account.get_dragonstone_pts()
+            prev_pts = self.account.get_dragonstone_pts(ignore=[self.pk])
             if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
-                self.account.update_dstone_status()
+                self.account.notify_dstone_status_change()
 
 
 class MentorPoints(DragonstonePoints):
@@ -188,10 +188,10 @@ class MentorPoints(DragonstonePoints):
         after the submission has already been accepted!
         """
         if self.submission.accepted:
-            current_pts = self.account.dragonstone_pts()
-            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            current_pts = self.account.get_dragonstone_pts()
+            prev_pts = self.account.get_dragonstone_pts(ignore=[self.pk])
             if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
-                self.account.update_dstone_status()
+                self.account.notify_dstone_status_change()
 
 
 class EventHostPoints(DragonstonePoints):
@@ -225,10 +225,10 @@ class EventHostPoints(DragonstonePoints):
         after the submission has already been accepted!
         """
         if self.submission.accepted:
-            current_pts = self.account.dragonstone_pts()
-            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            current_pts = self.account.get_dragonstone_pts()
+            prev_pts = self.account.get_dragonstone_pts(ignore=[self.pk])
             if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
-                self.account.update_dstone_status()
+                self.account.notify_dstone_status_change()
 
 
 class EventParticipantPoints(DragonstonePoints):
@@ -262,10 +262,10 @@ class EventParticipantPoints(DragonstonePoints):
         after the submission has already been accepted!
         """
         if self.submission.accepted:
-            current_pts = self.account.dragonstone_pts()
-            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            current_pts = self.account.get_dragonstone_pts()
+            prev_pts = self.account.get_dragonstone_pts(ignore=[self.pk])
             if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
-                self.account.update_dstone_status()
+                self.account.notify_dstone_status_change()
 
 
 class EventDonorPoints(DragonstonePoints):
@@ -299,10 +299,10 @@ class EventDonorPoints(DragonstonePoints):
         after the submission has already been accepted!
         """
         if self.submission.accepted:
-            current_pts = self.account.dragonstone_pts()
-            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            current_pts = self.account.get_dragonstone_pts()
+            prev_pts = self.account.get_dragonstone_pts(ignore=[self.pk])
             if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
-                self.account.update_dstone_status()
+                self.account.notify_dstone_status_change()
 
 
 class NewMemberRaidPoints(DragonstonePoints):
@@ -328,7 +328,7 @@ class NewMemberRaidPoints(DragonstonePoints):
         after the submission has already been accepted!
         """
         if self.submission.accepted:
-            current_pts = self.account.dragonstone_pts()
-            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            current_pts = self.account.get_dragonstone_pts()
+            prev_pts = self.account.get_dragonstone_pts(ignore=[self.pk])
             if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
-                self.account.update_dstone_status()
+                self.account.notify_dstone_status_change()

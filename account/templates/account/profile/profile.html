@@ -49,10 +49,10 @@
             {% if user.account.rank >= 3 %}  {# 3 == DIAMOND rank #}
                 <li class="flex items-center gap-1 py-1">
                     <div class="text-center align-middle text-2xl font-runescape">
-                        {{ user.account.dragonstone_pts }}
+                        {{ user.account.get_dragonstone_pts }}
                     </div>
                     <div class="align-middle">Dragonstone Points</div>
-                    {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
+                    {% if user.account.get_dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
                         <img src="{% static "dragonstone/img/dragonstone.webp" %}" alt="" class="h-6 w-6">
                         <div class="hidden md:block">
                             (expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
@@ -60,7 +60,7 @@
                     {% endif %}
                 </li>
                 <li class="md:hidden">
-                    {% if user.account.dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
+                    {% if user.account.get_dragonstone_pts >= config.DRAGONSTONE_POINTS_THRESHOLD %}
                         (expires {{ user.account.dragonstone_expiration_date|date:"F j, Y" }})
                     {% endif %}
                 </li>

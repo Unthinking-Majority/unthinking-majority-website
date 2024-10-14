@@ -68,7 +68,7 @@ class Account(models.Model):
         """
         return self.__class__.objects.annotate_points().get(id=self.id).points
 
-    def dragonstone_pts(self, ignore=None):
+    def get_dragonstone_pts(self, ignore=None):
         """
         Return total amount of dragonstone points for this account.
         """
@@ -77,7 +77,7 @@ class Account(models.Model):
         return (
             self.__class__.objects.dragonstone_points(ignore=ignore)
             .get(id=self.id)
-            .dragonstone_pts
+            .annotated_dragonstone_pts
         )
 
     def dragonstone_expiration_date(self):
@@ -97,7 +97,7 @@ class Account(models.Model):
         """
         Create json discord embed.
         """
-        if self.dragonstone_pts() >= config.DRAGONSTONE_POINTS_THRESHOLD:
+        if self.get_dragonstone_pts() >= config.DRAGONSTONE_POINTS_THRESHOLD:
             description = f"<@{self.discord_id}> has gained enough points for the rank of dragonstone!"
         else:
             description = f"<@{self.discord_id}> has lost their dragonstone rank."
@@ -110,7 +110,7 @@ class Account(models.Model):
 
         return embed
 
-    def update_dstone_status(self):
+    def notify_dstone_status_change(self):
         """
         Post updates to the #dragonstone-updates channel to notify changing of
         dragonstone rank for this account

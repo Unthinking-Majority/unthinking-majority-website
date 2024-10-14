@@ -31,6 +31,36 @@ class DragonstonePointsQueryset(PolymorphicQuerySet):
             & Q(date__gte=expiration_period)
         )
 
+    def accepted(self):
+        return self.filter(
+            Q(
+                Q(instance_of=models.FreeformPoints)
+                | Q(instance_of=models.RecruitmentPoints)
+                | Q(instance_of=models.SotMPoints)
+                | Q(pvmsplitpoints__submission__accepted=True)
+                | Q(mentorpoints__submission__accepted=True)
+                | Q(eventhostpoints__submission__accepted=True)
+                | Q(eventparticipantpoints__submission__accepted=True)
+                | Q(eventdonorpoints__submission__accepted=True)
+                | Q(newmemberraidpoints__submission__accepted=True)
+            )
+        )
+
+    def expired(self, expired=True, delta=timedelta(0)):
+        """
+        :expired: If True, filter for DragonstonPoints which are expired (date < expiration date).
+            If False, filter for DragonstonePoints which are not expired (date >= expiration date).
+        :delta: A time delta to modify the expiration date by.
+        """
+        expiration_period = (
+            timezone.now()
+            - timedelta(days=config.DRAGONSTONE_EXPIRATION_PERIOD)
+            + delta
+        )
+        return self.filter(
+            Q(**{"date__lt" if expired else "date__gte": expiration_period})
+        )
+
 
 class DragonstoneSubmissionQueryset(PolymorphicQuerySet):
     def accepted(self):

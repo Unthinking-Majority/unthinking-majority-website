@@ -150,7 +150,7 @@ class EventHostPointsAdmin(PolymorphicChildModelAdmin):
     base_model = models.EventHostPoints
     show_in_index = True
     autocomplete_fields = ["account"]
-    readonly_fields = ["date", "points"]
+    # readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
 
     fieldsets = (

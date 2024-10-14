@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Case, When, Sum, IntegerField, Value, F, QuerySet, Q
 from django.db.models.functions import Least
@@ -8,7 +10,7 @@ from main.models import Board
 
 
 class AccountQueryset(QuerySet):
-    def dragonstone_points(self, ignore=None):
+    def dragonstone_points(self, ignore=None, delta=timedelta(0)):
         """
         Return all active accounts queryset with each accounts total dragonstone points annotated
         :ignore: a list of DragonstoneBaseSubmission primary keys to ignore when annotating dragonstone points
@@ -16,7 +18,8 @@ class AccountQueryset(QuerySet):
         if not ignore:
             ignore = []
         dstone_pts_sum_by_type = (
-            DragonstonePoints.objects.active()
+            DragonstonePoints.objects.accepted()
+            .expired(expired=False, delta=delta)
             .filter(~Q(pk__in=ignore))
             .values("account", "polymorphic_ctype")
             .order_by()
@@ -44,8 +47,10 @@ class AccountQueryset(QuerySet):
 
         whens = [When(id=account, then=pts) for account, pts in dstone_pts.items()]
         return self.annotate(
-            dragonstone_pts=Case(*whens, output_field=IntegerField(), default=Value(0))
-        ).order_by("-dragonstone_pts", "name")
+            annotated_dragonstone_pts=Case(
+                *whens, output_field=IntegerField(), default=Value(0)
+            )
+        ).order_by("-annotated_dragonstone_pts", "name")
 
     def annotate_points(self):
         """
