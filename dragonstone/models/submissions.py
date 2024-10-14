@@ -531,3 +531,10 @@ class NewMemberRaidSubmission(DragonstoneBaseSubmission):
 
     def accounts_display(self):
         return ", ".join([account.display_name for account in self.accounts.all()])
+
+    def on_accepted(self):
+        for pt in self.points.all():
+            current_pts = pt.account.dragonstone_pts()
+            prev_pts = pt.account.dragonstone_pts(ignore=[pt.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                pt.account.update_dstone_status()
