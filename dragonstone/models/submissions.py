@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from itertools import chain
 
 import requests
 from django.conf import settings
@@ -416,22 +417,27 @@ class EventSubmission(DragonstoneBaseSubmission):
         return ", ".join(roles)
 
     def on_accepted(self):
+        from account.models import Account
+
         host_points = self.host_points.all()
         participant_points = self.participant_points.all()
         donor_points = self.donor_points.all()
-        accounts = (
-            host_points.values_list("account", flat=True)
-            + participant_points.values_list("account", flat=True)
-            + donor_points.values_list("account", flat=True)
+        accounts_pks = list(
+            chain(
+                host_points.values_list("account", flat=True),
+                participant_points.values_list("account", flat=True),
+                donor_points.values_list("account", flat=True),
+            )
         )
+        accounts = Account.objects.filter(pk__in=accounts_pks)
         for account in accounts:
             current_pts = account.dragonstone_pts()
             ignore = []
-            if account in host_points.values_list("account", flat=True):
+            if account.pk in host_points.values_list("account", flat=True):
                 ignore.append(host_points.get(account=account).pk)
-            if account in participant_points.values_list("account", flat=True):
+            if account.pk in participant_points.values_list("account", flat=True):
                 ignore.append(participant_points.get(account=account).pk)
-            if account in donor_points.values_list("account", flat=True):
+            if account.pk in donor_points.values_list("account", flat=True):
                 ignore.append(donor_points.get(account=account).pk)
             prev_pts = account.dragonstone_pts(ignore=ignore)
             if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:

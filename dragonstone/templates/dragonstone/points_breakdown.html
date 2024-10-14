@@ -10,14 +10,38 @@
             <li class="py-1">
                 <span class="align-middle">Expiration Period:</span>
                 <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ config.DRAGONSTONE_EXPIRATION_PERIOD }} days</span>
+                <div class="static m-auto inline-block w-min group" tabindex="0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="inline-block text-slate-600 transition ease-in-out size-8 hover:scale-125 hover:cursor-pointer hover:text-slate-800">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="absolute max-lg:right-0 max-lg:left-0 z-10 max-lg:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-slate-700 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none lg:w-96 lg:-translate-x-1/2" tabindex="-1">
+                        The number of days a dragonstone point will last before expiring. 
+                    </span>
+                </div>
             </li>
             <li class="py-1">
                 <span class="align-middle">Rank Threshold:</span>
                 <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ config.DRAGONSTONE_POINTS_THRESHOLD }} points</span>
+                <div class="static m-auto inline-block w-min group" tabindex="0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="inline-block text-slate-600 transition ease-in-out size-8 hover:scale-125 hover:cursor-pointer hover:text-slate-800">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="absolute max-lg:right-0 max-lg:left-0 z-10 max-lg:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-slate-700 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none lg:w-96 lg:-translate-x-1/2" tabindex="-1">
+                        Minimum number of points required to earn dragonstone rank. 
+                    </span>
+                </div>
             </li>
             <li class="py-1">
                 <span class="align-middle">Max Points from PVM Splits:</span>
                 <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ config.PVM_SPLIT_POINTS_MAX }} points</span>
+                <div class="static m-auto inline-block w-min group" tabindex="0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="inline-block text-slate-600 transition ease-in-out size-8 hover:scale-125 hover:cursor-pointer hover:text-slate-800">
+                        <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="absolute max-lg:right-0 max-lg:left-0 z-10 max-lg:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-slate-700 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none lg:w-96 lg:-translate-x-1/2" tabindex="-1">
+                        Maximum allowed points earnable from PVM split submissions. Extra PVM split points earned past this maximum will still be saved, but will not be used when calculating your total dragonstone points.
+                    </span>
+                </div>
             </li>
         </ul>
 
@@ -32,7 +56,7 @@
                 </tr>
                 <tr class="text-white">
                     <th class="px-1 py-4 text-center md:py-4 md:text-base">
-                        Difficulty
+                        Content Difficulty
                     </th>
                     <th class="px-1 py-4 text-center md:py-4 md:text-base">
                         Points
@@ -115,7 +139,7 @@
                 </tr>
                 <tr class="odd:bg-gray-50 even:bg-gray-100">
                     <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
-                        Mentor
+                        Mentoring
                     </td>
                     <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
                         {{ config.EVENT_MENTOR_HOSTS_PTS }}
@@ -222,12 +246,12 @@
                 <thead class="rounded-lg bg-gray-800">
                 <tr class="text-white">
                     <th colspan="2" class="px-1 py-4 text-center text-xl md:py-4">
-                        Mentor
+                        Mentoring
                     </th>
                 </tr>
                 <tr class="text-white">
                     <th class="px-1 py-4 text-center md:py-4 md:text-base">
-                        Difficulty
+                        Content Difficulty
                     </th>
                     <th class="px-1 py-4 text-center md:py-4 md:text-base">
                         Points
