@@ -43,6 +43,21 @@ class DragonstonePoints(PolymorphicModel):
         verbose_name = "Dragonstone Points"
         verbose_name_plural = "All Dragonstone Points"
 
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super(DragonstonePoints, self).save(*args, **kwargs)
+        if is_new:
+            # get_child_instance seems to return self if there is no child. This works out
+            # because this code still runs successfully when a child instance is saved!
+            self.on_accepted()
+
+    def on_accepted(self):
+        """
+        Post to discord dragonstone updates webhook if a user now qualifies for dragonstone
+        because of these points being added
+        """
+        return self.get_real_instance().on_accepted()
+
 
 class FreeformPoints(DragonstonePoints):
     created_by = models.ForeignKey("auth.User", on_delete=models.CASCADE)
@@ -50,6 +65,12 @@ class FreeformPoints(DragonstonePoints):
     class Meta:
         verbose_name = "Freeform Points"
         verbose_name_plural = "Freeform Points"
+
+    def on_accepted(self):
+        current_pts = self.account.dragonstone_pts()
+        prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+        if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+            self.account.update_dstone_status()
 
 
 class RecruitmentPoints(DragonstonePoints):
@@ -63,6 +84,12 @@ class RecruitmentPoints(DragonstonePoints):
         if not self.pk:
             self.points = config.RECRUITER_PTS
         super().save(*args, **kwargs)
+
+    def on_accepted(self):
+        current_pts = self.account.dragonstone_pts()
+        prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+        if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+            self.account.update_dstone_status()
 
 
 class SotMPoints(DragonstonePoints):
@@ -85,6 +112,12 @@ class SotMPoints(DragonstonePoints):
             elif self.rank == 3:
                 self.points = config.SOTM_THIRD_PTS
         super().save(*args, **kwargs)
+
+    def on_accepted(self):
+        current_pts = self.account.dragonstone_pts()
+        prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+        if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+            self.account.update_dstone_status()
 
 
 class PVMSplitPoints(DragonstonePoints):
@@ -111,6 +144,12 @@ class PVMSplitPoints(DragonstonePoints):
             self.date = self.submission.date
         super().save(*args, **kwargs)
 
+    def on_accepted(self):
+        """
+        Dragonstone rank updates are handled on the parent submission for this type of point.
+        """
+        pass
+
 
 class MentorPoints(DragonstonePoints):
     submission = models.ForeignKey(
@@ -135,6 +174,12 @@ class MentorPoints(DragonstonePoints):
                 self.points = config.MENTOR_VERY_HARD_PTS
             self.date = self.submission.date
         super().save(*args, **kwargs)
+
+    def on_accepted(self):
+        """
+        Dragonstone rank updates are handled on the parent submission for this type of point.
+        """
+        pass
 
 
 class EventHostPoints(DragonstonePoints):
@@ -161,6 +206,12 @@ class EventHostPoints(DragonstonePoints):
         self.date = self.submission.date
         super().save(*args, **kwargs)
 
+    def on_accepted(self):
+        """
+        Dragonstone rank updates are handled on the parent submission for this type of point.
+        """
+        pass
+
 
 class EventParticipantPoints(DragonstonePoints):
     submission = models.ForeignKey(
@@ -185,6 +236,12 @@ class EventParticipantPoints(DragonstonePoints):
                 self.points = config.EVENT_OTHER_PARTICIPANTS_PTS
         self.date = self.submission.date
         super().save(*args, **kwargs)
+
+    def on_accepted(self):
+        """
+        Dragonstone rank updates are handled on the parent submission for this type of point.
+        """
+        pass
 
 
 class EventDonorPoints(DragonstonePoints):
@@ -211,6 +268,12 @@ class EventDonorPoints(DragonstonePoints):
             self.date = self.submission.date
         super().save(*args, **kwargs)
 
+    def on_accepted(self):
+        """
+        Dragonstone rank updates are handled on the parent submission for this type of point.
+        """
+        pass
+
 
 class NewMemberRaidPoints(DragonstonePoints):
     submission = models.ForeignKey(
@@ -227,3 +290,9 @@ class NewMemberRaidPoints(DragonstonePoints):
         if not self.pk:
             self.points = config.NEW_MEMBER_RAID_PTS
         super().save(*args, **kwargs)
+
+    def on_accepted(self):
+        """
+        Dragonstone rank updates are handled on the parent submission for this type of point.
+        """
+        pass
