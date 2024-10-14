@@ -49,14 +49,14 @@ class DragonstonePoints(PolymorphicModel):
         if is_new:
             # get_child_instance seems to return self if there is no child. This works out
             # because this code still runs successfully when a child instance is saved!
-            self.on_accepted()
+            self.on_created()
 
-    def on_accepted(self):
+    def on_created(self):
         """
         Post to discord dragonstone updates webhook if a user now qualifies for dragonstone
-        because of these points being added
+        because of these points being created
         """
-        return self.get_real_instance().on_accepted()
+        return self.get_real_instance().on_created()
 
 
 class FreeformPoints(DragonstonePoints):
@@ -66,7 +66,7 @@ class FreeformPoints(DragonstonePoints):
         verbose_name = "Freeform Points"
         verbose_name_plural = "Freeform Points"
 
-    def on_accepted(self):
+    def on_created(self):
         current_pts = self.account.dragonstone_pts()
         prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
         if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
@@ -85,7 +85,7 @@ class RecruitmentPoints(DragonstonePoints):
             self.points = config.RECRUITER_PTS
         super().save(*args, **kwargs)
 
-    def on_accepted(self):
+    def on_created(self):
         current_pts = self.account.dragonstone_pts()
         prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
         if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
@@ -113,7 +113,7 @@ class SotMPoints(DragonstonePoints):
                 self.points = config.SOTM_THIRD_PTS
         super().save(*args, **kwargs)
 
-    def on_accepted(self):
+    def on_created(self):
         current_pts = self.account.dragonstone_pts()
         prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
         if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
@@ -144,11 +144,17 @@ class PVMSplitPoints(DragonstonePoints):
             self.date = self.submission.date
         super().save(*args, **kwargs)
 
-    def on_accepted(self):
+    def on_created(self):
         """
         Dragonstone rank updates are handled on the parent submission for this type of point.
+        Below code handles fringe case of adding more points to a submission in the admin
+        after the submission has already been accepted!
         """
-        pass
+        if self.submission.accepted:
+            current_pts = self.account.dragonstone_pts()
+            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                self.account.update_dstone_status()
 
 
 class MentorPoints(DragonstonePoints):
@@ -175,11 +181,17 @@ class MentorPoints(DragonstonePoints):
             self.date = self.submission.date
         super().save(*args, **kwargs)
 
-    def on_accepted(self):
+    def on_created(self):
         """
         Dragonstone rank updates are handled on the parent submission for this type of point.
+        Below code handles fringe case of adding more points to a submission in the admin
+        after the submission has already been accepted!
         """
-        pass
+        if self.submission.accepted:
+            current_pts = self.account.dragonstone_pts()
+            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                self.account.update_dstone_status()
 
 
 class EventHostPoints(DragonstonePoints):
@@ -206,11 +218,17 @@ class EventHostPoints(DragonstonePoints):
         self.date = self.submission.date
         super().save(*args, **kwargs)
 
-    def on_accepted(self):
+    def on_created(self):
         """
         Dragonstone rank updates are handled on the parent submission for this type of point.
+        Below code handles fringe case of adding more points to a submission in the admin
+        after the submission has already been accepted!
         """
-        pass
+        if self.submission.accepted:
+            current_pts = self.account.dragonstone_pts()
+            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                self.account.update_dstone_status()
 
 
 class EventParticipantPoints(DragonstonePoints):
@@ -237,11 +255,17 @@ class EventParticipantPoints(DragonstonePoints):
         self.date = self.submission.date
         super().save(*args, **kwargs)
 
-    def on_accepted(self):
+    def on_created(self):
         """
         Dragonstone rank updates are handled on the parent submission for this type of point.
+        Below code handles fringe case of adding more points to a submission in the admin
+        after the submission has already been accepted!
         """
-        pass
+        if self.submission.accepted:
+            current_pts = self.account.dragonstone_pts()
+            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                self.account.update_dstone_status()
 
 
 class EventDonorPoints(DragonstonePoints):
@@ -268,11 +292,17 @@ class EventDonorPoints(DragonstonePoints):
             self.date = self.submission.date
         super().save(*args, **kwargs)
 
-    def on_accepted(self):
+    def on_created(self):
         """
         Dragonstone rank updates are handled on the parent submission for this type of point.
+        Below code handles fringe case of adding more points to a submission in the admin
+        after the submission has already been accepted!
         """
-        pass
+        if self.submission.accepted:
+            current_pts = self.account.dragonstone_pts()
+            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                self.account.update_dstone_status()
 
 
 class NewMemberRaidPoints(DragonstonePoints):
@@ -291,8 +321,14 @@ class NewMemberRaidPoints(DragonstonePoints):
             self.points = config.NEW_MEMBER_RAID_PTS
         super().save(*args, **kwargs)
 
-    def on_accepted(self):
+    def on_created(self):
         """
         Dragonstone rank updates are handled on the parent submission for this type of point.
+        Below code handles fringe case of adding more points to a submission in the admin
+        after the submission has already been accepted!
         """
-        pass
+        if self.submission.accepted:
+            current_pts = self.account.dragonstone_pts()
+            prev_pts = self.account.dragonstone_pts(ignore=[self.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                self.account.update_dstone_status()

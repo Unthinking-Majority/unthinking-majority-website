@@ -42,6 +42,7 @@ class FreeformPointsAdmin(PolymorphicChildModelAdmin):
     show_in_index = True
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "created_by"]
+    list_display = ["account", "points", "date", "created_by"]
 
     fieldsets = (
         (
