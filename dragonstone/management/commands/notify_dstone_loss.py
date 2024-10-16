@@ -12,13 +12,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # accounts who have dstone as of now
         current_dstones = Account.objects.dragonstone_points().filter(
-            dragonstone_pts__gte=config.DRAGONSTONE_POINTS_THRESHOLD
+            annotated_dragonstone_pts__gte=config.DRAGONSTONE_POINTS_THRESHOLD
         )
 
         # accounts who had dstone as of an hour ago
         prev_dstones = Account.objects.dragonstone_points(
             delta=timedelta(hours=-1)
-        ).filter(dragonstone_pts__gte=config.DRAGONSTONE_POINTS_THRESHOLD)
+        ).filter(annotated_dragonstone_pts__gte=config.DRAGONSTONE_POINTS_THRESHOLD)
 
         for account in prev_dstones:
             if account not in current_dstones:
