@@ -1,45 +1,23 @@
 from admin_auto_filters.filters import AutocompleteFilterFactory
 from django.contrib import admin
-from polymorphic.admin import (
-    PolymorphicParentModelAdmin,
-    PolymorphicChildModelAdmin,
-    PolymorphicChildModelFilter,
-)
 
 from dragonstone import models
 
 
 @admin.register(models.DragonstonePoints)
-class DragonstonePointsAdmin(PolymorphicParentModelAdmin):
+class DragonstonePointsAdmin(admin.ModelAdmin):
     model = models.DragonstonePoints
-    child_models = (
-        models.FreeformPoints,
-        models.RecruitmentPoints,
-        models.SotMPoints,
-        models.PVMSplitPoints,
-        models.MentorPoints,
-        models.EventHostPoints,
-        models.EventParticipantPoints,
-        models.EventDonorPoints,
-        models.NewMemberRaidPoints,
-    )
     autocomplete_fields = ["account"]
     list_display = ["account", "points", "date"]
     list_filter = [
         AutocompleteFilterFactory("Account", "account"),
-        PolymorphicChildModelFilter,
     ]
     readonly_fields = ["date", "points"]
 
 
-class DragonstonePointsChildAdmin(PolymorphicChildModelAdmin):
-    base_model = models.DragonstonePoints
-
-
 @admin.register(models.FreeformPoints)
-class FreeformPointsAdmin(PolymorphicChildModelAdmin):
-    base_model = models.FreeformPoints
-    show_in_index = True
+class FreeformPointsAdmin(admin.ModelAdmin):
+    model = models.FreeformPoints
     autocomplete_fields = ["account"]
     readonly_fields = ["date", "created_by"]
     list_display = ["account", "points", "date", "created_by"]
@@ -62,10 +40,10 @@ class FreeformPointsAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.RecruitmentPoints)
-class RecruitmentPointsAdmin(PolymorphicChildModelAdmin):
-    base_model = models.RecruitmentPoints
-    show_in_index = True
+class RecruitmentPointsAdmin(admin.ModelAdmin):
+    model = models.RecruitmentPoints
     autocomplete_fields = ["account", "recruited"]
+    list_display = ["account", "recruited", "points", "date"]
     readonly_fields = ["date", "points"]
 
     fieldsets = (
@@ -82,9 +60,8 @@ class RecruitmentPointsAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.SotMPoints)
-class SotMPointsAdmin(PolymorphicChildModelAdmin):
-    base_model = models.SotMPoints
-    show_in_index = True
+class SotMPointsAdmin(admin.ModelAdmin):
+    model = models.SotMPoints
     autocomplete_fields = ["account"]
     list_display = ["account", "skill", "rank"]
     list_filter = ["skill"]
@@ -104,10 +81,10 @@ class SotMPointsAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.PVMSplitPoints)
-class PVMSplitPointsAdmin(PolymorphicChildModelAdmin):
-    base_model = models.PVMSplitPoints
-    show_in_index = True
+class PVMSplitPointsAdmin(admin.ModelAdmin):
+    model = models.PVMSplitPoints
     autocomplete_fields = ["account"]
+    list_display = ["account", "points", "date"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
 
@@ -125,10 +102,10 @@ class PVMSplitPointsAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.MentorPoints)
-class MentorPointsAdmin(PolymorphicChildModelAdmin):
-    base_model = models.MentorPoints
-    show_in_index = True
+class MentorPointsAdmin(admin.ModelAdmin):
+    model = models.MentorPoints
     autocomplete_fields = ["account"]
+    list_display = ["account", "points", "date"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
 
@@ -146,11 +123,11 @@ class MentorPointsAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.EventHostPoints)
-class EventHostPointsAdmin(PolymorphicChildModelAdmin):
-    base_model = models.EventHostPoints
-    show_in_index = True
+class EventHostPointsAdmin(admin.ModelAdmin):
+    model = models.EventHostPoints
     autocomplete_fields = ["account"]
-    # readonly_fields = ["date", "points"]
+    list_display = ["account", "points", "date"]
+    readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
 
     fieldsets = (
@@ -167,10 +144,10 @@ class EventHostPointsAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.EventParticipantPoints)
-class EventParticipantPointsAdmin(PolymorphicChildModelAdmin):
-    base_model = models.EventParticipantPoints
-    show_in_index = True
+class EventParticipantPointsAdmin(admin.ModelAdmin):
+    model = models.EventParticipantPoints
     autocomplete_fields = ["account"]
+    list_display = ["account", "points", "date"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
 
@@ -188,10 +165,10 @@ class EventParticipantPointsAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.EventDonorPoints)
-class EventDonorPointsAdmin(PolymorphicChildModelAdmin):
-    base_model = models.EventDonorPoints
-    show_in_index = True
+class EventDonorPointsAdmin(admin.ModelAdmin):
+    model = models.EventDonorPoints
     autocomplete_fields = ["account"]
+    list_display = ["account", "points", "date"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
 
@@ -209,10 +186,10 @@ class EventDonorPointsAdmin(PolymorphicChildModelAdmin):
 
 
 @admin.register(models.NewMemberRaidPoints)
-class NewMemberRaidPointsAdmin(PolymorphicChildModelAdmin):
-    base_model = models.NewMemberRaidPoints
-    show_in_index = True
+class NewMemberRaidPointsAdmin(admin.ModelAdmin):
+    model = models.NewMemberRaidPoints
     autocomplete_fields = ["account"]
+    list_display = ["account", "points", "date"]
     readonly_fields = ["date", "points"]
     raw_id_fields = ["submission"]
 
