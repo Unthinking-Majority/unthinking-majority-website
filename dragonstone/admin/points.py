@@ -11,6 +11,7 @@ class DragonstonePointsAdmin(admin.ModelAdmin):
     list_display = ["account", "points", "date"]
     list_filter = [
         AutocompleteFilterFactory("Account", "account"),
+        "date",
     ]
     readonly_fields = ["points"]
 
@@ -21,6 +22,11 @@ class FreeformPointsAdmin(admin.ModelAdmin):
     autocomplete_fields = ["account"]
     readonly_fields = ["created_by"]
     list_display = ["account", "points", "date", "created_by"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        AutocompleteFilterFactory("Created By", "created_by"),
+        "date",
+    ]
 
     fieldsets = (
         (
@@ -44,6 +50,11 @@ class RecruitmentPointsAdmin(admin.ModelAdmin):
     model = models.RecruitmentPoints
     autocomplete_fields = ["account", "recruited"]
     list_display = ["account", "recruited", "points", "date"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        AutocompleteFilterFactory("Recruited", "recruited"),
+        "date",
+    ]
     readonly_fields = ["points"]
 
     fieldsets = (
@@ -64,7 +75,11 @@ class SotMPointsAdmin(admin.ModelAdmin):
     model = models.SotMPoints
     autocomplete_fields = ["account"]
     list_display = ["account", "skill", "rank"]
-    list_filter = ["skill"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        "skill",
+        "date",
+    ]
     readonly_fields = ["points"]
 
     fieldsets = (
@@ -85,6 +100,10 @@ class PVMSplitPointsAdmin(admin.ModelAdmin):
     model = models.PVMSplitPoints
     autocomplete_fields = ["account"]
     list_display = ["account", "points", "date"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        "date",
+    ]
     readonly_fields = ["points"]
     raw_id_fields = ["submission"]
 
@@ -106,6 +125,10 @@ class MentorPointsAdmin(admin.ModelAdmin):
     model = models.MentorPoints
     autocomplete_fields = ["account"]
     list_display = ["account", "points", "date"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        "date",
+    ]
     readonly_fields = ["points"]
     raw_id_fields = ["submission"]
 
@@ -127,6 +150,10 @@ class EventHostPointsAdmin(admin.ModelAdmin):
     model = models.EventHostPoints
     autocomplete_fields = ["account"]
     list_display = ["account", "points", "date"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        "date",
+    ]
     readonly_fields = ["points"]
     raw_id_fields = ["submission"]
 
@@ -148,6 +175,10 @@ class EventParticipantPointsAdmin(admin.ModelAdmin):
     model = models.EventParticipantPoints
     autocomplete_fields = ["account"]
     list_display = ["account", "points", "date"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        "date",
+    ]
     readonly_fields = ["points"]
     raw_id_fields = ["submission"]
 
@@ -169,6 +200,10 @@ class EventDonorPointsAdmin(admin.ModelAdmin):
     model = models.EventDonorPoints
     autocomplete_fields = ["account"]
     list_display = ["account", "points", "date"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        "date",
+    ]
     readonly_fields = ["points"]
     raw_id_fields = ["submission"]
 
@@ -190,6 +225,10 @@ class NewMemberRaidPointsAdmin(admin.ModelAdmin):
     model = models.NewMemberRaidPoints
     autocomplete_fields = ["account"]
     list_display = ["account", "points", "date"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        "date",
+    ]
     readonly_fields = ["points"]
     raw_id_fields = ["submission"]
 
@@ -211,6 +250,10 @@ class GroupCAPointsAdmin(admin.ModelAdmin):
     model = models.GroupCAPoints
     autocomplete_fields = ["account"]
     list_display = ["account", "points", "date"]
+    list_filter = [
+        AutocompleteFilterFactory("Account", "account"),
+        "date",
+    ]
     readonly_fields = ["points"]
     raw_id_fields = ["submission"]
 

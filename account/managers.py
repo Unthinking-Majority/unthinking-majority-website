@@ -1,10 +1,9 @@
 from datetime import timedelta
 
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Case, When, Sum, IntegerField, Value, F, QuerySet, Q
-from django.db.models.functions import Least
+from django.db.models import Case, When, Sum, IntegerField, Value, QuerySet, Q
 
-from dragonstone.models import DragonstonePoints, PVMSplitPoints
+from dragonstone.models import DragonstonePoints, PVMSplitPoints, GroupCAPoints
 from main.config import config
 from main.models import Board
 
@@ -23,29 +22,32 @@ class AccountQueryset(QuerySet):
             .filter(~Q(pk__in=ignore))
             .values("account", "polymorphic_ctype")
             .order_by()
-            .annotate(_pts=Sum("points"))
-            .annotate(
-                pts=Case(
-                    When(
-                        polymorphic_ctype=ContentType.objects.get_for_model(
-                            PVMSplitPoints
-                        ),
-                        then=Least(F("_pts"), config.PVM_SPLIT_POINTS_MAX),
-                    ),
-                    default=F("_pts"),
-                ),
-            )
-            .values("account", "pts")
+            .annotate(pts=Sum("points"))
+            .values("account", "pts", "polymorphic_ctype")
         )
 
         dstone_pts = {}
+        capped_pts_ctypes = [
+            ContentType.objects.get_for_model(PVMSplitPoints).id,
+            ContentType.objects.get_for_model(GroupCAPoints).id,
+        ]
         for obj in dstone_pts_sum_by_type:
             if obj["account"] not in dstone_pts.keys():
-                dstone_pts[obj["account"]] = obj["pts"]
+                dstone_pts[obj["account"]] = {
+                    "uncapped": 0,
+                    "capped": 0,
+                }
+            if obj["polymorphic_ctype"] in capped_pts_ctypes:
+                dstone_pts[obj["account"]]["capped"] += obj["pts"]
+                if dstone_pts[obj["account"]]["capped"] > config.CAPPED_POINTS_MAX:
+                    dstone_pts[obj["account"]]["capped"] = config.CAPPED_POINTS_MAX
             else:
-                dstone_pts[obj["account"]] += obj["pts"]
+                dstone_pts[obj["account"]]["uncapped"] += obj["pts"]
 
-        whens = [When(id=account, then=pts) for account, pts in dstone_pts.items()]
+        whens = [
+            When(id=account, then=sum([val for val in pts.values()]))
+            for account, pts in dstone_pts.items()
+        ]
         return self.annotate(
             annotated_dragonstone_pts=Case(
                 *whens, output_field=IntegerField(), default=Value(0)
