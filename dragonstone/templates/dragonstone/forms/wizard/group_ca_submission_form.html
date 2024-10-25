@@ -1,0 +1,64 @@
+{% extends "main/forms/wizard/base.html" %}
+
+{% load main_extras um_components %}
+
+{% block header %}
+    {% page_header "Dragonstone: Submit PVM Split" %}
+    <div class="flex justify-center">
+        <a href="{% url "dragonstone:points-breakdown" %}" class="font-bold text-cyan-500 hover:text-cyan-700 md:text-xl">
+            Dragonstone Points Breakdown
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline-block h-6 w-6 align-top">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
+            </svg>
+        </a>
+    </div>
+{% endblock %}
+
+{% block sub-header %}
+    Submit completing a group combat achievement with other clanmates!
+{% endblock sub-header %}
+
+{% block form_content %}
+
+    {# Account(s) #}
+    {% if wizard.form.accounts.errors %}
+        <div class="mx-2 flex w-80 justify-center">
+            {% include "main/forms/field_error_list.html" with errors=wizard.form.accounts.errors %}
+        </div>
+    {% endif %}
+    {{ wizard.form.accounts }}
+
+    {# Content #}
+    {% if wizard.form.content.errors %}
+        <div class="mx-2 flex w-80 justify-center">
+            {% include "main/forms/field_error_list.html" with errors=wizard.form.content.errors %}
+        </div>
+    {% endif %}
+    {{ wizard.form.content }}
+    
+    {# CA Tier #}
+    <div class="mx-2 my-4">
+        {% if wizard.form.ca_tier.errors %}
+            <div class="flex justify-center">
+                {% include "main/forms/field_error_list.html" with errors=wizard.form.ca_tier.errors %}
+            </div>
+        {% endif %}
+        <label for="{{ wizard.form.ca_tier.id_for_label }}" class="text-sm font-medium text-gray-900">
+            {{ wizard.form.ca_tier.label }} *
+        </label>
+        <select id="{{ wizard.form.ca_tier.id_for_label }}"
+                name="{{ wizard.form.prefix }}-{{ wizard.form.ca_tier.name }}"
+                autocomplete="{{ wizard.form.ca_tier.name }}"
+                required
+                class="block w-80 rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-2.5 focus:border-blue-500 focus:ring-blue-500">
+            {% for choice in wizard.form.ca_tier.field.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    {% textarea_input wizard.form.notes prefix=wizard.form.prefix %}
+
+    {% file_input wizard.form.proof prefix=wizard.form.prefix %}
+
+{% endblock %}

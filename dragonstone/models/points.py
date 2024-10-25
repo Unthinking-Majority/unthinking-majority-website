@@ -3,6 +3,7 @@ from datetime import datetime
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
+from achievements import ELITE, MASTER, GRANDMASTER
 from dragonstone import (
     PVM,
     SKILLING,
@@ -25,6 +26,7 @@ __all__ = [
     "EventParticipantPoints",
     "EventDonorPoints",
     "NewMemberRaidPoints",
+    "GroupCAPoints",
 ]
 
 
@@ -319,6 +321,42 @@ class NewMemberRaidPoints(DragonstonePoints):
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
             self.points = config.NEW_MEMBER_RAID_PTS
+        super().save(*args, **kwargs)
+
+    def on_created(self):
+        """
+        Dragonstone rank updates are handled on the parent submission for this type of point.
+        Below code handles fringe case of adding more points to a submission in the admin
+        after the submission has already been accepted!
+        """
+        if self.submission.accepted:
+            current_pts = self.account.get_dragonstone_pts()
+            prev_pts = self.account.get_dragonstone_pts(ignore=[self.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                self.account.notify_dstone_status_change()
+
+
+class GroupCAPoints(DragonstonePoints):
+    submission = models.ForeignKey(
+        "dragonstone.GroupCASubmission",
+        on_delete=models.CASCADE,
+        related_name="points",
+    )
+
+    class Meta:
+        verbose_name = "Group CA Points"
+        verbose_name_plural = "Group CA Points"
+
+    def save(self, update_fields=None, *args, **kwargs):
+        if not self.pk:
+            # TODO set up points
+            if self.submission.ca_tier == ELITE:
+                self.points = config.GROUP_CA_ELITE_POINTS
+            elif self.submission.ca_tier == MASTER:
+                self.points = config.GROUP_CA_MASTER_POINTS
+            elif self.submission.ca_tier == GRANDMASTER:
+                self.points = config.GROUP_CA_GRANDMASTER_POINTS
+            self.date = self.submission.date
         super().save(*args, **kwargs)
 
     def on_created(self):

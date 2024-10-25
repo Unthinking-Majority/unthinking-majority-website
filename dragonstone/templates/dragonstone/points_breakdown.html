@@ -194,6 +194,51 @@
                     </td>
                 </tr>
                 </tbody>
+                
+                {# Group CA #}
+                <table class="overflow-hidden rounded-lg shadow-lg min-w-60">
+                    <thead class="rounded-lg bg-gray-800">
+                    <tr class="text-white">
+                        <th colspan="2" class="px-1 py-4 text-center text-xl md:py-4">
+                            Group CA 
+                        </th>
+                    </tr>
+                    <tr class="text-white">
+                        <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                            Tier 
+                        </th>
+                        <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                            Points
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="odd:bg-gray-50 even:bg-gray-100">
+                        <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                            Elite
+                        </td>
+                        <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                            {{ config.GROUP_CA_ELITE_POINTS }}
+                        </td>
+                    </tr>
+                    <tr class="odd:bg-gray-50 even:bg-gray-100">
+                        <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                            Master
+                        </td>
+                        <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                            {{ config.GROUP_CA_MASTER_POINTS }}
+                        </td>
+                    </tr>
+                    <tr class="odd:bg-gray-50 even:bg-gray-100">
+                        <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                            Grandmaster
+                        </td>
+                        <td class="py-2 text-center text-sm md:whitespace-nowrap md:px-2 md:text-base">
+                            {{ config.GROUP_CA_GRANDMASTER_POINTS }}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </table>
 
             {# Skill of the Month #}
@@ -293,9 +338,7 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
-
-        <div class="my-4 flex flex-wrap justify-center gap-4">
+            
             {# New Member Raids #}
             <table class="overflow-hidden rounded-lg shadow-lg min-w-60">
                 <thead class="rounded-lg bg-gray-800">
@@ -313,7 +356,7 @@
                 </tr>
                 </tbody>
             </table>
-
+            
             {# New Member Raids #}
             <table class="overflow-hidden rounded-lg shadow-lg min-w-60">
                 <thead class="rounded-lg bg-gray-800">
@@ -332,6 +375,5 @@
                 </tbody>
             </table>
         </div>
-
     </div>
 {% endblock content %}

@@ -204,3 +204,24 @@ class NewMemberRaidPointsAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+
+@admin.register(models.GroupCAPoints)
+class GroupCAPointsAdmin(admin.ModelAdmin):
+    model = models.GroupCAPoints
+    autocomplete_fields = ["account"]
+    list_display = ["account", "points", "date"]
+    readonly_fields = ["points"]
+    raw_id_fields = ["submission"]
+
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    ("account", "submission"),
+                    ("points", "date"),
+                ),
+            },
+        ),
+    )

@@ -9,6 +9,7 @@ from django.db.models import F
 from django.urls import reverse
 from polymorphic.models import PolymorphicModel
 
+from achievements import CA_CHOICES
 from dragonstone import EVENT_CHOICES
 from dragonstone import managers
 from main.config import config
@@ -20,6 +21,7 @@ __all__ = [
     "MentorSubmission",
     "EventSubmission",
     "NewMemberRaidSubmission",
+    "GroupCASubmission",
 ]
 
 
@@ -524,6 +526,93 @@ class NewMemberRaidSubmission(DragonstoneBaseSubmission):
 
     def type_display(self):
         return "New Member Raid"
+
+    def value_display(self):
+        accounts = [account.display_name for account in self.accounts.all()]
+        return f'{", ".join(accounts)} - {self.content.name}'
+
+    def accounts_display(self):
+        return ", ".join([account.display_name for account in self.accounts.all()])
+
+    def on_accepted(self):
+        for pt in self.points.all():
+            current_pts = pt.account.get_dragonstone_pts()
+            prev_pts = pt.account.get_dragonstone_pts(ignore=[pt.pk])
+            if current_pts >= config.DRAGONSTONE_POINTS_THRESHOLD > prev_pts:
+                pt.account.notify_dstone_status_change()
+
+
+class GroupCASubmission(DragonstoneBaseSubmission):
+    UPLOAD_TO = "dragonstone/group_ca/proof/"
+
+    accounts = models.ManyToManyField(
+        "account.Account",
+        through="dragonstone.GroupCAPoints",
+        related_name="group_ca_submissions",
+    )
+    ca_tier = models.IntegerField(
+        choices=CA_CHOICES,
+        verbose_name="Combat Achievement Tier",
+    )
+    content = models.ForeignKey("main.Content", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Group CA Submission"
+        verbose_name_plural = "Group CA Submissions"
+
+    def create_new_submission_embed(self):
+        """
+        Create json discord embed for newly created Group CA submissions.
+        """
+        fields = [
+            {
+                "name": "Type",
+                "value": self.type_display(),
+                "inline": True,
+            },
+            {
+                "name": "Content",
+                "value": self.content.name,
+                "inline": True,
+            },
+            {
+                "name": "Account(s)",
+                "value": self.accounts_display(),
+            },
+            {
+                "name": "Date",
+                "value": f"{self.date:%b %d, %Y}",
+                "inline": True,
+            },
+        ]
+
+        if self.notes:
+            fields.append(
+                {
+                    "name": "Notes",
+                    "value": self.notes,
+                }
+            )
+
+        admin_url = reverse(
+            f"admin:{self.get_real_instance()._meta.app_label}_{self.get_real_instance()._meta.model_name}_change",
+            args=[self.id],
+        )
+
+        embed = {
+            "color": 0x0099FF,
+            "title": "New Dragonstone Submission",
+            "fields": fields,
+            "url": f"https://{settings.DOMAIN}{admin_url}",
+        }
+
+        if not settings.DEBUG and self.proof:
+            embed["image"] = {"url": self.proof.url}
+
+        return embed
+
+    def type_display(self):
+        return "Group CA Submission"
 
     def value_display(self):
         accounts = [account.display_name for account in self.accounts.all()]

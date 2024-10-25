@@ -228,3 +228,50 @@ class NewMemberRaidSubmissionForm(forms.ModelForm):
             self.save_m2m()
 
         return instance
+
+
+class GroupCASubmissionForm(forms.ModelForm):
+    notes = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={"placeholder": "Provide any relevant notes for this submission."}
+        ),
+    )
+
+    class Meta:
+        model = models.GroupCASubmission
+        fields = ["accounts", "content", "ca_tier", "proof", "notes"]
+
+    def __init__(self, *args, **kwargs):
+        super(GroupCASubmissionForm, self).__init__(*args, **kwargs)
+
+        self.fields["proof"].required = True
+
+        self.fields["accounts"].widget = widgets.AutocompleteSelectMultipleWidget(
+            autocomplete_url=f"{reverse_lazy('accounts:account-autocomplete')}?{urlencode({'is_active': True})}",
+            placeholder="Select all accounts",
+            label="Accounts",
+        )
+        self.fields["content"].widget = widgets.AutocompleteSelectWidget(
+            autocomplete_url=f"{reverse_lazy('content-autocomplete')}?{urlencode({'can_be_split': True})}",
+            placeholder="Select content",
+            label="Content",
+        )
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        def save_m2m():
+            for account in self.cleaned_data["accounts"]:
+                models.GroupCAPoints.objects.create(
+                    account=account,
+                    submission=instance,
+                )
+
+        self.save_m2m = save_m2m
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance

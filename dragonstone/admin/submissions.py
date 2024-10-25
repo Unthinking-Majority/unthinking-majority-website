@@ -6,9 +6,11 @@ from dragonstone.admin import inlines
 
 __all__ = [
     "DragonstoneBaseSubmissionAdmin",
-    "PVMSplitAdmin",
-    "MentorAdmin",
-    "EventAdmin",
+    "PVMSplitSubmissionAdmin",
+    "MentorSubmissionAdmin",
+    "EventSubmissionAdmin",
+    "NewMemberRaidSubmissionAdmin",
+    "GroupCASubmissionAdmin",
 ]
 
 
@@ -33,7 +35,7 @@ class DragonstoneBaseSubmissionAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.PVMSplitSubmission)
-class PVMSplitAdmin(admin.ModelAdmin):
+class PVMSplitSubmissionAdmin(admin.ModelAdmin):
     inlines = [inlines.PVMSplitPointsAdminInline]
     autocomplete_fields = ["content"]
     list_display = ["accounts_display", "content", "proof", "date", "accepted"]
@@ -65,7 +67,7 @@ class PVMSplitAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.MentorSubmission)
-class MentorAdmin(admin.ModelAdmin):
+class MentorSubmissionAdmin(admin.ModelAdmin):
     inlines = [inlines.MentorPointsAdminInline]
     autocomplete_fields = ["learners", "content"]
     list_display = ["mentors_display", "content", "proof", "date", "accepted"]
@@ -98,7 +100,7 @@ class MentorAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.EventSubmission)
-class EventAdmin(admin.ModelAdmin):
+class EventSubmissionAdmin(admin.ModelAdmin):
     inlines = [
         inlines.EventHostPointsAdminInline,
         inlines.EventParticipantPointsAdminInline,
@@ -135,7 +137,7 @@ class EventAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.NewMemberRaidSubmission)
-class NewMemberRaidAdmin(admin.ModelAdmin):
+class NewMemberRaidSubmissionAdmin(admin.ModelAdmin):
     inlines = [
         inlines.NewMemberRaidPointsAdminInline,
     ]
@@ -157,6 +159,47 @@ class NewMemberRaidAdmin(admin.ModelAdmin):
                 "fields": (
                     "content",
                     "new_members",
+                    ("notes", "denial_notes"),
+                    ("proof", "date", "accepted"),
+                ),
+            },
+        ),
+    )
+
+    @admin.display(description="Accounts")
+    def accounts_display(self, obj):
+        return ", ".join(obj.accounts.values_list("name", flat=True))
+
+
+@admin.register(models.GroupCASubmission)
+class GroupCASubmissionAdmin(admin.ModelAdmin):
+    inlines = [inlines.GroupCAPointsAdminInline]
+    autocomplete_fields = ["content"]
+    list_display = [
+        "accounts_display",
+        "content",
+        "ca_tier",
+        "proof",
+        "date",
+        "accepted",
+    ]
+    list_filter = [
+        AutocompleteFilterFactory("Accounts", "accounts"),
+        AutocompleteFilterFactory("Content", "content"),
+        "ca_tier",
+        "content__difficulty",
+        "accepted",
+        "date",
+    ]
+    search_fields = ["accounts__name", "content__name"]
+
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "content",
+                    "ca_tier",
                     ("notes", "denial_notes"),
                     ("proof", "date", "accepted"),
                 ),

@@ -38,6 +38,7 @@ class ProfileView(TemplateView):
                 | Q(eventsubmission__participants=self.request.user.account)
                 | Q(eventsubmission__donors=self.request.user.account)
                 | Q(newmemberraidsubmission__accounts=self.request.user.account)
+                | Q(groupcasubmission__accounts=self.request.user.account)
             ).distinct(),
             per_page,
         )
