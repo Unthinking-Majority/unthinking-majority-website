@@ -349,7 +349,6 @@ class GroupCAPoints(DragonstonePoints):
 
     def save(self, update_fields=None, *args, **kwargs):
         if not self.pk:
-            # TODO set up points
             if self.submission.ca_tier == ELITE:
                 self.points = config.GROUP_CA_ELITE_POINTS
             elif self.submission.ca_tier == MASTER:

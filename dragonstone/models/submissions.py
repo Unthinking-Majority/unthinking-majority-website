@@ -580,6 +580,11 @@ class GroupCASubmission(DragonstoneBaseSubmission):
                 "value": self.accounts_display(),
             },
             {
+                "name": "Tier",
+                "value": self.get_ca_tier_display(),
+                "inline": True,
+            },
+            {
                 "name": "Date",
                 "value": f"{self.date:%b %d, %Y}",
                 "inline": True,
