@@ -3,7 +3,7 @@ import json
 
 import aiohttp
 from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from account.models import Account
 from achievements.models import Hiscores
