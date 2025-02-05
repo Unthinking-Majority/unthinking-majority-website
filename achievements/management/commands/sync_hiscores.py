@@ -110,6 +110,7 @@ class Command(BaseCommand):
             "The Corrupted Gauntlet",
             "The Hueycoatl",
             "The Leviathan",
+            "The Royal Titans",
             "The Whisperer",
             "Theatre of Blood",
             "Theatre of Blood: Hard Mode",
