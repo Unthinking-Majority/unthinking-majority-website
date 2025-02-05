@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 import aiohttp
 from django.conf import settings
@@ -6,7 +7,6 @@ from django.core.management.base import BaseCommand, CommandError
 
 from account.models import Account
 from achievements.models import Hiscores
-from main import SKILLS
 from main.models import Content
 
 
@@ -33,101 +33,6 @@ class Command(BaseCommand):
     help = "Syncs active users hiscores for all content using the official OSRS api."
 
     def handle(self, *args, **options):
-        skills = [
-            "Overall",
-            *[i[1] for i in SKILLS],
-        ]  # 23 skills + overall section at top
-
-        activities = [
-            "League Points",
-            "Deadman Points",
-            "Bounty Hunter - Hunter",
-            "Bounty Hunter - Rogue",
-            "Bounty Hunter(Legacy) - Hunter",
-            "Bounty Hunter(Legacy) - Rogue",
-            "Clue Scrolls(all)",
-            "Clue Scrolls(beginner)",
-            "Clue Scrolls(easy)",
-            "Clue Scrolls(medium)",
-            "Clue Scrolls(hard)",
-            "Clue Scrolls(elite)",
-            "Clue Scrolls(master)",
-            "LMS - Rank",
-            "PvP Arena - Rank",
-            "Soul Wars Zeal",
-            "Rifts closed",
-        ]  # 17 activities
-
-        # Why the shit did Jagex do alphabetical order for all of these except PNM??? Makes my life harder!!!
-        bosses = [
-            "Colosseum Glory",
-            "Abyssal Sire",
-            "Alchemical Hydra",
-            "Amoxliatl",
-            "Araxxor",
-            "Artio",
-            "Barrows Chests",
-            "Bryophyta",
-            "Callisto",
-            "Calvar'ion",
-            "Cerberus",
-            "Chambers of Xeric",
-            "Chambers of Xeric: Challenge Mode",
-            "Chaos Elemental",
-            "Chaos Fanatic",
-            "Commander Zilyana",
-            "Corporeal Beast",
-            "Crazy Archaeologist",
-            "Dagannoth Prime",
-            "Dagannoth Rex",
-            "Dagannoth Supreme",
-            "Deranged Archaeologist",
-            "Duke Sucellus",
-            "General Graardor",
-            "Giant Mole",
-            "Grotesque Guardians",
-            "Hespori",
-            "Kalphite Queen",
-            "King Black Dragon",
-            "Kraken",
-            "Kree'Arra",
-            "K'ril Tsutsaroth",
-            "Lunar Chests",
-            "Mimic",
-            "Nex",
-            "Nightmare",
-            "Phosani's Nightmare",
-            "Obor",
-            "Phantom Muspah",
-            "Sarachnis",
-            "Scorpia",
-            "Scurrius",
-            "Skotizo",
-            "Sol Heredit",
-            "Spindel",
-            "Tempoross",
-            "The Gauntlet",
-            "The Corrupted Gauntlet",
-            "The Hueycoatl",
-            "The Leviathan",
-            "The Royal Titans",
-            "The Whisperer",
-            "Theatre of Blood",
-            "Theatre of Blood: Hard Mode",
-            "Thermonuclear Smoke Devil",
-            "Tombs of Amascut",
-            "Tombs of Amascut: Expert Mode",
-            "TzKal-Zuk",
-            "TzTok-Jad",
-            "Vardorvis",
-            "Venenatis",
-            "Vet'ion",
-            "Vorkath",
-            "Wintertodt",
-            "Zalcano",
-            "Zulrah",
-        ]  # 60 hiscores (59 bosses + glory for colosseum!)
-
         results = asyncio.run(
             main(
                 list(
@@ -138,32 +43,16 @@ class Command(BaseCommand):
             )
         )
 
-        data = []
+        objs = []
         for username, result in results:
             if not result:
                 continue
-            hiscores_data = []
-            for line in result.split("\n"):
-                hiscores_data.append(line.split(","))
-            data.append(
-                (username, zip(bosses, hiscores_data[len(skills) + len(activities) :]))
-            )
-        objs = []
-        for username, result in data:
-            for hiscores_name, hiscore in result:
+            result = json.loads(result)
+            for hiscore in result["activities"]:
                 try:
-                    rank, kc = hiscore
-                except ValueError:
-                    raise CommandError(
-                        f"ValueError: Not enough values to unpack. Account: {username} {hiscores_name} values:{hiscore}"
-                    )
-
-                try:
-                    content = Content.objects.get(hiscores_name__iexact=hiscores_name)
+                    content = Content.objects.get(hiscores_name__iexact=hiscore["name"])
                 except Content.DoesNotExist:
-                    raise CommandError(
-                        f"No Content object exists with hiscores_name={hiscores_name}"
-                    )
+                    continue
 
                 account = Account.objects.get(name=username)
 
@@ -171,8 +60,8 @@ class Command(BaseCommand):
                     Hiscores(
                         account=account,
                         content=content,
-                        score=kc,
-                        rank_overall=rank,
+                        score=hiscore["score"],
+                        rank_overall=hiscore["rank"],
                     )
                 )
 
