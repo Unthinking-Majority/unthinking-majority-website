@@ -74,7 +74,7 @@ class RecruitmentPointsAdmin(admin.ModelAdmin):
 class SotMPointsAdmin(admin.ModelAdmin):
     model = models.SotMPoints
     autocomplete_fields = ["account"]
-    list_display = ["account", "skill", "rank"]
+    list_display = ["account", "skill", "rank", "date"]
     list_filter = [
         AutocompleteFilterFactory("Account", "account"),
         "skill",
