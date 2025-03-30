@@ -14,7 +14,6 @@
         - MAX_COL_LOG to whatever current max collection log number is
         - UM_PB_DISCORD_WEBHOOK_URL to a webhook for a test channel on a test server.
         - HEROKU_APP="unthinking-majority"
-        - WOM_API_KEY to an api key from wiseoldman.net
         - OSRS_PLAYER_HISCORES_API="https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player="
 
 - Install postgres (any version should be fine)
