@@ -1,0 +1,42 @@
+[project]
+name = "um"
+version = "0.1.0"
+description = "Website for the OSRS clan Unthinking Majority."
+authors = [{ name = "Ciaran Sanders", email = "ciaransanders@gmail.com" }]
+readme = "README.md"
+requires-python = "~3.11"
+dependencies = []
+
+[tool.poetry.dependencies]
+boto3 = "^1.26"
+dj-database-url = "^1.0"
+django-admin-autocomplete-filter = "^0.7"
+django-extensions = "^3.2"
+django-filter = "^23"
+django-formtools = "^2.3"
+django-notifications-hq = "^1.8"
+django-picklefield = "^3.2"
+django-polymorphic = "^3.1"
+djangorestframework = "^3.15"
+django-storages = "^1.13"
+django-tailwind = "^3.6"
+django = "^4.2"
+gunicorn = "^22.0.0"
+pillow = "^9.1"
+psycopg2 = "^2.9"
+requests = "^2.32"
+sentry-sdk = "^2.32"
+wheel = "0.38.4"
+whitenoise = "^6.2"
+wagtail = "^5.2"
+Wand = "^0.6"
+aiohttp = "^3.9"
+django-adminactions = "^2.4"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+package-mode = false
+classifiers = ["Private :: Do not Upload"]
