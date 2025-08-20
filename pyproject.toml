@@ -31,7 +31,16 @@ wagtail = "^5.2"
 Wand = "^0.6"
 aiohttp = "^3.9"
 django-adminactions = "^2.4"
+
+[tool.poetry.group.dev.dependencies]
 django-browser-reload = "^1.18"
+django-debug-toolbar = "^5.0"
+black = { extras = ["d"], version = "^25.1.0" }
+ipython = "^8.32"
+pre-commit = "^4.1.0"
+django-stubs = "^5.2.0"
+django-types = "^0.20.0"
+djlint = "^1.36.4"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -40,3 +49,16 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 package-mode = false
 classifiers = ["Private :: Do not Upload"]
+
+[tool.pyright]
+extraPaths = ["."]
+django-stubs = true
+typeCheckingMode = "off"
+reportMissingTypeStubs = false
+reportOptionalMemberAccess = false
+reportGeneralTypeIssues = false
+reportReturnType = false
+pythonPlatform = "Linux"
+
+[tool.django-stubs]
+django_settings_module = "MainApplication.settings"
