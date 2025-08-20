@@ -5,7 +5,6 @@ description = "Website for the OSRS clan Unthinking Majority."
 authors = [{ name = "Ciaran Sanders", email = "ciaransanders@gmail.com" }]
 readme = "README.md"
 requires-python = "~3.11"
-dependencies = []
 
 [tool.poetry.dependencies]
 boto3 = "^1.26"
@@ -32,6 +31,7 @@ wagtail = "^5.2"
 Wand = "^0.6"
 aiohttp = "^3.9"
 django-adminactions = "^2.4"
+django-browser-reload = "^1.18"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
