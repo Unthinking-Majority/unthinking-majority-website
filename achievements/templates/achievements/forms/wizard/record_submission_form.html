@@ -29,7 +29,6 @@
 {% block header %}
     {% page_header "Submit Record for "|addstr:board %}
 {% endblock header %}
-
 {% block sub-header %}
     {% if board.team_size == 1 %}
         Submit a new personal best! Your screenshot must include your username, the time achieved, and the content the submssion is for.
@@ -37,10 +36,8 @@
         Submit a new personal best! Your screenshot must include the usernames of everyone on the team, the time achieved, and the content the submission is for.
     {% endif %}
 {% endblock sub-header %}
-
 {% block form_content %}
     {{ wizard.form.board }}
-
     {% if board.team_size == 1 %}
         {# Account #}
         {# only rendered for records with team size equal to 1 #}
@@ -63,9 +60,8 @@
         {% endif %}
         {{ wizard.form.accounts }}
     {% endif %}
-
     {# Value #}
-    {% if board.content.get_metric_display == 'Time' %}
+    {% if board.get_metric_display == 'Time' %}
         <div class="mx-2 my-4">
             {% if wizard.form.value.errors %}
                 <div class="flex justify-center">
@@ -73,7 +69,7 @@
                 </div>
             {% endif %}
             <label for="{{ wizard.form.value.id_for_label }}"
-                   class="text-sm font-medium text-gray-900">{{ board.content.metric_name }} *</label>
+                   class="text-sm font-medium text-gray-900">{{ board.metric_name }} *</label>
             <div class="flex w-80 items-center justify-start">
                 <input id="{{ wizard.form.minutes.id_for_label }}"
                        name="{{ wizard.form.prefix }}-{{ wizard.form.minutes.name }}"
@@ -98,7 +94,7 @@
                 </div>
             {% endif %}
             <label for="{{ wizard.form.value.id_for_label }}"
-                   class="text-sm font-medium text-gray-900">{{ board.content.metric_name }} *</label>
+                   class="text-sm font-medium text-gray-900">{{ board.metric_name }} *</label>
             <input id="{{ wizard.form.value.id_for_label }}"
                    name="{{ wizard.form.prefix }}-{{ wizard.form.value.name }}"
                    type="number"

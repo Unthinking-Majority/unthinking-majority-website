@@ -237,14 +237,12 @@ class RecordSubmission(BaseSubmission):
         return str(self.board)
 
     def value_display(self):
-        if self.board.content.metric == TIME:
+        if self.board.metric == TIME:
             minutes = int(self.value // 60)
             seconds = self.value % 60
             return f"{minutes}:{float(seconds):05.2f}"
         else:
-            return (
-                int(self.value) if self.board.content.metric == INTEGER else self.value
-            )
+            return int(self.value) if self.board.metric == INTEGER else self.value
 
     def accounts_display(self):
         return ", ".join([account.display_name for account in self.accounts.all()])
@@ -285,7 +283,7 @@ class RecordSubmission(BaseSubmission):
                 "value": ", ".join(self.accounts.values_list("name", flat=True)),
             },
             {
-                "name": self.board.content.metric_name,
+                "name": self.board.metric_name,
                 "value": self.value_display(),
                 "inline": True,
             },

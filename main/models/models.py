@@ -19,6 +19,8 @@ class Board(models.Model):
     team_size = models.IntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(8)]
     )
+    metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
+    metric_name = models.CharField(max_length=128, default="Time")
     points_multiplier = models.DecimalField(
         default=1.0,
         decimal_places=2,
@@ -109,8 +111,6 @@ class Content(models.Model):
         default=False, verbose_name="Can be mentored."
     )
     can_be_split = models.BooleanField(default=False, verbose_name="Can be split.")
-    metric = models.IntegerField(choices=METRIC_CHOICES, default=TIME)
-    metric_name = models.CharField(max_length=128, default="Time")
     slug = models.SlugField(unique=True)
     icon = models.ImageField(upload_to=get_file_path, null=True, blank=True)
     ordering = models.CharField(

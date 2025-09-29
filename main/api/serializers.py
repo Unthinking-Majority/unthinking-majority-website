@@ -12,7 +12,6 @@ class ContentCategorySerializer(serializers.ModelSerializer):
 class ContentSerializer(serializers.ModelSerializer):
     category = ContentCategorySerializer()
     difficulty = serializers.SerializerMethodField()
-    metric = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Content
@@ -26,8 +25,6 @@ class ContentSerializer(serializers.ModelSerializer):
             "has_hiscores",
             "can_be_mentored",
             "can_be_split",
-            "metric",
-            "metric_name",
             "slug",
             "icon",
             "ordering",
@@ -37,13 +34,11 @@ class ContentSerializer(serializers.ModelSerializer):
     def get_difficulty(self, obj):
         return obj.get_difficulty_display()
 
-    def get_metric(self, obj):
-        return obj.get_metric_display()
-
 
 class BoardSerializer(serializers.ModelSerializer):
     content = ContentSerializer()
     display_name = serializers.SerializerMethodField()
+    metric = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Board
@@ -52,6 +47,8 @@ class BoardSerializer(serializers.ModelSerializer):
             "name",
             "display_name",
             "content",
+            "metric",
+            "metric_name",
             "team_size",
             "points_multiplier",
             "is_active",
@@ -60,6 +57,9 @@ class BoardSerializer(serializers.ModelSerializer):
 
     def get_display_name(self, obj):
         return str(obj)
+
+    def get_metric(self, obj):
+        return obj.get_metric_display()
 
 
 class SettingsSerializer(serializers.ModelSerializer):

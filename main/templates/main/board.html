@@ -1,83 +1,74 @@
 <table class="w-full overflow-hidden rounded-lg shadow-lg">
     <thead class="rounded-lg bg-gray-800">
-    <tr class="text-white">
-        <th class="px-1 py-4 text-center md:py-4 md:text-base">
-            Rank
-        </th>
-        <th class="px-1 py-4 text-center md:py-4 md:text-base">
-            Username{% if active_board.team_size > 1 %}s{% endif %}
-        </th>
-        <th class="hidden text-center md:table-cell md:p-4 md:text-base">
-            Date
-        </th>
-        <th class="px-1 py-4 text-center md:py-4 md:text-base">
-            Notes
-        </th>
-        <th class="px-1 py-4 text-center md:py-4 md:text-base">
-            Proof
-        </th>
-        <th class="px-1 py-4 text-center md:py-4 md:text-base">
-            {{ active_board.content.metric_name }}
-        </th>
-    </tr>
+        <tr class="text-white">
+            <th class="px-1 py-4 text-center md:py-4 md:text-base">Rank</th>
+            <th class="px-1 py-4 text-center md:py-4 md:text-base">
+                Username
+                {% if active_board.team_size > 1 %}s{% endif %}
+            </th>
+            <th class="hidden text-center md:table-cell md:p-4 md:text-base">Date</th>
+            <th class="px-1 py-4 text-center md:py-4 md:text-base">Notes</th>
+            <th class="px-1 py-4 text-center md:py-4 md:text-base">Proof</th>
+            <th class="px-1 py-4 text-center md:py-4 md:text-base">{{ active_board.metric_name }}</th>
+        </tr>
     </thead>
     <tbody>
-    {% for submission in active_pb_page %}
-        <tr class="odd:bg-gray-50 even:bg-gray-100">
-            <td class="whitespace-nowrap py-4 text-center md:px-2">
-                {{ forloop.counter0|add:active_pb_page.start_index }}
-            </td>
-            <td class="max-w-xs py-4 text-center md:px-2">
-                {% for account in submission.accounts.all %}
-                    <span class="m-1 whitespace-nowrap text-sm md:px-2 md:text-lg">
-                        {% if not account.is_active %}
-                            <s class="text-gray-700">
+        {% for submission in active_pb_page %}
+            <tr class="odd:bg-gray-50 even:bg-gray-100">
+                <td class="whitespace-nowrap py-4 text-center md:px-2">{{ forloop.counter0|add:active_pb_page.start_index }}</td>
+                <td class="max-w-xs py-4 text-center md:px-2">
+                    {% for account in submission.accounts.all %}
+                        <span class="m-1 whitespace-nowrap text-sm md:px-2 md:text-lg">
+                            {% if not account.is_active %}
+                                <s class="text-gray-700">
+                                    {{ account.display_name }}
+                                </s>
+                            {% else %}
                                 {{ account.display_name }}
-                            </s>
-                        {% else %}
-                            {{ account.display_name }}
-                        {% endif %}
-                    </span>
-                {% endfor %}
-            </td>
-            <td class="hidden whitespace-nowrap py-4 text-center text-sm font-light md:table-cell">
-                {{ submission.date|date:"M d, Y" }}
-            </td>
-            <td class="py-4">
-                {% if submission.notes %}
-                    <div class="static m-auto w-min group" tabindex="0">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                             class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:cursor-pointer hover:text-gray-800">
-                            <path fill-rule="evenodd"
-                                  d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z"
-                                  clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="absolute max-md:right-0 max-md:left-0 z-10 max-md:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-slate-700 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none md:w-96 md:-translate-x-1/2"
-                              tabindex="-1">
-                            {{ submission.notes }}
+                            {% endif %}
                         </span>
+                    {% endfor %}
+                </td>
+                <td class="hidden whitespace-nowrap py-4 text-center text-sm font-light md:table-cell">
+                    {{ submission.date|date:"M d, Y" }}
+                </td>
+                <td class="py-4">
+                    {% if submission.notes %}
+                        <div class="static m-auto w-min group" tabindex="0">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="currentColor"
+                                 class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:cursor-pointer hover:text-gray-800">
+                                <path fill-rule="evenodd" d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97-1.94.284-3.916.455-5.922.505a.39.39 0 00-.266.112L8.78 21.53A.75.75 0 017.5 21v-3.955a48.842 48.842 0 01-2.652-.316c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97z" clip-rule="evenodd">
+                                </path>
+                            </svg>
+                            <span class="absolute max-md:right-0 max-md:left-0 z-10 max-md:m-auto group-focus-within:block hidden w-72 translate-y-2 rounded-lg bg-slate-700 p-2 text-center text-base text-gray-50 group-hover:block hover:cursor-default focus:outline-none md:w-96 md:-translate-x-1/2"
+                                  tabindex="-1">{{ submission.notes }}</span>
+                        </div>
+                    {% endif %}
+                </td>
+                <td class="py-4">
+                    <div class="m-auto w-min">
+                        <a href="{{ submission.proof.url }}"
+                           target="_blank"
+                           aria-label="{{ submission.type_display }} {{ submission.value_display }} Proof Image">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24"
+                                 fill="currentColor"
+                                 class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
+                                <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd">
+                                </path>
+                            </svg>
+                        </a>
                     </div>
-                {% endif %}
-            </td>
-            <td class="py-4">
-                <div class="m-auto w-min">
-                    <a href="{{ submission.proof.url }}" target="_blank" aria-label="{{ submission.type_display }} {{ submission.value_display }} Proof Image">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6 text-gray-400 transition ease-in-out hover:scale-125 hover:text-gray-800">
-                            <path fill-rule="evenodd"
-                                  d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                                  clip-rule="evenodd"></path>
-                        </svg>
-                    </a>
-                </div>
-            </td>
-            <td class="whitespace-nowrap py-4 text-center text-xl font-runescape md:px-2 md:text-2xl">
-                {{ submission.value_display }}
-            </td>
-        </tr>
-    {% endfor %}
+                </td>
+                <td class="whitespace-nowrap py-4 text-center text-xl font-runescape md:px-2 md:text-2xl">
+                    {{ submission.value_display }}
+                </td>
+            </tr>
+        {% endfor %}
     </tbody>
 </table>
-
 <div class="mt-4 flex justify-around border-t-2 py-2 text-gray-800">
     {% if active_pb_page.has_previous %}
         <a href="?active_board={{ active_board.slug }}&page={{ active_pb_page.previous_page_number }}&type=personal-bests"
@@ -86,15 +77,11 @@
         </a>
     {% else %}
         <a class="mx-2 my-4 rounded-md bg-gray-200 px-3 py-2 font-medium text-gray-400 shadow-md hover:cursor-default"
-           disabled>
-            Previous
-        </a>
+           disabled>Previous</a>
     {% endif %}
-
     <a class="my-4 rounded-md px-3 py-2 font-medium hover:cursor-default">
         Page {{ active_pb_page.number }} of {{ active_pb_page.paginator.num_pages }}
     </a>
-
     {% if active_pb_page.has_next %}
         <a href="?active_board={{ active_board.slug }}&page={{ active_pb_page.next_page_number }}&type=personal-bests"
            class="mx-2 my-4 rounded-md bg-gray-300 px-3 py-2 font-medium text-gray-800 shadow-md transition ease-in-out hover:scale-105 hover:bg-gray-800 hover:text-white">
@@ -102,8 +89,7 @@
         </a>
     {% else %}
         <a class="mx-2 my-4 rounded-md bg-gray-200 px-3 py-2 font-medium text-gray-400 shadow-md hover:cursor-default"
-           disabled>
-            Next
-        </a>
+           disabled>Next</a>
     {% endif %}
 </div>
+

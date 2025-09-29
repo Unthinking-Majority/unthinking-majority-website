@@ -20,8 +20,6 @@ class ContentAdmin(admin.ModelAdmin):
     list_display = [
         "name",
         "category",
-        "metric",
-        "metric_name",
         "has_pbs",
         "has_hiscores",
         "can_be_mentored",
@@ -60,7 +58,6 @@ class ContentAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "slug",
-                    ("metric", "metric_name"),
                     ("ordering", "order"),
                 ),
                 "classes": ("collapse",),
