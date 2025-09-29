@@ -4,17 +4,14 @@ from datetime import timedelta
 import requests
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Max, Min
 from django.urls import reverse
 
-from account import ACCOUNT_RANK_CHOICES
-from account import managers
+from account import ACCOUNT_RANK_CHOICES, managers
 from achievements import CA_DICT
 from achievements.models import CASubmission, ColLogSubmission, PetSubmission
 from main.config import config
-from main.models import Board
 from um.functions import get_file_path
 
 
@@ -103,7 +100,7 @@ class Account(models.Model):
             description = f"<@{self.discord_id}> has lost their dragonstone rank."
         embed = {
             "color": 0x0099FF,
-            "title": f"Dragonstone Rank Update",
+            "title": "Dragonstone Rank Update",
             "description": description,
             "url": f"https://{settings.DOMAIN}{reverse('admin:account_account_changelist')}",
         }
