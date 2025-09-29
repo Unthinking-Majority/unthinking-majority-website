@@ -83,6 +83,8 @@ class BoardAdmin(admin.ModelAdmin):
         AutocompleteFilterFactory("Content", "content"),
         "team_size",
         "is_active",
+        "metric",
+        "metric_name",
     ]
     search_fields = ["name"]
 
@@ -96,7 +98,11 @@ class BoardAdmin(admin.ModelAdmin):
         (
             "Other Options",
             {
-                "fields": ("is_active", "slug"),
+                "fields": (
+                    "is_active",
+                    "slug",
+                    ("metric", "metric_name"),
+                ),
                 "classes": ("collapse",),
             },
         ),
