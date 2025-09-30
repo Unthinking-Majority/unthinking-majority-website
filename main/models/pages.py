@@ -38,10 +38,9 @@ class HomePage(Page):
         ],
         null=True,
         blank=True,
-        use_json_field=True,
     )
 
-    content_panels = [
+    content_panels = Page.content_panels + [
         FieldPanel("logo"),
         FieldPanel("body"),
     ]
@@ -84,7 +83,6 @@ class ContentPage(Page):
             ("embed", EmbedBlock()),
             ("emoji_row", EmojiRowBlock()),
         ],
-        use_json_field=True,
     )
 
     content_panels = Page.content_panels + [
