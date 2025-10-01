@@ -111,15 +111,7 @@ class SubmissionWizard(SessionWizardView):
                 }
             )
         if self.steps.current == "record_submission_form":
-            if self.get_cleaned_data_for_step("select_board_form"):
-                board = self.get_cleaned_data_for_step("select_board_form").get("board")
-            else:
-                board = (
-                    self.get_cleaned_data_for_step("select_content_form")
-                    .get("content")
-                    .boards.first()
-                )
-            context.update({"board": board})
+            context.update({"board": self.get_board()})
         return context
 
     def get_form_kwargs(self, step=None):
@@ -128,15 +120,7 @@ class SubmissionWizard(SessionWizardView):
             cleaned_data = self.get_cleaned_data_for_step("select_content_form")
             kwargs.update({"content": cleaned_data.get("content")})
         if step == "record_submission_form":
-            if self.get_cleaned_data_for_step("select_board_form"):
-                board = self.get_cleaned_data_for_step("select_board_form").get("board")
-            else:
-                board = (
-                    self.get_cleaned_data_for_step("select_content_form")
-                    .get("content")
-                    .boards.first()
-                )
-            kwargs.update({"board": board})
+            kwargs.update({"board": self.get_board()})
         return kwargs
 
     def get_form_initial(self, step):
@@ -147,3 +131,11 @@ class SubmissionWizard(SessionWizardView):
 
     def get_template_names(self):
         return [self.TEMPLATES[self.steps.current]]
+
+    def get_board(self):
+        content = self.get_cleaned_data_for_step("select_content_form").get("content")
+        if content.boards.count() > 1:
+            board = self.get_cleaned_data_for_step("select_board_form").get("board")
+        else:
+            board = content.boards.first()
+        return board
