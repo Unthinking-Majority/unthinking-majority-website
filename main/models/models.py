@@ -50,7 +50,6 @@ class Board(models.Model):
         Return the top submission sorted for each unique team on this board.
         Submissions must be active and accepted.
         """
-        # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
         if exclude_inactive:
             submissions = self.submissions.active()
         else:
@@ -63,6 +62,7 @@ class Board(models.Model):
         if bounty_accepted:
             submissions = submissions.filter(bounty_accepted=bounty_accepted)
 
+        # annotate the teams (accounts values) into a string so we can order by unique teams of accounts and value
         annotated_submissions = (
             submissions.accepted()
             .annotate(

@@ -56,10 +56,8 @@ class AccountQueryset(QuerySet):
 
     def annotate_points(self):
         """
-        Return all active accounts queryset with each accounts total points annotated
+        Return all a queryset of all active accounts with each accounts total record points annotated
         """
-        accounts_ids = self.filter(is_active=True).values_list("pk", flat=True)
-        accounts = dict(zip(accounts_ids, [0] * len(accounts_ids)))
         points = [
             config.FIRST_PLACE_PTS,
             config.SECOND_PLACE_PTS,
@@ -67,7 +65,15 @@ class AccountQueryset(QuerySet):
             config.FOURTH_PLACE_PTS,
             config.FIFTH_PLACE_PTS,
         ]
-        for board in Board.objects.filter(is_active=True, content__has_pbs=True):
+
+        account_ids = self.filter(is_active=True).values_list("pk", flat=True)
+        accounts = dict(
+            zip(account_ids, [0] * len(account_ids))
+        )  # initialize of dict where key=account_id and value=0 so we can begin summing their points
+
+        for board in Board.objects.filter(
+            is_active=True, content__has_pbs=True
+        ).prefetch_related("submissions", "submissions__accounts"):
             submissions = board.top_unique_submissions()[:5]
 
             query = Q(is_active=True)
