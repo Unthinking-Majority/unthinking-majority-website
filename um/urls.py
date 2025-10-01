@@ -1,3 +1,4 @@
+from debug_toolbar.toolbar import debug_toolbar_urls
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -36,11 +37,13 @@ urlpatterns = [
         "inbox/notifications/", include("notifications.urls", namespace="notifications")
     ),
 ]
+urlpatterns += debug_toolbar_urls()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     from django.views.generic import TemplateView
 
     urlpatterns.insert(0, path("__reload__/", include("django_browser_reload.urls")))
+    urlpatterns.insert(0, *debug_toolbar_urls())
     urlpatterns += [
         path("404/", TemplateView.as_view(template_name="404.html")),
         path("500/", TemplateView.as_view(template_name="500.html")),

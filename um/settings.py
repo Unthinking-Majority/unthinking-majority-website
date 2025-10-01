@@ -72,6 +72,7 @@ if DEBUG:
     INSTALLED_APPS += [
         "django_extensions",
         "django_browser_reload",
+        "debug_toolbar",
     ]
 
 MIDDLEWARE = [
@@ -89,6 +90,7 @@ MIDDLEWARE = [
 if DEBUG:
     MIDDLEWARE += [
         "django_browser_reload.middleware.BrowserReloadMiddleware",
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
     ]
 
 ROOT_URLCONF = "um.urls"
@@ -151,6 +153,8 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_HOST = os.environ.get("STATIC_HOST")
 STATIC_URL = STATIC_HOST + "/static/"
+if DEBUG:
+    STATIC_URL = "static/"
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
