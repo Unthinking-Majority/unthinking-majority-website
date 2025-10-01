@@ -66,25 +66,29 @@ class AccountQueryset(QuerySet):
             config.FIFTH_PLACE_PTS,
         ]
 
-        account_ids = self.filter(is_active=True).values_list("pk", flat=True)
+        account_ids = self.values_list("pk", flat=True)
         accounts = dict(
             zip(account_ids, [0] * len(account_ids))
         )  # initialize of dict where key=account_id and value=0 so we can begin summing their points
 
         for board in Board.objects.filter(
             is_active=True, content__has_pbs=True
-        ).prefetch_related("submissions", "submissions__accounts"):
+        ).prefetch_related("submissions"):
             submissions = board.top_unique_submissions()[:5]
 
-            query = Q(is_active=True)
+            # list of accounts who already received points from this board
+            has_earned_pts = []
+
             for index, submission in enumerate(submissions):
-                submission_accounts = submission.accounts.filter(query)
 
-                for account in submission_accounts:
-                    accounts[account.pk] += points[index] * board.points_multiplier
-                query &= ~Q(pk__in=submission_accounts.values_list("pk"))
+                for account in submission.accounts.all():
+                    if account.pk not in has_earned_pts:
+                        accounts[account.pk] += points[index] * board.points_multiplier
+                        has_earned_pts.append(account.pk)
 
-        whens = [When(pk=pk, then=pts) for pk, pts in list(accounts.items())]
-        return self.annotate(
-            points=Case(*whens, default=0, output_field=IntegerField())
-        ).order_by("-points")
+        whens = [When(pk=pk, then=pts) for pk, pts in accounts.items()]
+        return (
+            self.filter(is_active=True)
+            .annotate(points=Case(*whens, default=0, output_field=IntegerField()))
+            .order_by("-points")
+        )
