@@ -95,9 +95,12 @@ class CreateAccountForm(forms.Form):
         if not user_form.is_valid():
             raise ValidationError(user_form.errors)
 
-        if models.UserCreationSubmission.objects.filter(
-            account=cleaned_data["account"]
-        ).exists():
+        if (
+            cleaned_data.get("account", None)
+            and models.UserCreationSubmission.objects.filter(
+                account=cleaned_data["account"]
+            ).exists()
+        ):
             raise ValidationError(
                 f"A submission has already been created for the account {cleaned_data['account']}"
             )
