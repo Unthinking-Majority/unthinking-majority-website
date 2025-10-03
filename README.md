@@ -3,7 +3,7 @@
 <h2 align="center">A leaderboard website for the Old-School Runescape clan, Unthinking Majority.</h2>
 
 ![GitHub License](https://img.shields.io/github/license/Unthinking-Majority/unthinking-majority-website)
-![Static Badge](https://img.shields.io/badge/chat-discord-%237289DA)
+[![Static Badge](https://img.shields.io/badge/chat-discord-%237289DA)](https://discord.gg/umcc)
 [![Static Badge](https://img.shields.io/badge/framework-django-%230C4B33)](https://www.djangoproject.com/)
 
 
