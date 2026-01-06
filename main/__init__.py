@@ -43,7 +43,8 @@ THEME_CHOICES = (
     RUNECRAFTING,
     HUNTER,
     CONSTRUCTION,
-) = range(23)
+    SAILING,
+) = range(24)
 SKILLS = (
     (ATTACK, "Attack"),
     (DEFENCE, "Defence"),
@@ -68,4 +69,5 @@ SKILLS = (
     (RUNECRAFTING, "Runecrafting"),
     (HUNTER, "Hunter"),
     (CONSTRUCTION, "Construction"),
+    (SAILING, "Sailing"),
 )
