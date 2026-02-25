@@ -7,30 +7,30 @@
 
     <div class="m-auto mt-2 flex flex-col items-center justify-center rounded-lg lg:w-9/12">
 
-        <ul class="mb-4 flex max-w-xl flex-col items-center overflow-hidden rounded-lg bg-gray-50 p-4 shadow-lg">
+        <ul class="mb-4 flex max-w-xl flex-col overflow-hidden rounded-lg bg-gray-50 p-4 shadow-lg">
             <li class="py-1">
                 <span class="align-middle">Username:</span>
-                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.username }}</span>
+                <span class="whitespace-nowrap text-start align-middle text-2xl font-runescape">{{ user.username }}</span>
             </li>
             <li class="py-1">
                 <span class="align-middle">In Game Name:</span>
-                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.name }}</span>
+                <span class="whitespace-nowrap text-start align-middle text-2xl font-runescape">{{ user.account.name }}</span>
             </li>
             {% if user.account.preferred_name %}
                 <li class="py-1">
                     <span class="align-middle">Preferred Name:</span>
-                    <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.preferred_name }}</span>
+                    <span class="whitespace-nowrap text-start align-middle text-2xl font-runescape">{{ user.account.preferred_name }}</span>
                 </li>
             {% endif %}
             <li class="py-1">
                 {% if user.account.ca_tier %}
                     <span class="align-middle">Combat Achievements:</span>
-                    <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.ca_tier }}</span>
+                    <span class="whitespace-nowrap text-start align-middle text-2xl font-runescape">{{ user.account.ca_tier }}</span>
                 {% endif %}
             </li>
             <li class="py-1">
                 <span class="align-middle">Collection Logs:</span>
-                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
+                <span class="whitespace-nowrap text-start align-middle text-2xl font-runescape">{{ user.account.col_logs|stringformat:"d" }}/{% settings_value "MAX_COL_LOG" %}</span>
             </li>
             <li class="flex flex-wrap gap-1 py-1">
                 {% for pet_submission in user.account.pets %}
@@ -43,12 +43,12 @@
                 {% endfor %}
             </li>
             <li class="py-1">
-                <span class="whitespace-nowrap text-center align-middle text-2xl font-runescape">{{ user.account.achievements_pts }}</span>
+                <span class="whitespace-nowrap text-start align-middle text-2xl font-runescape">{{ user.account.achievements_pts }}</span>
                 <span class="align-middle">achievement points</span>
             </li>
             {% if user.account.rank >= 3 %}  {# 3 == DIAMOND rank #}
                 <li class="flex items-center gap-1 py-1">
-                    <div class="text-center align-middle text-2xl font-runescape">
+                    <div class="text-start align-middle text-2xl font-runescape">
                         {{ user.account.get_dragonstone_pts }}
                     </div>
                     <div class="align-middle">Dragonstone Points</div>
@@ -65,16 +65,16 @@
                     {% endif %}
                 </li>
             {% endif %}
-            <a href="{% url "accounts:password_change" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
+            <a href="{% url "accounts:password_change" %}" class="font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
                 Change Password
             </a>
-            <a href="{% url "accounts:change-preferred-name" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
+            <a href="{% url "accounts:change-preferred-name" %}" class="font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
                 {% if user.account.preferred_name %}Change{% else %}Add{% endif %} Preferred Name
             </a>
-            <a href="{% url "dragonstone:points-breakdown" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
+            <a href="{% url "dragonstone:points-breakdown" %}" class="font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
                 Dragonstone Points Breakdown
             </a>
-            <a href="{% url "achievements:points-multipliers" %}" class="mx-2 font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
+            <a href="{% url "achievements:points-multipliers" %}" class="font-bold text-cyan-500 py-0.5 hover:text-cyan-700">
                 Achievement Points Multipliers
             </a>
         </ul>
@@ -84,12 +84,12 @@
 
                 <div class="mb-2 flex flex-wrap justify-center space-x-4 md:justify-start">
                     <a href="?active_tab=achievements"
-                       class="mx-2 my-4 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if achievements_page %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-800 hover:text-gray-200{% endif %}"
+                       class="my-4 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if achievements_page %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-800 hover:text-gray-200{% endif %}"
                        {% if not achievements_page %}disabled{% endif %}>
                         Achievements
                     </a>
                     <a href="?active_tab=dragonstone"
-                       class="mx-2 my-4 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if dragonstone_page %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-800 hover:text-gray-200{% endif %}"
+                       class="my-4 rounded-md px-3 py-2 font-medium shadow-md transition ease-in-out {% if dragonstone_page %}bg-slate-800 text-white shadow-slate-700/50 pointer-events-none{% else %}bg-gray-200 hover:scale-105 hover:bg-slate-800 hover:text-gray-200{% endif %}"
                        {% if not dragonstone_page %}disabled{% endif %}>
                         Dragonstone
                     </a>
