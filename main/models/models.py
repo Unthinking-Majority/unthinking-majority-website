@@ -30,9 +30,15 @@ class Board(models.Model):
     )
     is_active = models.BooleanField(default=True)
     slug = models.SlugField()
+    order = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(12)],
+        help_text="Order displayed on leadboard page. Empty values will appear last (order is then defined by team size and alphabetical order of name). Allowed numbers are 1 - 12.",
+    )
 
     class Meta:
-        ordering = ["team_size", "name"]
+        ordering = ["order", "team_size", "name"]
 
     def __str__(self):
         if self.content.boards.count() > 1:

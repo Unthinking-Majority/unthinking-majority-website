@@ -47,7 +47,7 @@ class LeaderboardView(TemplateView):
             pb_page = Paginator(submissions, per_page)
             try:
                 context["active_pb_page"] = pb_page.page(
-                    self.request.GET.get(f"page", 1)
+                    self.request.GET.get("page", 1)
                 )
             except EmptyPage:
                 context["active_pb_page"] = pb_page.page(1)

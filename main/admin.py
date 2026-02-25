@@ -102,6 +102,7 @@ class BoardAdmin(admin.ModelAdmin):
                     "is_active",
                     "slug",
                     ("metric", "metric_name"),
+                    "order",
                 ),
                 "classes": ("collapse",),
             },
