@@ -1,5 +1,3 @@
-[<img width="1536" height="800" alt="image" src="https://github.com/user-attachments/assets/16d79267-a383-4695-affd-23117a6116f7" />](https://www.um-osrs.com/)
-
 <h2 align="center">Website for the Old School Runescape Clan, Unthinking Majority. </h2>
 
 [![Static Badge](https://img.shields.io/badge/chat-discord-%237289DA)](https://discord.gg/umcc)
