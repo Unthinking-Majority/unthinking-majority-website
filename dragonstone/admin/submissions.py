@@ -31,7 +31,7 @@ class DragonstoneBaseSubmissionAdmin(admin.ModelAdmin):
 
     @admin.display(description="Type")
     def _value_display(self, obj):
-        return obj.type_display()
+        return obj.value_display()
 
 
 @admin.register(models.PVMSplitSubmission)

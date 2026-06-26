@@ -196,7 +196,7 @@ class PVMSplitSubmission(DragonstoneBaseSubmission):
 
     def value_display(self):
         accounts = [account.display_name for account in self.accounts.all()]
-        return f'{", ".join(accounts)} - {self.content.name}'
+        return f"{', '.join(accounts)} - {self.content.name}"
 
     def accounts_display(self):
         return ", ".join([account.display_name for account in self.accounts.all()])
@@ -290,7 +290,7 @@ class MentorSubmission(DragonstoneBaseSubmission):
 
     def value_display(self):
         mentors = [mentor.display_name for mentor in self.mentors.all()]
-        return f'Mentorship by {", ".join(mentors)} for {self.content.name}'
+        return f"Mentorship by {', '.join(mentors)} for {self.content.name}"
 
     def accounts_display(self):
         return ", ".join([mentor.display_name for mentor in self.mentors.all()])
@@ -529,7 +529,7 @@ class NewMemberRaidSubmission(DragonstoneBaseSubmission):
 
     def value_display(self):
         accounts = [account.display_name for account in self.accounts.all()]
-        return f'{", ".join(accounts)} - {self.content.name}'
+        return f"{', '.join(accounts)} - {self.content.name}"
 
     def accounts_display(self):
         return ", ".join([account.display_name for account in self.accounts.all()])
@@ -621,7 +621,7 @@ class GroupCASubmission(DragonstoneBaseSubmission):
 
     def value_display(self):
         accounts = [account.display_name for account in self.accounts.all()]
-        return f'{", ".join(accounts)} - {self.content.name}'
+        return f"{', '.join(accounts)} - {self.content.name}"
 
     def accounts_display(self):
         return ", ".join([account.display_name for account in self.accounts.all()])
