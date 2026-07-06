@@ -36,6 +36,12 @@ class Board(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(12)],
         help_text="Order displayed on leadboard page. Empty values will appear last (order is then defined by team size and alphabetical order of name). Allowed numbers are 1 - 12.",
     )
+    submissions_ordering = models.CharField(
+        choices=(("-", "Descending"), ("", "Ascending")),
+        default="",
+        max_length=1,
+        help_text="Order of values when showing submissions.",
+    )
 
     class Meta:
         ordering = ["order", "team_size", "name"]
