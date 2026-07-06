@@ -82,7 +82,7 @@ class Board(models.Model):
                     "accounts__name", delimiter=",", ordering="accounts__name"
                 )
             )
-            .order_by("accounts_str", f"{self.content.ordering}value")
+            .order_by("accounts_str", f"{self.submissions_ordering}value")
         )
 
         # grab the first submission for each team (which is the best, since we ordered by value above)
@@ -93,7 +93,7 @@ class Board(models.Model):
 
         return (
             self.submissions.filter(id__in=submissions.values())
-            .order_by(f"{self.content.ordering}value", "date")
+            .order_by(f"{self.submissions_ordering}value", "date")
             .prefetch_related("accounts")
         )
 
@@ -125,13 +125,6 @@ class Content(models.Model):
     can_be_split = models.BooleanField(default=False, verbose_name="Can be split.")
     slug = models.SlugField(unique=True)
     icon = models.ImageField(upload_to=get_file_path, null=True, blank=True)
-    ordering = models.CharField(
-        choices=(("-", "Descending"), ("", "Ascending")),
-        default="",
-        max_length=1,
-        blank=True,
-        help_text="Order of values when showing submission from child boards.",
-    )
     order = models.PositiveIntegerField(
         null=True,
         blank=True,

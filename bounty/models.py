@@ -97,7 +97,7 @@ class Bounty(models.Model):
             self.board.submissions.filter(
                 date__gte=self.start_date, date__lte=self.end_date
             )
-            .order_by(f"{self.board.content.ordering}value", "date")
+            .order_by(f"{self.board.submissions_ordering}value", "date")
             .last()
         )
 
@@ -126,7 +126,7 @@ class Bounty(models.Model):
         # Updates for slowest bounty submission if applicable to this bounty
         # all_bounty_submissions = self.board.submissions.filter(
         #     date__gte=self.start_date, date__lte=self.end_date
-        # ).order_by(f"{self.board.content.ordering}value", "date")
+        # ).order_by(f"{self.board.submissions_ordering}value", "date")
         # try:
         #     non_unique_rank = list(all_bounty_submissions).index(submission) + 1
         # except ValueError:

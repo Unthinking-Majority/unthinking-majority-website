@@ -27,7 +27,6 @@ class ContentSerializer(serializers.ModelSerializer):
             "can_be_split",
             "slug",
             "icon",
-            "ordering",
             "order",
         ]
 

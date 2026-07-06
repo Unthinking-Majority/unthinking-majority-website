@@ -58,7 +58,7 @@ class ContentAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     "slug",
-                    ("ordering", "order"),
+                    "order",
                 ),
                 "classes": ("collapse",),
             },
@@ -102,7 +102,7 @@ class BoardAdmin(admin.ModelAdmin):
                     "is_active",
                     "slug",
                     ("metric", "metric_name"),
-                    "order",
+                    ("order", "submissions_ordering"),
                 ),
                 "classes": ("collapse",),
             },
