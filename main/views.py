@@ -36,9 +36,13 @@ class LeaderboardView(TemplateView):
             if not self.request.GET.get("active_board", None):
                 context["active_board"] = context["content"].boards.first()
             else:
-                context["active_board"] = context["content"].boards.get(
-                    slug=self.request.GET.get("active_board")
-                )
+                try:
+                    context["active_board"] = context["content"].boards.get(
+                        slug=self.request.GET.get("active_board")
+                    )
+                except achievements_models.Board.DoesNotExist:
+                    context["active_board"] = context["content"].boards.first()
+
 
             context["boards"] = context["content"].boards.all()
 
