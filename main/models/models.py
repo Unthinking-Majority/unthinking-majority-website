@@ -41,6 +41,7 @@ class Board(models.Model):
         default="",
         max_length=1,
         help_text="Order of values when showing submissions.",
+        blank=True,
     )
 
     class Meta:
