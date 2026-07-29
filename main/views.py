@@ -40,7 +40,7 @@ class LeaderboardView(TemplateView):
                     context["active_board"] = context["content"].boards.get(
                         slug=self.request.GET.get("active_board")
                     )
-                except achievements_models.Board.DoesNotExist:
+                except models.Board.DoesNotExist:
                     context["active_board"] = context["content"].boards.first()
 
 
