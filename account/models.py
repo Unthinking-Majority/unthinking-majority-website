@@ -3,8 +3,9 @@ from datetime import timedelta
 
 import requests
 from django.conf import settings
-from django.contrib.auth.forms import UserCreationForm
-from django.db import models
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.db import models, transaction
 from django.db.models import Max, Min
 from django.urls import reverse
 
@@ -129,27 +130,43 @@ class UserCreationSubmission(models.Model):
 
     account = models.OneToOneField("account.Account", on_delete=models.CASCADE)
     username = models.CharField(max_length=256)
-    password = models.CharField(max_length=128)
+    password = models.CharField(
+        max_length=128, help_text="Hashed with make_password, never plaintext."
+    )
     accepted = models.BooleanField(null=True)
     proof = models.ImageField(upload_to=get_file_path)
     phrase = models.CharField(max_length=128)
 
-    def save(self, *args, **kwargs):
-        super(UserCreationSubmission, self).save(*args, **kwargs)
-        if self.accepted is not None:
-            if self.accepted:
-                user_form = UserCreationForm(
-                    {
-                        "username": self.username,
-                        "password1": self.password,
-                        "password2": self.password,
-                    }
-                )
-                user = user_form.save(commit=True)
+    def username_taken(self):
+        return get_user_model().objects.filter(username__iexact=self.username).exists()
 
-                self.account.user = user
-                self.account.save()
-            self.delete()
+    def clean(self):
+        if self.accepted and self.username_taken():
+            raise ValidationError(
+                {
+                    "accepted": f"A user with the username {self.username} already exists."
+                }
+            )
+
+    def save(self, *args, **kwargs):
+        with transaction.atomic():
+            super(UserCreationSubmission, self).save(*args, **kwargs)
+            if self.accepted is not None:
+                if self.accepted:
+                    if self.username_taken():
+                        raise ValidationError(
+                            f"A user with the username {self.username} already exists."
+                        )
+                    User = get_user_model()
+                    # password is already hashed, so assign it directly rather than set_password
+                    user = User.objects.create(
+                        username=User.normalize_username(self.username),
+                        password=self.password,
+                    )
+
+                    self.account.user = user
+                    self.account.save()
+                self.delete()
 
     def on_creation(self):
         """

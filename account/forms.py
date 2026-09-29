@@ -2,6 +2,7 @@ import random
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.hashers import make_password
 from django.forms import ValidationError
 from django.urls import reverse_lazy
 from django.utils.http import urlencode
@@ -111,7 +112,7 @@ class CreateAccountForm(forms.Form):
         obj = models.UserCreationSubmission.objects.create(
             account=self.cleaned_data["account"],
             username=self.cleaned_data["username"],
-            password=self.cleaned_data["password1"],
+            password=make_password(self.cleaned_data["password1"]),
             proof=self.cleaned_data["proof"],
             phrase=self.cleaned_data["phrase"],
         )
