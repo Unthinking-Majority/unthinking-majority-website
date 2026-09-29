@@ -21,6 +21,6 @@
   - Restore local database with a provided postgres dump file from someone who can get you one!
 
 - Install nodejs + npm
-  - install node packages
+  - install node packages (`npm ci`)
 
 - Run `./manage.py tailwind install` to install all tailwind css dependencies
