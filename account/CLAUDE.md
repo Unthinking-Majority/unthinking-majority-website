@@ -41,7 +41,8 @@ Users can't self-register freely. They claim an existing `Account`:
    - The user picks an unclaimed active account through autocomplete (`user__isnull=True`), chooses a username and password, and uploads a screenshot showing a random `phrase` (adjective + animal) typed in game chat.
 2. This creates a **`UserCreationSubmission`**. `on_creation()` posts to `config.UM_USER_CREATION_SUBMISSIONS_DISCORD_WEBHOOK_URL` with `user-creation-accept/deny-submission-<pk>` buttons.
 3. When staff set `accepted`, `save()` creates the `User` if the submission was accepted, links it to the account, and then **deletes the submission row** whether it was accepted or denied.
-   - Note: the raw password is stored on the submission until review. This is a known trade-off of the current design, so don't copy the pattern elsewhere.
+   - The password is hashed with `make_password` when the submission is created, and the `User` is created with that hash on accept. Never store the raw password.
+   - Accepting fails with a `ValidationError` (and keeps the submission) if the username has since been taken. `clean()` runs the same check so the admin shows it as a form error.
 
 ## Views and URLs (`urls/`, app_name `accounts`)
 
@@ -62,4 +63,4 @@ The root URLconf includes this with `namespace="account"` while `app_name = "acc
 ## API
 
 - `accounts` (filterable by `discord_id`, used by the Discord bot to map Discord users to accounts; includes `admin_url` and the rank display).
-- `user-creation-submissions`.
+- `user-creation-submissions` (excludes `password`).
