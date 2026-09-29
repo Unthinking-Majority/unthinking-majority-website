@@ -39,4 +39,4 @@ class AccountSerializer(serializers.ModelSerializer):
 class UserCreationSubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.UserCreationSubmission
-        fields = "__all__"
+        exclude = ["password"]
