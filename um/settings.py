@@ -6,6 +6,8 @@ import dj_database_url
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+from um.sentry import before_send
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -82,6 +84,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "um.sentry.SentryUserMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
@@ -188,7 +191,9 @@ if not DEBUG:
             DjangoIntegration(),
         ],
         traces_sample_rate=0,
-        send_default_pii=True,
+        send_default_pii=False,
+        max_request_body_size="never",
+        before_send=before_send,
     )
 
 MAX_COL_LOG = int(os.environ.get("MAX_COL_LOG"))
