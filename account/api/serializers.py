@@ -39,4 +39,5 @@ class AccountSerializer(serializers.ModelSerializer):
 class UserCreationSubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.UserCreationSubmission
-        exclude = ["password"]
+        fields = ["pk", "account", "username", "accepted", "phrase", "proof"]
+        read_only_fields = ["pk", "account", "username", "phrase", "proof"]

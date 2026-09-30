@@ -140,23 +140,24 @@ class UserCreationSubmission(models.Model):
     def username_taken(self):
         return get_user_model().objects.filter(username__iexact=self.username).exists()
 
+    def accept_error(self):
+        if self.account.user_id:
+            return f"The account {self.account.name} already has a user."
+        if self.username_taken():
+            return f"A user with the username {self.username} already exists."
+        return None
+
     def clean(self):
-        if self.accepted and self.username_taken():
-            raise ValidationError(
-                {
-                    "accepted": f"A user with the username {self.username} already exists."
-                }
-            )
+        if self.accepted and (error := self.accept_error()):
+            raise ValidationError({"accepted": error})
 
     def save(self, *args, **kwargs):
         with transaction.atomic():
             super(UserCreationSubmission, self).save(*args, **kwargs)
             if self.accepted is not None:
                 if self.accepted:
-                    if self.username_taken():
-                        raise ValidationError(
-                            f"A user with the username {self.username} already exists."
-                        )
+                    if error := self.accept_error():
+                        raise ValidationError(error)
                     User = get_user_model()
                     # password is already hashed, so assign it directly rather than set_password
                     user = User.objects.create(
