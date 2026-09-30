@@ -1,5 +1,6 @@
-from rest_framework import viewsets
+from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 
 from achievements.api.serializers import RecordSubmissionSerializer
@@ -29,7 +30,30 @@ class BoardViewSet(viewsets.ModelViewSet):
         )
 
 
-class SettingsViewSet(viewsets.ModelViewSet):
+class SettingsViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
+    """
+    The Discord bot sets the submission webhook URLs on startup. Every other setting is edited in the admin.
+    """
+
+    API_WRITABLE_KEYS = {
+        "UM_ACHIEVEMENT_SUBMISSIONS_DISCORD_WEBHOOK_URL",
+        "UM_DRAGONSTONE_SUBMISSIONS_DISCORD_WEBHOOK_URL",
+        "UM_USER_CREATION_SUBMISSIONS_DISCORD_WEBHOOK_URL",
+    }
+
     queryset = models.Settings.objects.all()
     serializer_class = serializers.SettingsSerializer
     filterset_fields = ["key"]
+    http_method_names = ["get", "patch", "head", "options"]
+
+    def perform_update(self, serializer):
+        if serializer.instance.key not in self.API_WRITABLE_KEYS:
+            raise PermissionDenied(
+                f"{serializer.instance.key} can only be changed in the admin."
+            )
+        serializer.save()

@@ -37,6 +37,22 @@ class Account(models.Model):
     def __str__(self):
         return self.display_name
 
+    def save(self, *args, **kwargs):
+        is_active_changed = (
+            self.pk is not None
+            and self.user_id is not None
+            and not Account.objects.filter(
+                pk=self.pk, is_active=self.is_active
+            ).exists()
+        )
+        with transaction.atomic():
+            super().save(*args, **kwargs)
+            if is_active_changed:
+                # staff keep their login even if they leave the clan
+                get_user_model().objects.filter(
+                    pk=self.user_id, is_staff=False, is_superuser=False
+                ).update(is_active=self.is_active)
+
     @property
     def display_name(self):
         return self.preferred_name or self.name
@@ -140,23 +156,24 @@ class UserCreationSubmission(models.Model):
     def username_taken(self):
         return get_user_model().objects.filter(username__iexact=self.username).exists()
 
+    def accept_error(self):
+        if self.account.user_id:
+            return f"The account {self.account.name} already has a user."
+        if self.username_taken():
+            return f"A user with the username {self.username} already exists."
+        return None
+
     def clean(self):
-        if self.accepted and self.username_taken():
-            raise ValidationError(
-                {
-                    "accepted": f"A user with the username {self.username} already exists."
-                }
-            )
+        if self.accepted and (error := self.accept_error()):
+            raise ValidationError({"accepted": error})
 
     def save(self, *args, **kwargs):
         with transaction.atomic():
             super(UserCreationSubmission, self).save(*args, **kwargs)
             if self.accepted is not None:
                 if self.accepted:
-                    if self.username_taken():
-                        raise ValidationError(
-                            f"A user with the username {self.username} already exists."
-                        )
+                    if error := self.accept_error():
+                        raise ValidationError(error)
                     User = get_user_model()
                     # password is already hashed, so assign it directly rather than set_password
                     user = User.objects.create(
