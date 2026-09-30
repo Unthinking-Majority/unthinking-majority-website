@@ -39,7 +39,7 @@ def update_reverse_references(obj, new_obj, exclude=None):
 
 
 class Command(BaseCommand):
-    help = "Closes the specified poll for voting"
+    help = "Merges the other accounts into the main account, moving all their related records to it, then deletes them"
 
     def add_arguments(self, parser):
         parser.add_argument("main_account", type=str)

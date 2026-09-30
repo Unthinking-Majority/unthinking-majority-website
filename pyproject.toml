@@ -7,40 +7,40 @@ readme = "README.md"
 requires-python = "~3.12"
 
 [tool.poetry.dependencies]
-boto3 = "~1.40"
-dj-database-url = "~3.0.1"
+boto3 = "~1.43"
+dj-database-url = "~3.1"
 # django-admin-autocomplete-filter is old and unmaintained, would like to get rid of it someday
 django-admin-autocomplete-filter = "^0.7"
 django-extensions = "~4.1"
-django-filter = "^25.1"
-django-formtools = "~2.5.1"
+django-filter = "^26.1"
+django-formtools = "~2.7"
 django-notifications-hq = { git = "https://github.com/django-notifications/django-notifications", rev = "4c44bcea2504d9a3fcd26366b232a13732a08f2a" }
-django-polymorphic = "~4.1.0"
-djangorestframework = "~3.16.1"
+django-polymorphic = "~4.11"
+djangorestframework = "~3.18"
 django-storages = "~1.14.6"
-django-tailwind = "~4.2.0"
+django-tailwind = "~4.5"
 django = "~5.2.0"
-gunicorn = "^22.0.0"
-pillow = "~11.3.0"
-psycopg2 = "~2.9.10"
-requests = "~2.32.5"
-sentry-sdk = "~2.39.0"
+gunicorn = "^26.0"
+pillow = "~12.3"
+psycopg2 = "~2.9.13"
+requests = "~2.34"
+sentry-sdk = "~2.71"
 wheel = "~0.45.1"
-whitenoise = "~6.11.0"
-wagtail = "~7.0.0"
-Wand = "~0.6.12"
-aiohttp = "~3.12.15"
+whitenoise = "~6.12"
+wagtail = "~8.0"
+Wand = "~0.7"
+aiohttp = "~3.14"
 django-adminactions = "~2.4.0"
 
 [tool.poetry.group.dev.dependencies]
 django-browser-reload = "^1.21.0"
-django-debug-toolbar = "^6.0.0"
-black = { extras = ["d"], version = "^25.9.0" }
+django-debug-toolbar = "^8.0"
+black = { extras = ["d"], version = "^26.5" }
 ipython = "^9.6"
-pre-commit = "^4.3.0"
+pre-commit = "^4.6"
 django-stubs = "^5.2.5"
-django-types = "^0.22.0"
-djlint = "^1.36.4"
+django-types = "^0.24"
+djlint = "^1.46"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -61,4 +61,4 @@ reportReturnType = false
 pythonPlatform = "Linux"
 
 [tool.django-stubs]
-django_settings_module = "MainApplication.settings"
+django_settings_module = "um.settings"
