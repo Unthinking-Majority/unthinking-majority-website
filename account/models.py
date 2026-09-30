@@ -37,6 +37,22 @@ class Account(models.Model):
     def __str__(self):
         return self.display_name
 
+    def save(self, *args, **kwargs):
+        is_active_changed = (
+            self.pk is not None
+            and self.user_id is not None
+            and not Account.objects.filter(
+                pk=self.pk, is_active=self.is_active
+            ).exists()
+        )
+        with transaction.atomic():
+            super().save(*args, **kwargs)
+            if is_active_changed:
+                # staff keep their login even if they leave the clan
+                get_user_model().objects.filter(
+                    pk=self.user_id, is_staff=False, is_superuser=False
+                ).update(is_active=self.is_active)
+
     @property
     def display_name(self):
         return self.preferred_name or self.name
