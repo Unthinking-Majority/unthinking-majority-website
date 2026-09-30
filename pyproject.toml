@@ -61,4 +61,4 @@ reportReturnType = false
 pythonPlatform = "Linux"
 
 [tool.django-stubs]
-django_settings_module = "MainApplication.settings"
+django_settings_module = "um.settings"
