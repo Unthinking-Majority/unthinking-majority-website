@@ -62,3 +62,8 @@ pythonPlatform = "Linux"
 
 [tool.django-stubs]
 django_settings_module = "um.settings"
+
+[tool.djlint]
+profile = "django"
+# Rules the existing templates already break; fix them before re-enabling.
+ignore = "H013,H014,H022,H043,H046,T001,T038"
