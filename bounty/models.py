@@ -71,11 +71,7 @@ class Bounty(models.Model):
     @classmethod
     def get_current_bounty(cls):
         today = timezone.now()
-        try:
-            current_bounty = cls.objects.get(start_date__lt=today, end_date__gt=today)
-        except cls.DoesNotExist:
-            return None
-        return current_bounty
+        return cls.objects.filter(start_date__lt=today, end_date__gt=today).first()
 
     def get_submissions(self):
         return self.board.top_unique_submissions(
