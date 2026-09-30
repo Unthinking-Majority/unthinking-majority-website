@@ -1,8 +1,6 @@
-import json
 from datetime import datetime
 from itertools import chain
 
-import requests
 from django.conf import settings
 from django.db import models
 from django.db.models import F
@@ -13,6 +11,7 @@ from achievements import CA_CHOICES
 from dragonstone import EVENT_CHOICES
 from dragonstone import managers
 from main.config import config
+from main.discord import post_webhook
 from um.functions import get_file_path
 
 __all__ = [
@@ -62,18 +61,13 @@ class DragonstoneBaseSubmission(PolymorphicModel):
         """
         Post to discord dragonstone submission webhook the newly created submission
         """
-        data = json.dumps(
+        post_webhook(
+            config.UM_DRAGONSTONE_SUBMISSIONS_DISCORD_WEBHOOK_URL,
             {
                 "embeds": [self.create_new_submission_embed()],
                 "components": self.create_new_submission_components(),
-            }
+            },
         )
-        if config.UM_DRAGONSTONE_SUBMISSIONS_DISCORD_WEBHOOK_URL:
-            requests.post(
-                config.UM_DRAGONSTONE_SUBMISSIONS_DISCORD_WEBHOOK_URL,
-                data=data,
-                headers={"Content-Type": "application/json"},
-            )
 
     def on_accepted(self):
         """

@@ -33,28 +33,25 @@ class Command(BaseCommand):
     help = "Syncs active users hiscores for all content using the official OSRS api."
 
     def handle(self, *args, **options):
-        results = asyncio.run(
-            main(
-                list(
-                    Account.objects.filter(is_active=True).values_list(
-                        "name", flat=True
-                    )
-                ),
-            )
-        )
+        accounts = {
+            account.name: account for account in Account.objects.filter(is_active=True)
+        }
+        contents = {
+            content.hiscores_name.lower(): content
+            for content in Content.objects.exclude(hiscores_name="")
+        }
+        results = asyncio.run(main(list(accounts)))
 
         objs = []
         for username, result in results:
             if not result:
                 continue
             result = json.loads(result)
+            account = accounts[username]
             for hiscore in result["activities"]:
-                try:
-                    content = Content.objects.get(hiscores_name__iexact=hiscore["name"])
-                except Content.DoesNotExist:
+                content = contents.get(hiscore["name"].lower())
+                if content is None:
                     continue
-
-                account = Account.objects.get(name=username)
 
                 objs.append(
                     Hiscores(

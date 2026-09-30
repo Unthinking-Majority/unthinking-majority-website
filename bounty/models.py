@@ -1,6 +1,3 @@
-import json
-
-import requests
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -8,6 +5,7 @@ from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone
 
+from main.discord import post_webhook
 from main.functions import gp_display
 
 
@@ -68,12 +66,7 @@ class Bounty(models.Model):
                 f"The prize pool for the bounty has increased to {gp_display(self.prize_pool)}.",
                 thumbnail=static("bounty/img/CoinStack.webp"),
             )
-            data = json.dumps({"embeds": [embed]})
-            requests.post(
-                settings.BOUNTY_DISCORD_WEBHOOK_URL,
-                data=data,
-                headers={"Content-Type": "application/json"},
-            )
+            post_webhook(settings.BOUNTY_DISCORD_WEBHOOK_URL, {"embeds": [embed]})
 
     @classmethod
     def get_current_bounty(cls):
@@ -116,11 +109,9 @@ class Bounty(models.Model):
             title = "Bounty Claimed"
             users = ", ".join(submission.accounts.values_list("name", flat=True))
             description = f"{users} submitted a time of {submission.value_display()} to claim {rank_display} place."
-            data = json.dumps({"embeds": [self.create_embed(title, description)]})
-            requests.post(
+            post_webhook(
                 settings.BOUNTY_DISCORD_WEBHOOK_URL,
-                data=data,
-                headers={"Content-Type": "application/json"},
+                {"embeds": [self.create_embed(title, description)]},
             )
 
         # Updates for slowest bounty submission if applicable to this bounty

@@ -1,7 +1,5 @@
-import json
 from datetime import timedelta
 
-import requests
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -13,6 +11,7 @@ from account import ACCOUNT_RANK_CHOICES, managers
 from achievements import CA_DICT
 from achievements.models import CASubmission, ColLogSubmission, PetSubmission
 from main.config import config
+from main.discord import post_webhook
 from um.functions import get_file_path
 
 
@@ -129,11 +128,9 @@ class Account(models.Model):
         Post updates to the #dragonstone-updates channel to notify changing of
         dragonstone rank for this account
         """
-        data = json.dumps({"embeds": [self.create_update_dstone_status_embed()]})
-        requests.post(
+        post_webhook(
             settings.DRAGONSTONE_UPDATES_DISCORD_WEBHOOK_URL,
-            data=data,
-            headers={"Content-Type": "application/json"},
+            {"embeds": [self.create_update_dstone_status_embed()]},
         )
 
 
@@ -189,18 +186,13 @@ class UserCreationSubmission(models.Model):
         """
         Post to discord um pb webhook the newly accepted submission!
         """
-        data = json.dumps(
+        post_webhook(
+            config.UM_USER_CREATION_SUBMISSIONS_DISCORD_WEBHOOK_URL,
             {
                 "embeds": [self.create_new_submission_embed()],
                 "components": self.create_new_submission_components(),
-            }
+            },
         )
-        if config.UM_USER_CREATION_SUBMISSIONS_DISCORD_WEBHOOK_URL:
-            requests.post(
-                config.UM_USER_CREATION_SUBMISSIONS_DISCORD_WEBHOOK_URL,
-                data=data,
-                headers={"Content-Type": "application/json"},
-            )
 
     def create_new_submission_embed(self):
         """

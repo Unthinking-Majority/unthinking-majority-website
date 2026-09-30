@@ -1,7 +1,5 @@
-import json
 from datetime import datetime
 
-import requests
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -14,6 +12,7 @@ from achievements import managers, CA_CHOICES
 from bounty.models import Bounty
 from main import INTEGER, TIME
 from main.config import config
+from main.discord import post_webhook
 from main.models import UMNotification
 from um.functions import get_file_path
 
@@ -57,18 +56,13 @@ class BaseSubmission(PolymorphicModel):
         """
         Post to discord um pb webhook the newly accepted submission!
         """
-        data = json.dumps(
+        post_webhook(
+            config.UM_ACHIEVEMENT_SUBMISSIONS_DISCORD_WEBHOOK_URL,
             {
                 "embeds": [self.create_new_submission_embed()],
                 "components": self.create_new_submission_components(),
-            }
+            },
         )
-        if config.UM_ACHIEVEMENT_SUBMISSIONS_DISCORD_WEBHOOK_URL:
-            requests.post(
-                config.UM_ACHIEVEMENT_SUBMISSIONS_DISCORD_WEBHOOK_URL,
-                data=data,
-                headers={"Content-Type": "application/json"},
-            )
 
     def create_new_submission_embed(self):
         """
@@ -251,11 +245,8 @@ class RecordSubmission(BaseSubmission):
         """
         Post to discord um pb webhook the newly accepted submission!
         """
-        data = json.dumps({"embeds": [self.create_embed()]})
-        requests.post(
-            settings.UM_PB_DISCORD_WEBHOOK_URL,
-            data=data,
-            headers={"Content-Type": "application/json"},
+        post_webhook(
+            settings.UM_PB_DISCORD_WEBHOOK_URL, {"embeds": [self.create_embed()]}
         )
 
         bounty = Bounty.get_current_bounty()

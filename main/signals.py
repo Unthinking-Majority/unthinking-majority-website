@@ -4,7 +4,6 @@ from django.dispatch import receiver
 
 from dragonstone import models, PVM, SKILLING, MAJOR, OTHER, EVENT_MENTOR
 from main import EASY, MEDIUM, HARD, VERY_HARD
-from main.config import config
 from main.models import Settings
 
 __all__ = ["settings_updated"]
@@ -16,7 +15,10 @@ def settings_updated(sender, instance, *args, **kwargs):
     Signal for watching if a value of a main.models.Settings object has changed to then make the appropriate
     adjustments in the database.
     """
-    if instance.id and getattr(config, instance.key, None) != instance.value:
+    stored_value = (
+        Settings.objects.filter(pk=instance.id).values_list("value", flat=True).first()
+    )
+    if instance.id and stored_value != str(instance.value):
         objects_mapping = {
             "RECRUITER_PTS": models.RecruitmentPoints.objects.all(),
             "SOTM_FIRST_PTS": models.SotMPoints.objects.filter(rank=1),
