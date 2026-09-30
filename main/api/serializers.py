@@ -65,3 +65,4 @@ class SettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Settings
         fields = ["pk", "key", "value"]
+        read_only_fields = ["pk", "key"]
