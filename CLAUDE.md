@@ -98,4 +98,3 @@ Commits use Conventional Commits prefixes: `feat:`, `fix:`, `refactor:`, `style:
 - `MAX_COL_LOG` is baked into `ColLogSubmission.col_logs` validators, so changing the env var generates a new migration in `achievements`. That is expected.
 - Migrations are committed. Always run `makemigrations` after changing models, and review the output.
 - Tailwind only compiles classes it can find in templates, JS or Python files. Class names built dynamically (e.g. `bg-um-{{ theme }}`) must be covered by the `safelist` in `theme/static_src/tailwind.config.js`.
-- The `[tool.django-stubs]` settings module in `pyproject.toml` (`MainApplication.settings`) is stale. The real module is `um.settings`.
