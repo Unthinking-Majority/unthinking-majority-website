@@ -43,7 +43,6 @@ class LeaderboardView(TemplateView):
                 except models.Board.DoesNotExist:
                     context["active_board"] = context["content"].boards.first()
 
-
             context["boards"] = context["content"].boards.all()
 
             submissions = context["active_board"].top_unique_submissions()
