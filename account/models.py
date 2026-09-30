@@ -98,13 +98,13 @@ class Account(models.Model):
         Return date this account will lose the dragonstone rank with the current set of points they have.
         """
         pts = 0
-        expiration_date = None
         for dstone_pts in self.dragonstone_points.active().order_by("-date"):
             pts += dstone_pts.points
             if pts >= config.DRAGONSTONE_POINTS_THRESHOLD:
-                expiration_date = dstone_pts.date
-                break
-        return expiration_date + timedelta(days=config.DRAGONSTONE_EXPIRATION_PERIOD)
+                return dstone_pts.date + timedelta(
+                    days=config.DRAGONSTONE_EXPIRATION_PERIOD
+                )
+        return None
 
     def create_update_dstone_status_embed(self):
         """
