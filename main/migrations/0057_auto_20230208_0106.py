@@ -2,7 +2,6 @@
 
 from django.db import migrations
 
-
 RECORD, PET, COL_LOG, CA = range(4)
 SUBMISSION_TYPES = (
     (RECORD, "Record"),

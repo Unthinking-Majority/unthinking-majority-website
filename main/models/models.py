@@ -80,7 +80,7 @@ class Board(models.Model):
             submissions.accepted()
             .annotate(
                 accounts_str=StringAgg(
-                    "accounts__name", delimiter=",", ordering="accounts__name"
+                    "accounts__name", delimiter=",", order_by="accounts__name"
                 )
             )
             .order_by("accounts_str", f"{self.submissions_ordering}value")

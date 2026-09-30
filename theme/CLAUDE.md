@@ -9,7 +9,7 @@ theme/
   static_src/                 # Node project for the Tailwind build (node_modules gitignored)
     package.json              # scripts: dev (watch), build (minified)
     tailwind.config.js        # content globs, custom fonts/colours, safelist, plugins
-    postcss.config.js         # postcss-import, postcss-simple-vars, postcss-nested
+    postcss.config.js         # postcss-nested
     src/styles.css            # @tailwind layers, @font-face defs, custom utilities
   static/css/dist/styles.css  # BUILD OUTPUT (gitignored); loaded via {% tailwind_css %}
   static/fonts/               # Kumbh Sans (all weights), RuneScape chat, SanAndreas, HorseSaguaro, CastIron
@@ -21,7 +21,7 @@ theme/
 
 ## Tailwind
 
-- This is **Tailwind CSS v3** (`tailwindcss ^3.4`), configured through `tailwind.config.js` (not v4 CSS-first config). Plugins: `@tailwindcss/typography` (used for the `prose` class on Wagtail rich text), `@tailwindcss/forms`, and `@tailwindcss/line-clamp`.
+- This is **Tailwind CSS v3** (`tailwindcss ^3.4`), configured through `tailwind.config.js` (not v4 CSS-first config). Plugin: `@tailwindcss/typography` (used for the `prose` class on Wagtail rich text). `line-clamp-*` is built into Tailwind core.
 - Commands, run from the repo root:
   - `./manage.py tailwind install`: `npm install` in `static_src`.
   - `./manage.py tailwind start`: dev watcher.

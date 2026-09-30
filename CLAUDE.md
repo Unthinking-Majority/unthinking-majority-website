@@ -24,7 +24,7 @@ Each Django app has its own `CLAUDE.md` with details. Read the relevant one befo
 
 - **Python ~3.12**, dependencies managed with **Poetry** (`pyproject.toml`, `poetry.lock`; `package-mode = false`).
 - **Django ~5.2**, with **PostgreSQL** only. The code uses Postgres-specific features (`StringAgg`, `.distinct("field")`), so SQLite will not work.
-- **Tailwind CSS v3** via **django-tailwind** (`TAILWIND_APP_NAME = "theme"`), with the `@tailwindcss/typography`, `forms` and `line-clamp` plugins and PostCSS (`postcss-import`, `postcss-nested`, `postcss-simple-vars`). There is no JS framework. Frontend JS is plain vanilla scripts plus `autoComplete.js`, loaded from a CDN.
+- **Tailwind CSS v3** via **django-tailwind** (`TAILWIND_APP_NAME = "theme"`), with the `@tailwindcss/typography` plugin and PostCSS (`postcss-nested`). There is no JS framework. Frontend JS is plain vanilla scripts plus `autoComplete.js`, loaded from a CDN.
 - **Wagtail ~7.0** CMS for the home page and generic content pages. The editor is at `/cms/`.
 - **Django REST Framework** API at `/api/`, using token auth and `DjangoModelPermissions`, with `django-filter`.
 - **django-polymorphic** for the submission and points hierarchies.
@@ -98,4 +98,3 @@ Commits use Conventional Commits prefixes: `feat:`, `fix:`, `refactor:`, `style:
 - `MAX_COL_LOG` is baked into `ColLogSubmission.col_logs` validators, so changing the env var generates a new migration in `achievements`. That is expected.
 - Migrations are committed. Always run `makemigrations` after changing models, and review the output.
 - Tailwind only compiles classes it can find in templates, JS or Python files. Class names built dynamically (e.g. `bg-um-{{ theme }}`) must be covered by the `safelist` in `theme/static_src/tailwind.config.js`.
-- The `[tool.django-stubs]` settings module in `pyproject.toml` (`MainApplication.settings`) is stale. The real module is `um.settings`.
